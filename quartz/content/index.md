@@ -32,7 +32,7 @@ Binary numeric indices per demographic group:
 |**negAttI**|Negative attitudinal attribution|Proportion scored as negative by prototype embedding matcher|
 |**posAttI**|Positive attitudinal attribution|Proportion scored as positive by prototype embedding matcher|
 
-These indices, together with WEAT and SEAT association scores, form the complex dimensions of the **Evaluative Framing Index (EFI)** — a per-group framing profile (see [[#efi-architecture|EFI Architecture]]).
+These indices, together with WEAT and SEAT association scores, form the complex dimensions of the **Evaluative Framing Index (EFI)** — a per-group framing profile (see [[decisions#EFI Architecture]]).
 
 ### Structure overview
 
@@ -130,7 +130,7 @@ Then measure the **sentence-level, non-adjacent highest-Log-likelihood ratio (LL
 The problematic 1st version measured predefined results, while Sinclair's corpus linguistics method runs the other direction: `observe` → `classify`. Classification of existing data--not predicting what data should look like and composing frames from scratch--is a more natural task for linguists.
 
 1. **Framing** — Develop a composite frame taxonomy (metaphorical: natural disaster, dehumanization, invasion, contribution...; attitudinal: positive-negative, verbal-adjectival...) based on post-hoc classification and loop auto-refresh.
-2. **Preprocessing** — Sentence Preclassification (see also [[#furthering-question-3-complex-contexts|Furthering Question 3]]) → Strip noise (HTML, encoding artifacts) if there's any → (spaCy still kept as a scaffolding codebase) produce token-level annotations (lemma, POS, dependency relation).
+2. **Preprocessing** — Sentence Preclassification (see also [[todo#Furthering Question 3 (complex contexts)]]) → Strip noise (HTML, encoding artifacts) if there's any → (spaCy still kept as a scaffolding codebase) produce token-level annotations (lemma, POS, dependency relation).
 3. **Feature extraction** — For each target token or small target span in each sentence, determine AgI/PI/SI primarily via Transformer-based **SRL**. Attitudinal indices (`negAttI` / `posAttI`) are now assigned via prototype-based local embedding matching, reusing the shared MiniLM encoder, rather than exact adjective/psych-verb lookups. Then proportionalize per group across the corpus.
 4. **Association testing (WEAT + SEAT)** — Using frame attribute sets (F⁻, F⁺) discovered by **LLR / LogDice** and classified by annotators:
     * **WEAT** (static embeddings): type-level — is *immigrant* closer to F⁻ or F⁺ compared to *citizen*?
