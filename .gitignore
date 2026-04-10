@@ -1,0 +1,29 @@
+# Ignore all standalone files in the root directory
+/*
+# But don't ignore directories
+!/*/
+
+# Exceptions: keep these specific standalone files in the root
+!/extract.py
+!/.gitignore
+
+# Subdirectory ignores (Datasets and References)
+/dolma/
+/REference/
+
+# Python virtual environments anywhere
+venv/
+X/venv/
+__pycache__/
+*.pyc
+
+# Local test outputs and data files anywhere
+*.tsv
+*.parquet
+*.zip
+*.tar.gz
+*.csv
+*lexical_all.txt
+
+# OS-specific
+.DS_Store

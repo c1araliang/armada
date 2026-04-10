@@ -1,0 +1,14 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Run Pipeline",
+      "type": "python",
+      "request": "launch",
+      "python": "/Users/l/projects/X/venv/bin/python3",
+      "program": "${workspaceFolder}/X/run_pipeline.py",
+      "cwd": "${workspaceFolder}/X",
+      "console": "integratedTerminal"
+    }
+  ]
+}

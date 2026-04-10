@@ -1,0 +1,104 @@
+RELEVANT | A flood of immigrants overwhelmed the city's resources last summer.
+RELEVANT | The country was hit by a wave of refugees fleeing the conflict.
+RELEVANT | A swarm of foreign workers descended on the construction sites.
+RELEVANT | The surge of asylum seekers threatened to collapse the welfare system.
+RELEVANT | Hordes of migrants poured across the border under cover of darkness.
+RELEVANT | Asian workers were heavily scrutinized by the new hiring policy.
+RELEVANT | Refugees were detained at the border for several weeks.
+RELEVANT | Immigrant families were separated by the enforcement agency.
+RELEVANT | Foreign nationals were subjected to extensive background checks.
+RELEVANT | Migrant workers were exploited by unregulated employers.
+RELEVANT | Asylum seekers were denied access to legal representation.
+RELEVANT | European settlers established the colony in the early seventeenth century.
+RELEVANT | Local citizens organized a community cleanup event last weekend.
+RELEVANT | Western entrepreneurs launched several technology startups in the area.
+RELEVANT | National leaders signed the trade agreement after lengthy negotiations.
+RELEVANT | American researchers published groundbreaking findings on climate change.
+RELEVANT | British diplomats negotiated a ceasefire between the warring factions.
+RELEVANT | Immigrants believe that hard work leads to a better life.
+RELEVANT | The refugee community feels deeply uncertain about their future.
+RELEVANT | Foreign residents think the new law is fundamentally unfair.
+RELEVANT | Asian students consider education the most important path to success.
+RELEVANT | Migrant workers hope to return to their families one day.
+RELEVANT | Local residents fear that their neighbourhood is changing too fast.
+RELEVANT | The immigrant association decided to challenge the ruling in court.
+RELEVANT | Chinese nationals are no less patriotic than Americans.
+RELEVANT | Immigrants, who many believe are taking local jobs, actually contribute billions in taxes.
+RELEVANT | Although Asian communities were initially marginalized, they gradually built influential cultural institutions.
+RELEVANT | Foreign workers, often criticized by media outlets, were praised by the companies that employed them.
+RELEVANT | While the policy was designed to protect citizens, it disproportionately affected immigrant families.
+RELEVANT | The report concluded that immigrants had been systematically underpaid.
+RELEVANT | Black voters turned out in record numbers during the mayoral election.
+RELEVANT | Western politicians portrayed refugees as a burden on public services.
+RELEVANT | American workers said the factory closure devastated their town.
+RELEVANT | National leaders promised asylum seekers a fair hearing.
+RELEVANT | Native communities opposed the mining project on ancestral land.
+RELEVANT | Foreign students reported feeling isolated on campus.
+RELEVANT | Minority families were denied access to housing loans.
+RELEVANT | Muslim neighbors organized food drives after the flooding.
+RELEVANT | Jewish residents feared another wave of harassment.
+RELEVANT | European officials welcomed the displaced families at the border.
+RELEVANT | Black community leaders condemned the racist attack.
+RELEVANT | Local parents accused migrant families of receiving unfair support.
+RELEVANT | American citizens volunteered to sponsor newly arrived refugees.
+RELEVANT | Asian residents make up nearly a quarter of the district.
+RELEVANT | The minority community built mutual-aid networks during the crisis.
+RELEVANT | Foreign workers were blamed for the wage decline.
+IRRELEVANT | The local weather report warned of heavy rainfall tomorrow.
+IRRELEVANT | They stood silently during the national anthem before kickoff.
+IRRELEVANT | The restaurant served American cheese on every burger.
+IRRELEVANT | Western films dominated the box office that summer.
+IRRELEVANT | Astronomers captured a new image of a black hole near the galactic core.
+IRRELEVANT | The foreign key constraint failed during the database migration.
+IRRELEVANT | The native app uses offline caching for faster startup.
+IRRELEVANT | The domestic market recovered after two weak quarters.
+IRRELEVANT | The minority carrier rule applies to wireless semiconductor design.
+IRRELEVANT | The local variable was referenced before assignment.
+IRRELEVANT | The national park closed several hiking trails after the storm.
+IRRELEVANT | The western wall of the building needed repairs after the quake.
+IRRELEVANT | The black market exchange rate diverged sharply from the official rate.
+IRRELEVANT | The white balance setting made the photo look too cold.
+IRRELEVANT | The foreign exchange desk closed early on Friday.
+IRRELEVANT | Mainstream media coverage focused on the weather emergency.
+IRRELEVANT | Local time differs from UTC by eight hours in winter.
+IRRELEVANT | The native file dialog froze when the app tried to save the image.
+IRRELEVANT | American cheese melts faster than aged cheddar.
+IRRELEVANT | The western route offers better views of the canyon.
+IRRELEVANT | The black box recorded the final seconds of the flight.
+IRRELEVANT | National income rose after exports improved.
+IRRELEVANT | The local specials board advertised soup and coffee all day.
+IRRELEVANT | Foreign exchange reserves fell for a third consecutive month.
+IRRELEVANT | The immigrant genus is not a valid botanical classification.
+IRRELEVANT | The refugee campfire story became a recurring joke in the game mod.
+IRRELEVANT | The asylum level in the game unlocks after the tutorial.
+IRRELEVANT | The Chinese ink set was displayed beside the calligraphy paper.
+IRRELEVANT | The American robin returned to the garden in early spring.
+IRRELEVANT | Western blot results confirmed the protein sample.
+IRRELEVANT | The black tea shipment arrived before noon.
+IRRELEVANT | Local minimum temperatures will remain below freezing tonight.
+IRRELEVANT | It is a brutally honest portrait of the naivet of a community of foreign aid workers, whose grand plans are met with local resistance and untranslatable cultural differences.
+IRRELEVANT | Use of Local Group Information to Identify Communities in Networks.
+IRRELEVANT | I dont know if thats necessarily a non-Asian thing or a gentleman thing, but its a stereotype of American culture [to split the bill] so Im going to go with that until Im proven wrong.
+RELEVANT | But it has been said the Negro was not worth the struggle.
+RELEVANT | What kind of a Negro do the American people want?
+RELEVANT | What kind of an American does the Negro intend to be?
+RELEVANT | The prejudices of the American people are fast losing their provincial character.
+RELEVANT | The sudden emancipation of millions of African slaves reshaped the labor market.
+RELEVANT | But let friends of the negro and friends of our women hope.
+RELEVANT | They had a Negro meeting this afternoon to discuss the right to vote.
+RELEVANT | He happened to be a white man, she said bitterly, recalling the segregation.
+RELEVANT | This means that the Jewish People is being presented as an independent entity superior to the State.
+RELEVANT | I see the immigrant land and toil and push his fortunes in the poem by Walt Whitman.
+RELEVANT | The Egyptian, who held the Jew captive, became himself a slave in the biblical story.
+IRRELEVANT | He was sent to an asylum for the insane after his nervous breakdown.
+IRRELEVANT | The race myth tends to become a real national religion for the local religious sect.
+IRRELEVANT | Candidate in Comparative Ethnic Studies at UC Berkeley.
+IRRELEVANT | Her work has been supported through the Wenner-Gren Foundation, Fulbright-Hays Doctoral Dissertation Research Award and National Science Foundation.
+IRRELEVANT | Explaining ethnic cleansing, New York 2005: Cambridge University Press.
+IRRELEVANT | Shapiro, Deforming American Political Thought: Ethnicity, Facticity, and Genre Lexington: The University Press of Kentucky, 2006.
+IRRELEVANT | An understanding of colonization and social justice issues can be extremely useful in programs like Cultural Studies, English, and Indigenous Studies.
+IRRELEVANT | Her book, Competition in the Promised Land: Black Migrants in Northern Cities and Labor Markets, was published by Princeton University Press.
+IRRELEVANT | New from the Center for Comparative Immigration Studies Managing browser path in Europe.
+IRRELEVANT | We suggest that this discrepancy can be attributed to racial differences, indicating the need to perform genetic association studies in different ethnic populations.
+IRRELEVANT | Ethnicity factors contribute to population splitting and genetic variation, and ethnic-specific genetic association studies are needed.
+IRRELEVANT | In reference to the social ecological context, the refugee problem and the cultural deformation of urban transformation are explained in the studies conducted.
