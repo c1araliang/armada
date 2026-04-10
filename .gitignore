@@ -25,5 +25,6 @@ __pycache__/
 *.csv
 *lexical_all.txt
 
-# OS-specific
+# OS-specific and editor config
 .DS_Store
+.vscode/
