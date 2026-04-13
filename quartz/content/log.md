@@ -6,3 +6,5 @@ tags:
 ---
 
 2026-04-10: Curation, creation of this page.
+
+2026-04-13: Reading list expansion, focusing on novelty check; Presentation drafts.

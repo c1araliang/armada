@@ -175,6 +175,8 @@ Partial overlap 2: ***Connotation Frames (Rashkin et al., 2016)*** provides a cr
 
 Partial overlap 3: **BIAS Detection Framework (Kurpicz-Briki et al.) / IssueBench / DecodingTrust / StereoSet etc.** These are distinct in scope but share the same limitation. The BIAS Framework and IssueBench use predefined word/prompt lists to probe embedding-level or generation-level stereotype associations. 
 
+For a detailed comparison see [[reading#Existing Studies on Bias in Pretraining Data]].
+
 **Methodological gap**: Even as model probes, they can only confirm pre-theorized stereotype categories, making them blind to emerging, subtle, or culturally situated framing biases. A model trained on text that systematically frames immigrants as grammatical patients (without ever using a slur) would score perfectly fine on StereoSet, even though the linguistic framing is clearly and subtly biased.
 
 ## Reading List
