@@ -11,7 +11,7 @@ tags:
 
 **DC:** Wuyue (Clara) Liang
 
-**Latest Update**: 2026-04-10
+**Latest Update**: 2026-04-15
 
 ## Current Situation
 
@@ -157,32 +157,22 @@ Detailed rationales for pipeline architecture choices, alternatives rejected, an
 
 [[log]]
 
-## Novelty Check
+## Reading List & Novelty Check
+
+The complete SOTA literature review, categorized by tags (methodology, framing, benchmark) and sorted by relevance, has been moved to [[reading]]
 
 What makes ARMADA novel is the integration:
 
-* discover frames bottom-up (LLR on pretraining data) → anchor WEAT/SEAT on those empirical discoveries → extract syntactic/semantic roles per demographic group (AgI/PI/SI via SRL) → combine into a composite index (EFI via PCA) → all on the same corpus, closing the causal chain.
+* discover bias bottom-up (LLR on pretraining data) → anchor WEAT/clean SEAT on those empirical discoveries → extract syntactic-semantic roles per demographic group (AgI/PI/SI via SRL) → combine into a composite index (EFI via PCA) → all on the same corpus, closing the causal chain
 
-**No existing work does all four steps together, on LLM pretraining data.**
+**No existing work combine all steps together, with clear linguistic grounding intead of predominantly representation-level probing, on LLM pretraining data to make a reproducible workflow.**
 
-The closest we'd need to cite as "prior work that does not integrate" are:
-
-Most relevant near-miss: **Mendelsohn, Tsvetkov & Jurafsky (2020/2021)** develop a computational framework for dehumanization analysis — measuring negative evaluations, denial of agency, moral disgust, and vermin/animal metaphors using w2v cosine similarity to dehumanization concept clusters — applied as a case study to **LGBTQ discourse in *The New York Times* (1986–2015)**, not immigration. But: (a) they work on news media, not pretraining corpora; (b) their four dehumanization dimensions are predefined from social psychology theory, not empirically discovered per corpus; (c) they don't extract syntactic roles (AgI/PI/SI) at all. The 2025 follow-up (**"When People are Floods," Mendelsohn & Budak, ACL 2025**) applies a new combined word-level + document-level LLM technique to seven metaphor concepts (water, vermin, animal, parasite, physical pressure, commodity, war) in 400K US immigration tweets, studying ideology and engagement effects — still no role extraction, still predefined metaphor categories, still social media not pretraining data.
-
-Partial overlap 1: **Bamman, O'Connor & Smith (2013) — "Learning Latent Personas of Film Characters"** extract agent verb / patient verb / attribute patterns per character from dependency parses (nsubj, dobj, nsubjpass) on 42,306 Wikipedia movie plot summaries — conceptually the ancestor of our AgI/PI. But: (a) encyclopedic narrative text / film domain; (b) Dirichlet latent variable models for persona clustering (not measurement); (c) no bias framing, no embeddings, no demographic group profiling; (d) purely syntactic extraction — we uses transformer-based SRL as the primary mechanism, capturing predicate-argument structure that surface dep-parse misses (e.g., control verbs, nominalized predicates, long-distance dependencies).
-
-Partial overlap 2: ***Connotation Frames (Rashkin et al., 2016)*** provides a crowd-annotated lexicon of ~1,000 high-frequency transitive verbs from the NYT corpus, encoding agent/theme power, agency, and emotional affect per verb — conceptually adjacent to our SI (mental-state verbs) and AgI/PI distinction, and clearly citable.
-
-Partial overlap 3: **BIAS Detection Framework (Kurpicz-Briki et al.) / IssueBench / DecodingTrust / StereoSet etc.** These are distinct in scope but share the same limitation. The BIAS Framework and IssueBench use predefined word/prompt lists to probe embedding-level or generation-level stereotype associations. 
-
-For a detailed comparison see [[reading#Existing Studies on Bias in Pretraining Data]].
-
-**Methodological gap**: Even as model probes, they can only confirm pre-theorized stereotype categories, making them blind to emerging, subtle, or culturally situated framing biases. A model trained on text that systematically frames immigrants as grammatical patients (without ever using a slur) would score perfectly fine on StereoSet, even though the linguistic framing is clearly and subtly biased.
-
-## Reading List
-
-The complete literature review, categorized by tags (methodology, framing, benchmark) and sorted by relevance, has been moved to [[reading]]
+**Methodological gap**: Even as model probes, existing works on pretraining data can only confirm pre-theorized stereotype categories, making them blind to emerging, subtle, or culturally situated framing biases. A model trained on text that systematically frames immigrants as grammatical patients (without ever using a slur) would score perfectly fine on StereoSet, even though the linguistic framing is clearly and subtly biased.
 
 ## Side Notes
 
-[[reading#Lexical Sources]]
+Best source: NRC Emotion Lexicon (~14k entries), filtered to verbs only (cross-check POS via spaCy vocab), then frequency-filtered against Dolma sample. Produces a linguistically grounded, corpus-attested lexicon.
+
+Validated resoure`; Görge et al. (2025) provide LM-generated word list, and Kadan et al. (NLP Journal 2024) provide target terms for affective bias, both are references for more training data; 
+
+VerbNet (ancient, messy categories), WordNet (frozen, awkward syntax), and MECORE predicate database (48 predicates, theory-curated for cross-linguistic representativeness, not corpus coverage) are supplementary references but insufficient as primary sources.
