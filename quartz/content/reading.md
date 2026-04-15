@@ -112,8 +112,9 @@ Bias analyzed in pretraining data, news, social media, or annotated narrative co
 
 - Mendelsohn & Budak (#1) is the nearest miss for F3BF's immigration focus: it still relies on predefined metaphor categories, uses social media rather than pretraining data, and has no role extraction.
 - Entity Framing (#2) assigns narrative roles (shared `role-extraction` tag with §2.1 #1–2) but uses a taxonomy-first approach and no association testing.
-- `pretraining-data` (#3–5) share F3BF's data scope but not its linguistic granularity: they measure polarity, representation counts, or affect distributions rather than collocate-grounded discourse structures. Görge (#4) is particularly instructive because counterfactual debiasing did not consistently improve benchmark scores.
-- Kadan (#5) bridges corpus affect distributions and model-side association evaluation, but its primary analytical starting point is still the training-data distribution.
+- `pretraining-data` (#3–5) share F3BF's data scope but not its linguistic granularity: they measure polarity, representation counts, or affect distributions rather than collocate-grounded discourse structures.
+- Görge et al. (#4) shows that data debiasing improves dataset-level bias measures, but does not consistently improve model-level bias benchmark performance; i.e., cleaning obvious demographic skew (remove bad words / balance labels / counterfactually swap identities) does not automatically makes models fairer. This suggests the need for non-categorical diagnostics and counter-tactics.
+- Kadan et al. (#5) combines corpus-level emotion-word / affective-word distribution and co-occurrence analysis with model-level class/intensity evaluation of emotion predictions.
 
 #### 2.2.4 All stages
 
@@ -122,10 +123,10 @@ Bias traced across pipeline stages or causally attributed to a specific stage. R
 | # | Study | Target | Key method | Goal | Tags |
 |:---|:---|:---|:---|:---|:---|
 | 1 | [Zou et al. (2023)](https://arxiv.org/abs/2310.01405) RepE | Internal hidden states + downstream generation | Concept directions via contrastive activation extraction; causal reading, steering, and intervention on representation-level bias | **Analysis / mitigation** | `representation-mechanism` `causal-intervention` |
-| 2 | [Feng et al. (ACL 2023)](https://aclanthology.org/2023.acl-long.656/) Best Paper | Corpus → LM → downstream tasks | Political leaning traced from pretraining through LM into hate speech and misinformation predictions | **Analysis** | `causal-tracing` `pretraining-data` `predefined-categories` |
-| 3 | [Itzhak et al. (COLM 2025)](https://openreview.net/forum?id=KQhUEoPmJy) Spotlight | Pretraining vs. finetuning histories | Cross-tuning: swap instruction datasets between models with different pretraining backbones; models cluster by backbone — pretraining is the primary causal source | **Analysis** | `causal-tracing` `pretraining-data` |
+| 2 | [Feng et al. (ACL 2023)](https://aclanthology.org/2023.acl-long.656/) Trails of PoliBias | Corpus → LM → downstream tasks | Political-compass probing of LMs + controlled continued pretraining on matched partisan corpora + downstream fine-tuning with per-group/source fairness comparison | **Analysis** | `causal-tracing` `pretraining-data` `predefined-categories` |
+| 3 | [Itzhak et al. (COLM 2025)](https://openreview.net/forum?id=KQhUEoPmJy) Origins of Cognitive Biases | Pretraining vs. finetuning histories | Cross-tuning: swap instruction datasets between models with different pretraining backbones; models cluster by backbone — pretraining is the primary causal source | **Analysis** | `causal-tracing` `pretraining-data` |
 
-- RepE (#1) proves that bias occupies causally active linear directions in hidden-state space, validating the geometric reasoning behind WEAT/SEAT, prototype matching, and PCA-based EFI. Its limit: it cannot identify which corpus framing patterns installed those directions. 
+- RepE (#1) proves that bias occupies causally active linear directions in hidden-state space, validating the geometric reasoning behind WEAT/SEAT, prototype matching, and PCA-based EFI. Its limit: it cannot identify which corpus framing patterns installed those directions.
 - Feng (#2) and Itzhak (#3) share `causal-tracing` and together establish the causal case for upstream intervention: Feng traces the propagation path; Itzhak isolates the origin via controlled backbone swaps.
 
 #### 2.2.5 Bonus
@@ -153,7 +154,7 @@ Across 6 foundational + 3 representation + 6 output + 5 input + 3 all-stage + 3 
 
 ---
 
-## RepE 
+## RepE
 
 > Zou, A., Phan, L., Chen, S., Campbell, J., Guo, P., Ren, R., et al. (2023). *Representation Engineering: A Top-Down Approach to AI Transparency*. arXiv:2310.01405. https://arxiv.org/abs/2310.01405
 
@@ -165,48 +166,56 @@ RepE asks the following mechanistic question:
 
 If social bias is encoded in roughly linear directions, then the vector-space methods used in F3BF, including **WEAT, SEAT, prototype matching, and PCA-based summary dimensions**, gain a stronger theoretical foundation.
 
-### B. Taxonomy of methods inside RepE
+### B. Clean Hierarchy of RepE
 
-RepE itself contains a useful mini-taxonomy:
+```text
+RepE
+├─ Representation Reading
+│  └─ Linear-Artificial-Tomography (LAT)
+│     ├─ design stimuli/task
+│     ├─ collect neural activations
+│     └─ fit linear model
+│        → reading vector (static)
+└─ Representation Control
+   ├─ choose controller
+   │  ├─ reading vector (static)
+   │  ├─ contrast vector (dynamic)
+   │  └─ LoRRA (static)
+   └─ choose operator
+      ├─ linear combination
+      ├─ piece-wise transform
+      └─ projection
+```
 
-| Method class | What it does | Why it matters |
-|:---|:---|:---|
-| **Representation reading** | Extracts concept directions from hidden states using contrastive examples | Lets us identify whether a concept is present in the model's internal geometry |
-| **Representation control** | Adds or subtracts those directions during inference | Lets us test whether the concept is causally active |
-| **LoRRA / weight-level integration** | Bakes a concept direction into low-rank adapters | Shows how representation control can become a practical deployment intervention |
+### C. Expanded Explanation
 
-### C. High-level explanation of the representative methods
+RepE assumes that many high-level concepts are encoded as approximately linear directions in hidden-state space. It has two main stages: **reading** vs **control**, with three representative intervention variants, i.e., controller baselines.
 
-#### 1. Representation reading
+What each controller is:
 
-RepE assumes that many high-level concepts are encoded as approximately linear directions in hidden-state space. The basic workflow is:
-
-1. Construct contrastive examples, such as biased versus anti-biased or honest versus dishonest completions.
-2. Extract hidden activations.
-3. Compute a concept direction from the difference structure of those activations.
-4. Use that direction to classify whether the concept is present.
+- Reading Vector
+  - fixed controller extracted beforehand via **LAT**
+- Contrast Vector
+  - computed **during inference** from the same input under two contrastive prompts
+- LoRRA (Low-Rank Representation Adaptation, based on **LoRA**)
+  - learned **during training** as low-rank adapters, often using contrast-vector targets
+  - fixed post training, for a chosen intervention objective (e.g., reduce a biased tendency, increase honesty, etc.)
 
 The underlying idea is not that "bias" is one point in space, but that it is an **axis of variation**.
 
-#### 2. Representation control
-
-Once a direction is extracted, RepE modifies generation by adding or subtracting it from hidden states at selected layers:
+In the simplest control setting, RepE uses **linear combination** as operator, i.e., add or subtract the control signal directly. Best when you want simple stimulation/suppression.
 
 $$h' \leftarrow h + \alpha v$$
 
-This turns interpretability into intervention. If subtracting a bias direction reduces biased outputs, then the direction is not merely correlated with bias; it is part of the causal mechanism of generation.
+where $h$ is the current hidden representation, $v$ is the controller direction (either reading or contrast vector), $\alpha$ is a scaling coefficient/tunable control-strength parameter, and $h'$ is the edited hidden representation.
 
-#### 3. Three representative intervention variants
+If $\alpha > 0$, the model is pushed further along that direction; if $\alpha < 0$, the model is pushed against it. The operator is simple addition, but the controller $v$ can come from different sources.
 
-| Variant | Mechanism | Strength | Weakness |
-|:---|:---|:---|:---|
-| **Reading Vector** | Add/subtract one fixed concept direction | Cheap and simple | Can be too coarse |
-| **Contrast Vector** | Build a direction relative to the current stimulus | More adaptive, often stronger | More expensive and input-dependent |
-| **LoRRA** | Train low-rank adapters around the target direction | No extra inference-time steering cost | Less transparent once merged into deployment workflow |
+The explicit intervention provides the **prototype / supervision signal** that LoRRA learns to **approximate**. Thus, there's no formulaic repetition during each call.
 
-### D. Why RepE is convincing: causal evaluation, not just probing
+### D. Why RepE is convincing
 
-RepE's strongest contribution is methodological: it does not stop at correlation and instead uses a four-step causal hierarchy:
+RepE uses a four-step causal hierarchy:
 
 1. **Correlation**: the direction predicts concept presence.
 2. **Manipulation**: adding or subtracting it changes behavior.
@@ -215,7 +224,7 @@ RepE's strongest contribution is methodological: it does not stop at correlation
 
 This upgrades vector-space analysis from "useful geometry" to **causal representational evidence**.
 
-### E. Key findings most relevant to my research problem
+### E. Key findings
 
 The RepE results I would emphasize are:
 
@@ -223,9 +232,8 @@ The RepE results I would emphasize are:
 - **The same representational machinery can be used for reading and control**. So interpretability and intervention are tightly linked.
 - **A unified bias subspace may exist**. Bias directions extracted from one stereotype domain can transfer to others, suggesting low-dimensional shared structure.
 - **RLHF does not necessarily remove bias geometrically**. It may suppress or route around it behaviorally while leaving the representational tendency intact.
-- **Steering can overcorrect**. The sarcoidosis case shows that subtracting a "bias" direction can also suppress true demographic signal.
 
-### F. Comparison across the aspects most relevant to my topic
+### F. Comparison across aspects
 
 The relevant comparison is **SOTA in §2 vs RepE vs F3BF**. CEAT functions as a **complement to F3BF's workflow**, especially for contextual variation and intersectionality.
 
@@ -240,30 +248,17 @@ The relevant comparison is **SOTA in §2 vs RepE vs F3BF**. CEAT functions as a 
 | Supports mitigation/intervention? | Sometimes, often category-based | **Yes**, but coarse and potentially overcorrective | Yes, through upstream corpus intervention |
 | Linguistic relevance | Mixed | Medium | **High** |
 
-**RepE is strongest on internal mechanism and causal manipulation, while F3BF is strongest on linguistic decomposition and source tracing**. **CEAT complements F3BF by improving contextual association measurement, especially through distributional variation and intersectionality**.
+RepE is strongest on internal mechanism and causal manipulation, while F3BF is strongest on linguistic decomposition and source tracing. CEAT complements F3BF by improving contextual association measurement, especially through distributional variation and intersectionality.
 
 ### G. Limitations, challenges, and future directions
 
 #### Main limitations
 
-- **Training-data blindness**: RepE can show where bias lives in the model, but not which corpus patterns installed it.
-- **No linguistic decomposition**: one bias direction does not tell me whether the issue is dehumanization, patient framing, denied agency, or negative attitudinal attribution.
+- **Training-data blindness**: RepE can show where bias lives in the /hyperspace, but not which sources installed it.
 - **Linearity may be too simple**: intersectional or context-sensitive bias may not fit one global direction.
-- **Layer dependence**: steering success depends on where the intervention is applied, and the theory of layer choice is still weak.
-- **Overcorrection**: removing the direction can also remove legitimate demographic information.
-
-#### Open research challenges
-
-- How can we distinguish **subtle yet harmful framing** from **accurate group-conditioned facts**?
-- How should we represent **intersectional bias**, which may not be linearly separable?
-- Can concept directions be mapped back to **specific discourse patterns** in the pretraining corpus?
-- Can we move from one opaque "bias axis" to **mechanism-specific axes** such as threat framing, victim framing, or agency denial?
-
-#### Future directions
-
-- Use RepE-style steering as a **validation layer** for mechanisms first identified by F3BF in training data.
-- Extend F3BF from single-group terms to **intersectional and multi-word group expressions**.
-- Combine framing diagnostics with **uncertainty and grounding checks** so we can better separate unsupported, unstable, and systematically biased answers.
+- **Weak contextual specificity**: the same intervention may fire across contexts where the concept should be treated differently.
+  - **Overcorrection**: legitimate demographic-specific information, e.g. Black Females are de facto reported to be most affected by sarcoidosis, becomes neutralized by the intervention.
+- **Hyperparameter dependence**: effect depends on layer choice and coefficient strength.
 
 ### H. Implications for F3BF
 
@@ -273,17 +268,22 @@ RepE is both a validation paper and a boundary marker.
 
 RepE strengthens the logic behind several components of **F3BF**:
 
+- **Developmental rather than post-hoc**: where the roots are.
 - **WEAT / SEAT** become more theoretically credible if social associations really do occupy meaningful linear subspaces.
 - **Prototype-based attitudinal matching** becomes easier to justify if concept directions are readable through contrastive geometry.
 - **PCA-based EFI construction** becomes more interpretable as a dimensional summary of structured variation, even if it is not identical to a pure causal direction.
 
 #### Why it also shows what my work must add
 
-RepE cannot answer the question that most directly motivates my project:
+RepE is best understood as a post-training control layer, not as a replacement for upstream corpus design. It can suppress harmful representational tendencies, but because the control is relatively coarse, it is not a full solution to context-sensitive fairness.
 
-> **Which linguistic mechanisms in training material made the model learn those directions, and how can we validate them from surface pattern to representation to contextual effect?**
+It's insufficient not because it is weak, but because it operates at a different stage, like rectifying adultLMs' behavior by force, instead of compiling correct textbooks for and properly educating babyLMs.
 
-It's insufficient not because it is weak, but because it solves a **different layer** of the problem.
+In the future, one can:
+
+- Use RepE-style steering as a **validation layer** for mechanisms first identified by F3BF in training data.
+- Extend F3BF from single-group terms to **intersectional and multi-word group expressions**.
+- Combine framing diagnostics with **uncertainty and grounding checks** so we can better separate unsupported, unstable, and systematically biased answers.
 
 ---
 
