@@ -1,3 +1,10 @@
 @use "./base.scss";
 
-// put your custom CSS here!
+.article-content pre {
+  white-space: pre !important;
+  overflow-x: auto;
+}
+
+.article-content code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace !important;
+}

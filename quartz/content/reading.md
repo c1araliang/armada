@@ -205,7 +205,9 @@ The underlying idea is not that "bias" is one point in space, but that it is an 
 
 In the simplest control setting, RepE uses **linear combination** as operator, i.e., add or subtract the control signal directly. Best when you want simple stimulation/suppression.
 
-$$h' \leftarrow h + \alpha v$$
+$$
+h' \leftarrow h + \alpha v
+$$
 
 where $h$ is the current hidden representation, $v$ is the controller direction (either reading or contrast vector), $\alpha$ is a scaling coefficient/tunable control-strength parameter, and $h'$ is the edited hidden representation.
 

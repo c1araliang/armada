@@ -11,4 +11,4 @@ tags:
 
 2026-04-14: Taxonomy refinement, structural updates, reading group meeting.
 
-2026-04-15: Reading list updates and careful polishing, presentation notes.
+2026-04-15: Reading list updates and careful polishing, presentation notes, graph alignment.
