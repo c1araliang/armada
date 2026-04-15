@@ -16,7 +16,7 @@ The central question is:
 
 > **How can we detect, measure, and validate the linguistic mechanisms that propagate bias, from surface patterns to representations to contextual effects?**
 
-RepE is central because it gives the strongest account in this set of **why vector operations on hidden states are meaningful**, while also showing what representation-level intervention cannot explain on its own [original: This keeps the focus on mechanisms rather than only on benchmark scores. RepE matters here because it is the strongest paper in this set for explaining why vector operations on hidden states are meaningful, while also showing what representation-level intervention still cannot explain on its own].
+RepE is central because it gives the strongest account in this set of **why vector operations on hidden states are meaningful**, while also showing what representation-level intervention cannot explain on its own.
 
 ---
 
@@ -58,8 +58,8 @@ Foundational work on bias in language, predating or independent of LLM architect
 | 5 | [Azzalini, Dolci & Tanelli (2022)](https://www.semanticscholar.org/paper/Bias-Score%3A-Estimating-Gender-Bias-in-Sentence-Azzalini-Dolci/a8caf23b86b050ad217a05db6aac94396e73d37a) Bias Score | Sentence representations | Normalized per-word cosine similarity to a gender direction; word-importance weighting parallels SEAT context token weighting | **Detection** | `WEAT/SEAT-family` `sentence-level` |
 | 6 | ["Don't Erase, Inform!" (2025)](https://arxiv.org/abs/2505.24538) | Cultural heritage metadata | Lexical flagging of offensive terms from a multilingual vocabulary co-created with marginalized communities; cross-referenceable for lexical coverage but orthogonal (cultural heritage context, not contemporary metaphorical framing) | **Detection** | `lexical-detection` `multilingual` |
 
-- `role-extraction` (#1–2) are the most direct conceptual ancestors of AgI/PI/SI. Rashkin is the closest overlap with F3BF's role indices and attitudinal dimensions; Bamman is the syntactic ancestor of AgI/PI but has no bias analysis or embeddings [original: `role-extraction` (#1–2) are the most direct conceptual ancestors of AgI/PI/SI. Rashkin encodes per-verb agent/theme power and emotional affect — closest structural overlap with F3BF's role indices and attitudinal dimensions. Bamman extracts agent/patient verb patterns per character from dependency parses, the syntactic ancestor of AgI/PI; purely syntactic extraction, no bias framing, no embeddings.].
-- Mendelsohn 2020 (#3) is the nearest miss for discourse-level bias analysis: it measures denial of agency alongside metaphor, but the dimensions are theory-derived and the corpus is news [original: Mendelsohn 2020 (#3) is the nearest-miss for framing: it measures denial of agency alongside metaphor, but dimensions are theory-derived and the corpus is news.].
+- `role-extraction` (#1–2) are the most direct conceptual ancestors of AgI/PI/SI. Rashkin is the closest overlap with F3BF's role indices and attitudinal dimensions; Bamman is the syntactic ancestor of AgI/PI but has no bias analysis or embeddings.
+- Mendelsohn 2020 (#3) is the nearest miss for discourse-level bias analysis: it measures denial of agency alongside metaphor, but the dimensions are theory-derived and the corpus is news.
 - `WEAT/SEAT-family` (#4–5): Caliskan is the foundational association-testing method F3BF inherits; Azzalini adds sentence-level weighting adjacent to SEAT context token weighting. 
 - "Don't Erase, Inform!" (#6) is orthogonal in domain and its DE-BIAS vocabulary appears domain-restricted. 
 - None integrates role extraction with association testing or collocate-driven frame discovery.
@@ -110,9 +110,9 @@ Bias analyzed in pretraining data, news, social media, or annotated narrative co
 | 4 | [Görge et al. (2025)](https://arxiv.org/abs/2512.10734) | Textual pretraining data | LLM-generated word lists, Demographic Representation Score, stereotype filter, counterfactual augmentation; debiased fine-tuning did *not* consistently improve benchmark scores | **Detection / mitigation** | `pretraining-data` `predefined-categories` `mitigation` |
 | 5 | [Kadan et al. (NLP Journal 2024)](https://arxiv.org/abs/2301.09003) | Pretraining + fine-tuning corpora | Corpus-level affective word distribution + model-level emotion–demographic association evaluation | **Analysis** | `pretraining-data` `predefined-categories` |
 
-- Mendelsohn & Budak (#1) is the nearest miss for F3BF's immigration focus: it still relies on predefined metaphor categories, uses social media rather than pretraining data, and has no role extraction [original: Mendelsohn & Budak (#1) is the nearest-miss for F3BF's immigration framing focus: still predefined metaphor categories, social media not pretraining data, no role extraction.].
+- Mendelsohn & Budak (#1) is the nearest miss for F3BF's immigration focus: it still relies on predefined metaphor categories, uses social media rather than pretraining data, and has no role extraction.
 - Entity Framing (#2) assigns narrative roles (shared `role-extraction` tag with §2.1 #1–2) but uses a taxonomy-first approach and no association testing.
-- `pretraining-data` (#3–5) share F3BF's data scope but not its linguistic granularity: they measure polarity, representation counts, or affect distributions rather than collocate-grounded discourse structures. Görge (#4) is particularly instructive because counterfactual debiasing did not consistently improve benchmark scores [original: `pretraining-data` (#3–5) share F3BF's data scope but not its linguistic granularity: they measure polarity, representation counts, or affect distributions rather than collocate-grounded frame structures. Görge (#4) is particularly instructive: even after full counterfactual debiasing, benchmark scores did not consistently improve — evidence that predefined-category mitigation misses what it cannot see.].
+- `pretraining-data` (#3–5) share F3BF's data scope but not its linguistic granularity: they measure polarity, representation counts, or affect distributions rather than collocate-grounded discourse structures. Görge (#4) is particularly instructive because counterfactual debiasing did not consistently improve benchmark scores.
 - Kadan (#5) bridges corpus affect distributions and model-side association evaluation, but its primary analytical starting point is still the training-data distribution.
 
 #### 2.2.4 All stages
@@ -159,11 +159,11 @@ Across 6 foundational + 3 representation + 6 output + 5 input + 3 all-stage + 3 
 
 ### A. Research problem addressed by RepE
 
-RepE asks the following mechanistic question [original: RepE asks a stronger mechanistic question than Paper 1]:
+RepE asks the following mechanistic question:
 
 > **Can high-level concepts such as bias be detected and controlled as directions in model representations?**
 
-If social bias is encoded in roughly linear directions, then the vector-space methods used in F3BF, including **WEAT, SEAT, prototype matching, and PCA-based summary dimensions**, gain a stronger theoretical foundation [original: For my topic, this matters because if social bias is genuinely encoded in roughly linear directions, then the whole family of vector-space methods I use or compare against, including WEAT, SEAT, prototype matching, and PCA-based summary dimensions, gains a stronger theoretical foundation].
+If social bias is encoded in roughly linear directions, then the vector-space methods used in F3BF, including **WEAT, SEAT, prototype matching, and PCA-based summary dimensions**, gain a stronger theoretical foundation.
 
 ### B. Taxonomy of methods inside RepE
 
@@ -240,7 +240,7 @@ The relevant comparison is **SOTA in §2 vs RepE vs F3BF**. CEAT functions as a 
 | Supports mitigation/intervention? | Sometimes, often category-based | **Yes**, but coarse and potentially overcorrective | Yes, through upstream corpus intervention |
 | Linguistic relevance | Mixed | Medium | **High** |
 
-**RepE is strongest on internal mechanism and causal manipulation, while F3BF is strongest on linguistic decomposition and source tracing** [original: RepE is strongest on internal mechanism and causal manipulation, but weak on framing decomposition and source tracing.]. **CEAT complements F3BF by improving contextual association measurement, especially through distributional variation and intersectionality** [original: implicit role in table].
+**RepE is strongest on internal mechanism and causal manipulation, while F3BF is strongest on linguistic decomposition and source tracing**. **CEAT complements F3BF by improving contextual association measurement, especially through distributional variation and intersectionality**.
 
 ### G. Limitations, challenges, and future directions
 
