@@ -55,7 +55,7 @@ semantic_filter_results.tsv
     │                               ↓                            │
     │                     lexical_all.txt ──► SEAT-full          │
     │                                             ↓              │
-    │                                         Δ-SEAT ────────────┤
+    │                                         Δ-SEAT  ───────────┤
     │                                                            │
     └──► (spaCy)-SRL → feature extraction                        │
               ↓                                                  │
