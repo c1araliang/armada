@@ -2,9 +2,16 @@
 
 .article-content pre {
   white-space: pre !important;
-  overflow-x: auto;
+  overflow-x: auto !important;
+  line-height: 1.2 !important;
+  tab-size: 2 !important;
 }
 
-.article-content code {
-  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace !important;
+.article-content pre code {
+  white-space: pre !important;
+  display: block !important;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace !important;
+  font-variant-ligatures: none !important;
+  font-feature-settings: "liga" 0, "calt" 0 !important;
+  letter-spacing: 0 !important;
 }
