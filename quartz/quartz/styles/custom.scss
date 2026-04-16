@@ -10,8 +10,22 @@
 .article-content pre code {
   white-space: pre !important;
   display: block !important;
-  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace !important;
+  font-family:
+    "JetBrains Mono",
+    "IBM Plex Mono",
+    "Noto Sans Mono",
+    "DejaVu Sans Mono",
+    ui-monospace,
+    SFMono-Regular,
+    Menlo,
+    Monaco,
+    Consolas,
+    "Liberation Mono",
+    "Courier New",
+    monospace !important;
   font-variant-ligatures: none !important;
   font-feature-settings: "liga" 0, "calt" 0 !important;
+  font-kerning: none !important;
   letter-spacing: 0 !important;
+  text-rendering: geometricPrecision !important;
 }
