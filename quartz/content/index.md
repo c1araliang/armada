@@ -37,44 +37,49 @@ These indices, together with WEAT and SEAT association scores, form the complex 
 ### Structure overview
 
 ```text
-Phase 1 — extract.py (offline, per-corpus)
-──────────────────────────────────────────────────────────────────
-Phase 2 — run_pipeline.py (analysis)
-──────────────────────────────────────────────────────────────────
+Phase 1 - extract.py (offline, per-corpus)
+---------------------------------------------------------------------------
+Phase 2 - run_pipeline.py (analysis)
+---------------------------------------------------------------------------
 semantic_filter_results.tsv
-    │
-    ├──► LLR / LogDice → Top collocates → human classification
-    │         ↓
-    │    F⁻, F⁺  (frame attribute sets)
-    │         ↓
-    │    WEAT (MiniLM type-level)   SEAT-filtered (MiniLM token-level)
-    │         ↓                          ↓
-    │    per-group WEAT score       per-group SEAT score ────────┐
-    │                               ↓                            │
-    │                          F⁻/F⁺ centroids                   │
-    │                               ↓                            │
-    │                     lexical_all.txt ──► SEAT-full          │
-    │                                             ↓              │
-    │                                         Δ-SEAT  ───────────┤
-    │                                                            │
-    └──► (spaCy)-SRL → feature extraction                        │
-              ↓                                                  │
-         per-group AgI, PI, SI, negAttI, posAttI ────────────────┤
-                                                                 ↓
-                                                    ┌─────────────────────┐
-                                                    │ Group × Dimension   │
-                                                    │ matrix              │
-                                                    └──────────┬──────────┘
-                                                               ↓
-                                                    ┌─────────────────────┐
-                                                    │ PCA → EFI           │
-                                                    │  PC1 = axis of max  │
-                                                    │  cross-group var.   │
-                                                    └──────────┬──────────┘
-                                                               ↓
-                                                    group_stats.tsv
-                                                    (WEAT, SEAT, SEAT-full,
-                                                     Δ-SEAT, EFI, AgI/PI/SI…)
+    |
+    +--> LLR / LogDice -> Top collocates -> human classification
+    |        |
+    |        v
+    |      F-, F+  (frame attribute sets)
+    |        |
+    |        +--> WEAT (MiniLM type-level)      SEAT-filtered (MiniLM token-level)
+    |        |                                   |
+    |        |                                   +--> per-group SEAT score ---------+
+    |        |                                                                         |
+    |        +--> per-group WEAT score                                                 |
+    |                                            F-/F+ centroids                       |
+    |                                                  |                               |
+    |                                                  +--> lexical_all.txt -> SEAT-full
+    |                                                                         |
+    |                                                                         +--> Delta-SEAT ---+
+    |                                                                                           |
+    +--> (spaCy)-SRL -> feature extraction                                                      |
+             |                                                                                  |
+             +--> per-group AgI, PI, SI, negAttI, posAttI -------------------------------------+
+                                                                                                |
+                                                                                                v
+                                                                                     +----------------------+
+                                                                                     | Group x Dimension    |
+                                                                                     | matrix               |
+                                                                                     +----------+-----------+
+                                                                                                |
+                                                                                                v
+                                                                                     +----------------------+
+                                                                                     | PCA -> EFI           |
+                                                                                     | PC1 = axis of max    |
+                                                                                     | cross-group var.     |
+                                                                                     +----------+-----------+
+                                                                                                |
+                                                                                                v
+                                                                                     group_stats.tsv
+                                                                                     (WEAT, SEAT, SEAT-full,
+                                                                                      Delta-SEAT, EFI, AgI/PI/SI...)
 ```
 
 ## What I Built and What It Showed
