@@ -194,24 +194,33 @@ RepE — sequenced flow
                           └─ projection (erase direction)
       → explicit intervention on hidden states
 
-3. LoRRA  (optional — training phase, then fixed)
-   └─ train low-rank adapters to APPROXIMATE the explicit
-      intervention from step 2 (either path A or B)
-      → persistent control, no runtime overhead
+3. LoRRA  (optional — modifies weight matrices, not hidden states)
+   └─ in this paper: contrast vectors construct the loss function
+      → train low-rank adapters on ATTENTION WEIGHTS to
+        approximate that target (paper's scope; other weights
+        and reading-vector supervision are not ruled out)
+      → deploy WITHOUT vectors at inference; NO separate operator step
+         (similar performance, negligible compute overhead)
+   ⚠ vectors intervene on activations + require explicit operator (h' = h + αv);
+     LoRRA bakes the effect into weights: (W + AB)x = Wx + ABx —
+     the operator is now implicit; "controllers refer to low-rank
+     weight matrices rather than vectors".
 ```
-
-Reading vector and contrast vector are **alternative** ways to obtain a direction $v$. Either one, combined with a selected operator, produces the explicit intervention. LoRRA then learns to replicate that intervention as permanent low-rank weight edits.
 
 ### C. Expanded Explanation
 
 RepE assumes that many high-level concepts are encoded as approximately linear directions in hidden-state space. The underlying idea is not that "bias" is one point in space, but that it is an **axis of variation**.
 
-**Step 1 — Reading via LAT.** Design contrastive stimuli that differ on the target concept (e.g., biased vs unbiased scenarios). Collect hidden-state activations for both conditions. Default linear model: **PCA on the difference** between concept-present and concept-absent activations; the **first principal component** is the **reading vector**. Alternatively, a logistic regression probe. The result is a fixed, reusable direction in representation space.
+**Step 1 — Reading via LAT.** 
+
+Design contrastive stimuli that differ on the target concept (e.g., biased vs unbiased scenarios). Collect hidden-state activations for both conditions. Default linear model: **PCA on the difference** between concept-present and concept-absent activations; the **first principal component** is the **reading vector**. Alternatively, a logistic regression probe. The result is a fixed, reusable direction in representation space.
 
 **Step 2 — Control.** Pick one controller path:
 
 - **Reading vector** (from step 1): static, concept-general, works across inputs.
 - **Contrast vector**: computed at inference from the same input under two contrastive prompts. Input-adaptive but requires paired prompting at runtime.
+
+Reading vector and contrast vector are **alternative** ways to obtain a direction $v$ at **inference time** — choose one based on the compute budget; the contrast vector achieves SOTA performance but requires 3× more inference compute (paired prompting per input); the reading vector is static and cheaper.
 
 Then apply an **operator** to intervene on hidden states. In the simplest case, **linear combination**:
 
@@ -221,7 +230,13 @@ $$
 
 where $h$ is the current hidden representation, $v$ is the controller direction, $\alpha$ is a tunable control-strength parameter, and $h'$ is the edited representation. If $\alpha > 0$, the model is pushed toward the concept; if $\alpha < 0$, against it. Other operators: **piece-wise transform** (non-linear reshaping) and **projection** (erase the direction entirely).
 
-**Step 3 — LoRRA** (optional). Train low-rank adapters (based on **LoRA**) to approximate the explicit intervention from step 2 — using either path's output as supervision signal. Once trained, LoRRA is fixed: persistent behavioral adjustment with no runtime overhead.
+**Step 3 — LoRRA** (optional).
+
+LoRRA is **not** a third inference-time alternative at the same level. It is a **training-time compression** step: contrast vectors construct the loss function (reading vectors are optional input), and low-rank adapters on attention weights are trained to approximate what contrast-vector intervention would produce. 
+
+Unlike vectors, which add to hidden states at inference via an explicit operator ($R' = R \pm v$), LoRRA modifies **weight matrices** directly — specifically attention weights. Zou introduces operators *after* defining all three controllers, meaning the operator framework formally covers LoRRA too, but for LoRRA the linear combination is implicit: $(W + AB)x = Wx + ABx$. The effect is the same in spirit — a directional push in representation space — but it is baked into the weights rather than applied at runtime.
+
+Once trained, LoRRA is merged into the model — no vectors, no operator needed at inference — persistent weight-level adjustment with negligible compute overhead.
 
 ### D. Why RepE is convincing
 
