@@ -15,5 +15,5 @@ tags:
 
 2026-04-16: Graph alighment, presentation slides, poster sketch.
 
-2026-04-17: Reading list updates and presentation slides.
+2026-04-17: Reading list updates and presentation slides; how ceat correlates to my approach and informs the MWE issue.
 

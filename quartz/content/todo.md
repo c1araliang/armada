@@ -23,14 +23,42 @@ For example: *"immigrants build"* vs *"immigrants arrive"* — differ clearly on
 
 **4. MWEs**
 
-`Korean immigrant`, `undocumented foreign nationals` exhibit same group repetition:
-should we pick only 1 essential profilel?
+Three distinct MWE cases, each with a different resolution:
 
-This policy ensured that only `white Europeans` would be allowed to immigrate to the new country, while empowering the state to deport existing `non-white immigrants.`:
-should we treat repeated targets as standalone instances, but for example, multiplied by a penalty coefficient, given such repetition reinforces stereotypical racial image.
+**Case 1 — Modifier-head MWEs with overlapping group membership**
 
-`Asian American` demonstrates contrastive MWE:
-should we pick only the minority profile?
+`Korean immigrant`, `undocumented foreign nationals`: both tokens are group-relevant but at different specificity levels.
+
+Resolution: **assign to the most specific / most informative token; log the full MWE as a compound unit.**
+- `Korean immigrant` → primary profile: `Korean` (nationality is more specific than migration status)
+- `undocumented foreign nationals` → primary profile: `undocumented` (legal-status framing is the politically loaded dimension)
+
+Keep the full MWE as a distinct lexicon entry to compare collocate patterns on the compound vs. its head. No double-counting; one primary profile per MWE.
+
+**Case 2 — Same-sentence co-occurrence of opposed group terms**
+
+`white Europeans` / `non-white immigrants` in the same sentence: the opposition structure is itself the bias signal — do not penalise with an arbitrary coefficient, which would obscure what is happening.
+
+Resolution: **both standalone instances + tag sentence as a contrastive framing instance.**
+- Each term receives its normal WEAT/SEAT score
+- The sentence is tagged in corpus metadata as a polarisation frame
+- At EFI stage: check whether the two terms systematically co-occur — the co-occurrence pattern is an association score in its own right (the contrast pair is the frame, not noise)
+
+This connects to Q3 (contextual reversals): this is not a reversal — both targets are framed as intended — it is a **polarisation frame** and should be analysed as such.
+
+**Case 3 — Intersectional compound identity**
+
+`Asian American`: treat as an **atomic MWE unit, never decomposed.** It refers to a demographic group distinct from both `Asian` and `American` separately. Decomposing it would misattribute part of its signal to `American` and lose the intersectional identity the compound encodes.
+
+Keep as its own group lexicon entry. Run CEAT-style IBD alongside the component terms to detect emergent intersectional bias directions (i.e., directions that appear for `Asian American` but not for `Asian` or `American` alone) before PCA reduction.
+
+**Conclusion:**
+
+| MWE type | Example | Treatment |
+|---|---|---|
+| Modifier-head, both group-relevant | `Korean immigrant` | Assign to most specific token; log full MWE |
+| Same-sentence opposition | `white Europeans` / `non-white immigrants` | Both standalone + tag sentence as contrastive frame |
+| Intersectional compound identity | `Asian American` | Atomic MWE unit; IBD-style test alongside components |
 
 **5. Minority Political Grouping**
 

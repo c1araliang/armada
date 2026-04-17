@@ -113,7 +113,7 @@ Bias analyzed in pretraining data, news, social media, or annotated narrative co
 - Entity Framing (#2) assigns narrative roles (shared `role-extraction` tag with §2.1 #1–2) but uses a taxonomy-first approach and no association testing.
 - `pretraining-data` (#3–5) share F3BF's data scope but not its linguistic granularity: they measure polarity, representation counts, or affect distributions rather than collocate-grounded discourse structures.
 - Görge et al. (#4) shows that data debiasing improves dataset-level bias measures, but does not consistently improve model-level bias benchmark performance; i.e., cleaning obvious demographic skew (remove bad words / balance labels / counterfactually swap identities) does not automatically make models fairer. This suggests the need for non-categorical diagnostics and counter-tactics.
-- Kadan et al. (#5) combines corpus-level emotion-word / affective-word distribution and co-occurrence analysis with model-level class/intensity evaluation of emotion predictions.
+- Kadan et al. (#5) combines corpus-level emotion-word / affective-word distribution and co-occurrence analysis with model-level class/intensity evaluation of emotion predictions. It spans input *and* model-internal bias, but keeps them **correlational** — parallel measurements on the same demographic terms, without an intervention on the corpus to test whether the model bias changes. This is the gap Feng et al. and Itzhak et al. close in §2.2.4 (continued-pretraining on ideologically shifted corpora → causal evidence) and that RepE closes at the representation level (steering → causal evidence). F3BF's developmental orientation is best served by pairing Kadan-style cross-stage diagnostics with a causal arm at at least one level.
 
 #### 2.2.4 All stages
 
@@ -228,7 +228,7 @@ $$
 h' \leftarrow h + \alpha v
 $$
 
-where $h$ is the current hidden representation, $v$ is the controller direction, $\alpha$ is a tunable control-strength parameter, and $h'$ is the edited representation. If $\alpha > 0$, the model is pushed toward the concept; if $\alpha < 0$, against it. Other operators: **piece-wise transform** (non-linear reshaping) and **projection** (erase the direction entirely).
+where $h$ is the current hidden representation, $v$ is the controller direction, $\alpha$ is a tunable control-strength hyperparameter, and $h'$ is the edited representation. If $\alpha > 0$, the model is pushed toward the concept; if $\alpha < 0$, against it. Other operators: **piece-wise transform** (non-linear reshaping) and **projection** (erase the direction entirely).
 
 **Step 3 — LoRRA** (optional).
 
@@ -251,10 +251,10 @@ This upgrades vector-space analysis from "useful geometry" to **causal represent
 
 ### E. Key findings
 
-- **Bias is causally active in representation space**. This supports treating bias not as a purely surface-level prompt artifact, but as a property of learned internal structure.
-- **The same representational machinery can be used for reading and control**. So interpretability and intervention are tightly linked.
+- **Bias is a structural property of learned representations, not a surface artifact.** 
+- **Interpretability and intervention share the same substrate.** Reading vectors that identify a bias direction are directly usable as control signals — which means any mechanism F3BF identifies at corpus level could in principle become a RepE steering target for downstream validation.
 - **A unified bias subspace may exist**. Bias directions extracted from one stereotype domain can transfer to others, suggesting low-dimensional shared structure.
-- **RLHF does not necessarily remove bias geometrically**. It may suppress or route around it behaviorally while leaving the representational tendency intact.
+- **RLHF does not necessarily remove bias geometrically**. RLHF is weight-level training that updates the model to produce refusals on bias-adjacent prompts. But the biased *direction* installed by pretraining remains causally active; RLHF works around it, not erase it. Once Jailbreaks technics defeat the gate (RLHF or frontend censorship), the underlying direction flows through unfiltered. 
 
 ### F. Comparison across aspects
 
@@ -264,7 +264,7 @@ The relevant comparison is **SOTA in §2 vs RepE vs F3BF**. CEAT functions as a 
 |:---|:---|:---|:---|
 | Main target | Outputs, embeddings, corpora, or pipeline stages | Internal representations and generation | Training material and corpus-derived framing mechanisms |
 | Main strength | Broad coverage of the problem space | **Mechanistic and causal representation-level evidence** | **Mechanism-specific linguistic analysis at corpus level** |
-| Detects contextual effects? | Sometimes | Yes, indirectly via steering tests | Not by itself |
+| Detects contextual effects? | Partially / unevenly | Yes, indirectly via steering tests | Not by itself |
 | Identifies internal mechanism? | Usually not, or only partially | **Yes** | Indirectly, via downstream validation |
 | Traces patterns back to training material? | Sometimes, but usually with broad predefined categories | No | **Yes** |
 | Separates different framing mechanisms? | Rarely | No | **Yes** |
@@ -291,22 +291,26 @@ RepE is both a validation paper and a boundary marker.
 
 RepE strengthens the logic behind several components of **F3BF**:
 
-- **Developmental rather than post-hoc**: where the roots are.
+- **F3BF's developmental orientation is warranted**: if bias occupies causally active directions in the trained model, then studying where those directions were installed — in the training corpus — is the right level of analysis. RepE confirms the mechanism exists; F3BF targets its origin.
 - **WEAT / SEAT** become more theoretically credible if social associations really do occupy meaningful linear subspaces.
 - **Prototype-based attitudinal matching** becomes easier to justify if concept directions are readable through contrastive geometry.
 - **PCA-based EFI construction** becomes more interpretable as a dimensional summary of structured variation, even if it is not identical to a pure causal direction.
 
-#### Why it also shows what my work must add
+#### What my work must add
 
 RepE is best understood as a post-training control layer, not as a replacement for upstream corpus design. It can suppress harmful representational tendencies, but because the control is relatively coarse, it is not a full solution to context-sensitive fairness.
 
-It's insufficient not because it is weak, but because it operates at a different stage, like rectifying adultLMs' behavior by force, instead of compiling correct textbooks for and properly educating babyLMs.
+It's insufficient not because it is weak, but because it operates at a different stage, like rectifying adultLMs' behavior by some force, instead of compiling correct textbooks for and properly educating babyLMs.
 
 In the future, one can:
 
 - Use RepE-style steering as a **validation layer** for mechanisms first identified by F3BF in training data.
-- Extend F3BF from single-group terms to **intersectional and multi-word group expressions**.
-- Combine framing diagnostics with **uncertainty and grounding checks** so we can better separate unsupported, unstable, and systematically biased answers.
+
+- Extend from single vector to context-aware subspace.
+
+The overcorrection issue in §G reflects a representational choice in RepE itself. Its bias stimuli are scenario-level (*"Consider the bias in the following scenario..."*), framing bias as a single *biased vs. unbiased* dichotomy, and the default extraction keeps only the first principal component of the contrast. The resulting vector averages across linguistically distinct mechanisms — attitudinal vs. indexical, factual-demographic vs. evaluative-stereotype, F⁻ vs. F⁺ — so steering along it hits all of them at once, neutralizing legitimate demographic information alongside evaluative bias. Follow-up work already moves towards this direction (e.g. [Gaussian Concept Subspace](https://arxiv.org/abs/2410.00153), ICLR 2025, modeling concepts as distributions over a subspace rather than points). F3BF fits here not as a design for that subspace but as the source of the mechanism distinctions any such subspace would need to respect.
+
+
 
 ---
 
@@ -342,6 +346,28 @@ CEAT clarifies two points for F3BF:
 1. contextualized bias measurement should report **variation**, not just averages;
 2. intersectionality should be treated as a real methodological requirement, not a bonus feature.
 
+### How CEAT improves the current WEAT / Δ-SEAT pipeline
+
+The current pipeline produces **one scalar per term**: a WEAT effect size, a SEAT score, and a Δ-SEAT. CEAT's contribution is to replace those with **distributions**, using the actual corpus sentences rather than bleached templates. Three concrete upgrades:
+
+**1. Point estimate → distribution (directly applicable to Δ-SEAT)**
+
+Instead of `Δ-SEAT = SEAT-full − SEAT-filtered` yielding one number per term, CEAT-style sampling produces:
+
+- For each term, draw N=10,000 subsets of its context sentences from Dolma
+- Compute SEAT-full and SEAT-filtered for each sample
+- Report a distribution of Δ values with CES, mean, and variance
+
+A term with **high mean Δ and low variance** is systematically contaminated across all contexts. A term with **high mean Δ and high variance** is contaminated only in certain discourse domains. That distinction is currently invisible in the pipeline and directly affects how EFI scores should be interpreted.
+
+**2. Centroid collapse → full distribution**
+
+F3BF's SEAT already uses real Dolma sentences (not bleached templates like vanilla SEAT's `"This is WORD."`), so the contextualization is meaningful. But the current implementation still **collapses those sentences to a single centroid** — averaging MiniLM embeddings before computing cosine similarity — producing one scalar per group. CEAT's upgrade is to never collapse: keep the full set of per-sentence embeddings and sample from them, so the effect size is a distribution rather than a point. This applies directly to Δ-SEAT: instead of one `SEAT-full − SEAT-filtered` value per term, you get a distribution of Δ values across sampling draws, with variance as a first-class output.
+
+**3. Intersectional testing for compound group terms**
+
+CEAT's Intersectional Bias Detection (IBD) tests whether bias emerges at an intersection that does not exist for either component alone. For compound group terms (`Asian American`, `undocumented immigrant`) in EFI, running IBD-style testing alongside per-component WEAT scores reveals emergent intersectional bias directions that the PCA reduction would otherwise miss if the per-group vectors were computed independently.
+
 ### Limit relative to F3BF
 
 CEAT improves contextual bias measurement, but like RepE, it does not identify **which linguistic mechanisms in the corpus created the effect**.
@@ -350,7 +376,7 @@ CEAT improves contextual bias measurement, but like RepE, it does not identify *
 
 ## 3. What Is Novel in My Positioning?
 
-The four gaps identified in §2.3 converge on a single claim: the field has studied framing, bias, roles, and associations individually, but **no existing work integrates all four on LLM training material in one analysis pipeline**.
+the field has studied multitude of aspects but individually; **no existing work integrates the linguistic grounding to construct an analysis/detection pipeline on LLM training material**.
 
 F3BF within ARMADA addresses this by closing the chain: bottom-up frame discovery (LLR/LogDice → human classification → F⁻/F⁺) → role-based analysis (AgI, PI, SI via transformer SRL) → empirically anchored association testing (WEAT, SEAT, Δ-SEAT, attitudinal matching) → composite group profiling (EFI via PCA) — all on a single pretraining corpus (Dolma v1.6).
 
