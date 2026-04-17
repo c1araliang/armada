@@ -54,27 +54,26 @@ Foundational work on bias in language, predating or independent of LLM architect
 | 1 | [Rashkin, Singh & Choi (2016)](https://doi.org/10.18653/v1/P16-1030) Connotation Frames | *New York Times* corpus | Crowd-annotated lexicon of ~1,000 transitive verbs encoding agent/theme power, agency, and emotional affect per verb | **Analysis** | `role-extraction` `corpus-linguistic` `verb-level` |
 | 2 | [Bamman, O'Connor & Smith (2013)](https://aclanthology.org/P13-1035/) Latent Personas | 42,306 Wikipedia movie plot summaries | Agent verb / patient verb / attribute patterns from dependency parses (nsubj, dobj, nsubjpass); Dirichlet persona clustering | **Analysis** | `role-extraction` `corpus-linguistic` |
 | 3 | [Mendelsohn, Tsvetkov & Jurafsky (2020)](https://doi.org/10.3389/frai.2020.00055) Dehumanization Framework | *New York Times* (1986–2015), LGBTQ discourse | w2v cosine similarity to four theory-derived dehumanization concept clusters; denial of agency measured alongside metaphor | **Analysis** | `metaphor-framing` `predefined-categories` `demographic-profiling` |
-| 4 | [Caliskan, Bryson & Narayanan (2017)](https://doi.org/10.1126/science.aal4230) WEAT | Static word embeddings (GloVe) | IAT analogue on word vectors; foundational proof that corpus-derived semantics encode human-like biases | **Detection** | `WEAT/SEAT-family` `predefined-categories` |
+| 4 | [Caliskan, Bryson & Narayanan (2017)](https://doi.org/10.1126/science.aal4230) WEAT | Language corpora (Common Crawl via GloVe) | IAT analogue on word vectors; foundational proof that corpus-derived semantics encode human-like biases | **Detection** | `WEAT/SEAT-family` `predefined-categories` |
 | 5 | [Azzalini, Dolci & Tanelli (2022)](https://www.semanticscholar.org/paper/Bias-Score%3A-Estimating-Gender-Bias-in-Sentence-Azzalini-Dolci/a8caf23b86b050ad217a05db6aac94396e73d37a) Bias Score | Sentence representations | Normalized per-word cosine similarity to a gender direction; word-importance weighting parallels SEAT context token weighting | **Detection** | `WEAT/SEAT-family` `sentence-level` |
-| 6 | ["Don't Erase, Inform!" (2025)](https://arxiv.org/abs/2505.24538) | Cultural heritage metadata | Lexical flagging of offensive terms from a multilingual vocabulary co-created with marginalized communities; cross-referenceable for lexical coverage but orthogonal (cultural heritage context, not contemporary metaphorical framing) | **Detection** | `lexical-detection` `multilingual` |
+
 
 - `role-extraction` (#1–2) are the most direct conceptual ancestors of AgI/PI/SI. Rashkin is the closest overlap with F3BF's role indices and attitudinal dimensions; Bamman is the syntactic ancestor of AgI/PI but has no bias analysis or embeddings.
 - Mendelsohn 2020 (#3) is the nearest miss for discourse-level bias analysis: it measures denial of agency alongside metaphor, but the dimensions are theory-derived and the corpus is news.
 - `WEAT/SEAT-family` (#4–5): Caliskan is the foundational association-testing method F3BF inherits; Azzalini adds sentence-level weighting adjacent to SEAT context token weighting. 
-- "Don't Erase, Inform!" (#6) is orthogonal in domain and its DE-BIAS vocabulary appears domain-restricted. 
 - None integrates role extraction with association testing or collocate-driven frame discovery.
 
 ### 2.2 Studies of bias in LLM
 
-#### 2.2.1 Representation
+#### 2.2.1 Model Internal
 
 Bias probed in contextualized embeddings or model-side association structure rather than generated text. Entries are ordered by method overlap first, then multilingual extension.
 
 | # | Study | Target | Key method | Goal | Tags |
 |:---|:---|:---|:---|:---|:---|
-| 1 | [Guo & Caliskan (2021)](https://doi.org/10.1145/3461702.3462536) CEAT | Contextualized embeddings (ELMo, BERT) | Extend WEAT to natural contexts; treat bias as a *distribution* over occurrences; intersectional and emergent intersectional bias | **Detection** | `WEAT/SEAT-family` `intersectional` `distributional` |
-| 2 | [Kurpicz-Briki et al. (2024)](https://arxiv.org/abs/2407.18689) BIAS Framework | Word embeddings + LMs, European languages | WEAT, SEAT, LPBS, CrowS-Pairs with predefined word lists; tests *model* associations, not *corpus* framing | **Detection** | `WEAT/SEAT-family` `predefined-categories` `multilingual` |
-| 3 | [Puttick & Kurpicz-Briki (GeBNLP 2025)](https://aclanthology.org/2025.gebnlp-1.3/) | Italian word embeddings + LMs | WEAT/SEAT/LPBS + GG-FISE for intersectional bias; grammatical gender as an additional bias axis | **Detection** | `WEAT/SEAT-family` `intersectional` `multilingual` |
+| 1 | [Guo & Caliskan (2021)](https://doi.org/10.1145/3461702.3462536) CEAT | Contextualized embeddings (ELMo, BERT, GPT, GPT-2) in Reddit comment contexts | Extend WEAT to natural contexts; treat bias as a *distribution* over occurrences; intersectional and emergent intersectional bias | **Detection** | `WEAT/SEAT-family` `intersectional` `distributional` |
+| 2 | [Kurpicz-Briki et al. (2024)](https://arxiv.org/abs/2407.18689) BIAS Framework | fastText, GloVe, word2vec for static; BERT-family for contextual | WEAT, SEAT, LPBS, CrowS-Pairs with predefined word lists; tests *model* associations, not *corpus* framing | **Detection** | `WEAT/SEAT-family` `predefined-categories` `multilingual` |
+| 3 | [Puttick & Kurpicz-Briki (GeBNLP 2025)](https://aclanthology.org/2025.gebnlp-1.3/) | Italian word embeddings + fastText (cc.it.300), BERT (dbmdz/bert-base-italian-uncased), GPT-2 (GroNLP/gpt2-small-italian) | WEAT/SEAT/LPBS + GG-FISE for intersectional bias; grammatical gender as an additional bias axis | **Detection** | `WEAT/SEAT-family` `intersectional` `multilingual` |
 
 - `WEAT/SEAT-family` (#1–3) share the core measurement method with F3BF. CEAT is closest: it treats bias as a distribution over natural occurrences and handles intersectionality. BIAS Framework and Puttick apply the same tooling across European languages. All three test against **predefined attribute sets**; none derives those sets from corpus collocate statistics.
 - This subsection is model-side but not output-side: it captures representational association structure rather than generated judgments or behaviors.
@@ -107,13 +106,13 @@ Bias analyzed in pretraining data, news, social media, or annotated narrative co
 | 1 | [Mendelsohn & Budak (ACL 2025)](https://aclanthology.org/2025.acl-long.398/) "When People are Floods" | 400K US immigration tweets | Word-level + document-level LLM technique for seven predefined metaphor concepts; ideology × engagement analysis | **Analysis** | `metaphor-framing` `predefined-categories` `demographic-profiling` |
 | 2 | [Mahmoud et al. (ACL Findings 2025)](https://aclanthology.org/2025.findings-acl.17/) Entity Framing | 1,378 news articles, 5 languages | LLM zero-shot + fine-tuned XLM-R for 22 narrative archetypes (protagonist / antagonist / innocent) | **Analysis** | `role-extraction` `multilingual` |
 | 3 | [Udagawa et al. (EMNLP 2025)](https://aclanthology.org/2025.findings-emnlp.2/) | Common Crawl (pretraining) | Protected-attribute detection + regard (polarity) classification; mitigation by balancing regard across groups | **Detection / mitigation** | `pretraining-data` `predefined-categories` `demographic-profiling` |
-| 4 | [Görge et al. (2025)](https://arxiv.org/abs/2512.10734) | Textual pretraining data | LLM-generated word lists, Demographic Representation Score, stereotype filter, counterfactual augmentation; debiased fine-tuning did *not* consistently improve benchmark scores | **Detection / mitigation** | `pretraining-data` `predefined-categories` `mitigation` |
-| 5 | [Kadan et al. (NLP Journal 2024)](https://arxiv.org/abs/2301.09003) | Pretraining + fine-tuning corpora | Corpus-level affective word distribution + model-level emotion–demographic association evaluation | **Analysis** | `pretraining-data` `predefined-categories` |
+| 4 | [Görge et al. (2025)](https://arxiv.org/abs/2512.10734) | Small Heap corpus (OpenWebText2, CC-News, Wikipedia) + 3 LLMs (0.6B–8B) | LLM-generated word lists, Demographic Representation Score, stereotype filter, counterfactual augmentation; debiased fine-tuning did *not* consistently improve benchmark scores | **Detection / mitigation** | `pretraining-data` `predefined-categories` `mitigation` |
+| 5 | [Kadan et al. (NLP Journal 2024)](https://arxiv.org/abs/2301.09003) | WikiEn, BookCorpus, WebText-250, C4-Val + SemEval-2018 EI-oc; BERT, GPT-2, XLNet, T5 | Corpus-level affective word distribution + model-level emotion–demographic association evaluation | **Analysis** | `pretraining-data` `predefined-categories` |
 
 - Mendelsohn & Budak (#1) is the nearest miss for F3BF's immigration focus: it still relies on predefined metaphor categories, uses social media rather than pretraining data, and has no role extraction.
 - Entity Framing (#2) assigns narrative roles (shared `role-extraction` tag with §2.1 #1–2) but uses a taxonomy-first approach and no association testing.
 - `pretraining-data` (#3–5) share F3BF's data scope but not its linguistic granularity: they measure polarity, representation counts, or affect distributions rather than collocate-grounded discourse structures.
-- Görge et al. (#4) shows that data debiasing improves dataset-level bias measures, but does not consistently improve model-level bias benchmark performance; i.e., cleaning obvious demographic skew (remove bad words / balance labels / counterfactually swap identities) does not automatically makes models fairer. This suggests the need for non-categorical diagnostics and counter-tactics.
+- Görge et al. (#4) shows that data debiasing improves dataset-level bias measures, but does not consistently improve model-level bias benchmark performance; i.e., cleaning obvious demographic skew (remove bad words / balance labels / counterfactually swap identities) does not automatically make models fairer. This suggests the need for non-categorical diagnostics and counter-tactics.
 - Kadan et al. (#5) combines corpus-level emotion-word / affective-word distribution and co-occurrence analysis with model-level class/intensity evaluation of emotion predictions.
 
 #### 2.2.4 All stages
@@ -122,7 +121,7 @@ Bias traced across pipeline stages or causally attributed to a specific stage. R
 
 | # | Study | Target | Key method | Goal | Tags |
 |:---|:---|:---|:---|:---|:---|
-| 1 | [Zou et al. (2023)](https://arxiv.org/abs/2310.01405) RepE | Internal hidden states + downstream generation | Concept directions via contrastive activation extraction; causal reading, steering, and intervention on representation-level bias | **Analysis / mitigation** | `representation-mechanism` `causal-intervention` |
+| 1 | [Zou et al. (2023)](https://arxiv.org/abs/2310.01405) RepE | Internal hidden states + downstream generation | Concept directions via contrastive activation extraction; causal reading, steering, and intervention on representation-level bias; tested on Llama-2-13b-chat | **Analysis / mitigation** | `representation-mechanism` `causal-intervention` |
 | 2 | [Feng et al. (ACL 2023)](https://aclanthology.org/2023.acl-long.656/) Trails of PoliBias | Corpus → LM → downstream tasks | Political-compass probing of LMs + controlled continued pretraining on matched partisan corpora + downstream fine-tuning with per-group/source fairness comparison | **Analysis** | `causal-tracing` `pretraining-data` `predefined-categories` |
 | 3 | [Itzhak et al. (COLM 2025)](https://openreview.net/forum?id=KQhUEoPmJy) Origins of Cognitive Biases | Pretraining vs. finetuning histories | Cross-tuning: swap instruction datasets between models with different pretraining backbones; models cluster by backbone — pretraining is the primary causal source | **Analysis** | `causal-tracing` `pretraining-data` |
 
@@ -138,19 +137,20 @@ Relevant work that informs evaluation, reporting, or corpus selection but does n
 | 1 | [Tian et al. (2023)](https://arxiv.org/abs/2305.14975) "Just Ask for Calibration" | RLHF-tuned LLM outputs | RLHF distorts token-level probability calibration; verbalized confidence is better calibrated; relevant as implementation detail if LLM-as-judge is used for validation | **Analysis** | `calibration` `implementation-detail` |
 | 2 | [Russo & Vidal (JAIR 2025)](https://doi.org/10.1613/jair.1.15195) Doc-BiasO | ML lifecycle documentation | Ontology for bias types and metric definitions; absorbable for F3BF's reporting layer, pipeline-irrelevant | **Documentation** | `ontology` `interoperability` |
 | 3 | [WildChat (Allen AI) + ShareChat (2025)](https://arxiv.org/abs/2512.17843) | Large-scale real user–LLM conversations | Conversational corpora; structural messiness of incomplete conversational data risks breaking extraction heuristics; structured Alpaca significantly more suitable for syntactic tractability | **Corpus** | `corpus-resource` `assessed-rejected` |
+| 4 | ["Don't Erase, Inform!" (2025)](https://arxiv.org/abs/2505.24538) | Cultural heritage metadata | Lexical flagging of offensive terms from a multilingual vocabulary co-created with marginalized communities; cross-referenceable for lexical coverage but orthogonal (cultural heritage context, not contemporary metaphorical framing) | **Detection** | `lexical-detection` `multilingual` |
 
 - Tian (#1) matters only as an auxiliary evaluation note for any future LLM-as-judge validation step.
 - Doc-BiasO (#2) is useful for metric naming and interoperability, not for the bias-detection pipeline itself.
 - WildChat + ShareChat (#3) were assessed and rejected: the "realness" of user input does not outweigh structural messiness for the extraction pipeline.
+- "Don't Erase, Inform!" (#4) is orthogonal in domain and its DE-BIAS vocabulary appears domain-restricted. 
 
 ### 2.3 Relevance gap for F3BF
 
-Across 6 foundational + 3 representation + 6 output + 5 input + 3 all-stage + 3 bonus works, four converging gaps define F3BF's niche:
+Across 5 foundational + 3 model-internal + 6 output + 5 input + 3 all-stage + 4 bonus works, four converging gaps define F3BF's niche:
 
-1. **Predefined categories throughout.** Whether the attribute is polarity, regard, affect, political leaning, or metaphor type, all existing bias measurement assumes the frame shape in advance. No work discovers frame sets bottom-up from corpus collocate statistics (LLR / LogDice).
+1. **Predefined categories throughout.** Whether the attribute is polarity, regard, affect, political leaning, or metaphor type, all existing bias measurement assumes the frame shape in advance. No work discovers frame sets bottom-up from corpus collocate statistics (LLR / LogDice). Association testing disconnected from empirical frame discovery.
 2. **Role extraction isolated from bias measurement.** Rashkin (§2.1 #1), Bamman (§2.1 #2), and Entity Framing (§2.2.3 #2) each extract role-level patterns, but none combines them with semantic association testing or demographic group profiling.
-3. **Association testing disconnected from empirical frame discovery.** `WEAT/SEAT-family` studies (§2.1 #4–5, §2.2.1 #1–3) test associations against predefined attribute sets. No study anchors WEAT/SEAT stimuli to frame sets discovered from the corpus being analyzed.
-4. **No composite group profiling.** No study assembles role indices + association scores + attitudinal dimensions into a per-group framing profile and reduces the structure through data-driven PCA.
+3. **No composite group profiling.** No study assembles role indices + association scores + attitudinal dimensions into a per-group framing profile and reduces the structure through data-driven PCA.
 
 ---
 
@@ -160,75 +160,81 @@ Across 6 foundational + 3 representation + 6 output + 5 input + 3 all-stage + 3 
 
 ### A. Research problem addressed by RepE
 
-RepE asks the following mechanistic question:
+RepE (tested primarily on **Llama-2-13b-chat**) asks the following question:
 
 > **Can high-level concepts such as bias be detected and controlled as directions in model representations?**
 
-If social bias is encoded in roughly linear directions, then the vector-space methods used in F3BF, including **WEAT, SEAT, prototype matching, and PCA-based summary dimensions**, gain a stronger theoretical foundation.
+The paper adopts a **Hopfieldian** view of neural cognition: representations are the fundamental unit of analysis, not individual neurons or circuits (the Sherringtonian view pursued by mechanistic interpretability). This justifies working with **population-level geometric operations** (PCA, cosine similarity) rather than tracing circuits — which is exactly what F3BF does on the corpus side with WEAT, SEAT, prototype matching, and PCA-based EFI.
 
-### B. Clean Hierarchy of RepE
+RepE distinguishes two extraction targets: **concepts** (declarative knowledge, e.g. truthfulness, bias — elicited via "Consider the amount of [concept] in...") and **functions** (procedural knowledge, e.g. honesty, power-seeking — elicited via contrastive experimental/reference prompts). Bias is treated as a concept in §6.3, with the specific template *"Consider the bias in the following scenario..."*
+
+### B. Sequenced Hierarchy of RepE
 
 ```text
-RepE
-├─ Representation Reading
-│  └─ Linear-Artificial-Tomography (LAT)
-│     ├─ design stimuli/task
-│     ├─ collect neural activations
-│     └─ fit linear model
-│        → reading vector (static)
-└─ Representation Control
-   ├─ choose controller
-   │  ├─ reading vector (static)
-   │  ├─ contrast vector (dynamic)
-   │  └─ LoRRA (static)
-   └─ choose operator
-      ├─ linear combination
-      ├─ piece-wise transform
-      └─ projection
+RepE — sequenced flow
+═══════════════════════════════════════════════════════════
+
+1. READING  (offline, before inference)
+   └─ LAT (Linear Artificial Tomography)
+      ├─ design contrastive stimuli (concept-present vs absent)
+      ├─ collect hidden-state activations per stimulus
+      └─ fit linear model (default: PCA on activation
+         differences → 1st principal component)
+         → reading vector  [static, reusable]
+
+2. CONTROL  (at inference — pick ONE controller path)
+   ├─ path A: reading vector  [from step 1, static]
+   │     OR
+   ├─ path B: contrast vector  [computed on-the-fly from
+   │          same input under two contrastive prompts;
+   │          input-adaptive, dynamic]
+   │
+   └─ + choose operator ─┬─ linear combination (h' = h + αv)
+                          ├─ piece-wise transform
+                          └─ projection (erase direction)
+      → explicit intervention on hidden states
+
+3. LoRRA  (optional — training phase, then fixed)
+   └─ train low-rank adapters to APPROXIMATE the explicit
+      intervention from step 2 (either path A or B)
+      → persistent control, no runtime overhead
 ```
+
+Reading vector and contrast vector are **alternative** ways to obtain a direction $v$. Either one, combined with a selected operator, produces the explicit intervention. LoRRA then learns to replicate that intervention as permanent low-rank weight edits.
 
 ### C. Expanded Explanation
 
-RepE assumes that many high-level concepts are encoded as approximately linear directions in hidden-state space. It has two main stages: **reading** vs **control**, with three representative intervention variants, i.e., controller baselines.
+RepE assumes that many high-level concepts are encoded as approximately linear directions in hidden-state space. The underlying idea is not that "bias" is one point in space, but that it is an **axis of variation**.
 
-What each controller is:
+**Step 1 — Reading via LAT.** Design contrastive stimuli that differ on the target concept (e.g., biased vs unbiased scenarios). Collect hidden-state activations for both conditions. Default linear model: **PCA on the difference** between concept-present and concept-absent activations; the **first principal component** is the **reading vector**. Alternatively, a logistic regression probe. The result is a fixed, reusable direction in representation space.
 
-- Reading Vector
-  - fixed controller extracted beforehand via **LAT**
-- Contrast Vector
-  - computed **during inference** from the same input under two contrastive prompts
-- LoRRA (Low-Rank Representation Adaptation, based on **LoRA**)
-  - learned **during training** as low-rank adapters, often using contrast-vector targets
-  - fixed post training, for a chosen intervention objective (e.g., reduce a biased tendency, increase honesty, etc.)
+**Step 2 — Control.** Pick one controller path:
 
-The underlying idea is not that "bias" is one point in space, but that it is an **axis of variation**.
+- **Reading vector** (from step 1): static, concept-general, works across inputs.
+- **Contrast vector**: computed at inference from the same input under two contrastive prompts. Input-adaptive but requires paired prompting at runtime.
 
-In the simplest control setting, RepE uses **linear combination** as operator, i.e., add or subtract the control signal directly. Best when you want simple stimulation/suppression.
+Then apply an **operator** to intervene on hidden states. In the simplest case, **linear combination**:
 
 $$
 h' \leftarrow h + \alpha v
 $$
 
-where $h$ is the current hidden representation, $v$ is the controller direction (either reading or contrast vector), $\alpha$ is a scaling coefficient/tunable control-strength parameter, and $h'$ is the edited hidden representation.
+where $h$ is the current hidden representation, $v$ is the controller direction, $\alpha$ is a tunable control-strength parameter, and $h'$ is the edited representation. If $\alpha > 0$, the model is pushed toward the concept; if $\alpha < 0$, against it. Other operators: **piece-wise transform** (non-linear reshaping) and **projection** (erase the direction entirely).
 
-If $\alpha > 0$, the model is pushed further along that direction; if $\alpha < 0$, the model is pushed against it. The operator is simple addition, but the controller $v$ can come from different sources.
-
-The explicit intervention provides the **prototype / supervision signal** that LoRRA learns to **approximate**. Thus, there's no formulaic repetition during each call.
+**Step 3 — LoRRA** (optional). Train low-rank adapters (based on **LoRA**) to approximate the explicit intervention from step 2 — using either path's output as supervision signal. Once trained, LoRRA is fixed: persistent behavioral adjustment with no runtime overhead.
 
 ### D. Why RepE is convincing
 
 RepE uses a four-step causal hierarchy:
 
-1. **Correlation**: the direction predicts concept presence.
-2. **Manipulation**: adding or subtracting it changes behavior.
-3. **Termination**: removing it disrupts concept-related performance.
-4. **Recovery**: restoring it recovers the behavior.
+1. **reading predicts**: the direction predicts concept presence.
+2. **control changes**: adding or subtracting it changes behavior.
+3. **erasure disrupts**: removing it disrupts concept-related performance.
+4. **restoration recovers**: restoring it recovers the behavior.
 
 This upgrades vector-space analysis from "useful geometry" to **causal representational evidence**.
 
 ### E. Key findings
-
-The RepE results I would emphasize are:
 
 - **Bias is causally active in representation space**. This supports treating bias not as a purely surface-level prompt artifact, but as a property of learned internal structure.
 - **The same representational machinery can be used for reading and control**. So interpretability and intervention are tightly linked.
@@ -256,7 +262,7 @@ RepE is strongest on internal mechanism and causal manipulation, while F3BF is s
 
 #### Main limitations
 
-- **Training-data blindness**: RepE can show where bias lives in the /hyperspace, but not which sources installed it.
+- **Training-data blindness**: RepE can show where bias lives in the model/hyperspace, but not which sources installed it.
 - **Linearity may be too simple**: intersectional or context-sensitive bias may not fit one global direction.
 - **Weak contextual specificity**: the same intervention may fire across contexts where the concept should be treated differently.
   - **Overcorrection**: legitimate demographic-specific information, e.g. Black Females are de facto reported to be most affected by sarcoidosis, becomes neutralized by the intervention.
@@ -295,15 +301,24 @@ In the future, one can:
 
 ### What problem it addresses
 
-If we want to measure bias in contextual embeddings, should we treat bias as one average score, or as a distribution across many natural contexts?
+> If we want to measure bias in contextual embeddings, should we treat bias as one average score, or as a distribution across many natural contexts? 
+
+Tested on **ELMo, BERT, GPT, and GPT-2** using **Reddit Comment Dataset 2014** as the source of natural contexts.
 
 ### Core contribution
 
 CEAT improves on WEAT/SEAT-style testing by:
 
-- using **natural contexts** rather than a few synthetic templates,
+- using **natural contexts** (Reddit sentences) rather than a few synthetic templates,
 - treating contextual bias as a **distribution** rather than a single point estimate,
-- and making **intersectional** and **emergent intersectional** bias visible.
+- and making **intersectional** and **emergent intersectional** bias, i.e., those that appear at an intersection (e.g., African American females; Mexican American females) but don't exist for either constituent category alone, visible.
+
+**Statistical innovation**: CEAT aggregates sampled WEAT effect sizes (N=10,000) using a **random-effects meta-analytic model**, producing a Combined Effect Size (CES) that properly accounts for heterogeneity across contexts. This is what makes "bias as distribution" statistically rigorous rather than merely reporting a histogram.
+
+### Key quantitative findings
+
+- Bias magnitude correlates **negatively** with how contextualized the model is: more contextualized models (BERT, GPT-2) show lower average bias than less contextualized ones (ELMo), but bias is still **present in all models**.
+- Intersectional biases associated with members of **multiple minority groups** (African American females, Mexican American females) have the **highest magnitude** across all models — stronger than single-category biases.
 
 ### Relevance to F3BF
 
@@ -352,13 +367,11 @@ Bamman, D., O'Connor, B., & Smith, N. A. (2013). *Learning Latent Personas of Fi
 
 Caliskan, A., Bryson, J. J., & Narayanan, A. (2017). *Semantics derived automatically from language corpora contain human-like biases*. *Science*, 356(6334), 183–186. https://doi.org/10.1126/science.aal4230
 
-*Don't Erase, Inform!* (2025). arXiv:2505.24538. https://arxiv.org/abs/2505.24538
-
 Mendelsohn, J., Tsvetkov, Y., & Jurafsky, D. (2020). *A Framework for the Computational Linguistic Analysis of Dehumanization*. *Frontiers in Artificial Intelligence*, 3, 55. https://doi.org/10.3389/frai.2020.00055
 
 Rashkin, H., Singh, S., & Choi, Y. (2016). *Connotation Frames: A Data-Driven Investigation*. In *Proceedings of ACL 2016* (pp. 311–321). https://doi.org/10.18653/v1/P16-1030
 
-**§2.2.1 Representation**
+**§2.2.1 Model Internal**
 
 Guo, W., & Caliskan, A. (2021). *Detecting Emergent Intersectional Biases: Contextualized Word Embeddings Contain a Distribution of Human-like Biases*. In *Proceedings of AIES 2021* (pp. 122–133). https://doi.org/10.1145/3461702.3462536
 
@@ -370,13 +383,13 @@ Puttick, S., & Kurpicz-Briki, M. (2025). *Detecting Bias and Intersectional Bias
 
 Ashery, et al. (2025). *Emergent social conventions and collective bias in LLM populations*. arXiv:2410.08948. https://arxiv.org/abs/2410.08948
 
-*Decoding Hate* (2025). arXiv:2410.00775. https://arxiv.org/abs/2410.00775
-
 Dentella, V., et al. (2025). *ChatGPT-generated texts show authorship traits*. arXiv:2508.16385. https://arxiv.org/abs/2508.16385
 
 Germani, F., & Spitale, G. (2025). *Source framing triggers systematic bias in large language models*. *Science Advances*, 11(45), eadz2924. https://doi.org/10.1126/sciadv.adz2924
 
-*IssueBench: Millions of Realistic Prompts for Measuring Issue Bias in LLM Writing Assistance* (2025). arXiv:2502.08395. https://arxiv.org/abs/2502.08395
+Piot, P., & Parapar, J. (2024). *Decoding hate: Exploring language models’ reactions to hate speech*. arXiv:2410.00775. https://doi.org/10.48550/arXiv.2410.00775
+
+Röttger, R., et al. (2025). *IssueBench: Millions of Realistic Prompts for Measuring Issue Bias in LLM Writing Assistance*. arXiv:2502.08395. https://arxiv.org/abs/2502.08395
 
 Wang, B., et al. (2023). *DecodingTrust: A Comprehensive Assessment of Trustworthiness in GPT Models*. In *Proceedings of NeurIPS 2023*. https://decodingtrust.github.io/
 
@@ -402,8 +415,10 @@ Zou, A., et al. (2023). *Representation Engineering: A Top-Down Approach to AI T
 
 **§2.2.5 Bonus**
 
+Mastromichalakis, O., et al. (2025). *Don't Erase, Inform! Detecting and Contextualizing Harmful Language in Cultural Heritage Collections*. arXiv:2505.24538. https://arxiv.org/abs/2505.24538
+
 Russo, A., & Vidal, M.-E. (2025). *Towards an Ontology-Driven Approach to Document Bias*. *Journal of Artificial Intelligence Research*. https://doi.org/10.1613/jair.1.15195
 
 Tian, K., et al. (2023). *Just Ask for Calibration: Strategies for Eliciting Calibrated Confidence Scores from Language Models Fine-Tuned with Human Feedback*. arXiv:2305.14975. https://arxiv.org/abs/2305.14975
 
-*WildChat + ShareChat* (2025). arXiv:2512.17843. https://arxiv.org/abs/2512.17843
+Yan, Y., et al. (2025). *WildChat + ShareChat*. arXiv:2512.17843. https://arxiv.org/abs/2512.17843
