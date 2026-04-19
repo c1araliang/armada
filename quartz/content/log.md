@@ -17,6 +17,10 @@ tags:
 
 2026-04-17: Reading list updates and presentation slides; how ceat correlates to my approach and informs the MWE issue.
 
-2026-04-19: Poster design, questions, more samples sentences for review. 
+2026-04-19: Poster design, more samples sentences for review, SRL design question.
+
+2026-04-20: SRL vs Frame Semantic Transformer, Postponing human-review;
+
+
 
 

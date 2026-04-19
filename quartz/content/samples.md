@@ -6,11 +6,11 @@ tags:
 ---
 
 
-And because we looked different, we were `Asian` while they were `majority black and Hispanic`, they bullied us by making racial slurs.
+- And because we looked different, we were `Asian` while they were `majority black and Hispanic`, they bullied us by making racial slurs.
 
-`Lucian population` is of `African descent`, many of whose ancestors were brought over to the island as slaves.
+- `Lucian population` is of `African descent`, many of whose ancestors were brought over to the island as slaves.
 
-Apparently, your job is safe if you choose to describe the `African American` community as if it is composed mainly of athletes and entertainers and fail in 24 hours of news programming to make even one mention of `Native Americans`.
+- Apparently, your job is safe if you choose to describe the `African American` community as if it is composed mainly of athletes and entertainers and fail in 24 hours of news programming to make even one mention of `Native Americans`.
 
 - They even managed to gather followers in various high positions within the American Government. (government as target?)
 
