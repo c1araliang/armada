@@ -43,47 +43,45 @@ Phase 2 - run_pipeline.py (analysis)
 ---------------------------------------------------------------------------
 semantic_filter_results.tsv
     |
-    +--> LLR / LogDice -> Top collocates -> human classification
-    |        |
+    +--> LLR / LogDice -> candidate collocates
+    |        |                     |
+    |        |                     +-- MiniLM cos-sim gate vs seed F-/F+
+    |        |                             (human review: planned)
     |        v
-    |      F-, F+  (frame attribute sets)
+    |      F-, F+  (seeds ∪ auto-admitted)
     |        |
-    |        +--> WEAT (MiniLM type-level) 
-    |        |               SEAT-filtered (MiniLM token-level)
-    |        |                   |
-    |        |                   +--> per-group SEAT score ----+
-    |        |                                                 |
-    |        +--> per-group WEAT score                         |
-    |                          F-/F+ centroids                 |
-    |                               |                          |
-    |                               +--> lexical_all.txt -> SEAT-full
-    |                                                            |
-    |                                                            |
-    |                                                       Delta-SEAT
-    |                                                            |
-    +--> (spaCy)-SRL -> feature extraction                       |
-             |                                                   |
-             +--> per-group AgI, PI, SI, negAttI, posAttI ------+
-                                                                 |
-                                                                 v
-                                                       +----------------------+
-                                                       | Group x Dimension    |
-                                                       | matrix               |
-                                                       +----------+-----------+
-                                                                 |
-                                                                 v
-                                                       +----------------------+
-                                                       | PCA -> EFI           |
-                                                       | PC1 = axis of max    |
-                                                       | cross-group var.     |
-                                                       +----------+-----------+
-                                                                  |
-                                                                  v
-                                                       +----------------------+
-                                                       | group_stats.tsv      |
-                                                       | (WEAT, SEAT, SEAT-full,
-                                                       |  Delta-SEAT, EFI, AgI/PI/SI...)
-                                                       +----------------------+
+    |        +--> WEAT         (MiniLM, type-level)        --> per-group WEAT
+    |        +--> SEAT-filtered (MiniLM, token-level)      --> per-group SEAT
+    |                               |
+    |                               +--> neg/pos centroids
+    |                                       |
+    |                               lexical_all.txt ------> SEAT-full
+    |                                                         |
+    |                                                    Delta-SEAT = SEAT-full − SEAT-filtered
+    |
+    +--> preprocess (spaCy) -> Transformer SRL     --> per-group AgI, PI, SI
+                            \-> Prototype matcher  --> per-group negAttI, posAttI
+                                                                       |
+                                                                       v
+                                                     +----------------------+
+                                                     | Group × Dimension    |
+                                                     | matrix               |
+                                                     | [AgI PI SI netAttI   |
+                                                     |  WEAT SEAT-filtered] |
+                                                     +----------+-----------+
+                                                                |
+                                                                v
+                                                     +----------------------+
+                                                     | PCA -> EFI (PC1)     |
+                                                     +----------+-----------+
+                                                                |
+                                                                v
+                                                     +----------------------+
+                                                     | group_stats.tsv      |
+                                                     | WEAT, SEAT-filtered, |
+                                                     | SEAT-full, Δ-SEAT,   |
+                                                     | EFI, AgI/PI/SI/AttI  |
+                                                     +----------------------+
 ```
 
 ## What I Built and What It Showed
