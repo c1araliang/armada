@@ -53,7 +53,7 @@ TARGET_TOKENS = {
     "pakistani", "bangladeshi", "nepali", "afghan", "lankan",
 
     # Southeast Asia
-    "thai", "indonesian", "malaysian", "burmese", "cambodian", "laotian",
+    "thai", "indonesian", "malay", "malaysian", "burmese", "cambodian", "laotian",
 
     # East Asia (supplement)
     "taiwanese", "mongolian", "tibetan",

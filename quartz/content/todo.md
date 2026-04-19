@@ -80,6 +80,9 @@ Tentatively solving via:
 
 If `Δ-SEAT` is large for a demographic term, it empirically proves that non-human usages in the broader English language (idioms, objects, abstracts) exert a structural drag that biases the model's representation of those people. First-pass Dolma extractions demonstrate exactly this: `white` and `black` showed extreme `Δ-SEAT` drift (+0.0443 and +0.0252 toward F⁻ respectively) driven by generic semantic contamination, while unambiguous terms like `refugee` showed virtually none (-0.0006).
 
+**7. how well do human attitudinal understanding align with lms**
+Same as how well do our understanding of complex contexts align.
+
 ## Broad Plans
 
 ### Scale through training-data levels

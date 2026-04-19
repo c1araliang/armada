@@ -146,11 +146,11 @@ Relevant work that informs evaluation, reporting, or corpus selection but does n
 
 ### 2.3 Relevance gap for F3BF
 
-Across 5 foundational + 3 model-internal + 6 output + 5 input + 3 all-stage + 4 bonus works, four converging gaps define F3BF's niche:
+Across 5 foundational + 3 model-internal + 6 output + 5 input + 3 all-stage + 4 bonus works, three converging gaps define F3BF's niche:
 
-1. **Predefined categories throughout.** Whether the attribute is polarity, regard, affect, political leaning, or metaphor type, all existing bias measurement assumes the frame shape in advance. No work discovers frame sets bottom-up from corpus collocate statistics (LLR / LogDice). Association testing disconnected from empirical frame discovery.
-2. **Role extraction isolated from bias measurement.** Rashkin (§2.1 #1), Bamman (§2.1 #2), and Entity Framing (§2.2.3 #2) each extract role-level patterns, but none combines them with semantic association testing or demographic group profiling.
-3. **No composite group profiling.** No study assembles role indices + association scores + attitudinal dimensions into a per-group framing profile and reduces the structure through data-driven PCA.
+1. **Predefined frames dominate bias-on-LLM work, but bottom-up discovery is not absent.** 
+Most existing bias measurement assumes the frame shape in advance: fixed target–attribute word lists, polarity/regard/affect schemes, or predefined metaphor and narrative-role typologies. Bottom-up alternatives do exist: Bamman (§2.1 #2) clusters latent personas from dependency-parsed agent/patient verb patterns, and corpus-assisted discourse studies, e.g. Gabrielatos & Baker (2006)) on UK refugee coverage, and the RASIM project, use LLR-based collocate analysis to surface frame structure from a corpus rather than impose it. The actual gap is integration: such bottom-up frame discovery is rarely connected to association testing on demographic groups, and almost never run on pretraining-scale corpora driving contemporary LLMs. We close that link: minimal attitudinal polarity seeds anchor LLR/LogDice surface on target/contrast groups in corpus (Dolma); candidate terms enter F⁻/F⁺ only if both empirically differential (via LLR) and semantically grounded (MiNiLM cosine-sim gate), accompanied by human review to ensure frame type alignment (which does require full end-to-end reruns and risk wasting compute); the frame inventory updates along the pipeline rather than being fixed in advance. 
+2. **No composite group profiling.** No study assembles syntactic-semantic role indices + association scores into a per-group multidimensional framing profile and derives a composite summary of cross-group variation through PCA.
 
 ---
 
