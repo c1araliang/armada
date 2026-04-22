@@ -62,7 +62,8 @@ semantic_filter_results.tsv
     +--> preprocess  -> mention / coref resolution --> target group identification
                                                     -> target-aware stance / sentiment
                                                     -> semantic construal layer
-                                                    (frame semantics / SRL aux / Abstract-  Meaning-Representation fallback)
+                                                    (frame semantics / SRL aux / Abstract-
+                                                    Meaning-Representation fallback)
                                                     -> per-group AgI, PI, SI, negAttI, posAttI
                                                                        |
                                                                        v
