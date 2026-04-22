@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-04-19",
+  "last_updated": "2026-04-22",
   "note": "Current-run candidate frame suggestions derived from sentence-level LLR/LogDice using seed frame prototypes.",
   "seed_negative_terms": [
     "breed",

@@ -59,8 +59,8 @@ semantic_filter_results.tsv
     |                                                         |
     |                                                    Delta-SEAT = SEAT-full − SEAT-filtered
     |
-    +--> preprocess (spaCy) -> Transformer SRL     --> per-group AgI, PI, SI
-                            \-> Prototype matcher  --> per-group negAttI, posAttI
+    +--> preprocess  -> FrameSemanticTransformer --> per-group AgI, PI, SI
+                     \-> Prototype matcher  --> per-group negAttI, posAttI
                                                                        |
                                                                        v
                                                      +----------------------+
@@ -138,7 +138,7 @@ The problematic 1st version measured predefined results, while Sinclair's corpus
 
 1. **Framing** — Develop a composite frame taxonomy (metaphorical: natural disaster, dehumanization, invasion, contribution...; attitudinal: positive-negative, verbal-adjectival...) based on post-hoc classification and loop auto-refresh.
 2. **Preprocessing** — Sentence Preclassification (see also [[todo#Furthering Question 3 (complex contexts)]]) → Strip noise (HTML, encoding artifacts) if there's any → (spaCy still kept as a scaffolding codebase) produce token-level annotations (lemma, POS, dependency relation).
-3. **Feature extraction** — For each target token or small target span in each sentence, determine AgI/PI/SI primarily via Transformer-based **SRL**. Attitudinal indices (`negAttI` / `posAttI`) are now assigned via prototype-based local embedding matching, reusing the shared MiniLM encoder, rather than exact adjective/psych-verb lookups. Then proportionalize per group across the corpus.
+3. **Feature extraction** — For each target token or small target span in each sentence, *AgI/PI/SI assignment currently being revised from SRL-led extraction toward target-level semantic attribution*; Attitudinal indices (`negAttI` / `posAttI`) are now assigned via prototype-based local embedding matching *and still under review*, reusing the shared MiniLM encoder, rather than exact adjective/psych-verb lookups. Then proportionalize per group across the corpus.
 4. **Association testing (WEAT + SEAT)** — Using frame attribute sets (F⁻, F⁺) discovered by **LLR / LogDice** and classified by annotators:
     * **WEAT** (static embeddings): type-level — is *immigrant* closer to F⁻ or F⁺ compared to *citizen*?
     * **SEAT** (contextualized sentence embeddings): token-level — averaging over each *occurrence* of *immigrant* in context, is it closer to F⁻ or F⁺? Now computed with MiniLM sentence embeddings rather than spaCy document vectors.
