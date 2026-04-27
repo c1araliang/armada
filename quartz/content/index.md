@@ -26,11 +26,11 @@ Binary numeric indices per demographic group:
 
 |Index|Measures|Operationalized as|
 |-|-|-|
-|**AgI**|Agency — is the group portrayed as *doing* things?|Proportion of occurrences as grammatical agent|
-|**PI**|Patienthood — is the group *acted upon*?|Proportion as grammatical patient|
+|**AgI**|Agency — is the group portrayed as *doing* things?|Proportion of occurrences as agent|
+|**PI**|Patienthood — is the group *acted upon*?|Proportion as patient|
 |**SI**|Subjectivity — is the group granted *autonomous consciousness*?|Proportion as subject of mental-state verbs|
-|**negAttI**|Negative attitudinal attribution|Proportion scored as negative by prototype embedding matcher|
-|**posAttI**|Positive attitudinal attribution|Proportion scored as positive by prototype embedding matcher|
+|**negAttI**|Negative attitudinal attribution|Proportion scored as negative by ~~prototype embedding matcher~~|
+|**posAttI**|Positive attitudinal attribution|Proportion scored as positive by ~~prototype embedding matcher~~|
 
 These indices, together with WEAT and SEAT association scores, form the complex dimensions of the **Evaluative Framing Index (EFI)** — a per-group framing profile (see [[decisions#EFI Architecture]]).
 
