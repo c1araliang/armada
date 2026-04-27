@@ -6,25 +6,26 @@ tags:
 ---
 
 
-- And because we looked different, we were `Asian` while they were `majority black and Hispanic`, they bullied us by making racial slurs.
+- And because we looked different, we were `Asian` while they were `majority black and Hispanic`, they bullied us by making racial slurs. **mixed racial targets**
 
-- `Lucian population` is of `African descent`, many of whose ancestors were brought over to the island as slaves.
+- `Lucian population` is of `African descent`, `many of whose ancestors` were brought over to the island as slaves. **complex anaphora**
 
-- Apparently, your job is safe if you choose to describe the `African American` community as if it is composed mainly of athletes and entertainers and fail in 24 hours of news programming to make even one mention of `Native Americans`.
+- Apparently, your job is safe if you choose to describe the `African American` community as if it is composed mainly of athletes and entertainers and fail in 24 hours of news programming to make even one mention of `Native Americans`. **missing attitude**
 
-- They even managed to gather followers in various high positions within the American Government. (government as target?)
+- They even managed to gather followers in various high positions within the `American Government`. **non-human target**
 
-- In Malaysia, for instance, there are Chinese and Indians who look down on the Malays around them because they are perceived as dependent on government help. (pos for chinese/indian?)
+- In Malaysia, for instance, there are `Chinese` and `Indians` `who` look down on the `Malays` around them because `they` are perceived as dependent on government help. **wrong index; mixed anaphora, patient of 3rd person narrative; handling atti for multiple groups within one sentence**
 
-- Several black families were uprooted from their homes when the city decided to build T.C. (pos? rare verb handling)
-- As a result, the agency not only perpetuates the refugee problem, but has, in many ways, exacerbated it.	(same)
+- Several `black families` were uprooted from their homes when the city decided to build T.C. **rare verb handling**
 
-- He wrote that Black people had no rights that Whites were bound to respect, and provided justification for enslavement, even as many in the rest of the nation were clamoring against the unjust institution. (no atti or mix atti?)
+- As a result, the agency not only perpetuates `the refugee problem`, but has, in many ways, exacerbated it.	**no target, correct; nonhuman target with missing atti**
 
-- Because of racial political correctness, were protesting looking into black communities. (complex)
+- He wrote that `Black people` had no rights that `Whites` were bound to respect, and provided justification for `enslavement`, even as many in the rest of the nation were clamoring against the unjust institution. **wrong index, involuntary agency and active patienthood; missing atti**
 
-- More Black people have been held back economically and in educational opportunities so it can be said they dont have ability.	 (pos??)
+- Because of racial political correctness, were protesting looking into `black communities`. **recognized target, missing index**
 
-- A sweatshop in China is a direct assault not just on the rights of the Chinese worker but on those of workers in, for example, the UK. (patient of inanimate obj)
+- More `Black people` have been held back economically and in educational opportunities so it can be said `they` dont have ability.	 **recognized target, wrong index; non-active agent marked active**
 
-- If you had seen them you would have thought they were refugees from hell. We cannot be sure whether he was commenting on Black servants or darker skinned Spaniards, but his language shows that negative attitudes to Black skin existed. (missing targets)
+- `A sweatshop in China` is a direct assault not just on the rights of the `Chinese worker` but on those of workers in, for example, the UK. **recognized target, missing index; mixed human and non-human target; missaligned interest?**
+
+- If you had seen them you would have thought they were `refugees` from hell. We cannot be sure whether he was commenting on `Black servants` or `darker skinned Spaniards`, but his language shows that negative attitudes to `Black skin` existed. **missing target, except for 'refugees'**

@@ -16,7 +16,8 @@ Ongoing or partially addressed processing edges from output inspection:
 |**Wronged Rejects?** (Semantic gate)|Some semantic rejects from the classifier boundary check appear legitimate in context. Borderline outputs (score 0.45-0.55) remain the immediate priority for human review to adjust the PCA+LogReg classifier.|
 |**Reduplicated Sentencess**|A sentence matching both `immigrant` and `refugee` gets exported twice to `semantic_filter_results.tsv`. Only 12 instances identified in Dolma sample. It functions essentially like the `Sri Lankan` split constraint. Completely negligible impact at corpus scale.|
 |**Outlier 2nd-screening**|Outputs surfacing with `AgI`/`PI`/`SI` = 0 or > 2 are actively exported to `output_review.tsv` for syntactic sanity checks.|
-|**Passive Mismatch**|**Partially addressed:** SRL assigns `PI` via `ARG1`; spaCy `nsubjpass`/`pcomp+auxpass` retained as fallback guard. Cross-sentence coreference tracking remains unaddressed systemically.|
+|**Passive Mismatch and Missing Roles**|**Partially addressed:** SRL assigns `PI` via `ARG1` yet still into rigid unrealistic classes; spaCy `nsubjpass`/`pcomp+auxpass` retained as last-resort fallback guard. Cross-sentence coreference tracking remains unaddressed systemically. **To be furthered with group-filtering & frame semantic transformers**.|
+|**Prototype Attitudinal Matching**|Large amount of missing attitudinal matches due to failure of recognizing the target/contrast groups and limited context window see [[samples]] **Action needed following SRL edits**.|
 
 ## Important Changes
 
