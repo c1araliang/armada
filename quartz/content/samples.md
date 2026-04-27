@@ -5,6 +5,7 @@ tags:
   - pipeline
 ---
 
+-`colored` + people, present in [[lexicons.py]] and in corpus but **not registered** at all after [[extract.py]].
 
 - And because we looked different, we were `Asian` while they were `majority black and Hispanic`, they bullied us by making racial slurs. **mixed racial targets**
 
