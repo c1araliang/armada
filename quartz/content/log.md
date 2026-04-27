@@ -23,6 +23,6 @@ tags:
 
 2026-04-22: Structure overview updates.
 
-2026-04-27: Minor index edits; sample annotation; problems aligment.
+2026-04-27: Minor index edits; sample annotation; problems aligment; novelty check updates
 
 
