@@ -106,7 +106,7 @@ Latest preprocessing flow:
 | **2. ~~Syntactic filter~~ Semantic Retrieval** | ~~spaCy dep-parse~~ extract.py | teach pretrained sentence-transformers model `miniLM` hardcoded `POS_QUERIES` and `NEG_QUERIES`, i.e., what are we (not) looking for | Embedding-based refined similarity scorings |
 | **3. ~~Semantic screen~~ Classifier training** | filter_training_samples.txt | local, embedding-based supervised learning with ~~TF-IDF~~ `MiniLM + PCA + LogisticRegression` to compute probability of relevance | Final binary classification (RELEVANT vs IRRELEVANT) avoiding high-dimensional overfitting |
 
-Preliminary results (2026-04-02) from `Dolma_v1.6_sample`, i.e., minial Dolma, parquet 1/70:
+Preliminary results (2026-04-02) from `Dolma_v1.6_sample`, i.e., minimal Dolma, parquet 1/70:
 
 |Metric | Value | Meaning|
 |---|---|---|
