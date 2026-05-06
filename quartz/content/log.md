@@ -25,4 +25,9 @@ tags:
 
 2026-04-27: Minor index edits; sample annotation; problems aligment; novelty check updates
 
+2026-05-02: ## human-likeness and reliability being contrastive goals; instead of prob-COT-TOT, [adding another prob layer](https://arxiv.org/abs/2604.20022) as rec by Prof. Arora.
+
+2026-05-05: Refining research milestones
+
+2026-05-06: Drawing annotated code map
 
