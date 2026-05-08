@@ -31,7 +31,7 @@ tags:
 
 2026-05-06: Drawing annotated code map.
 
-2026-05-07: @milestone May 16 AILC; June 4 Venice Conf; June 8 AACL Short Paper. Invite Prof. Arora for term paper collab.
+2026-05-07: @milestone May 16 AILC; June 4 Venice Conf; June 8 AACL Short Paper. Invite Prof. Arora for 1st year term paper collab.
 
 2026-05-08: WP2 report update; Abstract drafts.
 
