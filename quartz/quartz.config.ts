@@ -57,6 +57,7 @@ const config: QuartzConfig = {
       Plugin.CreatedModifiedDate({
         priority: ["frontmatter", "git", "filesystem"],
       }),
+      Plugin.AtMentions(),
       Plugin.SyntaxHighlighting({
         theme: {
           light: "github-light",
@@ -78,6 +79,7 @@ const config: QuartzConfig = {
       Plugin.ContentPage(),
       Plugin.FolderPage(),
       Plugin.TagPage(),
+      Plugin.AtPage(),
       Plugin.ContentIndex({
         enableSiteMap: true,
         enableRSS: true,
