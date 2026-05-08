@@ -1,6 +1,5 @@
 import { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } from "../types"
 import style from "../styles/listPage.scss"
-import { PageList, SortFn } from "../PageList"
 import { FullSlug, getAllSegmentPrefixes, resolveRelative, simplifySlug } from "../../util/path"
 import { QuartzPluginData } from "../../plugins/vfile"
 import { Root } from "hast"
@@ -9,7 +8,6 @@ import { ComponentChildren } from "preact"
 import { concatenateResources } from "../../util/resources"
 
 interface AtContentOptions {
-  sort?: SortFn
   numPages: number
 }
 
@@ -19,6 +17,17 @@ const defaultOptions: AtContentOptions = {
 
 export default ((opts?: Partial<AtContentOptions>) => {
   const options: AtContentOptions = { ...defaultOptions, ...opts }
+
+  const allAtSnippets = (file: QuartzPluginData, token: string) => {
+    const direct = file.atMentionLines?.[token] ?? []
+    // if token is hierarchical, include child tokens as well (same behavior as tags)
+    const prefixes = (file.atMentions ?? []).flatMap(getAllSegmentPrefixes)
+    const children = (file.atMentions ?? [])
+      .filter((t) => t !== token && prefixes.includes(token) && t.startsWith(`${token}/`))
+      .flatMap((t) => file.atMentionLines?.[t] ?? [])
+
+    return [...new Set([...direct, ...children])]
+  }
 
   const AtContent: QuartzComponent = (props: QuartzComponentProps) => {
     const { tree, fileData, allFiles } = props
@@ -48,10 +57,6 @@ export default ((opts?: Partial<AtContentOptions>) => {
           allFiles.flatMap((data) => data.atMentions ?? []).flatMap(getAllSegmentPrefixes),
         ),
       ].sort((a, b) => a.localeCompare(b))
-      const atItemMap: Map<string, QuartzPluginData[]> = new Map()
-      for (const token of ats) {
-        atItemMap.set(token, allPagesWithAt(token))
-      }
 
       return (
         <div class="popover-hint">
@@ -61,21 +66,18 @@ export default ((opts?: Partial<AtContentOptions>) => {
           <p>Total @{ats.length}</p>
           <div>
             {ats.map((token) => {
-              const pages = atItemMap.get(token)!
-              const listProps = {
-                ...props,
-                allFiles: pages,
-              }
-
-              const contentPage = allFiles.filter((file) => file.slug === `ats/${token}`).at(0)
-              const root = contentPage?.htmlAst
-              const desc =
-                !root || root?.children.length === 0
-                  ? contentPage?.description
-                  : htmlToJsx(contentPage.filePath!, root)
-
               const listingPage = `/ats/${token}` as FullSlug
               const href = resolveRelative(fileData.slug!, listingPage)
+
+              const pages = allPagesWithAt(token)
+              const items = pages
+                .flatMap((f) =>
+                  allAtSnippets(f, token).map((text) => ({
+                    text,
+                    slug: f.slug!,
+                  })),
+                )
+                .slice(0, options.numPages)
 
               return (
                 <div>
@@ -84,18 +86,19 @@ export default ((opts?: Partial<AtContentOptions>) => {
                       @{token}
                     </a>
                   </h2>
-                  {desc && <p>{desc}</p>}
                   <div class="page-listing">
                     <p>
-                      Items: {pages.length}
-                      {pages.length > options.numPages && (
-                        <>
-                          {" "}
-                          <span>Showing first {options.numPages}</span>
-                        </>
-                      )}
+                      Items: {pages.reduce((acc, f) => acc + allAtSnippets(f, token).length, 0)}
                     </p>
-                    <PageList limit={options.numPages} {...listProps} sort={options?.sort} />
+                    <ul>
+                      {items.map((it) => (
+                        <li>
+                          <a class="internal" href={resolveRelative(fileData.slug!, it.slug)}>
+                            {it.text}
+                          </a>
+                        </li>
+                      ))}
+                    </ul>
                   </div>
                 </div>
               )
@@ -105,27 +108,37 @@ export default ((opts?: Partial<AtContentOptions>) => {
       )
     } else {
       const pages = allPagesWithAt(at)
-      const listProps = {
-        ...props,
-        allFiles: pages,
-      }
+      const items = pages
+        .flatMap((f) =>
+          allAtSnippets(f, at).map((text) => ({
+            text,
+            slug: f.slug!,
+          })),
+        )
+        .slice(0, options.numPages)
 
       return (
         <div class="popover-hint">
           <article class={classes}>{content}</article>
           <div class="page-listing">
             <p>
-              Items under @{at}: {pages.length}
+              Items under @{at}: {pages.reduce((acc, f) => acc + allAtSnippets(f, at).length, 0)}
             </p>
-            <div>
-              <PageList {...listProps} sort={options?.sort} />
-            </div>
+            <ul>
+              {items.map((it) => (
+                <li>
+                  <a class="internal" href={resolveRelative(fileData.slug!, it.slug)}>
+                    {it.text}
+                  </a>
+                </li>
+              ))}
+            </ul>
           </div>
         </div>
       )
     }
   }
 
-  AtContent.css = concatenateResources(style, PageList.css)
+  AtContent.css = concatenateResources(style)
   return AtContent
 }) satisfies QuartzComponentConstructor
