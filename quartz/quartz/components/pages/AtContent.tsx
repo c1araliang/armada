@@ -82,7 +82,7 @@ export default ((opts?: Partial<AtContentOptions>) => {
               return (
                 <div>
                   <h2>
-                    <a class="internal tag-link" href={href}>
+                    <a class="internal" href={href}>
                       @{token}
                     </a>
                   </h2>

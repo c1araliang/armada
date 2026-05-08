@@ -1,6 +1,37 @@
 import { QuartzTransformerPlugin } from "../types"
 import { slugTag } from "../../util/path"
 
+function splitByFences(src: string) {
+  // Keep the ``` fence blocks intact and only process outside them
+  return src.split(/(```[\s\S]*?```)/g)
+}
+
+function linkifyAtMentions(markdown: string) {
+  const chunks = splitByFences(markdown)
+  return chunks
+    .map((chunk) => {
+      if (chunk.startsWith("```")) return chunk
+
+      // Avoid touching inline code spans
+      const parts = chunk.split(/(`[^`]*`)/g)
+      return parts
+        .map((p) => {
+          if (p.startsWith("`") && p.endsWith("`")) return p
+
+          // Don't double-link if user already wrote a wikilink to ats/
+          // Replace @token with [[ats/token|@token]]
+          return p.replace(/(^|[^\w/])@([A-Za-z][\w/-]*)/g, (_m, pre, raw) => {
+            const token = slugTag(raw)
+            const display = `@${raw}`
+            const link = `[[ats/${token}|${display}]]`
+            return `${pre}${link}`
+          })
+        })
+        .join("")
+    })
+    .join("")
+}
+
 function stripCode(markdown: string) {
   // remove fenced code blocks
   let s = markdown.replace(/```[\s\S]*?```/g, "")
@@ -13,6 +44,8 @@ function normalizeAtLine(rawLine: string, token: string) {
   let line = rawLine
   // drop common daily-log date prefix
   line = line.replace(/^\s*\d{4}-\d{2}-\d{2}:\s*/, "")
+  // if @tokens were already linkified into [[ats/...|@token]], unwrap back to @token
+  line = line.replace(/\[\[ats\/[^\]|]+?\|(@[^\]]+)\]\]/g, "$1")
   // remove the first occurrence of the token
   line = line.replace(new RegExp(String.raw`(^|\\s)@${token}(\\s|$)`), " ")
   // normalize whitespace
@@ -68,6 +101,9 @@ function extractAtLines(markdown: string): Record<string, string[]> {
 export const AtMentions: QuartzTransformerPlugin = () => {
   return {
     name: "AtMentions",
+    textTransform(_ctx, src) {
+      return linkifyAtMentions(src)
+    },
     markdownPlugins() {
       return [
         () => {
