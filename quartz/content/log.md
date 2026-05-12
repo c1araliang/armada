@@ -36,3 +36,5 @@ tags:
 2026-05-08: @group WP2 report update; Abstract draft for AILC. [new anotation rule ATS introduced](https://c1araliang.github.io/armada/ats/)
 
 2026-05-11 Creation of [cache](https://c1araliang.github.io/armada/cache), a temporary storage for drafts under revision; Polishing abstract draft for AILC; Short Paper draft for AACL.
+
+2026-05-12 Code-cleaning, ensuring minimal reference; AILC draft (soften the tones for making claims); 
