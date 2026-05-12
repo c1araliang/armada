@@ -9,7 +9,7 @@ tags:
 
 **Title**
 
-From Corpus Evidence to Bias Evaluation: A Computational Pipeline for Reproducible Analysis of LLM Training Data
+A Computational Pipeline for Reproducible Bias Analysis of LLM Training Data
 
 **Abstract**
 
@@ -17,11 +17,11 @@ This poster presents ongoing work from the EU-funded ARMADA project, on the task
 
 Existing LLM-bias research has produced strong results, but its main approaches often remain separated across different stages of the bias-production causal chain. Corpus-specific discourse studies are difficult to generalize; pretraining-data audits often rely on sentiment-oriented measures or predefined wordlists with strong priors; representation-level methods can identify or steer bias-related directions, but may offer limited interpretability and risk overcorrection; and output benchmarks usually measure bias only after its installation. The resulting gap is one of integration: even bottom-up analyses of biased framing are rarely connected to demographic association testing, and are almost never applied to the pretraining-scale corpora that shape contemporary LLMs.
 
-To address this problem, the current prototype operationalizes the corpus-evidence stage of the framework. It combines large-scale corpus filtering, bottom-up collocate discovery, target/contrast-group comparison, and qualitative validation. Rather than beginning only from extensively predefined stereotype or framing categories, the design first uncovers salient collocational evidence through LLR and LogDice measures. These automatically discovered lexical and constructional patterns are then intended to support small-scale corpus-assisted linguistic analysis. The aim is not one-off moral labelling, but discovery-first, reproducible bias measurement.
+To address this problem, the current prototype combines large-scale corpus filtering, bottom-up collocate discovery, target/contrast-group comparison, and qualitative validation. Rather than beginning from extensively predefined stereotype or framing categories, ****the aim of the design is to rely on minimal referential input and mitigate prior assumption by first uncovering salient collocational evidence through LLR and LogDice measures.** These automatically discovered lexical and constructional patterns are then intended to support small-scale corpus-assisted linguistic analysis. The aim is not one-off moral labelling, but discovery-first, reproducible bias measurement.
 
 Early test runs have exposed several limitations in the current implementation. Dependency parsing via spaCy and predicate-argument semantic role labelling do not reliably capture target-specific semantic profile, especially when evaluation, affectedness, responsibility, or group positioning is distributed across a wider contexts. Similarly, prototype-based attitudinal recognition proved insufficient when evaluative language occurs near a demographic group but is not explicitly directed at that group. 
 
-The next version therefore introduces explicit target binding, targeted stance and attitude attribution, and scope handling for negation, quotation, contrast, and reported speech. By reporting the conceptual architecture, preliminary diagnostic findings and failure cases, and planned validation strategy, this work shows how linguistic analysis can make computational bias detection more sensitive to discourse-level meaning and more interpetable for fairer conversational AI.
+Future revisions therefore will introduce explicit target binding, targeted stance and attitude attribution, and scope handling for negation, quotation, contrast, and reported speech. By reporting the conceptual architecture, preliminary diagnostic findings and failure cases, and planned validation strategy, this work shows how linguistic analysis can make computational bias detection more sensitive to discourse-level meaning and more interpetable for fairer conversational AI.
 
 ## [Jun 4] Venice Draft - 300 words
 
