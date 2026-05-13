@@ -68,14 +68,14 @@ Keep as its own group lexicon entry. Run CEAT-style IBD alongside the component 
 
 ~~`foreign language`, `foreign country`, also present with research value. But our framework is designed for human groups?~~
 When a model is trained on "Chinese products are cheap", the contextualized vector for "Chinese" absorbs negative valence from "cheap" through distributional learning.
-While static embeddings (like Word2Vec/WEAT) irreversibly crush all senses into a single vector (permanently fusing the contexts of "black market" and "black people"), contextual embeddings (like MiniLM/SEAT/LLMs) dynamically construct distinct vectors for different contexts. However, the *underlying parameters* (attention layers, feed-forward weights) generating these distinct vectors are still shared. This causes **valence bleed**: the negative distributional associations of non-human contexts (e.g., "black sheep", "white noise") inevitably drag the token's network parameters toward negative framing, structurally contaminating the model's baseline representation of the demographic group.
+While static embeddings (like Word2Vec/WEAT) irreversibly crush all senses into a single vector (permanently fusing the contexts of "black market" and "black people"), contextual embeddings (like GTE ModernBERT/SEAT/LLMs) dynamically construct distinct vectors for different contexts. However, the *underlying parameters* (attention layers, feed-forward weights) generating these distinct vectors are still shared. This causes **valence bleed**: the negative distributional associations of non-human contexts (e.g., "black sheep", "white noise") inevitably drag the token's network parameters toward negative framing, structurally contaminating the model's baseline representation of the demographic group.
 
 Question is, **by filtering out nonhuman objects as IRRELEVANT, are we missing a real source of bias in the LLM's representations?**
 
 Tentatively solving via:
 
-* **SEAT-filtered**: average MiniLM embeddings of sentences resolving to human entities (post-pipeline).
-* **SEAT-full**: average MiniLM embeddings of *all* sentences matching the token (pre-filtering, raw from the lexical gate).
+* **SEAT-filtered**: average GTE ModernBERT embeddings of sentences resolving to human entities (post-pipeline).
+* **SEAT-full**: average GTE ModernBERT embeddings of *all* sentences matching the token (pre-filtering, raw from the lexical gate).
 * **Δ-SEAT** (`SEAT-full` − `SEAT-filtered`): quantifies exactly the magnitude and direction of **associative contamination**.
 
 If `Δ-SEAT` is large for a demographic term, it empirically proves that non-human usages in the broader English language (idioms, objects, abstracts) exert a structural drag that biases the model's representation of those people. First-pass Dolma extractions demonstrate exactly this: `white` and `black` showed extreme `Δ-SEAT` drift (+0.0443 and +0.0252 toward F⁻ respectively) driven by generic semantic contamination, while unambiguous terms like `refugee` showed virtually none (-0.0006).

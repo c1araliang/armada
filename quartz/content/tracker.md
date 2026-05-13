@@ -33,7 +33,7 @@ Ongoing or partially addressed processing edges from output inspection:
 `TARGET_TOKENS` expanded to >140 groups (Global South / historically marginalized), and `CONTRAST_TOKENS` expanded to >40 groups (European / Anglosphere / dominants). Broad tokens (`citizen`, `minority`, `native`) no longer trigger the gate independently to prevent noise.
 
 4. **SEAT computation standardized and SEAT-full added.**
-SEAT uses MiniLM sentence embeddings. WEAT was switched from spaCy GloVe to the exact same MiniLM encoder to ensure cross-corpus comparability. `SEAT-full` (computed on *all* raw lexical hits bypassing semantic filters) allows computation of `Δ-SEAT` (`SEAT-full` - `SEAT-filtered`), quantifying "associative contamination" from non-human or institutional usages in the raw corpus.
+SEAT uses GTE ModernBERT sentence embeddings. WEAT was switched from spaCy GloVe to the exact same GTE ModernBERT encoder to ensure cross-corpus comparability. `SEAT-full` (computed on *all* raw lexical hits bypassing semantic filters) allows computation of `Δ-SEAT` (`SEAT-full` - `SEAT-filtered`), quantifying "associative contamination" from non-human or institutional usages in the raw corpus.
 
 5. **Reporting tightened.**
 Per-group summary outputs are now filtered to `N ≥ 50` for statistical stability at full scale.

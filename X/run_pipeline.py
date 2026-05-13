@@ -4,7 +4,7 @@ Pipeline Runner — ARMADA bias detection framework.
 Outputs:
   1. Sentence-level discourse collocate discovery (target + contrast groups)
   2. Per-group syntactic indices (AgI, PI, SI, negAttI, posAttI)
-  3. WEAT scores (type-level, spaCy vocab vectors against refreshed F⁻/F⁺ frame sets)
+  3. WEAT scores (type-level, embedding vectors against refreshed F⁻/F⁺ frame sets)
   4. SEAT scores (token-level, from sentence embeddings)
   5. EFI via PCA on the group × dimension matrix
   6. Regression: WEAT/SEAT ~ indices
@@ -42,6 +42,7 @@ from lexicons import (
 from semantic_group_resolver import SemanticGroupResolver
 from step3_attitudinal_prototypes import AttitudinalPrototypeMatcher
 from step3_semantic_roles import SrlRoleLabeler
+from embedding_config import DEFAULT_EMBEDDING_BATCH_SIZE
 
 _ALL_GROUPS = TARGET_TOKENS | CONTRAST_TOKENS
 _NEG_FRAMES = {t for f in CLASSIFIED_FRAMES.values() if f["sign"] < 0 for t in f["terms"]}
@@ -197,9 +198,9 @@ def _refresh_frame_inventory(
 
 
 def _compute_weat(sentence_encoder, neg_frames: set[str], pos_frames: set[str]) -> dict[str, float]:
-    """WEAT: type-level association via MiniLM word embeddings.
+    """WEAT: type-level association via the configured embedding model.
 
-    Encodes group lemmas and frame terms through the same MiniLM encoder
+    Encodes group lemmas and frame terms through the same sentence encoder
     used by SEAT, ensuring methodological consistency. Both metrics now
     use the same frozen encoder — any cross-corpus difference in SEAT
     (but not WEAT) reflects corpus-specific framing.
@@ -227,7 +228,7 @@ def _compute_weat(sentence_encoder, neg_frames: set[str], pos_frames: set[str]) 
 
 
 def _compute_seat(processed: list[dict], sentence_encoder, neg_frames: set[str] | None = None, pos_frames: set[str] | None = None) -> tuple[dict[str, float], np.ndarray | None, np.ndarray | None]:
-    """SEAT-style sentence association via MiniLM sentence embeddings.
+    """SEAT-style sentence association via the configured sentence embeddings.
 
     Returns (scores, neg_centroid, pos_centroid) so SEAT-full can reuse
     the same frame reference points for Δ-SEAT comparability.
@@ -239,6 +240,7 @@ def _compute_seat(processed: list[dict], sentence_encoder, neg_frames: set[str] 
     sentence_texts = [item["cleaned_text"] for item in processed]
     sent_vecs = sentence_encoder.encode(
         sentence_texts,
+        batch_size=DEFAULT_EMBEDDING_BATCH_SIZE,
         normalize_embeddings=True,
         show_progress_bar=False,
     )
@@ -278,7 +280,7 @@ def _compute_seat_full(
     sentence_encoder,
     neg_centroid,
     pos_centroid,
-    batch_size: int = 2048,
+    batch_size: int = DEFAULT_EMBEDDING_BATCH_SIZE,
 ) -> dict[str, float]:
     """SEAT-full: association computed from ALL lexical-hit sentences.
 

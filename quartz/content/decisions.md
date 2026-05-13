@@ -44,7 +44,7 @@ Both produce per-group scores. SEAT captures context (e.g., *"immigrant workers 
 
 Given this is a generalizable pipeline to probe how different datasets exhibit bias through a standard lens, using a standardized pre-trained encoder proves beneficial.
 
-* No matter we run Dolma, Wikipedia, or Reddit text through the exact same MiniLM encoder, the encoder's priors are held constant.
+* No matter we run Dolma, Wikipedia, or Reddit text through the exact same GTE ModernBERT encoder, the encoder's priors are held constant.
 Any difference in the resulting SEAT/WEAT scores can be attributed to the differences in the input sentences.
 * It is much faster and more practical than training a custom word2vec model from scratch every time a user inputs a new dataset.
 

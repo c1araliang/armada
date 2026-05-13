@@ -363,7 +363,7 @@ A term with **high mean Δ and low variance** is systematically contaminated acr
 
 **2. Centroid collapse → full distribution**
 
-F3BF's SEAT already uses real Dolma sentences (not bleached templates like vanilla SEAT's `"This is WORD."`), so the contextualization is meaningful. But the current implementation still **collapses those sentences to a single centroid** — averaging MiniLM embeddings before computing cosine similarity — producing one scalar per group. CEAT's upgrade is to never collapse: keep the full set of per-sentence embeddings and sample from them, so the effect size is a distribution rather than a point. This applies directly to Δ-SEAT: instead of one `SEAT-full − SEAT-filtered` value per term, you get a distribution of Δ values across sampling draws, with variance as a first-class output.
+F3BF's SEAT already uses real Dolma sentences (not bleached templates like vanilla SEAT's `"This is WORD."`), so the contextualization is meaningful. But the current implementation still **collapses those sentences to a single centroid** — averaging GTE ModernBERT embeddings before computing cosine similarity — producing one scalar per group. CEAT's upgrade is to never collapse: keep the full set of per-sentence embeddings and sample from them, so the effect size is a distribution rather than a point. This applies directly to Δ-SEAT: instead of one `SEAT-full − SEAT-filtered` value per term, you get a distribution of Δ values across sampling draws, with variance as a first-class output.
 
 **3. Intersectional testing for compound group terms**
 

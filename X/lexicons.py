@@ -1,12 +1,4 @@
-"""
-Shared lexicons for the ARMADA bias detection pipeline.
-Composed as pseudo-human-annotator output for validation.
-
-In production, target/contrast groups are researcher-defined;
-frame taxonomy is populated from undirected PPMI discovery (Step 0)
-then classified by expert annotators (Step 1).
-
-"""
+"""Shared active lexicons for the ARMADA bias detection pipeline."""
 
 # ── Target demographic tokens (lemmatized) ────────────────────────────────────
 # Covers immigrant/refugee, named ethnic groups, and broader minority framing.
@@ -124,9 +116,10 @@ CONTRAST_TOKENS = {
 
 }
 
-# Context-window disambiguation defaults.
-GROUP_CONTEXT_WINDOW = 3
-SEMANTIC_CONTEXT_WINDOW = 6
+# Context-window disambiguation defaults. The rule-based group window stays
+# local; the semantic resolver window can be wider with GTE ModernBERT.
+GROUP_CONTEXT_WINDOW = 4
+SEMANTIC_CONTEXT_WINDOW = 24
 
 # Minimal modifier maps for ambiguous human nouns like "citizen" or "national".
 # These replace the older phrase inventory and avoid singular/plural duplication.
@@ -270,7 +263,10 @@ def _same_head_group_modifiers(token, doc) -> list:
             siblings.append(sibling)
     return siblings
 
-# ── Mental-state verbs (gates SI) ──
+# ── Mental-state verbs (active: gates SI) ──
+# Used by step3_feature_extraction.py when a resolved group is ARG0/nsubj of
+# a mental-state predicate, including SRL, dependency fallback, relative-clause,
+# and within-sentence anaphora paths.
 
 SUBJECTIVE_VERBS = {
     "think", "believe", "feel", "hope", "fear", "decide", "plan",
@@ -280,54 +276,9 @@ SUBJECTIVE_VERBS = {
     "trust", "distrust", "worry", "wonder", "speculate",
 }
 
-# ── Psych-verb stems (object-experiencer verbs) ──
-# Participle forms (horrified, delighted...) describe an EXPERIENCER state,
-# not a passive patient. Used for (a) AUX chain guard and (b) AttI routing.
-
-NEG_PSYCH_VERB_STEMS = {
-    "horrify", "terrify", "frighten", "alarm", "shock", "appall",
-    "disgust", "disturb", "distress", "upset", "trouble", "worry",
-    "unsettle", "embarrass", "humiliate", "shame", "intimidate",
-    "disappoint", "frustrate", "discourage", "depress",
-    "bore", "tire", "exhaust", "overwhelm",
-    "irritate", "annoy", "offend", "outrage",
-    "confuse", "bewilder", "puzzle", "perplex", "baffle",
-}
-
-POS_PSYCH_VERB_STEMS = {
-    "please", "delight", "excite", "inspire", "impress",
-    "fascinate", "captivate", "enthrall", "intrigue",
-    "satisfy", "comfort", "reassure", "encourage", "flatter",
-    "amaze", "astonish", "astound", "thrill", "charm",
-    "move", "touch", "attract",
-}
-
-PSYCH_VERB_STEMS = NEG_PSYCH_VERB_STEMS | POS_PSYCH_VERB_STEMS
-
-# ── Attitudinal adjectives (primary, non-participial) ──
-# For cop+adj constructions: "immigrants are afraid/proud"
-
-NEG_ATTITUDINAL_ADJ = {
-    "afraid", "fearful", "anxious", "desperate", "hopeless", "helpless",
-    "ashamed", "miserable", "angry", "furious", "resentful",
-    "suspicious", "hostile", "isolated", "vulnerable", "powerless",
-    "insecure", "unsafe", "unwelcome", "unwanted", "misunderstood",
-}
-
-POS_ATTITUDINAL_ADJ = {
-    "proud", "hopeful", "confident", "determined", "grateful",
-    "optimistic", "resilient", "empowered", "secure",
-    "satisfied", "content", "motivated", "enthusiastic",
-    "ambitious", "capable", "respected", "valued", "wonderful", "welcoming",
-}
-
-# Combined sets: adj + psych-verb stems (for extraction matching)
-NEG_ATTITUDINAL = NEG_ATTITUDINAL_ADJ | NEG_PSYCH_VERB_STEMS
-POS_ATTITUDINAL = POS_ATTITUDINAL_ADJ | POS_PSYCH_VERB_STEMS
-
 # ── Classified frame taxonomy ──
-# Pseudo-annotator classification of metaphorical collocates.
-# In production, populated from undirected PPMI discovery + expert annotation.
+# Active seed taxonomy. These terms define the initial F-/F+ frame anchors used
+# by signed association, WEAT/SEAT, and the current-run frame refresh step.
 
 CLASSIFIED_FRAMES = {
     "natural_disaster": {
@@ -391,9 +342,9 @@ for _frame_type, _info in CLASSIFIED_FRAMES.items():
         FRAME_SIGN[_term] = _info["sign"]
 
 
-# ── Inanimate head nouns (shared: Layer 2 sentence filter + Step 3 role guard) ─
-# Expanded from Step 3's original set to cover common false-positive head nouns
-# for polysemous group adjectives (national _park_, black _hole_, etc.).
+# ── Inanimate head nouns (active: mention-resolution and role guards) ────────
+# Covers common false-positive head nouns for polysemous group adjectives
+# (national _park_, black _hole_, etc.).
 
 INANIMATE_NOUNS = {
     # nature / geography / weather
@@ -447,7 +398,7 @@ INANIMATE_ENTITY_TYPES = (
     "ORDINAL", "LAW", "LANGUAGE", "FAC",
 )
 
-# ── Human-referent head nouns (Layer 2 positive signal, future use) ────────────
+# ── Human-referent head nouns (active: modifier/head disambiguation) ──────────
 
 HUMAN_NOUNS = {
     "person", "people", "man", "woman", "men", "women",

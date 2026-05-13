@@ -11,7 +11,7 @@ tags:
 
 **DC:** Wuyue `Clara` Liang
 
-**Latest Update**: 2026-05-12
+**Latest Update**: 2026-05-13
 
 ## Current Situation
 
@@ -45,13 +45,13 @@ semantic_filter_results.tsv
     |
     +--> LLR / LogDice -> candidate collocates
     |        |                     |
-    |        |                     +-- MiniLM cos-sim gate vs seed F-/F+
+    |        |                     +-- GTE ModernBERT cos-sim gate vs seed F-/F+
     |        |                             (human review: planned)
     |        v
     |      F-, F+  (seeds ∪ auto-admitted)
     |        |
-    |        +--> WEAT         (MiniLM, type-level)        --> per-group WEAT
-    |        +--> SEAT-filtered (MiniLM, token-level)      --> per-group SEAT
+    |        +--> WEAT         (GTE ModernBERT, type-level)        --> per-group WEAT
+    |        +--> SEAT-filtered (GTE ModernBERT, token-level)      --> per-group SEAT
     |                               |
     |                               +--> neg/pos centroids
     |                                       |
@@ -103,8 +103,8 @@ Latest preprocessing flow:
 |Layer | Source | Task | Purpose |
 |---|---|---|---|
 | **1. Lexical Gate** | lexicons.py extract.py | import and combine `TARGET_TOKENS` and `CONTRAST_TOKENS` into a regex pattern (GROUP_RE) to filter documents that mention demographic terms | First-stage filter using keyword matching |
-| **2. ~~Syntactic filter~~ Semantic Retrieval** | ~~spaCy dep-parse~~ extract.py | teach pretrained sentence-transformers model `miniLM` hardcoded `POS_QUERIES` and `NEG_QUERIES`, i.e., what are we (not) looking for | Embedding-based refined similarity scorings |
-| **3. ~~Semantic screen~~ Classifier training** | filter_training_samples.txt | local, embedding-based supervised learning with ~~TF-IDF~~ `MiniLM + PCA + LogisticRegression` to compute probability of relevance | Final binary classification (RELEVANT vs IRRELEVANT) avoiding high-dimensional overfitting |
+| **2. ~~Syntactic filter~~ Semantic Retrieval** | ~~spaCy dep-parse~~ extract.py | teach pretrained sentence-transformers model `Alibaba-NLP/gte-modernbert-base` hardcoded `POS_QUERIES` and `NEG_QUERIES`, i.e., what are we (not) looking for | Embedding-based refined similarity scorings |
+| **3. ~~Semantic screen~~ Classifier training** | filter_training_samples.txt | local, embedding-based supervised learning with ~~TF-IDF~~ `GTE ModernBERT + PCA + LogisticRegression` to compute probability of relevance | Final binary classification (RELEVANT vs IRRELEVANT) avoiding high-dimensional overfitting |
 
 Preliminary results (2026-04-02) from `Dolma_v1.6_sample`, i.e., minimal Dolma, parquet 1/70:
 
@@ -145,7 +145,7 @@ The problematic 1st version measured predefined results, while Sinclair's corpus
 3. **Feature extraction** — For each target token or small target span in each sentence, indexical value assignment is currently being revised from ~~SRL-led extraction and prototype-based local embedding matching~~ toward target-level semantic attribution. Then proportionalize per group across the corpus.
 4. **Association testing (WEAT + SEAT)** — Using frame attribute sets (F⁻, F⁺) discovered by **LLR / LogDice** and classified by annotators:
     * **WEAT** (static embeddings): type-level — is *immigrant* closer to F⁻ or F⁺ compared to *citizen*?
-    * **SEAT** (contextualized sentence embeddings): token-level — averaging over each *occurrence* of *immigrant* in context, is it closer to F⁻ or F⁺? Now computed with MiniLM sentence embeddings rather than spaCy document vectors.
+    * **SEAT** (contextualized sentence embeddings): token-level — averaging over each *occurrence* of *immigrant* in context, is it closer to F⁻ or F⁺? Now computed with GTE ModernBERT sentence embeddings rather than spaCy document vectors.
 5. **EFI via PCA** — Assemble group × dimension matrix [AgI, PI, SI, netAttI, WEAT, SEAT]. Run PCA on groups with `N ≥ 10`. At the current stage, PCA should be treated as an exploratory dimensionality-reduction step rather than a finalized definition of "negative framing"; the interpretation of PC1 remains open for later discussion.
 6. **Output** — Per-sentence table (targets, indexical counts) + per-group summary (proportionalized indices, WEAT/SEAT scores, EFI, PCA loadings, regression β), with the reported group table filtered to lemmas with `N ≥ 10`.
 

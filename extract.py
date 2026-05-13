@@ -4,7 +4,7 @@ Streaming semantic relevance filter for ARMADA.
 Current method:
 1. Cheap lexical mention gate using the demographic lexicon.
 2. Semantic retrieval with positive and negative prompt sets.
-3. Binary TF-IDF classifier trained for RELEVANT vs IRRELEVANT.
+3. Binary embedding classifier trained for RELEVANT vs IRRELEVANT.
 
 This script is meant to replace the older regex + spaCy corpus filter for
 high-precision candidate extraction with lower memory pressure.
@@ -29,6 +29,12 @@ X_DIR = PROJECT_ROOT / "X"
 if X_DIR.exists():
     sys.path.insert(0, str(X_DIR))
 
+from embedding_config import (  # type: ignore
+    DEFAULT_EMBEDDING_BATCH_SIZE,
+    DEFAULT_EMBEDDING_MODEL,
+    DEFAULT_EMBEDDING_PRESET,
+    EMBEDDING_MODEL_CATALOG,
+)
 from lexicons import TARGET_TOKENS, CONTRAST_TOKENS, GATE_EXCLUDE_TOKENS  # type: ignore
 
 
@@ -42,24 +48,18 @@ REVIEW_FILE = PROJECT_ROOT / "dolma" / "semantic_filter_review.tsv"
 REPORT_FILE = PROJECT_ROOT / "dolma" / "semantic_filter_report.txt"
 LEXICAL_ALL_FILE = PROJECT_ROOT / "dolma" / "semantic_filter_lexical_all.txt"
 
-# Encoder presets:
-# - minilm: best current CPU speed/quality tradeoff for this pipeline
-# - bge_small: stronger retrieval semantics, somewhat slower
-# - gte_small: reasonable middle-ground alternative
-MODEL_PRESET = "minilm"
-MODEL_CATALOG = {
-    "minilm": "all-MiniLM-L6-v2",
-    "bge_small": "BAAI/bge-small-en-v1.5",
-    "gte_small": "thenlper/gte-small",
-}
-MODEL_NAME = MODEL_CATALOG[MODEL_PRESET]
+# Encoder preset. Default follows the official sentence-transformers usage for
+# Alibaba-NLP/gte-modernbert-base: SentenceTransformer(model_name).
+MODEL_PRESET = DEFAULT_EMBEDDING_PRESET
+MODEL_CATALOG = EMBEDDING_MODEL_CATALOG
+MODEL_NAME = DEFAULT_EMBEDDING_MODEL
 MAX_FILES = 1
 PARQUET_BATCH_SIZE = 5_000
 SENT_BATCH_SIZE = 1_024
-EMB_BATCH_SIZE = 128
+EMB_BATCH_SIZE = DEFAULT_EMBEDDING_BATCH_SIZE
 
 MIN_SENT_LEN = 40
-MAX_SENT_LEN = 300
+MAX_SENT_LEN = 800
 
 # High-precision defaults.
 SEMANTIC_MIN = 0.34

@@ -38,3 +38,5 @@ tags:
 2026-05-11 Creation of [cache](https://c1araliang.github.io/armada/cache), a temporary storage for drafts under revision; Polishing abstract draft for AILC; Short Paper draft for AACL.
 
 2026-05-12 Code-cleaning, ensuring minimal reference; AILC draft (soften the tones for making claims); 
+
+2026-05-13 Replaced MiniLM with GTE ModernBERT as the shared embedding encoder; added embedding configuration; increased sentence/context windows for ModernBERT; removed unused attitudinal adjective and psych-verb lexicons; documented active lexicon call paths and operational log-update rule.

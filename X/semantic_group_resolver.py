@@ -14,6 +14,7 @@ from functools import lru_cache
 import numpy as np
 from sentence_transformers import SentenceTransformer
 
+from embedding_config import DEFAULT_EMBEDDING_MODEL
 from lexicons import SEMANTIC_CONTEXT_WINDOW
 
 
@@ -87,7 +88,7 @@ TOKEN_OVERRIDES = {
 class SemanticGroupResolver:
     def __init__(
         self,
-        model_name: str = "all-MiniLM-L6-v2",
+        model_name: str = DEFAULT_EMBEDDING_MODEL,
         context_window: int = SEMANTIC_CONTEXT_WINDOW,
         positive_margin: float = 0.04,
         positive_floor: float = 0.26,
@@ -158,4 +159,3 @@ class SemanticGroupResolver:
         if pos_score >= self.positive_floor and margin >= self.positive_margin:
             return (bank["group"], bank["canonical"])
         return None
-

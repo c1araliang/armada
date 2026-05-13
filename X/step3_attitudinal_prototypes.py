@@ -31,7 +31,7 @@ class AttitudinalPrototypeMatcher:
     def __init__(
         self,
         sentence_encoder,
-        context_window: int = 8,
+        context_window: int = 24,
         positive_floor: float = 0.24,
         positive_margin: float = 0.02,
     ):
