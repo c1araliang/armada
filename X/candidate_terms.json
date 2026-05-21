@@ -1,1157 +1,1121 @@
 {
-  "last_updated": "2026-04-22",
+  "last_updated": "2026-05-18",
   "note": "Current-run candidate frame suggestions derived from sentence-level LLR/LogDice using seed frame prototypes.",
   "seed_negative_terms": [
-    "breed",
-    "burden",
-    "collapse",
-    "crisis",
-    "deluge",
-    "descend",
-    "drain",
-    "drown",
-    "encroach",
-    "flock",
-    "flood",
-    "flooded",
-    "horde",
-    "hordes",
-    "infest",
-    "infestation",
-    "infiltrate",
-    "influx",
-    "inundate",
-    "invade",
-    "nest",
-    "overflow",
-    "overrun",
-    "overwhelm",
-    "pack",
-    "penetrate",
-    "pour",
-    "strain",
-    "surge",
-    "swarm",
-    "threat",
-    "threaten",
-    "tide",
-    "torrent",
-    "wave"
+    "Economic collapse brings with it the inevitable negative connotations of poverty and desperation",
+    "Mass immigration because of economic collapse brings with it the inevitable negative connotations of poverty and desperation",
+    "Nation was flooded with Refugees",
+    "So they were isolated from the struggles and the bullying that my poorer family had to deal with",
+    "a life of pain and struggle by depressed, selfish, immature",
+    "a sad and depressed one; and, whereas, many of the evils",
+    "a terrible civil war",
+    "anger and frustrations",
+    "associated with all manner of social evils and were assumed to have low moral character",
+    "bad",
+    "concerned that more than 6 million immigrants remain under the threat of deportation",
+    "depressed, frustrated, unpredictable",
+    "have lower levels of household income and net worth and have poor health",
+    "illegal immigrants in fact absorb far more in benefits than they contribute",
+    "negative",
+    "not equally",
+    "poorly",
+    "refugees were forbidden or prohibited",
+    "settler violence continues unabated, including the destruction",
+    "unhappy of or with",
+    "wave of immigrants",
+    "women and the ethnic minorities seem to suffer the most"
   ],
   "seed_positive_terms": [
-    "accept",
-    "benefit",
-    "boost",
-    "build",
-    "contribute",
-    "create",
-    "develop",
-    "embrace",
-    "empower",
-    "enrich",
-    "establish",
-    "found",
-    "include",
-    "innovate",
-    "integrate",
-    "launch",
-    "prosper",
-    "provide",
-    "strengthen",
-    "thrive",
-    "welcome"
+    "As our societies embrace immigrants and minorities",
+    "Efficient, kindly colored women assisted us",
+    "The outreach to refugees in search of acceptance, a new home, renewed life, and good health has blessed our land with an expanded vision that will assist them in learning to farm in the dessert, providing food for their families and potential jobs to sustain their families livelihood",
+    "Their stories of pain and triumph, of strength and struggle, when shared, is motivating",
+    "develop support and protection services",
+    "enjoy a safe, fairly happy",
+    "enjoy guaranteed basic human rights",
+    "good",
+    "have contributed to",
+    "important to acknowledge that labour migration may benefit them through economic and socio-cultural empowerment",
+    "migrants thrive in",
+    "poor people",
+    "positive",
+    "successfully appealed with the help of",
+    "they are wonderful people who are often misunderstood",
+    "welcomes this good news as a step in the right direction in addressing the plight of immigrant families"
   ],
   "auto_negative_terms": [
-    "administration",
-    "anti",
-    "border",
-    "camp",
-    "caravan",
-    "center",
-    "cross",
+    "asylum",
     "deportation",
-    "displace",
+    "economic",
     "flee",
-    "flow",
-    "host",
-    "humanitarian",
-    "illegally",
-    "land",
-    "life",
-    "limit",
-    "neighborhood",
-    "organization",
-    "population",
-    "port",
-    "race",
-    "racial",
-    "seeker",
-    "temporary",
-    "tent",
-    "thousand",
-    "war",
-    "world"
+    "resettle",
+    "visa",
+    "war"
   ],
   "auto_positive_terms": [
-    "%",
-    "apply",
-    "arise",
-    "be",
-    "change",
-    "come",
-    "community",
-    "discover",
-    "entry",
-    "increase",
-    "learn",
-    "many",
-    "new",
-    "percent",
-    "permanent",
-    "recognize",
-    "support",
-    "sustain",
-    "urge",
-    "write"
+    "assistance",
+    "eligible",
+    "high",
+    "journey",
+    "people",
+    "poverty",
+    "religious",
+    "response",
+    "right",
+    "volunteer",
+    "willing"
   ],
   "candidates": [
     {
-      "term": "apply",
-      "minority_llr": 44.026,
-      "minority_logdice": 11.912,
+      "term": "camp",
+      "minority_llr": 45.674,
+      "minority_logdice": 10.57,
       "dominant_llr": 0.0,
       "dominant_logdice": 0.0,
-      "differential": 44.026,
+      "differential": 45.674,
       "found_with": [
-        "asylum",
-        "immigrant"
+        "refugee"
       ],
-      "frame_neg_sim": 0.33,
-      "frame_pos_sim": 0.4076,
-      "suggested_frame_sign": 1,
-      "suggested_frame_bucket": "positive",
-      "used_in_frame_inventory": true
+      "frame_neg_sim": 0.6044,
+      "frame_pos_sim": 0.594,
+      "suggested_frame_sign": 0,
+      "suggested_frame_bucket": "neutral",
+      "used_in_frame_inventory": false
     },
     {
       "term": "war",
-      "minority_llr": 43.195,
-      "minority_logdice": 10.723,
+      "minority_llr": 42.983,
+      "minority_logdice": 10.614,
       "dominant_llr": 0.0,
       "dominant_logdice": 0.0,
-      "differential": 43.195,
+      "differential": 42.983,
       "found_with": [
         "refugee"
       ],
-      "frame_neg_sim": 0.5305,
-      "frame_pos_sim": 0.3894,
-      "suggested_frame_sign": -1,
-      "suggested_frame_bucket": "negative",
-      "used_in_frame_inventory": true
-    },
-    {
-      "term": "border",
-      "minority_llr": 48.742,
-      "minority_logdice": 11.8,
-      "dominant_llr": 6.856,
-      "dominant_logdice": 10.289,
-      "differential": 41.886,
-      "found_with": [
-        "asylum",
-        "immigrant",
-        "immigration",
-        "migrant",
-        "refugee"
-      ],
-      "frame_neg_sim": 0.3834,
-      "frame_pos_sim": 0.282,
-      "suggested_frame_sign": -1,
-      "suggested_frame_bucket": "negative",
-      "used_in_frame_inventory": true
-    },
-    {
-      "term": "deportation",
-      "minority_llr": 35.68,
-      "minority_logdice": 10.22,
-      "dominant_llr": 0.0,
-      "dominant_logdice": 0.0,
-      "differential": 35.68,
-      "found_with": [
-        "immigrant"
-      ],
-      "frame_neg_sim": 0.409,
-      "frame_pos_sim": 0.2505,
-      "suggested_frame_sign": -1,
-      "suggested_frame_bucket": "negative",
-      "used_in_frame_inventory": true
-    },
-    {
-      "term": "issue",
-      "minority_llr": 24.012,
-      "minority_logdice": 11.169,
-      "dominant_llr": 0.0,
-      "dominant_logdice": 0.0,
-      "differential": 24.012,
-      "found_with": [
-        "black",
-        "immigrant",
-        "immigration",
-        "refugee"
-      ],
-      "frame_neg_sim": 0.3886,
-      "frame_pos_sim": 0.3763,
-      "suggested_frame_sign": 0,
-      "suggested_frame_bucket": "neutral",
-      "used_in_frame_inventory": false
-    },
-    {
-      "term": "port",
-      "minority_llr": 22.352,
-      "minority_logdice": 9.741,
-      "dominant_llr": 0.0,
-      "dominant_logdice": 0.0,
-      "differential": 22.352,
-      "found_with": [
-        "migrant"
-      ],
-      "frame_neg_sim": 0.4058,
-      "frame_pos_sim": 0.3665,
-      "suggested_frame_sign": -1,
-      "suggested_frame_bucket": "negative",
-      "used_in_frame_inventory": true
-    },
-    {
-      "term": "camp",
-      "minority_llr": 20.077,
-      "minority_logdice": 10.541,
-      "dominant_llr": 0.0,
-      "dominant_logdice": 0.0,
-      "differential": 20.077,
-      "found_with": [
-        "refugee"
-      ],
-      "frame_neg_sim": 0.4795,
-      "frame_pos_sim": 0.2891,
-      "suggested_frame_sign": -1,
-      "suggested_frame_bucket": "negative",
-      "used_in_frame_inventory": true
-    },
-    {
-      "term": "flee",
-      "minority_llr": 17.961,
-      "minority_logdice": 10.412,
-      "dominant_llr": 0.0,
-      "dominant_logdice": 0.0,
-      "differential": 17.961,
-      "found_with": [
-        "refugee"
-      ],
-      "frame_neg_sim": 0.463,
-      "frame_pos_sim": 0.4047,
-      "suggested_frame_sign": -1,
-      "suggested_frame_bucket": "negative",
-      "used_in_frame_inventory": true
-    },
-    {
-      "term": "illegally",
-      "minority_llr": 17.424,
-      "minority_logdice": 11.055,
-      "dominant_llr": 0.0,
-      "dominant_logdice": 0.0,
-      "differential": 17.424,
-      "found_with": [
-        "asylum",
-        "immigrant"
-      ],
-      "frame_neg_sim": 0.3394,
-      "frame_pos_sim": 0.2214,
-      "suggested_frame_sign": -1,
-      "suggested_frame_bucket": "negative",
-      "used_in_frame_inventory": true
-    },
-    {
-      "term": "percent",
-      "minority_llr": 17.402,
-      "minority_logdice": 11.193,
-      "dominant_llr": 0.0,
-      "dominant_logdice": 0.0,
-      "differential": 17.402,
-      "found_with": [
-        "immigrant",
-        "latino"
-      ],
-      "frame_neg_sim": 0.2479,
-      "frame_pos_sim": 0.3334,
-      "suggested_frame_sign": 1,
-      "suggested_frame_bucket": "positive",
-      "used_in_frame_inventory": true
-    },
-    {
-      "term": "slavery",
-      "minority_llr": 17.216,
-      "minority_logdice": 10.395,
-      "dominant_llr": 0.0,
-      "dominant_logdice": 0.0,
-      "differential": 17.216,
-      "found_with": [
-        "black"
-      ],
-      "frame_neg_sim": 0.3633,
-      "frame_pos_sim": 0.3538,
-      "suggested_frame_sign": 0,
-      "suggested_frame_bucket": "neutral",
-      "used_in_frame_inventory": false
-    },
-    {
-      "term": "administration",
-      "minority_llr": 17.171,
-      "minority_logdice": 9.725,
-      "dominant_llr": 0.0,
-      "dominant_logdice": 0.0,
-      "differential": 17.171,
-      "found_with": [
-        "migrant"
-      ],
-      "frame_neg_sim": 0.3612,
-      "frame_pos_sim": 0.2971,
-      "suggested_frame_sign": -1,
-      "suggested_frame_bucket": "negative",
-      "used_in_frame_inventory": true
-    },
-    {
-      "term": "race",
-      "minority_llr": 17.027,
-      "minority_logdice": 11.172,
-      "dominant_llr": 0.0,
-      "dominant_logdice": 0.0,
-      "differential": 17.027,
-      "found_with": [
-        "latino"
-      ],
-      "frame_neg_sim": 0.5307,
-      "frame_pos_sim": 0.3442,
-      "suggested_frame_sign": -1,
-      "suggested_frame_bucket": "negative",
-      "used_in_frame_inventory": true
-    },
-    {
-      "term": "migration",
-      "minority_llr": 16.51,
-      "minority_logdice": 10.55,
-      "dominant_llr": 0.0,
-      "dominant_logdice": 0.0,
-      "differential": 16.51,
-      "found_with": [
-        "migrant"
-      ],
-      "frame_neg_sim": 0.333,
-      "frame_pos_sim": 0.3246,
-      "suggested_frame_sign": 0,
-      "suggested_frame_bucket": "neutral",
-      "used_in_frame_inventory": false
-    },
-    {
-      "term": "cross",
-      "minority_llr": 16.464,
-      "minority_logdice": 11.018,
-      "dominant_llr": 0.0,
-      "dominant_logdice": 0.0,
-      "differential": 16.464,
-      "found_with": [
-        "asylum",
-        "migrant"
-      ],
-      "frame_neg_sim": 0.3491,
-      "frame_pos_sim": 0.308,
+      "frame_neg_sim": 0.7651,
+      "frame_pos_sim": 0.6317,
       "suggested_frame_sign": -1,
       "suggested_frame_bucket": "negative",
       "used_in_frame_inventory": true
     },
     {
       "term": "return",
-      "minority_llr": 15.817,
-      "minority_logdice": 10.193,
+      "minority_llr": 39.938,
+      "minority_logdice": 10.739,
       "dominant_llr": 0.0,
       "dominant_logdice": 0.0,
-      "differential": 15.817,
+      "differential": 39.938,
       "found_with": [
         "migrant",
         "refugee"
       ],
-      "frame_neg_sim": 0.414,
-      "frame_pos_sim": 0.425,
+      "frame_neg_sim": 0.5837,
+      "frame_pos_sim": 0.6182,
       "suggested_frame_sign": 0,
       "suggested_frame_bucket": "neutral",
       "used_in_frame_inventory": false
     },
     {
-      "term": "tent",
-      "minority_llr": 15.22,
-      "minority_logdice": 8.888,
+      "term": "migration",
+      "minority_llr": 38.928,
+      "minority_logdice": 10.785,
       "dominant_llr": 0.0,
       "dominant_logdice": 0.0,
-      "differential": 15.22,
+      "differential": 38.928,
       "found_with": [
+        "migrant",
         "refugee"
       ],
-      "frame_neg_sim": 0.5123,
-      "frame_pos_sim": 0.3196,
+      "frame_neg_sim": 0.7373,
+      "frame_pos_sim": 0.7056,
+      "suggested_frame_sign": 0,
+      "suggested_frame_bucket": "neutral",
+      "used_in_frame_inventory": false
+    },
+    {
+      "term": "asylum",
+      "minority_llr": 38.755,
+      "minority_logdice": 10.897,
+      "dominant_llr": 0.0,
+      "dominant_logdice": 0.0,
+      "differential": 38.755,
+      "found_with": [
+        "immigration",
+        "migrant",
+        "refugee"
+      ],
+      "frame_neg_sim": 0.6614,
+      "frame_pos_sim": 0.5952,
       "suggested_frame_sign": -1,
       "suggested_frame_bucket": "negative",
       "used_in_frame_inventory": true
     },
     {
-      "term": "population",
-      "minority_llr": 15.193,
-      "minority_logdice": 10.765,
+      "term": "border",
+      "minority_llr": 33.992,
+      "minority_logdice": 10.893,
       "dominant_llr": 0.0,
       "dominant_logdice": 0.0,
-      "differential": 15.193,
+      "differential": 33.992,
       "found_with": [
-        "black",
-        "hispanic",
         "immigrant",
         "immigration",
-        "latino",
+        "migrant",
         "refugee"
       ],
-      "frame_neg_sim": 0.361,
-      "frame_pos_sim": 0.2394,
-      "suggested_frame_sign": -1,
-      "suggested_frame_bucket": "negative",
-      "used_in_frame_inventory": true
+      "frame_neg_sim": 0.6282,
+      "frame_pos_sim": 0.5953,
+      "suggested_frame_sign": 0,
+      "suggested_frame_bucket": "neutral",
+      "used_in_frame_inventory": false
     },
     {
-      "term": "limit",
-      "minority_llr": 14.897,
-      "minority_logdice": 9.514,
+      "term": "deportation",
+      "minority_llr": 29.626,
+      "minority_logdice": 9.781,
       "dominant_llr": 0.0,
       "dominant_logdice": 0.0,
-      "differential": 14.897,
+      "differential": 29.626,
       "found_with": [
-        "migrant"
+        "immigrant"
       ],
-      "frame_neg_sim": 0.4468,
-      "frame_pos_sim": 0.3405,
+      "frame_neg_sim": 0.7346,
+      "frame_pos_sim": 0.6416,
       "suggested_frame_sign": -1,
       "suggested_frame_bucket": "negative",
       "used_in_frame_inventory": true
     },
     {
-      "term": "community",
-      "minority_llr": 14.853,
-      "minority_logdice": 8.476,
-      "dominant_llr": 0.107,
-      "dominant_logdice": 9.623,
-      "differential": 14.745,
+      "term": "racial",
+      "minority_llr": 39.066,
+      "minority_logdice": 11.268,
+      "dominant_llr": 10.215,
+      "dominant_logdice": 10.169,
+      "differential": 28.85,
       "found_with": [
-        "african",
         "black",
         "ethnic",
+        "latino"
+      ],
+      "frame_neg_sim": 0.638,
+      "frame_pos_sim": 0.6253,
+      "suggested_frame_sign": 0,
+      "suggested_frame_bucket": "neutral",
+      "used_in_frame_inventory": false
+    },
+    {
+      "term": "right",
+      "minority_llr": 33.812,
+      "minority_logdice": 10.986,
+      "dominant_llr": 6.663,
+      "dominant_logdice": 10.028,
+      "differential": 27.148,
+      "found_with": [
+        "black",
         "immigrant",
+        "immigration",
         "jew",
-        "jewish",
         "migrant",
-        "minority",
+        "palestinian",
         "refugee"
       ],
-      "frame_neg_sim": 0.4527,
-      "frame_pos_sim": 0.5107,
-      "suggested_frame_sign": 1,
-      "suggested_frame_bucket": "positive",
-      "used_in_frame_inventory": true
-    },
-    {
-      "term": "flow",
-      "minority_llr": 14.692,
-      "minority_logdice": 9.584,
-      "dominant_llr": 0.0,
-      "dominant_logdice": 0.0,
-      "differential": 14.692,
-      "found_with": [
-        "refugee"
-      ],
-      "frame_neg_sim": 0.5305,
-      "frame_pos_sim": 0.3435,
-      "suggested_frame_sign": -1,
-      "suggested_frame_bucket": "negative",
-      "used_in_frame_inventory": true
-    },
-    {
-      "term": "sustain",
-      "minority_llr": 14.232,
-      "minority_logdice": 9.267,
-      "dominant_llr": 0.0,
-      "dominant_logdice": 0.0,
-      "differential": 14.232,
-      "found_with": [
-        "migrant"
-      ],
-      "frame_neg_sim": 0.4021,
-      "frame_pos_sim": 0.5806,
+      "frame_neg_sim": 0.624,
+      "frame_pos_sim": 0.7031,
       "suggested_frame_sign": 1,
       "suggested_frame_bucket": "positive",
       "used_in_frame_inventory": true
     },
     {
       "term": "humanitarian",
-      "minority_llr": 14.192,
-      "minority_logdice": 9.282,
+      "minority_llr": 25.084,
+      "minority_logdice": 9.523,
       "dominant_llr": 0.0,
       "dominant_logdice": 0.0,
-      "differential": 14.192,
+      "differential": 25.084,
       "found_with": [
         "refugee"
       ],
-      "frame_neg_sim": 0.4232,
-      "frame_pos_sim": 0.3269,
-      "suggested_frame_sign": -1,
-      "suggested_frame_bucket": "negative",
-      "used_in_frame_inventory": true
-    },
-    {
-      "term": "entry",
-      "minority_llr": 14.035,
-      "minority_logdice": 10.025,
-      "dominant_llr": 0.0,
-      "dominant_logdice": 0.0,
-      "differential": 14.035,
-      "found_with": [
-        "migrant"
-      ],
-      "frame_neg_sim": 0.4435,
-      "frame_pos_sim": 0.4794,
-      "suggested_frame_sign": 1,
-      "suggested_frame_bucket": "positive",
-      "used_in_frame_inventory": true
-    },
-    {
-      "term": "%",
-      "minority_llr": 24.987,
-      "minority_logdice": 11.485,
-      "dominant_llr": 11.322,
-      "dominant_logdice": 10.619,
-      "differential": 13.664,
-      "found_with": [
-        "latino",
-        "migrant"
-      ],
-      "frame_neg_sim": 0.3057,
-      "frame_pos_sim": 0.3587,
-      "suggested_frame_sign": 1,
-      "suggested_frame_bucket": "positive",
-      "used_in_frame_inventory": true
-    },
-    {
-      "term": "permanent",
-      "minority_llr": 13.293,
-      "minority_logdice": 8.984,
-      "dominant_llr": 0.0,
-      "dominant_logdice": 0.0,
-      "differential": 13.293,
-      "found_with": [
-        "immigrant"
-      ],
-      "frame_neg_sim": 0.3003,
-      "frame_pos_sim": 0.3257,
-      "suggested_frame_sign": 1,
-      "suggested_frame_bucket": "positive",
-      "used_in_frame_inventory": true
-    },
-    {
-      "term": "recognize",
-      "minority_llr": 13.209,
-      "minority_logdice": 9.439,
-      "dominant_llr": 0.0,
-      "dominant_logdice": 0.0,
-      "differential": 13.209,
-      "found_with": [
-        "refugee"
-      ],
-      "frame_neg_sim": 0.3254,
-      "frame_pos_sim": 0.4356,
-      "suggested_frame_sign": 1,
-      "suggested_frame_bucket": "positive",
-      "used_in_frame_inventory": true
-    },
-    {
-      "term": "argue",
-      "minority_llr": 13.098,
-      "minority_logdice": 10.077,
-      "dominant_llr": 0.0,
-      "dominant_logdice": 0.0,
-      "differential": 13.098,
-      "found_with": [
-        "immigration"
-      ],
-      "frame_neg_sim": 0.413,
-      "frame_pos_sim": 0.4196,
+      "frame_neg_sim": 0.693,
+      "frame_pos_sim": 0.6654,
       "suggested_frame_sign": 0,
       "suggested_frame_bucket": "neutral",
       "used_in_frame_inventory": false
     },
     {
-      "term": "temporary",
-      "minority_llr": 13.083,
-      "minority_logdice": 9.328,
+      "term": "cultural",
+      "minority_llr": 24.389,
+      "minority_logdice": 10.89,
       "dominant_llr": 0.0,
       "dominant_logdice": 0.0,
-      "differential": 13.083,
+      "differential": 24.389,
       "found_with": [
-        "immigrant"
+        "ethnic",
+        "immigrant",
+        "migrant",
+        "minority"
       ],
-      "frame_neg_sim": 0.3864,
-      "frame_pos_sim": 0.3605,
-      "suggested_frame_sign": -1,
-      "suggested_frame_bucket": "negative",
-      "used_in_frame_inventory": true
+      "frame_neg_sim": 0.6079,
+      "frame_pos_sim": 0.6469,
+      "suggested_frame_sign": 0,
+      "suggested_frame_bucket": "neutral",
+      "used_in_frame_inventory": false
     },
     {
       "term": "host",
-      "minority_llr": 12.884,
-      "minority_logdice": 9.279,
+      "minority_llr": 22.15,
+      "minority_logdice": 9.769,
       "dominant_llr": 0.0,
       "dominant_logdice": 0.0,
-      "differential": 12.884,
+      "differential": 22.15,
       "found_with": [
         "refugee"
       ],
-      "frame_neg_sim": 0.4001,
-      "frame_pos_sim": 0.3598,
-      "suggested_frame_sign": -1,
-      "suggested_frame_bucket": "negative",
-      "used_in_frame_inventory": true
-    },
-    {
-      "term": "official",
-      "minority_llr": 12.836,
-      "minority_logdice": 10.846,
-      "dominant_llr": 0.0,
-      "dominant_logdice": 0.0,
-      "differential": 12.836,
-      "found_with": [
-        "asylum",
-        "migrant"
-      ],
-      "frame_neg_sim": 0.3329,
-      "frame_pos_sim": 0.351,
+      "frame_neg_sim": 0.5777,
+      "frame_pos_sim": 0.5947,
       "suggested_frame_sign": 0,
       "suggested_frame_bucket": "neutral",
       "used_in_frame_inventory": false
+    },
+    {
+      "term": "journey",
+      "minority_llr": 21.708,
+      "minority_logdice": 9.925,
+      "dominant_llr": 0.0,
+      "dominant_logdice": 0.0,
+      "differential": 21.708,
+      "found_with": [
+        "migrant"
+      ],
+      "frame_neg_sim": 0.616,
+      "frame_pos_sim": 0.6581,
+      "suggested_frame_sign": 1,
+      "suggested_frame_bucket": "positive",
+      "used_in_frame_inventory": true
     },
     {
       "term": "manage",
-      "minority_llr": 12.763,
-      "minority_logdice": 9.097,
+      "minority_llr": 21.283,
+      "minority_logdice": 9.178,
       "dominant_llr": 0.0,
       "dominant_logdice": 0.0,
-      "differential": 12.763,
+      "differential": 21.283,
       "found_with": [
         "refugee"
       ],
-      "frame_neg_sim": 0.3644,
-      "frame_pos_sim": 0.3651,
+      "frame_neg_sim": 0.5676,
+      "frame_pos_sim": 0.5548,
       "suggested_frame_sign": 0,
       "suggested_frame_bucket": "neutral",
       "used_in_frame_inventory": false
     },
     {
-      "term": "new",
-      "minority_llr": 12.628,
-      "minority_logdice": 10.776,
+      "term": "flee",
+      "minority_llr": 20.901,
+      "minority_logdice": 10.202,
       "dominant_llr": 0.0,
       "dominant_logdice": 0.0,
-      "differential": 12.628,
+      "differential": 20.901,
       "found_with": [
-        "immigrant",
-        "immigration",
-        "migrant",
         "refugee"
       ],
-      "frame_neg_sim": 0.3286,
-      "frame_pos_sim": 0.4456,
-      "suggested_frame_sign": 1,
-      "suggested_frame_bucket": "positive",
+      "frame_neg_sim": 0.6531,
+      "frame_pos_sim": 0.5703,
+      "suggested_frame_sign": -1,
+      "suggested_frame_bucket": "negative",
       "used_in_frame_inventory": true
     },
     {
-      "term": "racial",
-      "minority_llr": 20.75,
-      "minority_logdice": 11.219,
-      "dominant_llr": 8.279,
-      "dominant_logdice": 10.476,
-      "differential": 12.471,
+      "term": "temporary",
+      "minority_llr": 19.692,
+      "minority_logdice": 9.222,
+      "dominant_llr": 0.0,
+      "dominant_logdice": 0.0,
+      "differential": 19.692,
+      "found_with": [
+        "immigrant"
+      ],
+      "frame_neg_sim": 0.6017,
+      "frame_pos_sim": 0.5803,
+      "suggested_frame_sign": 0,
+      "suggested_frame_bucket": "neutral",
+      "used_in_frame_inventory": false
+    },
+    {
+      "term": "school",
+      "minority_llr": 20.356,
+      "minority_logdice": 10.698,
+      "dominant_llr": 0.834,
+      "dominant_logdice": 9.504,
+      "differential": 19.522,
       "found_with": [
         "black",
+        "immigrant",
+        "latino",
+        "migrant",
+        "refugee"
+      ],
+      "frame_neg_sim": 0.6407,
+      "frame_pos_sim": 0.6468,
+      "suggested_frame_sign": 0,
+      "suggested_frame_bucket": "neutral",
+      "used_in_frame_inventory": false
+    },
+    {
+      "term": "state",
+      "minority_llr": 26.171,
+      "minority_logdice": 10.839,
+      "dominant_llr": 7.001,
+      "dominant_logdice": 10.046,
+      "differential": 19.17,
+      "found_with": [
+        "arab",
+        "immigrant",
+        "jew",
+        "jewish",
+        "migrant",
+        "palestinian",
+        "refugee"
+      ],
+      "frame_neg_sim": 0.6371,
+      "frame_pos_sim": 0.6529,
+      "suggested_frame_sign": 0,
+      "suggested_frame_bucket": "neutral",
+      "used_in_frame_inventory": false
+    },
+    {
+      "term": "marry",
+      "minority_llr": 18.875,
+      "minority_logdice": 10.846,
+      "dominant_llr": 0.0,
+      "dominant_logdice": 0.0,
+      "differential": 18.875,
+      "found_with": [
+        "black",
+        "korean"
+      ],
+      "frame_neg_sim": 0.5877,
+      "frame_pos_sim": 0.6021,
+      "suggested_frame_sign": 0,
+      "suggested_frame_bucket": "neutral",
+      "used_in_frame_inventory": false
+    },
+    {
+      "term": "religious",
+      "minority_llr": 18.34,
+      "minority_logdice": 10.627,
+      "dominant_llr": 0.0,
+      "dominant_logdice": 0.0,
+      "differential": 18.34,
+      "found_with": [
         "ethnic"
       ],
-      "frame_neg_sim": 0.4501,
-      "frame_pos_sim": 0.2853,
-      "suggested_frame_sign": -1,
-      "suggested_frame_bucket": "negative",
-      "used_in_frame_inventory": true
-    },
-    {
-      "term": "poor",
-      "minority_llr": 12.377,
-      "minority_logdice": 10.467,
-      "dominant_llr": 0.0,
-      "dominant_logdice": 0.0,
-      "differential": 12.377,
-      "found_with": [
-        "black"
-      ],
-      "frame_neg_sim": 0.3625,
-      "frame_pos_sim": 0.3686,
-      "suggested_frame_sign": 0,
-      "suggested_frame_bucket": "neutral",
-      "used_in_frame_inventory": false
-    },
-    {
-      "term": "day",
-      "minority_llr": 11.792,
-      "minority_logdice": 10.24,
-      "dominant_llr": 0.0,
-      "dominant_logdice": 0.0,
-      "differential": 11.792,
-      "found_with": [
-        "immigrant",
-        "migrant",
-        "refugee"
-      ],
-      "frame_neg_sim": 0.3196,
-      "frame_pos_sim": 0.3354,
-      "suggested_frame_sign": 0,
-      "suggested_frame_bucket": "neutral",
-      "used_in_frame_inventory": false
-    },
-    {
-      "term": "anti",
-      "minority_llr": 11.755,
-      "minority_logdice": 10.778,
-      "dominant_llr": 0.0,
-      "dominant_logdice": 0.0,
-      "differential": 11.755,
-      "found_with": [
-        "immigrant",
-        "jew"
-      ],
-      "frame_neg_sim": 0.4884,
-      "frame_pos_sim": 0.3724,
-      "suggested_frame_sign": -1,
-      "suggested_frame_bucket": "negative",
-      "used_in_frame_inventory": true
-    },
-    {
-      "term": "-",
-      "minority_llr": 13.708,
-      "minority_logdice": 8.863,
-      "dominant_llr": 2.056,
-      "dominant_logdice": 10.069,
-      "differential": 11.652,
-      "found_with": [
-        "black",
-        "immigrant",
-        "immigration",
-        "jew",
-        "jewish",
-        "migrant",
-        "refugee"
-      ],
-      "frame_neg_sim": 0.3181,
-      "frame_pos_sim": 0.2985,
-      "suggested_frame_sign": 0,
-      "suggested_frame_bucket": "neutral",
-      "used_in_frame_inventory": false
-    },
-    {
-      "term": "learn",
-      "minority_llr": 11.367,
-      "minority_logdice": 9.464,
-      "dominant_llr": 0.0,
-      "dominant_logdice": 0.0,
-      "differential": 11.367,
-      "found_with": [
-        "immigrant"
-      ],
-      "frame_neg_sim": 0.3509,
-      "frame_pos_sim": 0.5023,
-      "suggested_frame_sign": 1,
-      "suggested_frame_bucket": "positive",
-      "used_in_frame_inventory": true
-    },
-    {
-      "term": "urge",
-      "minority_llr": 11.123,
-      "minority_logdice": 8.511,
-      "dominant_llr": 0.0,
-      "dominant_logdice": 0.0,
-      "differential": 11.123,
-      "found_with": [
-        "immigrant"
-      ],
-      "frame_neg_sim": 0.3733,
-      "frame_pos_sim": 0.4229,
-      "suggested_frame_sign": 1,
-      "suggested_frame_bucket": "positive",
-      "used_in_frame_inventory": true
-    },
-    {
-      "term": "life",
-      "minority_llr": 11.105,
-      "minority_logdice": 10.216,
-      "dominant_llr": 0.0,
-      "dominant_logdice": 0.0,
-      "differential": 11.105,
-      "found_with": [
-        "immigrant",
-        "refugee"
-      ],
-      "frame_neg_sim": 0.447,
-      "frame_pos_sim": 0.3613,
-      "suggested_frame_sign": -1,
-      "suggested_frame_bucket": "negative",
-      "used_in_frame_inventory": true
-    },
-    {
-      "term": "land",
-      "minority_llr": 10.818,
-      "minority_logdice": 10.693,
-      "dominant_llr": 0.0,
-      "dominant_logdice": 0.0,
-      "differential": 10.818,
-      "found_with": [
-        "immigrant",
-        "jew",
-        "refugee"
-      ],
-      "frame_neg_sim": 0.4842,
-      "frame_pos_sim": 0.4018,
-      "suggested_frame_sign": -1,
-      "suggested_frame_bucket": "negative",
-      "used_in_frame_inventory": true
-    },
-    {
-      "term": "displace",
-      "minority_llr": 10.701,
-      "minority_logdice": 9.272,
-      "dominant_llr": 0.0,
-      "dominant_logdice": 0.0,
-      "differential": 10.701,
-      "found_with": [
-        "refugee"
-      ],
-      "frame_neg_sim": 0.3694,
-      "frame_pos_sim": 0.3281,
-      "suggested_frame_sign": -1,
-      "suggested_frame_bucket": "negative",
-      "used_in_frame_inventory": true
-    },
-    {
-      "term": "neighborhood",
-      "minority_llr": 10.559,
-      "minority_logdice": 10.103,
-      "dominant_llr": 0.0,
-      "dominant_logdice": 0.0,
-      "differential": 10.559,
-      "found_with": [
-        "black"
-      ],
-      "frame_neg_sim": 0.3839,
-      "frame_pos_sim": 0.2958,
-      "suggested_frame_sign": -1,
-      "suggested_frame_bucket": "negative",
-      "used_in_frame_inventory": true
-    },
-    {
-      "term": "write",
-      "minority_llr": 10.559,
-      "minority_logdice": 10.103,
-      "dominant_llr": 0.0,
-      "dominant_logdice": 0.0,
-      "differential": 10.559,
-      "found_with": [
-        "black"
-      ],
-      "frame_neg_sim": 0.3496,
-      "frame_pos_sim": 0.4596,
-      "suggested_frame_sign": 1,
-      "suggested_frame_bucket": "positive",
-      "used_in_frame_inventory": true
-    },
-    {
-      "term": "change",
-      "minority_llr": 10.546,
-      "minority_logdice": 10.342,
-      "dominant_llr": 0.0,
-      "dominant_logdice": 0.0,
-      "differential": 10.546,
-      "found_with": [
-        "immigrant",
-        "immigration"
-      ],
-      "frame_neg_sim": 0.362,
-      "frame_pos_sim": 0.4436,
-      "suggested_frame_sign": 1,
-      "suggested_frame_bucket": "positive",
-      "used_in_frame_inventory": true
-    },
-    {
-      "term": "support",
-      "minority_llr": 10.511,
-      "minority_logdice": 10.621,
-      "dominant_llr": 0.0,
-      "dominant_logdice": 0.0,
-      "differential": 10.511,
-      "found_with": [
-        "african",
-        "immigrant",
-        "migrant",
-        "refugee"
-      ],
-      "frame_neg_sim": 0.422,
-      "frame_pos_sim": 0.5314,
-      "suggested_frame_sign": 1,
-      "suggested_frame_bucket": "positive",
-      "used_in_frame_inventory": true
-    },
-    {
-      "term": "organization",
-      "minority_llr": 10.345,
-      "minority_logdice": 9.804,
-      "dominant_llr": 0.0,
-      "dominant_logdice": 0.0,
-      "differential": 10.345,
-      "found_with": [
-        "immigrant",
-        "immigration",
-        "refugee"
-      ],
-      "frame_neg_sim": 0.4645,
-      "frame_pos_sim": 0.376,
-      "suggested_frame_sign": -1,
-      "suggested_frame_bucket": "negative",
-      "used_in_frame_inventory": true
-    },
-    {
-      "term": "be",
-      "minority_llr": 12.968,
-      "minority_logdice": 10.3,
-      "dominant_llr": 3.023,
-      "dominant_logdice": 10.149,
-      "differential": 9.945,
-      "found_with": [
-        "black",
-        "ethnic",
-        "foreigner",
-        "immigrant",
-        "immigration",
-        "indian",
-        "migrant",
-        "refugee"
-      ],
-      "frame_neg_sim": 0.3323,
-      "frame_pos_sim": 0.3998,
-      "suggested_frame_sign": 1,
-      "suggested_frame_bucket": "positive",
-      "used_in_frame_inventory": true
-    },
-    {
-      "term": "come",
-      "minority_llr": 9.919,
-      "minority_logdice": 10.825,
-      "dominant_llr": 0.0,
-      "dominant_logdice": 0.0,
-      "differential": 9.919,
-      "found_with": [
-        "black",
-        "chinese",
-        "immigrant",
-        "immigration",
-        "migrant",
-        "refugee"
-      ],
-      "frame_neg_sim": 0.3552,
-      "frame_pos_sim": 0.4494,
-      "suggested_frame_sign": 1,
-      "suggested_frame_bucket": "positive",
-      "used_in_frame_inventory": true
-    },
-    {
-      "term": "case",
-      "minority_llr": 9.748,
-      "minority_logdice": 10.649,
-      "dominant_llr": 0.0,
-      "dominant_logdice": 0.0,
-      "differential": 9.748,
-      "found_with": [
-        "asylum",
-        "immigrant",
-        "immigration",
-        "refugee"
-      ],
-      "frame_neg_sim": 0.3788,
-      "frame_pos_sim": 0.3661,
-      "suggested_frame_sign": 0,
-      "suggested_frame_bucket": "neutral",
-      "used_in_frame_inventory": false
-    },
-    {
-      "term": "many",
-      "minority_llr": 9.72,
-      "minority_logdice": 8.8,
-      "dominant_llr": 0.079,
-      "dominant_logdice": 9.235,
-      "differential": 9.64,
-      "found_with": [
-        "asylum",
-        "black",
-        "foreigner",
-        "immigrant",
-        "immigration",
-        "jew",
-        "jewish",
-        "migrant",
-        "refugee"
-      ],
-      "frame_neg_sim": 0.3396,
-      "frame_pos_sim": 0.3841,
-      "suggested_frame_sign": 1,
-      "suggested_frame_bucket": "positive",
-      "used_in_frame_inventory": true
-    },
-    {
-      "term": "thousand",
-      "minority_llr": 9.405,
-      "minority_logdice": 9.899,
-      "dominant_llr": 0.0,
-      "dominant_logdice": 0.0,
-      "differential": 9.405,
-      "found_with": [
-        "immigrant",
-        "migrant",
-        "refugee"
-      ],
-      "frame_neg_sim": 0.3228,
-      "frame_pos_sim": 0.2904,
-      "suggested_frame_sign": -1,
-      "suggested_frame_bucket": "negative",
-      "used_in_frame_inventory": true
-    },
-    {
-      "term": "increase",
-      "minority_llr": 9.326,
-      "minority_logdice": 10.211,
-      "dominant_llr": 0.0,
-      "dominant_logdice": 0.0,
-      "differential": 9.326,
-      "found_with": [
-        "immigrant",
-        "migrant"
-      ],
-      "frame_neg_sim": 0.4544,
-      "frame_pos_sim": 0.4973,
+      "frame_neg_sim": 0.6448,
+      "frame_pos_sim": 0.6878,
       "suggested_frame_sign": 1,
       "suggested_frame_bucket": "positive",
       "used_in_frame_inventory": true
     },
     {
       "term": "caravan",
-      "minority_llr": 9.25,
-      "minority_logdice": 9.245,
+      "minority_llr": 17.339,
+      "minority_logdice": 9.483,
       "dominant_llr": 0.0,
       "dominant_logdice": 0.0,
-      "differential": 9.25,
+      "differential": 17.339,
       "found_with": [
         "migrant"
       ],
-      "frame_neg_sim": 0.4623,
-      "frame_pos_sim": 0.2296,
-      "suggested_frame_sign": -1,
-      "suggested_frame_bucket": "negative",
-      "used_in_frame_inventory": true
+      "frame_neg_sim": 0.5942,
+      "frame_pos_sim": 0.6004,
+      "suggested_frame_sign": 0,
+      "suggested_frame_bucket": "neutral",
+      "used_in_frame_inventory": false
     },
     {
-      "term": "arise",
-      "minority_llr": 9.242,
-      "minority_logdice": 8.508,
+      "term": "permanent",
+      "minority_llr": 17.217,
+      "minority_logdice": 9.036,
       "dominant_llr": 0.0,
       "dominant_logdice": 0.0,
-      "differential": 9.242,
+      "differential": 17.217,
       "found_with": [
         "immigrant"
       ],
-      "frame_neg_sim": 0.4786,
-      "frame_pos_sim": 0.5016,
+      "frame_neg_sim": 0.5706,
+      "frame_pos_sim": 0.5828,
+      "suggested_frame_sign": 0,
+      "suggested_frame_bucket": "neutral",
+      "used_in_frame_inventory": false
+    },
+    {
+      "term": "enforcement",
+      "minority_llr": 17.106,
+      "minority_logdice": 9.257,
+      "dominant_llr": 0.0,
+      "dominant_logdice": 0.0,
+      "differential": 17.106,
+      "found_with": [
+        "black"
+      ],
+      "frame_neg_sim": 0.5732,
+      "frame_pos_sim": 0.5898,
+      "suggested_frame_sign": 0,
+      "suggested_frame_bucket": "neutral",
+      "used_in_frame_inventory": false
+    },
+    {
+      "term": "look",
+      "minority_llr": 18.91,
+      "minority_logdice": 10.664,
+      "dominant_llr": 2.072,
+      "dominant_logdice": 9.374,
+      "differential": 16.838,
+      "found_with": [
+        "black",
+        "immigrant",
+        "japanese"
+      ],
+      "frame_neg_sim": 0.633,
+      "frame_pos_sim": 0.6675,
+      "suggested_frame_sign": 0,
+      "suggested_frame_bucket": "neutral",
+      "used_in_frame_inventory": false
+    },
+    {
+      "term": "willing",
+      "minority_llr": 16.282,
+      "minority_logdice": 9.912,
+      "dominant_llr": 0.0,
+      "dominant_logdice": 0.0,
+      "differential": 16.282,
+      "found_with": [
+        "jewish"
+      ],
+      "frame_neg_sim": 0.6076,
+      "frame_pos_sim": 0.657,
       "suggested_frame_sign": 1,
       "suggested_frame_bucket": "positive",
       "used_in_frame_inventory": true
     },
     {
-      "term": "center",
-      "minority_llr": 9.214,
-      "minority_logdice": 9.315,
+      "term": "resettle",
+      "minority_llr": 16.153,
+      "minority_logdice": 8.707,
       "dominant_llr": 0.0,
       "dominant_logdice": 0.0,
-      "differential": 9.214,
+      "differential": 16.153,
       "found_with": [
-        "immigrant"
+        "refugee"
       ],
-      "frame_neg_sim": 0.37,
-      "frame_pos_sim": 0.3333,
+      "frame_neg_sim": 0.5947,
+      "frame_pos_sim": 0.5445,
       "suggested_frame_sign": -1,
       "suggested_frame_bucket": "negative",
       "used_in_frame_inventory": true
     },
     {
-      "term": "world",
-      "minority_llr": 9.19,
-      "minority_logdice": 10.226,
+      "term": "tent",
+      "minority_llr": 16.153,
+      "minority_logdice": 8.707,
       "dominant_llr": 0.0,
       "dominant_logdice": 0.0,
-      "differential": 9.19,
+      "differential": 16.153,
+      "found_with": [
+        "refugee"
+      ],
+      "frame_neg_sim": 0.5641,
+      "frame_pos_sim": 0.575,
+      "suggested_frame_sign": 0,
+      "suggested_frame_bucket": "neutral",
+      "used_in_frame_inventory": false
+    },
+    {
+      "term": "enter",
+      "minority_llr": 15.452,
+      "minority_logdice": 10.011,
+      "dominant_llr": 0.0,
+      "dominant_logdice": 0.0,
+      "differential": 15.452,
       "found_with": [
         "immigrant",
-        "migrant",
+        "migrant"
+      ],
+      "frame_neg_sim": 0.5974,
+      "frame_pos_sim": 0.6015,
+      "suggested_frame_sign": 0,
+      "suggested_frame_bucket": "neutral",
+      "used_in_frame_inventory": false
+    },
+    {
+      "term": "slavery",
+      "minority_llr": 15.256,
+      "minority_logdice": 9.249,
+      "dominant_llr": 0.0,
+      "dominant_logdice": 0.0,
+      "differential": 15.256,
+      "found_with": [
+        "black"
+      ],
+      "frame_neg_sim": 0.6875,
+      "frame_pos_sim": 0.6932,
+      "suggested_frame_sign": 0,
+      "suggested_frame_bucket": "neutral",
+      "used_in_frame_inventory": false
+    },
+    {
+      "term": "leader",
+      "minority_llr": 15.207,
+      "minority_logdice": 10.458,
+      "dominant_llr": 0.0,
+      "dominant_logdice": 0.0,
+      "differential": 15.207,
+      "found_with": [
+        "jew",
+        "jewish",
         "refugee"
       ],
-      "frame_neg_sim": 0.4257,
-      "frame_pos_sim": 0.3239,
+      "frame_neg_sim": 0.5718,
+      "frame_pos_sim": 0.5956,
+      "suggested_frame_sign": 0,
+      "suggested_frame_bucket": "neutral",
+      "used_in_frame_inventory": false
+    },
+    {
+      "term": "specifically",
+      "minority_llr": 15.159,
+      "minority_logdice": 8.798,
+      "dominant_llr": 0.0,
+      "dominant_logdice": 0.0,
+      "differential": 15.159,
+      "found_with": [
+        "black"
+      ],
+      "frame_neg_sim": 0.6047,
+      "frame_pos_sim": 0.5933,
+      "suggested_frame_sign": 0,
+      "suggested_frame_bucket": "neutral",
+      "used_in_frame_inventory": false
+    },
+    {
+      "term": "agency",
+      "minority_llr": 15.052,
+      "minority_logdice": 9.483,
+      "dominant_llr": 0.0,
+      "dominant_logdice": 0.0,
+      "differential": 15.052,
+      "found_with": [
+        "refugee"
+      ],
+      "frame_neg_sim": 0.5567,
+      "frame_pos_sim": 0.5889,
+      "suggested_frame_sign": 0,
+      "suggested_frame_bucket": "neutral",
+      "used_in_frame_inventory": false
+    },
+    {
+      "term": "wall",
+      "minority_llr": 14.747,
+      "minority_logdice": 8.82,
+      "dominant_llr": 0.0,
+      "dominant_logdice": 0.0,
+      "differential": 14.747,
+      "found_with": [
+        "immigrant"
+      ],
+      "frame_neg_sim": 0.6366,
+      "frame_pos_sim": 0.632,
+      "suggested_frame_sign": 0,
+      "suggested_frame_bucket": "neutral",
+      "used_in_frame_inventory": false
+    },
+    {
+      "term": "visa",
+      "minority_llr": 14.723,
+      "minority_logdice": 10.371,
+      "dominant_llr": 0.0,
+      "dominant_logdice": 0.0,
+      "differential": 14.723,
+      "found_with": [
+        "foreigner",
+        "immigration"
+      ],
+      "frame_neg_sim": 0.6407,
+      "frame_pos_sim": 0.5979,
       "suggested_frame_sign": -1,
       "suggested_frame_bucket": "negative",
       "used_in_frame_inventory": true
     },
     {
-      "term": "discover",
-      "minority_llr": 9.102,
-      "minority_logdice": 8.762,
-      "dominant_llr": 0.0,
-      "dominant_logdice": 0.0,
-      "differential": 9.102,
+      "term": "people",
+      "minority_llr": 20.96,
+      "minority_logdice": 9.755,
+      "dominant_llr": 6.569,
+      "dominant_logdice": 10.588,
+      "differential": 14.391,
       "found_with": [
-        "immigrant"
+        "african",
+        "arab",
+        "asian",
+        "black",
+        "brown",
+        "chinese",
+        "diaspora",
+        "ethnic",
+        "foreigner",
+        "immigrant",
+        "immigration",
+        "indian",
+        "indigenous",
+        "japanese",
+        "jew",
+        "jewish",
+        "korean",
+        "migrant",
+        "minority",
+        "muslim",
+        "overseas",
+        "palestinian",
+        "refugee"
       ],
-      "frame_neg_sim": 0.3039,
-      "frame_pos_sim": 0.3897,
+      "frame_neg_sim": 0.6569,
+      "frame_pos_sim": 0.7774,
       "suggested_frame_sign": 1,
       "suggested_frame_bucket": "positive",
       "used_in_frame_inventory": true
     },
     {
-      "term": "seeker",
-      "minority_llr": 8.758,
-      "minority_logdice": 10.29,
+      "term": "write",
+      "minority_llr": 17.096,
+      "minority_logdice": 10.172,
+      "dominant_llr": 2.81,
+      "dominant_logdice": 9.39,
+      "differential": 14.287,
+      "found_with": [
+        "black",
+        "refugee"
+      ],
+      "frame_neg_sim": 0.6259,
+      "frame_pos_sim": 0.6079,
+      "suggested_frame_sign": 0,
+      "suggested_frame_bucket": "neutral",
+      "used_in_frame_inventory": false
+    },
+    {
+      "term": "assistance",
+      "minority_llr": 13.939,
+      "minority_logdice": 9.328,
       "dominant_llr": 0.0,
       "dominant_logdice": 0.0,
-      "differential": 8.758,
+      "differential": 13.939,
+      "found_with": [
+        "refugee"
+      ],
+      "frame_neg_sim": 0.612,
+      "frame_pos_sim": 0.6965,
+      "suggested_frame_sign": 1,
+      "suggested_frame_bucket": "positive",
+      "used_in_frame_inventory": true
+    },
+    {
+      "term": "volunteer",
+      "minority_llr": 13.939,
+      "minority_logdice": 9.328,
+      "dominant_llr": 0.0,
+      "dominant_logdice": 0.0,
+      "differential": 13.939,
+      "found_with": [
+        "refugee"
+      ],
+      "frame_neg_sim": 0.5975,
+      "frame_pos_sim": 0.6426,
+      "suggested_frame_sign": 1,
+      "suggested_frame_bucket": "positive",
+      "used_in_frame_inventory": true
+    },
+    {
+      "term": "protest",
+      "minority_llr": 13.777,
+      "minority_logdice": 9.559,
+      "dominant_llr": 0.0,
+      "dominant_logdice": 0.0,
+      "differential": 13.777,
+      "found_with": [
+        "black"
+      ],
+      "frame_neg_sim": 0.6449,
+      "frame_pos_sim": 0.6406,
+      "suggested_frame_sign": 0,
+      "suggested_frame_bucket": "neutral",
+      "used_in_frame_inventory": false
+    },
+    {
+      "term": "flow",
+      "minority_llr": 13.632,
+      "minority_logdice": 8.948,
+      "dominant_llr": 0.0,
+      "dominant_logdice": 0.0,
+      "differential": 13.632,
+      "found_with": [
+        "refugee"
+      ],
+      "frame_neg_sim": 0.599,
+      "frame_pos_sim": 0.6297,
+      "suggested_frame_sign": 0,
+      "suggested_frame_bucket": "neutral",
+      "used_in_frame_inventory": false
+    },
+    {
+      "term": "poverty",
+      "minority_llr": 13.613,
+      "minority_logdice": 10.427,
+      "dominant_llr": 0.0,
+      "dominant_logdice": 0.0,
+      "differential": 13.613,
+      "found_with": [
+        "latino"
+      ],
+      "frame_neg_sim": 0.741,
+      "frame_pos_sim": 0.8325,
+      "suggested_frame_sign": 1,
+      "suggested_frame_bucket": "positive",
+      "used_in_frame_inventory": true
+    },
+    {
+      "term": "want",
+      "minority_llr": 13.937,
+      "minority_logdice": 10.15,
+      "dominant_llr": 0.666,
+      "dominant_logdice": 9.484,
+      "differential": 13.27,
+      "found_with": [
+        "black",
+        "immigrant",
+        "immigration",
+        "thai"
+      ],
+      "frame_neg_sim": 0.6164,
+      "frame_pos_sim": 0.6548,
+      "suggested_frame_sign": 0,
+      "suggested_frame_bucket": "neutral",
+      "used_in_frame_inventory": false
+    },
+    {
+      "term": "member",
+      "minority_llr": 31.331,
+      "minority_logdice": 10.541,
+      "dominant_llr": 18.084,
+      "dominant_logdice": 10.519,
+      "differential": 13.247,
+      "found_with": [
+        "black",
+        "chinese",
+        "immigrant",
+        "minority",
+        "salvadoran"
+      ],
+      "frame_neg_sim": 0.5763,
+      "frame_pos_sim": 0.6012,
+      "suggested_frame_sign": 0,
+      "suggested_frame_bucket": "neutral",
+      "used_in_frame_inventory": false
+    },
+    {
+      "term": "high",
+      "minority_llr": 12.974,
+      "minority_logdice": 10.432,
+      "dominant_llr": 0.0,
+      "dominant_logdice": 0.0,
+      "differential": 12.974,
+      "found_with": [
+        "black",
+        "immigrant",
+        "latino"
+      ],
+      "frame_neg_sim": 0.6524,
+      "frame_pos_sim": 0.7059,
+      "suggested_frame_sign": 1,
+      "suggested_frame_bucket": "positive",
+      "used_in_frame_inventory": true
+    },
+    {
+      "term": "economic",
+      "minority_llr": 12.935,
+      "minority_logdice": 10.464,
+      "dominant_llr": 0.0,
+      "dominant_logdice": 0.0,
+      "differential": 12.935,
+      "found_with": [
+        "diaspora",
+        "ethnic",
+        "immigrant",
+        "migrant",
+        "minority"
+      ],
+      "frame_neg_sim": 0.6759,
+      "frame_pos_sim": 0.6181,
+      "suggested_frame_sign": -1,
+      "suggested_frame_bucket": "negative",
+      "used_in_frame_inventory": true
+    },
+    {
+      "term": "story",
+      "minority_llr": 12.808,
+      "minority_logdice": 10.415,
+      "dominant_llr": 0.0,
+      "dominant_logdice": 0.0,
+      "differential": 12.808,
+      "found_with": [
+        "black",
+        "immigrant",
+        "korean",
+        "migrant",
+        "refugee"
+      ],
+      "frame_neg_sim": 0.636,
+      "frame_pos_sim": 0.6446,
+      "suggested_frame_sign": 0,
+      "suggested_frame_bucket": "neutral",
+      "used_in_frame_inventory": false
+    },
+    {
+      "term": "definition",
+      "minority_llr": 12.711,
+      "minority_logdice": 8.945,
+      "dominant_llr": 0.0,
+      "dominant_logdice": 0.0,
+      "differential": 12.711,
+      "found_with": [
+        "refugee"
+      ],
+      "frame_neg_sim": 0.6276,
+      "frame_pos_sim": 0.614,
+      "suggested_frame_sign": 0,
+      "suggested_frame_bucket": "neutral",
+      "used_in_frame_inventory": false
+    },
+    {
+      "term": "religion",
+      "minority_llr": 12.687,
+      "minority_logdice": 10.267,
+      "dominant_llr": 0.0,
+      "dominant_logdice": 0.0,
+      "differential": 12.687,
+      "found_with": [
+        "ethnic"
+      ],
+      "frame_neg_sim": 0.6379,
+      "frame_pos_sim": 0.6521,
+      "suggested_frame_sign": 0,
+      "suggested_frame_bucket": "neutral",
+      "used_in_frame_inventory": false
+    },
+    {
+      "term": "likely",
+      "minority_llr": 19.181,
+      "minority_logdice": 10.66,
+      "dominant_llr": 6.509,
+      "dominant_logdice": 9.673,
+      "differential": 12.672,
+      "found_with": [
+        "african",
+        "latino"
+      ],
+      "frame_neg_sim": 0.6779,
+      "frame_pos_sim": 0.6606,
+      "suggested_frame_sign": 0,
+      "suggested_frame_bucket": "neutral",
+      "used_in_frame_inventory": false
+    },
+    {
+      "term": "drug",
+      "minority_llr": 12.644,
+      "minority_logdice": 8.79,
+      "dominant_llr": 0.0,
+      "dominant_logdice": 0.0,
+      "differential": 12.644,
+      "found_with": [
+        "black"
+      ],
+      "frame_neg_sim": 0.62,
+      "frame_pos_sim": 0.6059,
+      "suggested_frame_sign": 0,
+      "suggested_frame_bucket": "neutral",
+      "used_in_frame_inventory": false
+    },
+    {
+      "term": "new",
+      "minority_llr": 12.563,
+      "minority_logdice": 10.492,
+      "dominant_llr": 0.0,
+      "dominant_logdice": 0.0,
+      "differential": 12.563,
+      "found_with": [
+        "immigrant",
+        "immigration",
+        "migrant",
+        "refugee"
+      ],
+      "frame_neg_sim": 0.6929,
+      "frame_pos_sim": 0.6822,
+      "suggested_frame_sign": 0,
+      "suggested_frame_bucket": "neutral",
+      "used_in_frame_inventory": false
+    },
+    {
+      "term": "response",
+      "minority_llr": 12.449,
+      "minority_logdice": 9.947,
+      "dominant_llr": 0.0,
+      "dominant_logdice": 0.0,
+      "differential": 12.449,
+      "found_with": [
+        "immigration"
+      ],
+      "frame_neg_sim": 0.5923,
+      "frame_pos_sim": 0.6375,
+      "suggested_frame_sign": 1,
+      "suggested_frame_bucket": "positive",
+      "used_in_frame_inventory": true
+    },
+    {
+      "term": "only",
+      "minority_llr": 17.946,
+      "minority_logdice": 10.678,
+      "dominant_llr": 5.498,
+      "dominant_logdice": 9.608,
+      "differential": 12.448,
+      "found_with": [
+        "african",
+        "arab",
+        "black",
+        "foreigner",
+        "immigrant",
+        "immigration",
+        "jew",
+        "migrant",
+        "minority",
+        "refugee"
+      ],
+      "frame_neg_sim": 0.6215,
+      "frame_pos_sim": 0.6403,
+      "suggested_frame_sign": 0,
+      "suggested_frame_bucket": "neutral",
+      "used_in_frame_inventory": false
+    },
+    {
+      "term": "eligible",
+      "minority_llr": 12.28,
+      "minority_logdice": 8.564,
+      "dominant_llr": 0.0,
+      "dominant_logdice": 0.0,
+      "differential": 12.28,
+      "found_with": [
+        "immigrant"
+      ],
+      "frame_neg_sim": 0.57,
+      "frame_pos_sim": 0.6548,
+      "suggested_frame_sign": 1,
+      "suggested_frame_bucket": "positive",
+      "used_in_frame_inventory": true
+    },
+    {
+      "term": "todays",
+      "minority_llr": 12.28,
+      "minority_logdice": 8.564,
+      "dominant_llr": 0.0,
+      "dominant_logdice": 0.0,
+      "differential": 12.28,
+      "found_with": [
+        "immigrant"
+      ],
+      "frame_neg_sim": 0.579,
+      "frame_pos_sim": 0.6123,
+      "suggested_frame_sign": 0,
+      "suggested_frame_bucket": "neutral",
+      "used_in_frame_inventory": false
+    },
+    {
+      "term": "organization",
+      "minority_llr": 12.151,
+      "minority_logdice": 9.708,
+      "dominant_llr": 0.0,
+      "dominant_logdice": 0.0,
+      "differential": 12.151,
+      "found_with": [
+        "immigrant",
+        "refugee"
+      ],
+      "frame_neg_sim": 0.5795,
+      "frame_pos_sim": 0.6047,
+      "suggested_frame_sign": 0,
+      "suggested_frame_bucket": "neutral",
+      "used_in_frame_inventory": false
+    },
+    {
+      "term": "water",
+      "minority_llr": 12.027,
+      "minority_logdice": 8.696,
+      "dominant_llr": 0.0,
+      "dominant_logdice": 0.0,
+      "differential": 12.027,
+      "found_with": [
+        "refugee"
+      ],
+      "frame_neg_sim": 0.6375,
+      "frame_pos_sim": 0.63,
+      "suggested_frame_sign": 0,
+      "suggested_frame_bucket": "neutral",
+      "used_in_frame_inventory": false
+    },
+    {
+      "term": "legal",
+      "minority_llr": 11.978,
+      "minority_logdice": 10.093,
+      "dominant_llr": 0.0,
+      "dominant_logdice": 0.0,
+      "differential": 11.978,
+      "found_with": [
+        "immigration",
+        "refugee"
+      ],
+      "frame_neg_sim": 0.6286,
+      "frame_pos_sim": 0.647,
+      "suggested_frame_sign": 0,
+      "suggested_frame_bucket": "neutral",
+      "used_in_frame_inventory": false
+    },
+    {
+      "term": "human",
+      "minority_llr": 11.94,
+      "minority_logdice": 10.067,
+      "dominant_llr": 0.0,
+      "dominant_logdice": 0.0,
+      "differential": 11.94,
       "found_with": [
         "migrant",
         "refugee"
       ],
-      "frame_neg_sim": 0.4349,
-      "frame_pos_sim": 0.393,
-      "suggested_frame_sign": -1,
-      "suggested_frame_bucket": "negative",
-      "used_in_frame_inventory": true
+      "frame_neg_sim": 0.6682,
+      "frame_pos_sim": 0.6884,
+      "suggested_frame_sign": 0,
+      "suggested_frame_bucket": "neutral",
+      "used_in_frame_inventory": false
+    },
+    {
+      "term": "food",
+      "minority_llr": 11.806,
+      "minority_logdice": 9.463,
+      "dominant_llr": 0.0,
+      "dominant_logdice": 0.0,
+      "differential": 11.806,
+      "found_with": [
+        "refugee"
+      ],
+      "frame_neg_sim": 0.6263,
+      "frame_pos_sim": 0.6455,
+      "suggested_frame_sign": 0,
+      "suggested_frame_bucket": "neutral",
+      "used_in_frame_inventory": false
     }
   ]
 }

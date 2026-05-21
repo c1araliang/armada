@@ -6,82 +6,63 @@ tags:
   - pipeline
 ---
 
-## Questions
+## Action Queue
 
-~~**1. Does dependency parsing suffice for role extraction, or should I explore dedicated deep-learning SRL models?**~~
-~~While spaCy currently suffices for role detection, specialized Transformer-based SRL models (e.g. via Huggingface) can be integrated later if the project requires higher semantic granularity.~~
+**0. Incomplete filtering**
 
-**2. Can "embodied and enactive cognition" help refine the nuances and categorization AgI/PI/SI indices?**
-For example: *"immigrants build"* vs *"immigrants arrive"* — differ clearly on the perpection end despite both being agentive descriptions. Action parsing and verb-type weighting could deeply enrich the analysis.
+Accept incomplete filtering, but quantify and report it.
 
-**3. How can we handle complex contexts and textual reversals?**
+Reason:
 
-* **Contextual Reversals:** *"Communities that had once welcomed migrants began to restrict access..."* (PPMI captures *welcome+migrant* but ignores the pivot to *restrict*).
-* **Defended Attacks:** *"People believe immigrants create problems, but the truth is..."* (High negative PPMI from *immigrants+problems*, clear PI and no SI for *immigrants*—yet the sentence defends them).
+- Changing the model doesn't solve the fundamental problem. 
 
-**Potential solutions:** ~~Instead of sentiment analysis, use spaCy to look for negation modifiers (`neg`) or adversarial conjunctions like *but*, *however*~~; or, employ frozen LLMs like `GPT-4` or `Llama-3` as annotators to see how often our metrics get it "wrong" compared to a context-aware LLM.  ([Furthering Question 3](#furthering-question-3-complex-contexts))
+   A larger model (e.g., replacing MiniLM with GTE ModernBERT for Phase 1) might improve some boundary cases, but it won't eliminate borderline regions—it simply moves the boundaries elsewhere. Furthermore, changing the model means recalibrating all thresholds, retraining the classifier, and rerunning the entire Phase 1, which is costly and the benefits are uncertain.
 
-**4. MWEs**
+- For a 1.47M entries, 14k borderline sentences represent ~0.95%, somewhat negligible? it doesn't mean the filter has failed—it indicates that the corpus does indeed contain a fair number of candidates in a "potentially relevant but semantically weak" gray area.
 
-Three distinct MWE cases, each with a different resolution:
+- Methodologically, incomplete filtering can be justifiable:
 
-**Case 1 — Modifier-head MWEs with overlapping group membership**
+  The  pipeline is precision-oriented (better to miss something than introduce noise).
 
-`Korean immigrant`, `undocumented foreign nationals`: both tokens are group-relevant but at different specificity levels.
+  The review file itself is a transparency artifact—you didn't discard these sentences; you retained them and flagged the uncertainties.
 
-Resolution: **assign to the most specific / most informative token; log the full MWE as a compound unit.**
-- `Korean immigrant` → primary profile: `Korean` (nationality is more specific than migration status)
-- `undocumented foreign nationals` → primary profile: `undocumented` (legal-status framing is the politically loaded dimension)
+  Report in the paper: N kept borderlines, N borderlines (not included in the analysis), rejection rate X%, and explain the borderline composition (which flag types account for what percentage).
 
-Keep the full MWE as a distinct lexicon entry to compare collocate patterns on the compound vs. its head. No double-counting; one primary profile per MWE.
+**1. Calibrate encoder-specific thresholds before reporting new results**
 
-**Case 2 — Same-sentence co-occurrence of opposed group terms**
+Phase 1 extraction uses MiniLM for speed; Phase 2 analysis uses GTE ModernBERT for reported semantic association. Before treating new outputs as reported results, calibrate:
 
-`white Europeans` / `non-white immigrants` in the same sentence: the opposition structure is itself the bias signal — do not penalise with an arbitrary coefficient, which would obscure what is happening.
-
-Resolution: **both standalone instances + tag sentence as a contrastive framing instance.**
-- Each term receives its normal WEAT/SEAT score
-- The sentence is tagged in corpus metadata as a polarisation frame
-- At EFI stage: check whether the two terms systematically co-occur — the co-occurrence pattern is an association score in its own right (the contrast pair is the frame, not noise)
-
-This connects to Q3 (contextual reversals): this is not a reversal — both targets are framed as intended — it is a **polarisation frame** and should be analysed as such.
-
-**Case 3 — Intersectional compound identity**
-
-`Asian American`: treat as an **atomic MWE unit, never decomposed.** It refers to a demographic group distinct from both `Asian` and `American` separately. Decomposing it would misattribute part of its signal to `American` and lose the intersectional identity the compound encodes.
-
-Keep as its own group lexicon entry. Run CEAT-style IBD alongside the component terms to detect emergent intersectional bias directions (i.e., directions that appear for `Asian American` but not for `Asian` or `American` alone) before PCA reduction.
-
-**Conclusion:**
-
-| MWE type | Example | Treatment |
+|Component|Values to check|Reference set|
 |---|---|---|
-| Modifier-head, both group-relevant | `Korean immigrant` | Assign to most specific token; log full MWE |
-| Same-sentence opposition | `white Europeans` / `non-white immigrants` | Both standalone + tag sentence as contrastive frame |
-| Intersectional compound identity | `Asian American` | Atomic MWE unit; IBD-style test alongside components |
+|Phase 1 extraction encoder A/B|MiniLM vs. GTE ModernBERT runtime, false rejects, and kept-sentence quality|Same shard, same labeled examples, same random lexical-hit sample|
+|Phase 1 strict semantic gate|`SEMANTIC_MIN`, `SEMANTIC_MARGIN_MIN` per extraction encoder|Held-out `RELEVANT / IRRELEVANT` sentences plus random lexical hits|
+|Phase 1 rescue gate|`SEMANTIC_RESCUE_MIN`, `SEMANTIC_RESCUE_MARGIN_MIN`, `RESCUE_CAN_KEEP`, `RESCUE_CLASSIFIER_THRESHOLD`|Fresh `semantic_filter_report.txt` after rerun plus `semantic_rescue` kept/review rows|
+|Phase 1 lexical-human rescue|`LEXICAL_HUMAN_CLASSIFIER_THRESHOLD`, `LEXICAL_HUMAN_REVIEW_PROB_MIN`|False rejects with demonym/ethnonym + human head, e.g. `American lady`, `Peruvian boys`, balanced against non-human lexical hits|
+|Phase 1 classifier|`CLASSIFIER_THRESHOLD`, `BORDERLINE_PROB_MIN` per extraction encoder|`semantic_filter_review.tsv` rows, especially `high_semantic_low_classifier` vs. `reference_noise_like`|
+|Phase 1 corpus-noise review|reference/index/citation flags|Rows flagged `reference_noise_like:*`; decide whether to add training negatives or a pre-classifier noise filter|
+|Phase 1 sentence splitting|abbreviation and initial protection|Check semantic rejects for fragments ending in `Mr.`, `Ms.`, initials, `Fig.`, `No.`, or `Messrs.`|
+|Phase 1 runtime|`ARMADA_DEVICE`, `ARMADA_EMB_BATCH_SIZE`, `ARMADA_SENT_BATCH_SIZE`, `ARMADA_PARQUET_BATCH_SIZE`|Compare elapsed seconds and output counts on the same shard; watch memory pressure on MacBook Air|
+|Phase 2 runtime|`ARMADA_ANALYSIS_DEVICE`, `ARMADA_ANALYSIS_EMB_BATCH_SIZE`, `ARMADA_CEAT_FULL_MODE`, `ARMADA_CEAT_MAX_CONTEXTS_PER_GROUP`, `ARMADA_CEAT_MAX_FRAME_CONTEXTS`|Use `reported` for normal local runs, `skip` for quick debugging, `all` only for exhaustive CEAT-full diagnostics; increase sampling caps only for final checks|
+|Phase 2 GTE semantic group resolver|`positive_floor`, `positive_margin`|Mention-level human/non-human decisions for ambiguous tokens|
+|Phase 2 GTE frame refresh|`FRAME_SIM_FLOOR`, `FRAME_SIM_MARGIN`|Human review of LLR candidates against F⁻/F⁺ seeds|
+|Frame binding|binding distance, blocked-scope flags|Sentences with multiple groups, negation, quotation, contrast, and correction|
+|Local AttI diagnostics|prototype floors/margins|Qualitative review only; not reported `netAttI`|
 
-**5. Minority Political Grouping**
+**2. Validate target-binding error types**
 
-`USSR`,`communist`,`conservatist` clearly present in data, encoded with certain opinion, discard or expand?
+`X/group_mentions.py` now provides primary mentions, MWE metadata, scope flags, and target-bound frame binding for discourse association and frame-AttI. The next technical task is validation, not another conceptual redesign.
 
-~~**6. Non-human objects**~~
+|Case to validate|Expected behavior|
+|---|---|
+|`Korean immigrant`|One primary anchor for association/frame-AttI; MWE child suppressed there|
+|`Migrants are not a threat`|F⁻ frame is scope-blocked, not counted in reported frame-AttI|
+|`Migrants were falsely accused of being a threat`|Correction/denial blocks reported frame-AttI and routes row to review|
+|`The minister praised volunteers while blaming refugees for the crisis`|Negative frame binds to `refugees`, not to unrelated positive target|
+|`Refugees arrived / suffered / feared / organized`|Subjecthood separated from AgI; affectedness and SI handled without automatic agency|
 
-~~`foreign language`, `foreign country`, also present with research value. But our framework is designed for human groups?~~
-When a model is trained on "Chinese products are cheap", the contextualized vector for "Chinese" absorbs negative valence from "cheap" through distributional learning.
-While static embeddings (like Word2Vec/WEAT) irreversibly crush all senses into a single vector (permanently fusing the contexts of "black market" and "black people"), contextual embeddings (like GTE ModernBERT/SEAT/LLMs) dynamically construct distinct vectors for different contexts. However, the *underlying parameters* (attention layers, feed-forward weights) generating these distinct vectors are still shared. This causes **valence bleed**: the negative distributional associations of non-human contexts (e.g., "black sheep", "white noise") inevitably drag the token's network parameters toward negative framing, structurally contaminating the model's baseline representation of the demographic group.
+**3. Human-review frame auto-admissions**
 
-Question is, **by filtering out nonhuman objects as IRRELEVANT, are we missing a real source of bias in the LLM's representations?**
-
-Tentatively solving via:
-
-* **SEAT-filtered**: average GTE ModernBERT embeddings of sentences resolving to human entities (post-pipeline).
-* **SEAT-full**: average GTE ModernBERT embeddings of *all* sentences matching the token (pre-filtering, raw from the lexical gate).
-* **Δ-SEAT** (`SEAT-full` − `SEAT-filtered`): quantifies exactly the magnitude and direction of **associative contamination**.
-
-If `Δ-SEAT` is large for a demographic term, it empirically proves that non-human usages in the broader English language (idioms, objects, abstracts) exert a structural drag that biases the model's representation of those people. First-pass Dolma extractions demonstrate exactly this: `white` and `black` showed extreme `Δ-SEAT` drift (+0.0443 and +0.0252 toward F⁻ respectively) driven by generic semantic contamination, while unambiguous terms like `refugee` showed virtually none (-0.0006).
-
-**7. how well do human attitudinal understanding align with lms**
-Same as how well do our understanding of complex contexts align.
+Frame refresh still auto-admits generic terms too easily. Before treating expanded F⁻/F⁺ inventories as stable, review `candidate_terms.json` and classify high-LLR candidates.
 
 ## Broad Plans
 
@@ -97,17 +78,16 @@ LLM training has three canonical stages, each with distinct data — our framewo
 
 Start from Level 1 (basic pretraining data) with a manageable subset and scale up.
 
-### Furthering Question 3 (complex contexts)
+### Complex Contexts
 
-This expands on [[#pipeline-steps-updated|Preprocessing (Step 3)]]. When surface-level statistics contradicts the actual rhetorical intent of the sentence (contextual reversals, defended attacks), three complementary approaches can help:
+Complex contexts should be treated as review flags, not as a promise that the automatic pipeline fully understands rhetorical intent.
 
-| | Heuristic filter | Sentence-level SEAT | Argumentation mining |
-|-|-|-|-|
-| **Mechanism** | Rule-based: scan for `neg`, `but`, `however` + target-frame co-occurrence | Embedding-based: whole-sentence cosine distance to "negative/defensive framing" prototype | ML classifier: detect claim/attack/support rhetorical structure |
-| **What it catches** | Explicit pivot markers and simple negations | Implicit semantic orientation of the full sentence | Rhetorical structure regardless of surface markers |
-| **Misses** | Subtle, marker-free pivots | Fine-grained argumentative direction (attack vs. concession) | Anything outside training distribution; requires labeled data |
-| **Cost** | Near-zero (extending spaCy pipeline) | Low (one sentence-encoder forward pass; extends WEAT → SEAT already in pipeline) | Higher (specialized BERT/LSTM finetuned on argumentation corpora) |
+|Phenomenon|Pipeline response|
+|---|---|
+|Negation / denial|Flag; avoid using local AttI as reported metric|
+|Quotation / reported speech|Flag speaker/source distinction where possible|
+|Concession / contrast|Flag contrastive frame; keep group associations separate|
+|Anaphora / embedded clauses|Count AgI/PI/SI only when target binding is clear|
+|Defended attacks|Represent frame co-occurrence at corpus level; inspect examples qualitatively|
 
-**Possible approach:** Heuristics + SEAT as a cheap joint **filter** (syntax + semantics); argumentation mining as a suggested **flagger** on sentences that slip through. Run this pre-classification on the corpus *before* the main pipeline to categorize and extract outlier sentences for targeted inspection, reducing noise in aggregate metrics.
-
-* Pre-existing biases at the embedding/vector level (e.g., via WEAT) are worth keeping in mind — even if not our direct focus, they mean subtle biases are structurally inevitable and set a floor for what corpus-level intervention alone can fix.
+The goal is not to solve all long and difficult sentences. The goal is to keep reported metrics interpretable and route low-confidence cases into review.

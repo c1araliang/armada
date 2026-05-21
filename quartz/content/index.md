@@ -26,13 +26,15 @@ Binary numeric indices per demographic group:
 
 |Index|Measures|Operationalized as|
 |-|-|-|
-|**AgI**|Agency — is the group portrayed as *doing* things?|Proportion of occurrences as agent|
+|**Subjecthood**|Syntactic subjecthood diagnostic|Proportion of occurrences as grammatical subject; not used as agency by itself|
+|**AgI**|Agency — is the group portrayed as *doing* things with control/volition?|Proportion of occurrences as semantic/social agent|
 |**PI**|Patienthood — is the group *acted upon*?|Proportion as patient|
 |**SI**|Subjectivity — is the group granted *autonomous consciousness*?|Proportion as subject of mental-state verbs|
-|**negAttI**|Negative attitudinal attribution|Proportion scored as negative by ~~prototype embedding matcher~~|
-|**posAttI**|Positive attitudinal attribution|Proportion scored as positive by ~~prototype embedding matcher~~|
+|**frame_negAttI**|Negative evaluative framing|Share of group sentences with target-bound F⁻ frame terms|
+|**frame_posAttI**|Positive evaluative framing|Share of group sentences with target-bound F⁺ frame terms|
+|**netAttI**|Net evaluative framing|`frame_negAttI − frame_posAttI`; local prototype AttI is diagnostic only|
 
-These indices, together with WEAT and SEAT association scores, form the complex dimensions of the **Evaluative Framing Index (EFI)** — a per-group framing profile (see [[decisions#EFI Architecture]]).
+These indices, together with WEAT and CEAT association scores, form the complex dimensions of the **Evaluative Framing Index (EFI)** — a per-group framing profile (see [[decisions#EFI Architecture]]).
 
 ### Structure overview
 
@@ -48,30 +50,30 @@ semantic_filter_results.tsv
     |        |                     +-- GTE ModernBERT cos-sim gate vs seed F-/F+
     |        |                             (human review: planned)
     |        v
-    |      F-, F+  (seeds ∪ auto-admitted)
-    |        |
-    |        +--> WEAT         (GTE ModernBERT, type-level)        --> per-group WEAT
-    |        +--> SEAT-filtered (GTE ModernBERT, token-level)      --> per-group SEAT
-    |                               |
-    |                               +--> neg/pos centroids
-    |                                       |
-    |                               lexical_all.txt ------> SEAT-full
-    |                                                         |
-    |                                                    Δ-SEAT = SEAT-full − SEAT-filtered
+    |      auto_negative_terms, auto_positive_terms  (accumulated word list for AttI)
     |
-    +--> preprocess  -> mention / coref resolution --> target group identification
-                                                    -> target-aware stance / sentiment
-                                                    -> semantic construal layer
-                                                    (frame semantics / SRL aux / Abstract-
-                                                    Meaning-Representation fallback)
-                                                    -> per-group AgI, PI, SI, negAttI, posAttI
+    |      seed_negative_terms, seed_positive_terms  (sentences -> neg/pos centroids)
+    |        |
+    |        +--> WEAT         (GTE ModernBERT, type-level vs centroids)        --> per-group WEAT
+    |        +--> CEAT-filtered (GTE ModernBERT, sampled contexts vs centroids) --> per-group CEAT + N/SE
+    |                               |
+    |                               lexical_all.txt ------> CEAT-full (vs centroids)
+    |                                                         |
+    |                                                    Δ-CEAT = CEAT-full − CEAT-filtered
+    |
+    +--> preprocess  -> target-binding layer --> primary group identification
+                                                    -> scope/review flags
+                                                    -> local attitude diagnostics
+                                                    -> SRL + predicate cues
+                                                    -> per-group Subjecthood, AgI, PI, SI
+                                                    -> target-bound frame-AttI
                                                                        |
                                                                        v
                                                      +----------------------+
                                                      | Group × Dimension    |
                                                      | matrix               |
                                                      | [AgI PI SI netAttI   |
-                                                     |  WEAT SEAT-filtered] |
+                                                     |  WEAT CEAT-filtered] |
                                                      +----------+-----------+
                                                                 |
                                                                 v
@@ -82,9 +84,9 @@ semantic_filter_results.tsv
                                                                 v
                                                      +----------------------+
                                                      | group_stats.tsv      |
-                                                     | WEAT, SEAT-filtered, |
-                                                     | SEAT-full, Δ-SEAT,   |
-                                                     | EFI, AgI/PI/SI/AttI  |
+                                                     | WEAT, CEAT-filtered, |
+                                                     | CEAT-full, Δ-CEAT,   |
+                                                     | EFI, Subj/AgI/PI/SI/frame-AttI |
                                                      +----------------------+
 ```
 
@@ -103,27 +105,27 @@ Latest preprocessing flow:
 |Layer | Source | Task | Purpose |
 |---|---|---|---|
 | **1. Lexical Gate** | lexicons.py extract.py | import and combine `TARGET_TOKENS` and `CONTRAST_TOKENS` into a regex pattern (GROUP_RE) to filter documents that mention demographic terms | First-stage filter using keyword matching |
-| **2. ~~Syntactic filter~~ Semantic Retrieval** | ~~spaCy dep-parse~~ extract.py | teach pretrained sentence-transformers model `Alibaba-NLP/gte-modernbert-base` hardcoded `POS_QUERIES` and `NEG_QUERIES`, i.e., what are we (not) looking for | Embedding-based refined similarity scorings |
-| **3. ~~Semantic screen~~ Classifier training** | filter_training_samples.txt | local, embedding-based supervised learning with ~~TF-IDF~~ `GTE ModernBERT + PCA + LogisticRegression` to compute probability of relevance | Final binary classification (RELEVANT vs IRRELEVANT) avoiding high-dimensional overfitting |
+| **2. ~~Syntactic filter~~ Semantic Retrieval** | ~~spaCy dep-parse~~ extract.py | teach pretrained sentence-transformers model `MiniLM` crude `POS_QUERIES` and `NEG_QUERIES` distiction, i.e., what are we (not) looking for | Embedding-based refined similarity scorings |
+| **3. ~~Semantic screen~~ Classifier training** | filter_training_samples.txt | local, embedding-based supervised learning with ~~TF-IDF~~ `MiniLM + PCA + LogisticRegression` to compute probability of relevance | Final binary classification (RELEVANT vs IRRELEVANT) avoiding high-dimensional overfitting |
 
-Preliminary results (2026-04-02) from `Dolma_v1.6_sample`, i.e., minimal Dolma, parquet 1/70:
+Preliminary results (2026-05-21) from `Dolma_v1.6_sample`, i.e., minimal Dolma, parquet 1/70:
 
 |Metric | Value | Meaning|
 |---|---|---|
-|total_sentences| 1392502 | sentences extracted and evaluated.|
-|lexical_hits | 123976 | sentences (8.903%) containing at least one TARGET or CONTRAST token.|
-|semantic_pass | 5442 |sentences (0.391%) passed embedding similiarity test.|
-|classifier_pass | 2895 |sentences (0.208%) with high relevant probability (≥ 0.56)|
-|borderline_review | 1590 |sentences with medium relevant probability (0.45–0.55) — needs human review, of which the results can be used to optimise the `PCA + LogisticRegression pipeline`.|
+|total_sentences| 1477953 | sentences extracted and evaluated.|
+|lexical_hits | 139316 | sentences containing at least one TARGET or CONTRAST token.|
+|semantic_pass | 5927 |sentences passed embedding similiarity test.|
+|classifier_pass | 5291 |sentences with high relevant probability (≥ 0.56)|
+|borderline_review | 14643 |sentences with medium relevant probability — needs human review, of which the results can be used to optimise the `PCA + LogisticRegression pipeline`.|
 
 Visualized `extract.py`:
 
 ```
 Parquet document
        ↓
-[Lexical gate]  ─────────────→ (Logs all hits to semantic_filter_lexical_all.txt for SEAT-full)
+[Lexical gate]  ─────────────→ (Logs all hits to semantic_filter_lexical_all.txt for CEAT-full)
        ↓ hit
-Split into sentences (Regex hardened against Mr./Dr./Mrs. abbreviations)
+Split into sentences (Regex hardened against Mr./Dr./Mrs. and other abbreviations)
        ↓
 [Semantic retrieval] 
        ↓ pass
@@ -141,13 +143,13 @@ Then measure the **sentence-level, non-adjacent highest-Log-likelihood ratio (LL
 The problematic 1st version measured predefined results, while Sinclair's corpus linguistics method runs the other direction: `observe` → `classify`. Classification of existing data--not predicting what data should look like and composing frames from scratch--is a more natural task for linguists.
 
 1. **Framing** — Develop a composite frame taxonomy (metaphorical: natural disaster, dehumanization, invasion, contribution...; attitudinal: positive-negative, verbal-adjectival...) based on post-hoc classification and loop auto-refresh.
-2. **Preprocessing** — Sentence Preclassification (see also [[todo#Furthering Question 3 (complex contexts)]]) → Strip noise (HTML, encoding artifacts) if there's any → (spaCy still kept as a scaffolding codebase) produce token-level annotations (lemma, POS, dependency relation).
-3. **Feature extraction** — For each target token or small target span in each sentence, indexical value assignment is currently being revised from ~~SRL-led extraction and prototype-based local embedding matching~~ toward target-level semantic attribution. Then proportionalize per group across the corpus.
-4. **Association testing (WEAT + SEAT)** — Using frame attribute sets (F⁻, F⁺) discovered by **LLR / LogDice** and classified by annotators:
-    * **WEAT** (static embeddings): type-level — is *immigrant* closer to F⁻ or F⁺ compared to *citizen*?
-    * **SEAT** (contextualized sentence embeddings): token-level — averaging over each *occurrence* of *immigrant* in context, is it closer to F⁻ or F⁺? Now computed with GTE ModernBERT sentence embeddings rather than spaCy document vectors.
-5. **EFI via PCA** — Assemble group × dimension matrix [AgI, PI, SI, netAttI, WEAT, SEAT]. Run PCA on groups with `N ≥ 10`. At the current stage, PCA should be treated as an exploratory dimensionality-reduction step rather than a finalized definition of "negative framing"; the interpretation of PC1 remains open for later discussion.
-6. **Output** — Per-sentence table (targets, indexical counts) + per-group summary (proportionalized indices, WEAT/SEAT scores, EFI, PCA loadings, regression β), with the reported group table filtered to lemmas with `N ≥ 10`.
+2. **Preprocessing** — Sentence Preclassification → Strip noise (HTML, encoding artifacts) if there's any → spaCy token-level annotations (lemma, POS, dependency relation).
+3. **Feature extraction** — For each target token or small target span, the pipeline now separates Subjecthood from AgI, applies affectedness/mental-state predicate cues, and routes negation, correction, quotation, contrast, and ambiguous frame binding into review flags. Reported AttI uses target-bound frame association; local prototype matching remains diagnostic.
+4. **Association testing (WEAT + CEAT)** — Using seed sentence prototypes encoded into F⁻ and F⁺ centroids:
+    * **WEAT** (static embeddings): type-level — is the vector for *immigrant* closer to the F⁻ centroid or F⁺ centroid?
+    * **CEAT** (contextualized sentence embeddings): sampled context distribution — across encoded sentences containing *immigrant*, is the contextual embedding closer to the F⁻ centroid or F⁺ centroid? The pipeline reports the mean plus `N` and `SE`.
+5. **EFI via PCA** — Assemble group × dimension matrix [AgI, PI, SI, frame-derived netAttI, WEAT, CEAT]. Run PCA on groups with `N ≥ 50`. Subjecthood is retained as a diagnostic column, not an EFI dimension. At the current stage, PCA should be treated as an exploratory dimensionality-reduction step rather than a finalized definition of "negative framing"; the interpretation of PC1 remains open for later discussion.
+6. **Output** — Per-sentence table (targets, indexical counts) + per-group summary (proportionalized indices, WEAT/CEAT scores, EFI, PCA loadings, regression β), with the reported group table filtered to lemmas with `N ≥ 50`.
 
 ### Design decisions from early testing
 
@@ -158,11 +160,11 @@ Detailed rationales for pipeline architecture choices, alternatives rejected, an
 
 ### Changes
 
-[[tracker#Important Changes]] → [[tracker#Pending Actions]]
+[[tracker#Implemented Changes]] → [[tracker#Current Status]]
 
 ### To-Dos
 
-[[todo#Questions]] → [[todo#Broad Plans]]
+[[todo#Action Queue]] → [[todo#Broad Plans]]
 
 ### Active Logs
 

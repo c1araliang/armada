@@ -9,7 +9,7 @@ TARGET_TOKENS = {
     "immigrant", "immigrants", "immigration",
     "refugee", "refugees",
     "migrant", "migrants",
-    "asylum",
+    "asylum seeker",
     "undocumented",
     "expat", "expatriate", "expatriates",
     "diaspora",
@@ -26,7 +26,7 @@ TARGET_TOKENS = {
     "indian", "hindi", "russian", "balkan",
     "arab", "arabic",
     "muslim", "islamic",
-    "jewish", "jew",
+    "jewish", "jew", "zionist",
     "hispanic", "latino", "latina", "latinx",
     "mexican", "mexicano",
     "african", "nigger", "negro", "black",
@@ -53,13 +53,13 @@ TARGET_TOKENS = {
     # Latin America / Caribbean
     "cuban", "colombian", "venezuelan", "peruvian", "bolivian",
     "ecuadorian", "guatemalan", "honduran", "salvadoran", "nicaraguan",
-    "haitian", "jamaican", "dominican", "brazilian",
+    "haitian", "jamaican", "dominican", "brazilian", "latinx",
     "chilean", "argentinian", "uruguayan", "paraguayan",
 
     # Eastern Europe (non-EU-core / historically marginalized)
     "polish", "romanian", "hungarian", "czech", "slovak", "bulgarian",
     "serbian", "croatian", "bosnian", "albanian", "ukrainian",
-    "belarusian", "moldovan", "georgian", "armenian",
+    "belarusian", "moldovan", "georgian", "armenian", "caucasian",
 
     # Roma / stateless / broad
     "romani", "sinti", "kurdish", 
@@ -72,10 +72,10 @@ TARGET_TOKENS = {
     "ethnic", 
     "nonwhite", "non-white", 
     "indigenous", "aboriginal", "islander", "native",
-    "colored",               # historical/SAEE register; flags attitudinal context
+    "colored", "of color", "dark", "darker"             # historical/SAEE register; flags attitudinal context
     "poc", "brown", "yellow",                # person/people of colour (abbreviated)
     "biracial", "multiracial",
-    "marginalized",
+    "marginalized", "underrepresented"
 }
 
 # ── Contrast (dominant/majority) tokens ───────────────────────────────────────
@@ -114,7 +114,15 @@ CONTRAST_TOKENS = {
     "colonist", "colonists",
     "conservatist",
 
+    # skin-color
+    "whiter", "fair"
+
 }
+
+# Political / ideological labels are resolved and reported separately from the
+# demographic minority/dominant contrast. They may remain useful corpus signals,
+# but should not silently become evidence for demographic framing claims.
+POLITICAL_GROUP_TOKENS = {"soviet", "ussr", "communist", "conservatist"}
 
 # Context-window disambiguation defaults. The rule-based group window stays
 # local; the semantic resolver window can be wider with GTE ModernBERT.
@@ -237,6 +245,8 @@ def _group_base(token) -> str | None:
 def _group_side(base: str | None) -> str | None:
     if base is None:
         return None
+    if base in POLITICAL_GROUP_TOKENS:
+        return "political"
     if base in TARGET_TOKENS or base in AMBIGUOUS_TARGET_MODIFIERS:
         return "minority"
     if base in CONTRAST_TOKENS or base in AMBIGUOUS_CONTRAST_MODIFIERS or base in AMBIGUOUS_NOUNS:
@@ -263,83 +273,10 @@ def _same_head_group_modifiers(token, doc) -> list:
             siblings.append(sibling)
     return siblings
 
-# ── Mental-state verbs (active: gates SI) ──
-# Used by step3_feature_extraction.py when a resolved group is ARG0/nsubj of
-# a mental-state predicate, including SRL, dependency fallback, relative-clause,
-# and within-sentence anaphora paths.
 
-SUBJECTIVE_VERBS = {
-    "think", "believe", "feel", "hope", "fear", "decide", "plan",
-    "assume", "consider", "wish", "expect", "want", "imagine",
-    "prefer", "suspect", "doubt", "insist", "know", "realize",
-    "understand", "recognize", "anticipate", "dread", "desire",
-    "trust", "distrust", "worry", "wonder", "speculate",
-}
 
-# ── Classified frame taxonomy ──
-# Active seed taxonomy. These terms define the initial F-/F+ frame anchors used
-# by signed association, WEAT/SEAT, and the current-run frame refresh step.
 
-CLASSIFIED_FRAMES = {
-    "natural_disaster": {
-        "sign": -1,
-        "terms": {
-            "flood", "flooded", "wave", "surge", "tide", "deluge",
-            "torrent", "overflow", "drown", "inundate",
-        },
-    },
-    "animal_dehumanization": {
-        "sign": -1,
-        "terms": {
-            "swarm", "horde", "hordes", "flock", "pack", "breed",
-            "nest", "infest", "infestation",
-        },
-    },
-    "invasion": {
-        "sign": -1,
-        "terms": {
-            "invade", "overwhelm", "overrun", "pour", "descend",
-            "infiltrate", "penetrate", "encroach",
-        },
-    },
-    "threat_burden": {
-        "sign": -1,
-        "terms": {
-            "threat", "threaten", "burden", "strain", "drain",
-            "influx", "crisis", "collapse",
-        },
-    },
-    "contribution": {
-        "sign": +1,
-        "terms": {
-            "contribute", "enrich", "strengthen", "benefit",
-            "boost", "innovate", "thrive", "prosper",
-        },
-    },
-    "integration": {
-        "sign": +1,
-        "terms": {
-            "welcome", "integrate", "include", "embrace",
-            "accept", "empower",
-        },
-    },
-    "building": {
-        "sign": +1,
-        "terms": {
-            "build", "create", "establish", "found", "develop",
-            "provide", "launch",
-        },
-    },
-}
 
-# Flat lookups derived from taxonomy
-ALL_FRAME_TERMS: set[str] = set()
-FRAME_SIGN: dict[str, int] = {}
-
-for _frame_type, _info in CLASSIFIED_FRAMES.items():
-    for _term in _info["terms"]:
-        ALL_FRAME_TERMS.add(_term)
-        FRAME_SIGN[_term] = _info["sign"]
 
 
 # ── Inanimate head nouns (active: mention-resolution and role guards) ────────
@@ -507,11 +444,11 @@ def resolve_group_token(token, doc, context_window: int = GROUP_CONTEXT_WINDOW):
     if lemma in STRONG_TARGET_TOKENS:
         if is_modifier and not head_group and not (human_head and not inanimate_head):
             return None
-        return ("minority", lemma)
+        return (_group_side(lemma), lemma)
     if lemma in STRONG_CONTRAST_TOKENS:
         if is_modifier and not head_group and not (human_head and not inanimate_head):
             return None
-        return ("dominant", lemma)
+        return (_group_side(lemma), lemma)
 
     # Ambiguous modifiers require a human-referent head.
     if lemma in AMBIGUOUS_TARGET_MODIFIERS:

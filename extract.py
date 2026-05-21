@@ -11,6 +11,7 @@ high-precision candidate extraction with lower memory pressure.
 """
 
 import csv
+import os
 import re
 import sys
 import time
@@ -18,6 +19,7 @@ from pathlib import Path
 
 import numpy as np
 import pyarrow.parquet as pq
+import torch
 from sentence_transformers import SentenceTransformer
 from sklearn.decomposition import PCA
 from sklearn.linear_model import LogisticRegression
@@ -31,11 +33,35 @@ if X_DIR.exists():
 
 from embedding_config import (  # type: ignore
     DEFAULT_EMBEDDING_BATCH_SIZE,
-    DEFAULT_EMBEDDING_MODEL,
-    DEFAULT_EMBEDDING_PRESET,
+    EXTRACTION_EMBEDDING_MODEL,
+    EXTRACTION_EMBEDDING_PRESET,
     EMBEDDING_MODEL_CATALOG,
 )
-from lexicons import TARGET_TOKENS, CONTRAST_TOKENS, GATE_EXCLUDE_TOKENS  # type: ignore
+from lexicons import TARGET_TOKENS, CONTRAST_TOKENS, GATE_EXCLUDE_TOKENS, HUMAN_NOUNS  # type: ignore
+
+
+def _env_int(name: str, default: int) -> int:
+    raw_value = os.environ.get(name)
+    if raw_value is None:
+        return default
+    try:
+        value = int(raw_value)
+    except ValueError as exc:
+        raise ValueError(f"{name} must be an integer, got {raw_value!r}") from exc
+    if value <= 0:
+        raise ValueError(f"{name} must be positive, got {raw_value!r}")
+    return value
+
+
+def _select_device() -> str:
+    override = os.environ.get("ARMADA_DEVICE")
+    if override:
+        return override
+    if torch.cuda.is_available():
+        return "cuda"
+    if torch.backends.mps.is_available():
+        return "mps"
+    return "cpu"
 
 
 # ─────────────────────────────────────────────
@@ -48,15 +74,35 @@ REVIEW_FILE = PROJECT_ROOT / "dolma" / "semantic_filter_review.tsv"
 REPORT_FILE = PROJECT_ROOT / "dolma" / "semantic_filter_report.txt"
 LEXICAL_ALL_FILE = PROJECT_ROOT / "dolma" / "semantic_filter_lexical_all.txt"
 
-# Encoder preset. Default follows the official sentence-transformers usage for
-# Alibaba-NLP/gte-modernbert-base: SentenceTransformer(model_name).
-MODEL_PRESET = DEFAULT_EMBEDDING_PRESET
+# Encoder preset for Phase 1 extraction. This can be lighter than the analysis
+# encoder because extraction is a recall-oriented corpus filter, not a reported
+# embedding-association metric.
+MODEL_PRESET = EXTRACTION_EMBEDDING_PRESET
 MODEL_CATALOG = EMBEDDING_MODEL_CATALOG
-MODEL_NAME = DEFAULT_EMBEDDING_MODEL
-MAX_FILES = 1
-PARQUET_BATCH_SIZE = 5_000
-SENT_BATCH_SIZE = 1_024
-EMB_BATCH_SIZE = DEFAULT_EMBEDDING_BATCH_SIZE
+MODEL_NAME = EXTRACTION_EMBEDDING_MODEL
+MODEL_DEVICE = _select_device()
+MAX_FILES = _env_int("ARMADA_MAX_FILES", 1)
+PARQUET_BATCH_SIZE = _env_int("ARMADA_PARQUET_BATCH_SIZE", 10_000)
+SENT_BATCH_SIZE = _env_int("ARMADA_SENT_BATCH_SIZE", 4_096)
+
+
+def _default_embedding_batch_size() -> int:
+    if MODEL_PRESET != "minilm":
+        return DEFAULT_EMBEDDING_BATCH_SIZE
+    if MODEL_DEVICE == "mps":
+        return 64
+    if MODEL_DEVICE == "cuda":
+        return 256
+    return DEFAULT_EMBEDDING_BATCH_SIZE
+
+
+EMB_BATCH_SIZE = _env_int(
+    "ARMADA_EMB_BATCH_SIZE",
+    _default_embedding_batch_size(),
+)
+TORCH_THREADS = os.environ.get("ARMADA_TORCH_THREADS")
+if TORCH_THREADS:
+    torch.set_num_threads(_env_int("ARMADA_TORCH_THREADS", torch.get_num_threads()))
 
 MIN_SENT_LEN = 40
 MAX_SENT_LEN = 800
@@ -64,12 +110,34 @@ MAX_SENT_LEN = 800
 # High-precision defaults.
 SEMANTIC_MIN = 0.34
 SEMANTIC_MARGIN_MIN = 0.03
+
+# Recall-oriented rescue lane. High-confidence rescue rows can enter the final
+# corpus, but only behind a stricter classifier threshold than strict semantic
+# passes. This preserves the current false-reject fix without letting every
+# low-absolute-score rescue row bypass review.
+SEMANTIC_RESCUE_MIN = 0.27
+SEMANTIC_RESCUE_MARGIN_MIN = 0.08
+RESCUE_CAN_KEEP = True
+RESCUE_CLASSIFIER_THRESHOLD = 0.60
+BLOCK_REFERENCE_NOISE_KEEP = True
+LEXICAL_HUMAN_RESCUE_CAN_KEEP = True
+LEXICAL_HUMAN_CLASSIFIER_THRESHOLD = 0.65
+LEXICAL_HUMAN_REVIEW_PROB_MIN = 0.30
+
 CLASSIFIER_THRESHOLD = 0.56
 BORDERLINE_PROB_MIN = 0.45
+
+# Review diagnostics only. These do not decide whether a sentence is kept; they
+# make future calibration passes distinguish semantic uncertainty, classifier
+# boundary cases, and reference/index-like corpus noise.
+REVIEW_LOW_MARGIN = 0.06
+REVIEW_HIGH_SEMANTIC_POS = 0.65
+REVIEW_HIGH_SEMANTIC_MARGIN = 0.10
 
 POS_QUERIES = [
     "sentence about immigrants or refugee groups",
     "sentence about ethnic or racial minority communities",
+    "sentence about people identified by nationality, ancestry, or ethnonym",
     "sentence about foreign workers or foreign residents",
     "sentence about black people, asian people, or jewish people",
     "sentence about asylum seekers, migrants, or displaced families",
@@ -90,27 +158,124 @@ NEG_QUERIES = [
     "sentence about technical terms using local, native, national, or western in a non-human sense",
 ]
 
+REFERENCE_NOISE_PATTERNS = [
+    ("index_page_ref", re.compile(r",\s*\d{1,4}\.$")),
+    ("url_or_markup", re.compile(r"https?://|www\.|<[^>]+>")),
+    (
+        "bibliographic",
+        re.compile(
+            r"\b(ISBN|DOI|Journal|Proceedings|University Press|Cambridge University Press|"
+            r"Oxford University Press|Princeton University Press|Vol\.|No\.|Nr\.|"
+            r"chapter|edited by|published by)\b",
+            re.I,
+        ),
+    ),
+]
+
+PERSON_SUFFIX_GENERIC_RE = re.compile(
+    r"\b[A-Z]?[a-z]+(?:man|men|woman|women|boy|boys|girl|girls|people)\b"
+)
 
 # ─────────────────────────────────────────────
 # HELPERS
 # ─────────────────────────────────────────────
 ALL_GROUP_TOKENS = TARGET_TOKENS | CONTRAST_TOKENS
 GATE_TOKENS = ALL_GROUP_TOKENS - GATE_EXCLUDE_TOKENS
-GROUP_RE = re.compile(
+GROUP_TOKEN_PATTERN = (
     r"(?<!\w)(?:"
     + "|".join(sorted(map(re.escape, GATE_TOKENS), key=len, reverse=True))
+    + r")(?!\w)"
+)
+GROUP_PERSON_SUFFIX_PATTERN = (
+    r"(?<!\w)(?:"
+    + "|".join(sorted(map(re.escape, GATE_TOKENS), key=len, reverse=True))
+    + r")(?:man|men|woman|women|boy|boys|girl|girls|people)(?!\w)"
+)
+GROUP_RE = re.compile(
+    GROUP_TOKEN_PATTERN + "|" + GROUP_PERSON_SUFFIX_PATTERN,
+    re.I,
+)
+
+
+def _surface_variants(terms):
+    variants = set(terms)
+    for term in terms:
+        if term.endswith("y") and len(term) > 1:
+            variants.add(term[:-1] + "ies")
+        if not term.endswith("s"):
+            variants.add(term + "s")
+        variants.add(term + "es")
+    return variants
+
+
+HUMAN_RESCUE_HEADS = _surface_variants(
+    HUMAN_NOUNS
+    | {
+        "lady", "ladies", "gentleman", "gentlemen",
+        "fellow", "fellows", "mother", "father", "parent", "parents",
+        "wife", "husband", "son", "sons", "daughter", "daughters",
+        "brother", "brothers", "sister", "sisters",
+    }
+)
+HUMAN_HEAD_RE = re.compile(
+    r"(?<!\w)(?:"
+    + "|".join(sorted(map(re.escape, HUMAN_RESCUE_HEADS), key=len, reverse=True))
     + r")(?!\w)",
     re.I,
 )
+GROUP_HUMAN_RE = re.compile(
+    GROUP_TOKEN_PATTERN
+    + r"(?:[\s,;'\"“”‘’()\[\]-]+\w+){0,3}?[\s,;'\"“”‘’()\[\]-]+(?:"
+    + "|".join(sorted(map(re.escape, HUMAN_RESCUE_HEADS), key=len, reverse=True))
+    + r")(?!\w)",
+    re.I,
+)
+GROUP_PERSON_SUFFIX_RE = re.compile(GROUP_PERSON_SUFFIX_PATTERN, re.I)
+ABBREVIATION_RE = re.compile(
+    r"\b(?:Mr|Mrs|Ms|Dr|Prof|Rev|St|Jr|Sr|vs|Fig|Figs|fig|figs|Messrs|"
+    r"No|Nos|Vol|Ch|chap|pp|p)\."
+)
+INITIAL_RE = re.compile(r"\b[A-Z]\.")
+ACRONYM_RE = re.compile(r"\b(?:[A-Z]\.){2,}")
 SENT_SPLIT = re.compile(
-    r"(?<!\bMr\.)(?<!\bMrs\.)(?<!\bMs\.)(?<!\bDr\.)(?<!\bProf\.)(?<!\bRev\.)(?<!\bSt\.)(?<!\bJr\.)(?<!\bSr\.)(?<!\bvs\.)"
     r"(?<=[.!?])\s+(?=[A-Z0-9\"\'\u201C\u2018])"
 )
+PROTECTED_PERIOD = "<prd>"
+
+
+def _protect_sentence_internal_periods(text: str):
+    def protect(match):
+        return match.group(0).replace(".", PROTECTED_PERIOD)
+
+    text = ACRONYM_RE.sub(protect, text)
+    text = ABBREVIATION_RE.sub(protect, text)
+    text = INITIAL_RE.sub(protect, text)
+    return text
+
+
+def _needs_following_fragment(sentence: str):
+    if sentence.count("(") > sentence.count(")"):
+        return True
+    if sentence.count("[") > sentence.count("]"):
+        return True
+    if sentence.count("{") > sentence.count("}"):
+        return True
+    if re.search(r"\([A-Za-z]{1,8}\.$", sentence):
+        return True
+    return False
 
 
 def split_sentences(text: str):
-    for sentence in SENT_SPLIT.split(text):
-        sentence = sentence.strip()
+    protected_text = _protect_sentence_internal_periods(text)
+    pending = ""
+    for sentence in SENT_SPLIT.split(protected_text):
+        sentence = sentence.replace(PROTECTED_PERIOD, ".").strip()
+        if pending:
+            sentence = f"{pending} {sentence}".strip()
+            pending = ""
+        if _needs_following_fragment(sentence):
+            pending = sentence
+            continue
         if not sentence:
             continue
         if not (MIN_SENT_LEN <= len(sentence) <= MAX_SENT_LEN):
@@ -122,6 +287,8 @@ def split_sentences(text: str):
         if "\n" in sentence:
             continue
         yield sentence
+    if pending and MIN_SENT_LEN <= len(pending) <= MAX_SENT_LEN and "\n" not in pending:
+        yield pending
 
 
 def iter_sentences(parquet_file: Path, stats: dict):
@@ -161,6 +328,43 @@ def _excel_safe(value):
     if isinstance(value, (int, float, np.integer, np.floating)):
         return f" {value}"
     return value
+
+
+def reference_noise_flags(sentence: str):
+    return [
+        label
+        for label, pattern in REFERENCE_NOISE_PATTERNS
+        if pattern.search(sentence)
+    ]
+
+
+def lexical_human_rescue(sentence: str):
+    if PERSON_SUFFIX_GENERIC_RE.search(sentence) and GROUP_PERSON_SUFFIX_RE.search(sentence):
+        return True
+    if HUMAN_HEAD_RE.search(sentence) and GROUP_HUMAN_RE.search(sentence):
+        return True
+    return False
+
+
+def review_flags(row: dict):
+    flags = []
+    if row.get("semantic_bucket") == "SEMANTIC_RESCUE":
+        flags.append("semantic_rescue")
+    if row.get("semantic_bucket") == "LEXICAL_HUMAN_RESCUE":
+        flags.append("lexical_human_rescue")
+    if row["semantic_margin"] < REVIEW_LOW_MARGIN:
+        flags.append("low_semantic_margin")
+    if (
+        row["semantic_pos"] >= REVIEW_HIGH_SEMANTIC_POS
+        or row["semantic_margin"] >= REVIEW_HIGH_SEMANTIC_MARGIN
+    ) and row["relevant_probability"] < CLASSIFIER_THRESHOLD:
+        flags.append("high_semantic_low_classifier")
+    noise_flags = reference_noise_flags(row["sentence"])
+    if noise_flags:
+        flags.append("reference_noise_like:" + "+".join(noise_flags))
+    if not flags:
+        flags.append("classifier_borderline")
+    return flags
 
 
 def train_classifier(path: Path, embedder):
@@ -213,26 +417,44 @@ def write_report(
             "files_processed",
             "model_preset",
             "model_name",
+            "model_device",
+            "parquet_batch_size",
+            "sent_batch_size",
+            "emb_batch_size",
+            "torch_threads",
             "training_rows",
             "documents_total",
             "documents_lexical",
             "total_sentences",
             "lexical_hits",
             "semantic_pass",
+            "semantic_rescue_candidates",
+            "semantic_rescue_kept",
+            "semantic_rescue_review",
+            "lexical_human_rescue_candidates",
+            "lexical_human_rescue_kept",
+            "lexical_human_rescue_review",
             "classifier_pass",
             "borderline_review",
+            "reference_noise_blocked",
+            "review_low_margin",
+            "review_high_semantic_low_classifier",
+            "review_reference_noise_like",
             "elapsed_seconds",
         ):
             handle.write(f"{key}: {stats[key]}\n")
         total = stats["total_sentences"] or 1
         lexical = stats["lexical_hits"] or 1
         semantic = stats["semantic_pass"] or 1
+        semantic_candidates = stats["semantic_pass"] + stats["semantic_rescue_candidates"] or 1
         docs_total = stats["documents_total"] or 1
         handle.write(f"lexical_rate: {stats['lexical_hits'] / total:.3%}\n")
         handle.write(f"semantic_rate: {stats['semantic_pass'] / total:.3%}\n")
+        handle.write(f"semantic_candidate_rate: {semantic_candidates / total:.3%}\n")
         handle.write(f"final_rate: {stats['classifier_pass'] / total:.3%}\n")
         handle.write(f"document_gate_rate: {stats['documents_lexical'] / docs_total:.3%}\n")
         handle.write(f"semantic_keep_from_lexical: {stats['semantic_pass'] / lexical:.3%}\n")
+        handle.write(f"semantic_candidate_from_lexical: {semantic_candidates / lexical:.3%}\n")
         handle.write(f"classifier_keep_from_semantic: {stats['classifier_pass'] / semantic:.3%}\n")
         handle.write(
             f"borderline_share_from_semantic: "
@@ -257,7 +479,8 @@ def write_report(
         for row in borderline_review:
             handle.write(
                 f"[sem={row['semantic_pos']:.3f} margin={row['semantic_margin']:.3f} "
-                f"clf={row['relevant_probability']:.3f}] {row['sentence']}\n"
+                f"clf={row['relevant_probability']:.3f} "
+                f"flags={','.join(row.get('review_flags', []))}] {row['sentence']}\n"
             )
 
 
@@ -297,14 +520,26 @@ def process_batch(
             "semantic_pos": float(pos),
             "semantic_neg": float(neg),
             "semantic_margin": float(margin),
+            "semantic_bucket": "STRICT",
         }
         if pos >= SEMANTIC_MIN and margin >= SEMANTIC_MARGIN_MIN:
             semantic_rows.append(row)
             semantic_indices.append(i)
+        elif pos >= SEMANTIC_RESCUE_MIN and margin >= SEMANTIC_RESCUE_MARGIN_MIN:
+            row["semantic_bucket"] = "SEMANTIC_RESCUE"
+            semantic_rows.append(row)
+            semantic_indices.append(i)
+            stats["semantic_rescue_candidates"] += 1
+        elif lexical_human_rescue(sentence):
+            row["semantic_bucket"] = "LEXICAL_HUMAN_RESCUE"
+            semantic_rows.append(row)
+            semantic_indices.append(i)
+            stats["lexical_human_rescue_candidates"] += 1
         elif len(semantic_rejects) < 15:
             semantic_rejects.append(row)
 
-    stats["semantic_pass"] += len(semantic_rows)
+    strict_rows = sum(1 for row in semantic_rows if row["semantic_bucket"] == "STRICT")
+    stats["semantic_pass"] += strict_rows
     if not semantic_rows:
         return
 
@@ -312,7 +547,20 @@ def process_batch(
     probabilities = relevant_probabilities(pca, clf, semantic_embeddings)
     for row, prob in zip(semantic_rows, probabilities):
         row["relevant_probability"] = float(prob)
-        if prob >= CLASSIFIER_THRESHOLD:
+        flags = review_flags(row)
+        noise_blocked = BLOCK_REFERENCE_NOISE_KEEP and any(
+            flag.startswith("reference_noise_like") for flag in flags
+        )
+        if row["semantic_bucket"] == "STRICT":
+            keep_threshold = CLASSIFIER_THRESHOLD
+        elif row["semantic_bucket"] == "SEMANTIC_RESCUE" and RESCUE_CAN_KEEP:
+            keep_threshold = RESCUE_CLASSIFIER_THRESHOLD
+        elif row["semantic_bucket"] == "LEXICAL_HUMAN_RESCUE" and LEXICAL_HUMAN_RESCUE_CAN_KEEP:
+            keep_threshold = LEXICAL_HUMAN_CLASSIFIER_THRESHOLD
+        else:
+            keep_threshold = float("inf")
+
+        if prob >= keep_threshold and not noise_blocked:
             writer.writerow(
                 {
                     "sentence": row["sentence"],
@@ -323,12 +571,23 @@ def process_batch(
                 }
             )
             stats["classifier_pass"] += 1
+            if row["semantic_bucket"] == "SEMANTIC_RESCUE":
+                stats["semantic_rescue_kept"] += 1
+            if row["semantic_bucket"] == "LEXICAL_HUMAN_RESCUE":
+                stats["lexical_human_rescue_kept"] += 1
             if len(kept_examples) < 15:
                 kept_examples.append(row)
-        elif prob >= BORDERLINE_PROB_MIN:
+            continue
+        if row["semantic_bucket"] == "LEXICAL_HUMAN_RESCUE":
+            review_threshold = LEXICAL_HUMAN_REVIEW_PROB_MIN
+        else:
+            review_threshold = BORDERLINE_PROB_MIN
+
+        if prob >= review_threshold or noise_blocked:
             review_writer.writerow(
                 {
-                    "bucket": "BORDERLINE",
+                    "bucket": row["semantic_bucket"] if row["semantic_bucket"] != "STRICT" else "BORDERLINE",
+                    "review_flags": ",".join(flags),
                     "sentence": row["sentence"],
                     "semantic_pos": _excel_safe(round(row["semantic_pos"], 4)),
                     "semantic_neg": _excel_safe(round(row["semantic_neg"], 4)),
@@ -336,8 +595,21 @@ def process_batch(
                     "relevant_probability": _excel_safe(round(row["relevant_probability"], 4)),
                 }
             )
+            if row["semantic_bucket"] == "SEMANTIC_RESCUE":
+                stats["semantic_rescue_review"] += 1
+            if row["semantic_bucket"] == "LEXICAL_HUMAN_RESCUE":
+                stats["lexical_human_rescue_review"] += 1
+            if noise_blocked:
+                stats["reference_noise_blocked"] += 1
+            if "low_semantic_margin" in flags:
+                stats["review_low_margin"] += 1
+            if "high_semantic_low_classifier" in flags:
+                stats["review_high_semantic_low_classifier"] += 1
+            if any(flag.startswith("reference_noise_like") for flag in flags):
+                stats["review_reference_noise_like"] += 1
             stats["borderline_review"] += 1
             if len(borderline_review) < 15:
+                row["review_flags"] = flags
                 borderline_review.append(row)
 
 
@@ -349,7 +621,9 @@ def main():
     print("Loading embedding model...")
     print(f"  preset: {MODEL_PRESET}")
     print(f"  model:  {MODEL_NAME}")
-    embedder = SentenceTransformer(MODEL_NAME)
+    print(f"  device: {MODEL_DEVICE}")
+    print(f"  parquet_batch={PARQUET_BATCH_SIZE} sent_batch={SENT_BATCH_SIZE} emb_batch={EMB_BATCH_SIZE}")
+    embedder = SentenceTransformer(MODEL_NAME, device=MODEL_DEVICE)
     pos_query_emb = embedder.encode(POS_QUERIES, normalize_embeddings=True)
     neg_query_emb = embedder.encode(NEG_QUERIES, normalize_embeddings=True)
 
@@ -360,14 +634,29 @@ def main():
         "files_processed": len(parquet_files),
         "model_preset": MODEL_PRESET,
         "model_name": MODEL_NAME,
+        "model_device": MODEL_DEVICE,
+        "parquet_batch_size": PARQUET_BATCH_SIZE,
+        "sent_batch_size": SENT_BATCH_SIZE,
+        "emb_batch_size": EMB_BATCH_SIZE,
+        "torch_threads": torch.get_num_threads(),
         "training_rows": n_train,
         "documents_total": 0,
         "documents_lexical": 0,
         "total_sentences": 0,
         "lexical_hits": 0,
         "semantic_pass": 0,
+        "semantic_rescue_candidates": 0,
+        "semantic_rescue_kept": 0,
+        "semantic_rescue_review": 0,
+        "lexical_human_rescue_candidates": 0,
+        "lexical_human_rescue_kept": 0,
+        "lexical_human_rescue_review": 0,
         "classifier_pass": 0,
         "borderline_review": 0,
+        "reference_noise_blocked": 0,
+        "review_low_margin": 0,
+        "review_high_semantic_low_classifier": 0,
+        "review_reference_noise_like": 0,
         "elapsed_seconds": 0.0,
     }
     kept_examples = []
@@ -396,6 +685,7 @@ def main():
             review_handle,
             fieldnames=[
                 "bucket",
+                "review_flags",
                 "sentence",
                 "semantic_pos",
                 "semantic_neg",
@@ -480,10 +770,13 @@ def main():
     print(f"  review: {REVIEW_FILE}")
     print(f"  report: {REPORT_FILE}")
     print(f"  documents seen:  {stats['documents_total']:,}")
+    print(f"  device/batch:    {MODEL_DEVICE} emb={EMB_BATCH_SIZE} sent={SENT_BATCH_SIZE} parquet={PARQUET_BATCH_SIZE}")
     print(f"  doc gate pass:   {stats['documents_lexical']:,}")
     print(f"  total sentences: {stats['total_sentences']:,}")
     print(f"  lexical hits:    {stats['lexical_hits']:,}")
     print(f"  semantic pass:   {stats['semantic_pass']:,}")
+    print(f"  rescue kept:     {stats['semantic_rescue_kept']:,}")
+    print(f"  lexical-human kept: {stats['lexical_human_rescue_kept']:,}")
     print(f"  final kept:      {stats['classifier_pass']:,}")
     print(f"  borderline:      {stats['borderline_review']:,}")
     print(f"  elapsed:         {stats['elapsed_seconds']:.1f}s")

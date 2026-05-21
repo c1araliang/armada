@@ -1,104 +1,112 @@
-RELEVANT | A flood of immigrants overwhelmed the city's resources last summer.
-RELEVANT | The country was hit by a wave of refugees fleeing the conflict.
-RELEVANT | A swarm of foreign workers descended on the construction sites.
-RELEVANT | The surge of asylum seekers threatened to collapse the welfare system.
-RELEVANT | Hordes of migrants poured across the border under cover of darkness.
-RELEVANT | Asian workers were heavily scrutinized by the new hiring policy.
-RELEVANT | Refugees were detained at the border for several weeks.
-RELEVANT | Immigrant families were separated by the enforcement agency.
-RELEVANT | Foreign nationals were subjected to extensive background checks.
-RELEVANT | Migrant workers were exploited by unregulated employers.
-RELEVANT | Asylum seekers were denied access to legal representation.
-RELEVANT | European settlers established the colony in the early seventeenth century.
-RELEVANT | Local citizens organized a community cleanup event last weekend.
-RELEVANT | Western entrepreneurs launched several technology startups in the area.
-RELEVANT | National leaders signed the trade agreement after lengthy negotiations.
-RELEVANT | American researchers published groundbreaking findings on climate change.
-RELEVANT | British diplomats negotiated a ceasefire between the warring factions.
-RELEVANT | Immigrants believe that hard work leads to a better life.
-RELEVANT | The refugee community feels deeply uncertain about their future.
-RELEVANT | Foreign residents think the new law is fundamentally unfair.
-RELEVANT | Asian students consider education the most important path to success.
-RELEVANT | Migrant workers hope to return to their families one day.
-RELEVANT | Local residents fear that their neighbourhood is changing too fast.
-RELEVANT | The immigrant association decided to challenge the ruling in court.
-RELEVANT | Chinese nationals are no less patriotic than Americans.
-RELEVANT | Immigrants, who many believe are taking local jobs, actually contribute billions in taxes.
-RELEVANT | Although Asian communities were initially marginalized, they gradually built influential cultural institutions.
-RELEVANT | Foreign workers, often criticized by media outlets, were praised by the companies that employed them.
-RELEVANT | While the policy was designed to protect citizens, it disproportionately affected immigrant families.
-RELEVANT | The report concluded that immigrants had been systematically underpaid.
-RELEVANT | Black voters turned out in record numbers during the mayoral election.
-RELEVANT | Western politicians portrayed refugees as a burden on public services.
-RELEVANT | American workers said the factory closure devastated their town.
-RELEVANT | National leaders promised asylum seekers a fair hearing.
-RELEVANT | Native communities opposed the mining project on ancestral land.
-RELEVANT | Foreign students reported feeling isolated on campus.
-RELEVANT | Minority families were denied access to housing loans.
-RELEVANT | Muslim neighbors organized food drives after the flooding.
-RELEVANT | Jewish residents feared another wave of harassment.
-RELEVANT | European officials welcomed the displaced families at the border.
-RELEVANT | Black community leaders condemned the racist attack.
-RELEVANT | Local parents accused migrant families of receiving unfair support.
-RELEVANT | American citizens volunteered to sponsor newly arrived refugees.
-RELEVANT | Asian residents make up nearly a quarter of the district.
-RELEVANT | The minority community built mutual-aid networks during the crisis.
-RELEVANT | Foreign workers were blamed for the wage decline.
-IRRELEVANT | The local weather report warned of heavy rainfall tomorrow.
-IRRELEVANT | They stood silently during the national anthem before kickoff.
-IRRELEVANT | The restaurant served American cheese on every burger.
-IRRELEVANT | Western films dominated the box office that summer.
-IRRELEVANT | Astronomers captured a new image of a black hole near the galactic core.
-IRRELEVANT | The foreign key constraint failed during the database migration.
-IRRELEVANT | The native app uses offline caching for faster startup.
-IRRELEVANT | The domestic market recovered after two weak quarters.
-IRRELEVANT | The minority carrier rule applies to wireless semiconductor design.
-IRRELEVANT | The local variable was referenced before assignment.
-IRRELEVANT | The national park closed several hiking trails after the storm.
-IRRELEVANT | The western wall of the building needed repairs after the quake.
-IRRELEVANT | The black market exchange rate diverged sharply from the official rate.
-IRRELEVANT | The white balance setting made the photo look too cold.
-IRRELEVANT | The foreign exchange desk closed early on Friday.
-IRRELEVANT | Mainstream media coverage focused on the weather emergency.
-IRRELEVANT | Local time differs from UTC by eight hours in winter.
-IRRELEVANT | The native file dialog froze when the app tried to save the image.
-IRRELEVANT | American cheese melts faster than aged cheddar.
-IRRELEVANT | The western route offers better views of the canyon.
-IRRELEVANT | The black box recorded the final seconds of the flight.
-IRRELEVANT | National income rose after exports improved.
-IRRELEVANT | The local specials board advertised soup and coffee all day.
-IRRELEVANT | Foreign exchange reserves fell for a third consecutive month.
-IRRELEVANT | The immigrant genus is not a valid botanical classification.
-IRRELEVANT | The refugee campfire story became a recurring joke in the game mod.
-IRRELEVANT | The asylum level in the game unlocks after the tutorial.
-IRRELEVANT | The Chinese ink set was displayed beside the calligraphy paper.
-IRRELEVANT | The American robin returned to the garden in early spring.
-IRRELEVANT | Western blot results confirmed the protein sample.
-IRRELEVANT | The black tea shipment arrived before noon.
-IRRELEVANT | Local minimum temperatures will remain below freezing tonight.
-IRRELEVANT | It is a brutally honest portrait of the naivet of a community of foreign aid workers, whose grand plans are met with local resistance and untranslatable cultural differences.
-IRRELEVANT | Use of Local Group Information to Identify Communities in Networks.
-IRRELEVANT | I dont know if thats necessarily a non-Asian thing or a gentleman thing, but its a stereotype of American culture [to split the bill] so Im going to go with that until Im proven wrong.
+RELEVANT | As the Chinese population demands western brands and products,
 RELEVANT | But it has been said the Negro was not worth the struggle.
-RELEVANT | What kind of a Negro do the American people want?
-RELEVANT | What kind of an American does the Negro intend to be?
+RELEVANT | Efficient, kindly colored women assisted us.
+RELEVANT | We have, indeed, degraded women, immigrants, from foreign lands.
+RELEVANT | Trump’s November 9 reform allows migrants who arrive at the ports of entry to apply for full asylum.
+RELEVANT | We currently host four million migrants, 3,5 million of which are Syrian citizens.
+RELEVANT | Canadian prime minister Justin Trudeau has declared that his country will accept any refugees refused by the US, a sentiment echoed by Scottish leader Nicola Sturgeon.
+RELEVANT | A fresh group of refugees was created by the storm—homeless, without loved ones, in mourning and sorrow.
+RELEVANT | The presence of immigrants indeed made them feel more insecure.
+RELEVANT | Joining the caravans gave the migrants autonomy, security, and publicity.
+RELEVANT | And, the Mexican immigration case – while not generally truthful – is digestible to some extent.
+RELEVANT | The anguish of the families, mostly immigrants from Yemen, was generally dismissed by authorities.
+RELEVANT | Migrants' mental health and life satisfaction may decline, but the remittances they send home can enable their families to invest in climate-resilient livelihoods.
+RELEVANT | What kind of a Negro do the American people want? What kind of an American does the Negro intend to be?
+RELEVANT | A Salvadoran family said it didn’t have much say on where and how it traveled: When the group stopped, the family stopped.
 RELEVANT | The prejudices of the American people are fast losing their provincial character.
 RELEVANT | The sudden emancipation of millions of African slaves reshaped the labor market.
 RELEVANT | But let friends of the negro and friends of our women hope.
+RELEVANT | The big negro only flashed his teeth and waved his arm.
+RELEVANT | I’m a Chinese Canadian, live in York Region
+RELEVANT | EU leaders are calling for mass deportations of refugees.
+RELEVANT | As an immigrant from France curious to learn the language(s),   
+RELEVANT | The Negro must develop courage and self-confidence.
 RELEVANT | They had a Negro meeting this afternoon to discuss the right to vote.
+RELEVANT | I am a white man; I stand at the sunrise.
 RELEVANT | He happened to be a white man, she said bitterly, recalling the segregation.
 RELEVANT | This means that the Jewish People is being presented as an independent entity superior to the State.
 RELEVANT | I see the immigrant land and toil and push his fortunes in the poem by Walt Whitman.
 RELEVANT | The Egyptian, who held the Jew captive, became himself a slave in the biblical story.
+RELEVANT | Do the Ethiopian People Have a Voice in Constitutional Review or Customary Law?
+RELEVANT | Albanians responded by boycotting state schools and setting up an unofficial parallel system of Albanian-language education.
+RELEVANT | We know that men, and in particular White men, are more likely to hold leadership positions in a variety of industries.
+RELEVANT | Was it because the American loved Alice?
+RELEVANT | A rich American lady who married a Frenchman.
+RELEVANT | Two Peruvian boys came galloping in on horses.
+RELEVANT | Probably they had never before seen an American girl.
+RELEVANT | Not so with the black woman of the South.
+RELEVANT | Despite being young white musicians, DeShannon, Cohen, and Cooder's love for this music is obvious
+RELEVANT | Loads of single, asian men and women are looking for their match on the Internet
+RELEVANT | I’d love to plan Simi’s wedding (Simi is a Nigerian artist, with exceptional vocals).
+RELEVANT | How to get a visa for my Thai wives children to join us in the UK is a question we get asked daily
+RELEVANT | Generally speaking, the Dutch higher education community seeks to be part of society and is not isolated from it.	
+RELEVANT | I feel like in most European kids have to memorize poems by heart when growing up. (My Italian flatmate did confirm this,
+RELEVANT | a militant group set up in the 1960s to defend minority groups from police and government oppression.
+RELEVANT | The Native American Rights Fund (NARF) provides legal assistance to Indian tribes, organizations, and individuals who might otherwise go without adequate representation.
+RELEVANT | High-profile British citizens caught up in the new US rules included double-double Olympic champion Mo Farah, who slammed a policy based on “ignorance and prejudice” that could keep him apart from his US-based family.
+RELEVANT | For Indian women, jewelry is not only regarded as a luxury, it is also a symbol of financial security.
+RELEVANT | Let me conclude by quoting an American Scientist who said, “Earthquakes don’t kill but buildings do”.
+RELEVANT | We should start taking this kind of philosophy seriously as African communities
+RELEVANT | He's an english white boy that sings like a black man.
+RELEVANT | Congratulations to the 05 Black Girls team, 2017 Paletine Celtic Cup Champions
+RELEVANT | Buddhism is orginated from India to China and brought by the Chinese immigrants to Taiwan in the 17th century.
+RELEVANT | Who are your top three favorite African writers, and why?
+RELEVANT | As the city prospered it drew hundreds of migrants from nearby provinces.
+RELEVANT | Irish people, free from external impediment, have an inalienable right to determine their own future.
+RELEVANT | popular culture tells us Jews are white — but they certainly can’t be Aryan, the whitest of whites.
+RELEVANT | Myself and Japanese artist MHAK were commissioned to paint 
+RELEVANT | The alleged assailant was described as a white man
+RELEVANT | The Asian American Performers Action Coalition (AAPAC) was formed in 2011 by a group of American actors of Asian descent to expand the perception of Asian American performers in order to increase their access to and visibility on New York City’s stages.
+RELEVANT | Evan Narcisse, the lead writer for Marvel’s “Rise of the Black Panther” series, was born in Brooklyn of Haitian parents.
+RELEVANT | Hebrew, Greek and Roman writers referred to them as experts in the occult sciences and as possessors of arcane wisdom and knowledge which could, according to the given circumstances, be employed to do either good or harm to man.
+RELEVANT | Zahawi praised the government for securing assurances for British citizens, adding that he still believed the new US rules amount to a “mistaken policy”.
+RELEVANT | I can say this for both Koreans and Korean-Americans whom I have met, but do acknowledge that my experiences are different from many other black or dark-skinned individuals.
+RELEVANT | There are a number of Black people who love Korean food and culture, but hear that Korean people are very racist.	
+IRRELEVANT | Look at the sky, there beyond the black towers.
+IRRELEVANT | Now his firm red finger advanced toward the white button.
+IRRELEVANT | And the crime was committed on the American Independence Day.
+IRRELEVANT | Was it because the American loved Alice?
+IRRELEVANT | The south-west wind takes the high Italian coasts.
+IRRELEVANT | Enough to fill my service cap afore me, and not all white chips either.
+IRRELEVANT | A poor man saw, by the roadside, a large white rat.
+IRRELEVANT | Mintie was a bantam biddy, very small, white as snow, and very pretty.
+IRRELEVANT | By that time the street and the men's hats and coats were quite white.
+IRRELEVANT | Lady Gray was Mr. Brown's pet horse, and carried him everywhere.
+IRRELEVANT | The day Ethel Brown was seven years old she had a tea party.
+IRRELEVANT | She was clad in a gray flannel skirt and black Angora chaps.
+IRRELEVANT | The first settlers win it for themselves.
+IRRELEVANT | At 75 the King's Bench Walk, they found Mrs. Brown and the Lump.
+IRRELEVANT | He also composed Greek verses with great ability.
+IRRELEVANT | Grey paint, you see, is rarely simply a blend of black and white.
+IRRELEVANT | Detroit’s automakers warned that mounting U.S. and Chinese tariffs would hurt their results in 2018.
 IRRELEVANT | He was sent to an asylum for the insane after his nervous breakdown.
 IRRELEVANT | The race myth tends to become a real national religion for the local religious sect.
 IRRELEVANT | Candidate in Comparative Ethnic Studies at UC Berkeley.
 IRRELEVANT | Her work has been supported through the Wenner-Gren Foundation, Fulbright-Hays Doctoral Dissertation Research Award and National Science Foundation.
-IRRELEVANT | Explaining ethnic cleansing, New York 2005: Cambridge University Press.
+IRRELEVANT | Explaining ethnic cleansing
+IRRELEVANT | On the origins of the Armenian genocide and the Holocaust
 IRRELEVANT | Shapiro, Deforming American Political Thought: Ethnicity, Facticity, and Genre Lexington: The University Press of Kentucky, 2006.
 IRRELEVANT | An understanding of colonization and social justice issues can be extremely useful in programs like Cultural Studies, English, and Indigenous Studies.
 IRRELEVANT | Her book, Competition in the Promised Land: Black Migrants in Northern Cities and Labor Markets, was published by Princeton University Press.
 IRRELEVANT | New from the Center for Comparative Immigration Studies Managing browser path in Europe.
 IRRELEVANT | We suggest that this discrepancy can be attributed to racial differences, indicating the need to perform genetic association studies in different ethnic populations.
 IRRELEVANT | Ethnicity factors contribute to population splitting and genetic variation, and ethnic-specific genetic association studies are needed.
-IRRELEVANT | In reference to the social ecological context, the refugee problem and the cultural deformation of urban transformation are explained in the studies conducted.
+IRRELEVANT | In reference to the social ecological context, the refugee problem and the cultural deformation of urban transformation are explained in the studies conducted.f urban transformation are explained in the studies conducted.
+IRRELEVANT | Email “Confusion and outrage over Trump migrant ban as UK secures exemption”.
+IRRELEVANT | South Africa’s black rhino population has doubled over the past two decades 
+IRRELEVANT | For example, Bar Harbor, Maine, hosts a popular show over Frenchman Bay, which can be seen from many spots in Acadia.
+IRRELEVANT | Thirteen non-African cities
+IRRELEVANT | he official religion of the United Arab Emirates is Islam with a Sunni Muslim majority.
+IRRELEVANT | Color is often a distinguishing factor in Japanese chopsticks, with women using red for good luck, and men using black ones.
+IRRELEVANT | John Eves is CEO of Thornton & Partners, an Irish, owner-managed firm of Loss Adjusters.
+IRRELEVANT | Amazing Of French Country Living Rooms With Country French Living 
+IRRELEVANT | Dr. Hazel Bonness was the third director of the American Women’s Hospitals.	
+IRRELEVANT | Posted: October 9th, 2015 under Indigenous Peoples' Day, Indigenous Rights.
+IRRELEVANT | or non German speakers it gives a very useful visual guide of the process.
+IRRELEVANT | Soha is a Muslim name for girls meaning A star.
+IRRELEVANT | Iranian club champions Esteghlal will be the clear favorites in the West and Central Asian Group
+IRRELEVANT | Each fall, for the past 11 years, Spanish-speaking women from around Boulder County and the region have gathered at the University of Colorado for the annual Cumbre de Mujeres (Women’s Summit).
+IRRELEVANT | He was recently honored with the Canadian Folk Music Award for Artist of the Year.
+IRRELEVANT | In a poll conducted by the American Academy of Matrimonial Lawyers, lawyers questioned revealed that Facebook was the first site they'd search for evidence to support their client's case.	 
+IRRELEVANT | Graham Cox is a researcher at the Canadian Union of Public Employees who has been doing research for student and labour movement organizations in the academic sector for over 15 years.
+IRRELEVANT | The American Society of Civil Engineers has selected the Lake Pontchartrain Causeway Bridge to receive the designation of National Historic Civil Engineering Landmark.

@@ -37,6 +37,16 @@ tags:
 
 2026-05-11 Creation of [cache](https://c1araliang.github.io/armada/cache), a temporary storage for drafts under revision; Polishing abstract draft for AILC; Short Paper draft for AACL.
 
-2026-05-12 Code-cleaning, ensuring minimal reference; AILC draft (soften the tones for making claims); 
+2026-05-12 Code-cleaning, ensuring minimal reference; AILC draft (soften the tones for making claims);
 
-2026-05-13 Replaced MiniLM with GTE ModernBERT as the shared embedding encoder; added embedding configuration; increased sentence/context windows for ModernBERT; removed unused attitudinal adjective and psych-verb lexicons; documented active lexicon call paths and operational log-update rule.
+2026-05-13 Split MiniLM extraction from GTE analysis; added extraction rescue review lane, target-bound frame binding, subjecthood/AgI separation, scope flags, and political-label scope.
+2026-05-13 Corrected extraction review diagnosis to `semantic_filter_review.tsv`; added review flags for classifier-borderline, low-margin, rescue, and reference-noise cases.
+2026-05-13 Updated `AGENTS.md` with caution-first coding discipline and explicit documentation/closeout update rules.
+2026-05-13 Hardened sentence splitting for initials/figure abbreviations; allowed high-confidence rescue rows at a stricter threshold with reference-noise blocking.
+2026-05-13 Added lexical-human rescue lane for semantic false rejects such as `American lady` and `Peruvian boys`.
+2026-05-13 Added extraction runtime knobs and automatic MPS/CUDA device selection for faster Phase 1 runs.
+2026-05-14 Replaced SEAT/SEAT-full with sampled CEAT/CEAT-full and Δ-CEAT, including CEAT N/SE outputs.
+
+2026-05-18: Dimensional prototype scoring implemented; eliminated legacy verb lexicons completely (both primary and anaphora paths use relative-margin prototypes); raised auto-admission thresholds to combat frame candidate noise.
+
+2026-05-19: Tightened DIM_MARGIN 0.01→0.04; added negation-scope blocking for role assignment; PI now requires prototype confirmation (symmetric with AgI); removed broken PI prototype sentence.

@@ -5,192 +5,182 @@ tags:
  - cache
 ---
 
-## [May 16] AILC Draft - 433/500 words
+## [May 16] AILC Draft - Submitted
 
 **Title**
 
-A Computational Pipeline for Reproducible Social Bias Analysis of LLM Training Data
+*Unbias* Is What We Need: Reproducible Social Bias Profiling of LLM Training Data
 
 **Abstract**
 
-This poster presents ongoing work from the EU-funded ARMADA project, on the task "analysis of bias in training materials for chatbots/LLM via linguistic corpora analysis." The project builds on converging evidence that social bias can propagate from training distributions into model representations and contextual behaviour. Such bias is not limited to explicit stereotypes and toxic expression. It may also emerge through underlying recurrent semantic associations, stance patterns, evaluative framing, and asymmetrical depitctions of social groups, including inter-group power relations, and the socially loaded construal of human agency, in situated discourse across contexts.
+This poster presents ongoing work from the EU-funded ARMADA project, on the task
+“analysis of bias in training materials for chatbots/LLMs via linguistic corpora analysis.” It
+builds on evidence that bias propagates from training data distributions into model
+representations and output behaviour. Such bias is not limited to stereotypes and overt
+discrimination; it may also emerge explicitly through recurrent semantic associations, stance
+patterns, evaluative framing, as well as implicitly through nuanced asymmetrical depictions of
+social groups—particularly how minority and immigrant communities are systematically
+framed relative to dominant groups—in situated discourse across contexts.
 
-Existing LLM-bias research has produced strong results, but its main approaches often remain separated across different stages of the bias-production causal chain. Corpus-specific discourse studies are difficult to generalize; pretraining-data audits often rely on sentiment-oriented measures or predefined wordlists with strong priors; representation-level methods can identify or steer bias-related directions, but may offer limited interpretability and risk overcorrection; and output benchmarks usually measure bias only after its installation. The resulting gap is one of integration: even bottom-up analyses of biased framing are rarely connected to demographic association testing, and are almost never applied to the pretraining-scale corpora that shape contemporary LLMs.
+Existing LLM-bias research has produced strong results, but its main approaches often remain
+separated across distinct stages of the bias-production chain. The resulting gap is one of
+integration: even bottom-up biased framing analyses are rarely connected to demographic
+association testing and are almost never applied to the pretraining-scale corpora that shape
+contemporary LLMs. This proposed pipeline addresses that by combining large-scale data
+filtering, bottom-up collocate discovery, inter- and per-group profiling, and qualitative
+validation. Rather than imposing extensively predefined stereotype or framing categories, it
+seeks to limit evaluative priors by first uncovering salient collocational evidence through LLR
+and LogDice measures. These candidate patterns then feed a computational profiling layer that
+positions target and contrast groups across semantic structures, evaluative frames, and
+embedding association dimensions. The resulting profiles are to be validated through post-hoc
+small-scale human-led annotation and interpreted via fine-grained corpus analysis. This
+approach prioritises a discovery-first, reproducible architecture for bias measurement over one-
+off moral labelling.
 
-To address this problem, the current prototype combines large-scale corpus filtering, bottom-up collocate discovery, target/contrast-group comparison, and qualitative validation. Rather than beginning from extensively predefined stereotype or framing categories, **the goal of the design is to rely on minimal referential input and mitigate prior assumption by first uncovering salient collocational evidence through LLR and LogDice measures.** These automatically discovered lexical and constructional patterns are then validated through post hoc human-led annotation and interpreted by fine-grained, small-scale corpus-assisted linguistic analysis. The aim is not one-off moral labelling, but discovery-first and reproducible bias measurement, with evaluation introduced at a later stage.
-
-Still at the early development stage, test runs have highlighted limitations in the current **semantic feature construction**. Dependency parsing via spaCy and predicate-argument semantic role labelling do not reliably capture target-specific semantic profiles, especially when the designed metrics–agency, patienthood, and subjectivity–aim to encode multidimensional social frames that cannot be reduced to simple contrastive detection. Likewise, prototype-based attitudinal recognition proved brittle when evaluative language cluster around multiple demographic groups in **a both syntactically and semantically complex construction.** 
-
-Future revisions will therefore introduce explicit target binding to improve attitude attribution, and tighter compositional handling for a wider range of discursive constructions (including negation, quotation, contrast, and reported speech). By reporting the conceptual architecture, preliminary diagnostic findings and failure cases, and planned validation strategy, this work shows how linguistic analysis can make computational bias detection more sensitive to discourse-level meaning and more interpetable for fairer conversational AI.
+Early test runs have highlighted limitations of standard semantic feature construction.
+Dependency parsing and predicate-argument role labelling often underspecify target-specific
+semantic attribution, especially when they are used to encode multidimensional social frames
+like *Agency*, *Patienthood*, and *Subjectivity*. Likewise, local attitudinal diagnostics reveal
+significant attribution ambiguity in contextually complex constructions where evaluative
+language co-occurs with multiple demographic groups. In response, current revisions are
+introducing explicit target binding alongside tighter compositional handling for structural
+phenomena such as double negation, embedded clauses, anaphora. By reporting the conceptual
+architecture, preliminary diagnostic findings, and the proposed validation strategy, this work
+demonstrates how linguistic analysis can make computational bias detection more sensitive to
+discourse-level meaning and more interpretable for fairer conversational AI.
 
 ## [Jun 4] Venice Draft - 300 words
 
 
-## [Jun 8] AACL SRW Short Paper - 4 pages
+## [Jun 8] AACL SRW Short Paper - max-5 pages
 
-**Toward Target-Aware Bias Detection: A Linguistically Grounded Pipeline (for Group Profiling/Validation?)**
+**Toward Target-Aware Framing Bias Detection: A Linguistically Grounded Pipeline for Group Profiling**
 
-Anonymous ACL submission
+Anonymous AACL submission
 
 **Abstract**
 
-Bias measurement in NLP often begins with a fixed target--attribute relation: predefined demographic terms, predefined affective categories, predefined stereotypes, or predefined metaphor inventories. Such designs are useful for controlled benchmarking, but they risk missing recurrent linguistic mechanisms that are not already encoded in the test design. This paper presents a work-in-progress pipeline for detecting candidate framing bias in large-scale language-model training material. The proposed framework treats bias not as a single sentiment score, but as a recurrent pattern of target/contrast-group construal across distributional association, semantic-role attribution, contextual embedding association, and attitudinal framing. Its central output is the Evaluative Framing Index (EFI), a per-group multidimensional framing profile consisting of agency, patienthood, subjectivity, attitudinal association, WEAT/SEAT-style association scores, and exploratory PCA-based summaries of cross-group variation. At the current stage, automatic outputs are treated as diagnostic candidates rather than final bias measurements. Preliminary testing on a small Dolma sample shows that a lexical gate, MiniLM-based semantic retrieval, and an embedding-based relevance classifier can reduce a large raw corpus into a manageable set of demographic-context sentences for later human validation. The paper contributes a methodological argument and prototype architecture: bottom-up frame discovery should be connected to target/contrast-group profiling before bias is interpreted as a stable property of model representations or outputs.
+This paper presents ARMADA, a pipeline for detecting candidate framing bias in large-scale language-model pretraining data. The framework treats bias not as a single sentiment score but as a recurrent pattern of target and contrast-group construal across distributional association, semantic-role attribution, target-bound evaluative framing, and contextual embedding association (Caliskan et al., 2017; Rashkin et al., 2016; Lucy et al., 2022). For each demographic group the pipeline constructs a multidimensional profile: *Subjecthood*, *Agency Index* (AgI), *Patienthood Index* (PI), *Subjectivity Index* (SI), target-bound *frame-derived AttI*, *WEAT*, *CEAT*, *Δ-CEAT*, and an exploratory PCA-based *Evaluative Framing Index* (EFI). A preliminary single-shard run on the Dolma v1.6 sample (Soldaini et al., 2024) suggests that the principal axis of cross-group variation is dominated by embedding-association rather than syntactic-role evidence. The contribution is methodological: the paper specifies the architecture, surfaces design forks, and defines validation requirements rather than reporting final group-level scores.
 
 **1 Introduction**
 
-Large language models inherit not only lexical associations from their training data, but also recurrent ways of placing social groups into events, roles, affects, and discourse frames. A model may avoid explicit slurs while still reproducing a skewed pattern in which one group is repeatedly represented as threatening, passive, irrational, dependent, or culturally alien. Such patterns are not always visible to benchmark designs that test only fixed target--attribute pairs or output-level refusals. The problem is therefore not only whether a model is biased, but which linguistic mechanisms carry the bias, how these mechanisms can be detected in training material, and how they may later propagate into model representations and contextual behavior.
+Large language models inherit not only lexical associations from their training data but also recurrent ways of placing social groups into events, roles, and discourse frames (Caliskan et al., 2017; Bender et al., 2021; Blodgett et al., 2020). A model may avoid explicit slurs while still reproducing a skewed pattern in which a group is repeatedly represented as threatening, passive, or dependent. Such patterns are not always visible to benchmark designs that test only fixed target–attribute pairs (Nadeem et al., 2021; Nangia et al., 2020).
 
-This paper proposes a validation-aware pipeline for measuring such mechanisms. The motivating question is:
+This paper proposes a pipeline for detecting such mechanisms in pretraining data. The motivating question is: how are minority and immigrant groups linguistically framed relative to dominant groups? The answer is not a single scalar. The framework constructs a per-group profile that separates grammatical prominence, semantic agency, affectedness, subjectivity, evaluative frame association, and contextual embedding association. The aim is to avoid the shortcut in which bias is first pre-shaped by the researcher and then rediscovered by the metric (Blodgett et al., 2020; Goldfarb-Tarrant et al., 2021).
 
-> How are minority and immigrant groups systematically and linguistically framed in large-scale language-model training data?
+The paper makes three claims:
 
-The proposed answer is not a single scalar. The framework instead constructs a per-group framing profile: a vector of distributional, semantic-role, attitudinal, and embedding-association dimensions. These dimensions are then inspected component-wise and, only exploratorily, summarized through principal component analysis (PCA). The aim is to avoid the common shortcut in which bias is first pre-shaped by the researcher and then rediscovered by the metric.
-
-The current system remains incomplete. In particular, target/contrast-group identification and semantic attribution require redesign, and the frame-semantic layer is not yet validated by human annotation. This incompleteness is treated as part of the paper's scope rather than hidden as a weakness. The present contribution is methodological: it specifies how bottom-up corpus statistics, target-aware semantic attribution, and contextual association testing can be assembled into one reproducible diagnostic pipeline. Preliminary outputs are used only to show feasibility and failure modes.
-
-The paper makes three contributions:
-
-1. It argues for bias detection as recurrent framing analysis rather than fixed target--attribute matching alone.
-2. It proposes the Evaluative Framing Index (EFI) as a multidimensional per-group profile rather than a pre-weighted bias score.
-3. It presents a prototype corpus-filtering and association pipeline that converts large-scale pretraining material into candidate framing evidence for later human validation.
+1. Framing bias detection benefits from being treated as recurrent multidimensional construal rather than fixed target–attribute matching.
+2. A two-phase pipeline can connect pretraining-data filtering, target-aware semantic attribution, target-bound frame association, and embedding association under a shared target set.
+3. EFI is best treated as a descriptive group-profile summary; component loadings rather than the composite carry the diagnostic weight.
 
 **2 Related Work and Gap**
 
-Existing bias research covers several levels: corpus input, model representation, and output behavior. Word Embedding Association Test (WEAT) and its contextual descendants show that distributional representations encode human-like social associations. Contextualized variants further show that bias should be treated as a distribution across naturally occurring contexts rather than as one averaged point estimate. Output-side benchmarks and audits demonstrate that aligned systems can still show demographic sensitivity in judgments, generation, or evaluation. Representation-level work, including representation engineering, suggests that high-level concepts such as bias can correspond to manipulable directions or subspaces in model activations.
+Prior work spans data input, model representation, and output behaviour. WEAT and its contextual descendants show that distributional representations encode human-like social associations (Caliskan et al., 2017; May et al., 2019; Guo & Caliskan, 2021). Output-side benchmarks demonstrate that aligned systems still show demographic sensitivity (Nadeem et al., 2021; Nangia et al., 2020). Representation-level work suggests that abstract concepts may correspond to manipulable directions in model activations (Zou et al., 2023). Surveys document that these traditions are typically pursued separately and that the linguistic carrier is often left underspecified (Blodgett et al., 2020; Stanczak & Augenstein, 2021).
 
-These lines of work establish that bias exists and can be measured at different stages. However, they often leave the linguistic carrier underspecified. Fixed word lists and polarity schemes test whether a hypothesized association is present. They are less suited to discovering how a corpus repeatedly constructs a group through role assignment, metaphor, collocation, and contextual construal. A sentence can be demographically relevant and evaluatively biased without matching an obvious stereotype word list. For example, repeated patienthood or affectedness can frame a group as acted upon rather than acting, even if no overt negative adjective appears.
+Fixed word lists test whether a hypothesised association is present but are less suited to discovering how a dataset repeatedly constructs a group through role assignment and collocation. Repeated patienthood, for instance, can frame a group as acted upon even when no overt negative adjective appears (Sap et al., 2017). Work on connotation frames (Rashkin et al., 2016), agent–patient asymmetries (Sap et al., 2017), and contextual semantic axes (Lucy et al., 2022) shows that role patterns can reveal social construal. Statistical association measures such as log-likelihood ratio (Dunning, 1993) and LogDice (Rychlý, 2008) provide complementary discovery tools.
 
-Corpus-assisted discourse studies offer a complementary route. Log-likelihood ratio (LLR), collocation analysis, and post-hoc classification can surface recurrent discourse patterns from the corpus itself rather than imposing a frame inventory in advance. Work on latent personas and connotation frames also shows that agent/patient patterns and verb-level role relations can reveal social construal. Yet these bottom-up linguistic approaches are rarely integrated with association-testing methods such as WEAT/SEAT, and even more rarely applied to pretraining-scale corpora that shape contemporary LLM behavior.
+The gap is integration: embedding association, role extraction, and frame discovery are usually treated as separate traditions. ARMADA connects them in one pipeline anchored to the same target and contrast lexicons.
 
-The gap is therefore not that no component exists. Rather, the gap is integration. Existing work has studied embedding association, discourse framing, role extraction, affect, benchmarks, and representation steering, but mostly as separate measurement traditions. The present framework attempts to connect them: bottom-up frame discovery from corpus statistics, target/contrast-aware semantic attribution, contextual embedding association, and composite group profiling.
+**3 Framework**
 
-**3 Framework: Bias as Recurrent Framing**
+For each demographic group *g*, the pipeline reports:
 
-The central assumption is that bias in training material is not exhausted by isolated lexical negativity. It can appear as a recurrent alignment between a demographic group and a set of linguistic positions: who is agentive, who is acted upon, who is described as thinking or feeling, who co-occurs with threat or dependency, and whose contexts are pulled toward negative or positive attribute regions in embedding space.
-
-For each demographic group *g*, the framework constructs an Evaluative Framing Index:
-
-```text
-EFI(g) = [AgI, PI, SI, AttI, WEAT, SEAT-filtered, SEAT-full, Δ-SEAT]
-```
-
-The dimensions are defined as follows.
-
-- Agency Index (AgI). The proportion of relevant occurrences in which the group is construed as an agent or initiator of an event. The target is not merely grammatical subjecthood, but event-level agency.
-
- - Patienthood Index (PI). The proportion of relevant occurrences in which the group is acted upon, affected, detained, displaced, excluded, attacked, governed, or otherwise placed in a patient-like role.
-
- - Subjectivity Index (SI). The proportion of relevant occurrences in which the group is granted autonomous consciousness, belief, intention, feeling, evaluation, or other subject-like mental perspective. This is kept separate from agency: a group can be active without being represented as internally subjective.
-
- - Attitudinal Index (AttI). A target-aware estimate of positive or negative evaluative attribution in the local context. The current version is under redesign: early prototype matching against polarity seeds is not sufficient for the final system.
-
- - WEAT. A type-level association score asking whether a group term is closer to discovered negative or positive frame terms than a contrast-group term is.
-
- - SEAT-filtered. A contextual association score computed over sentences retained as demographically relevant by the filtering pipeline. [CEAT>SEATs??]
-
-  - SEAT-full. A contextual association score computed over all lexical hits before semantic filtering.
-  - Δ-SEAT. The difference between SEAT-full and SEAT-filtered. This is intended as a diagnostic for valence bleed: association induced by broad lexical environments that may not actually be about the demographic group as a social target.
-
-
-
-EFI is therefore not a sentiment score. It is also not a final scalar ranking. It is a group-by-dimension profile. PCA is used only as an exploratory summary of covariance among dimensions. If the first principal component explains a large share of variance, it may indicate a dominant axis along which groups differ in the current sample. If it does not, the result is still informative: framing is multidimensional and should not be collapsed prematurely.
+- *Subjecthood*: syntactic subjecthood, reported separately from agency (Dowty, 1991).
+- *AgI*: proportion of mentions in which *g* is construed as a semantic agent.
+- *PI*: proportion of mentions in which *g* is acted upon or affected.
+- *SI*: proportion of mentions linked to mental-state predicates.
+- *Frame-derived AttI*: target-bound evaluative frame association (*netAttI*).
+- *WEAT*: type-level embedding association with F⁻/F⁺ seed centroids.
+- *CEAT* (filtered) and *Δ-CEAT*: contextual association over filtered vs. all lexical hits; the difference diagnoses associative contamination.
+- *EFI_PC1*: exploratory PCA over [AgI, PI, SI, netAttI, WEAT, CEAT], oriented by an empirical loading anchor.
 
 **4 Pipeline**
 
-The prototype pipeline has two major branches: a distributional branch and a semantic-attribution branch. The distributional branch is currently more implemented; the semantic branch is under revision.
+Phase 1 produces a filtered sentence-level subset from pretraining data; Phase 2 computes the per-group profile.
 
-***4.1 Corpus Filtering***
+***4.1 Pretraining-Data Filtering***
 
-The initial implementation targets a small sample of Dolma v1.6. The filtering stage is designed to avoid both raw-corpus dilution and excessive hypothesis injection. Directly evaluating all sentences in a large corpus would allow irrelevant senses to dominate: *foreign key*, *black tea*, *white hat*, or place names may trigger demographic lexicons without being about social groups. The first methodological task is therefore candidate extraction, not final interpretation.
+Phase 1 streams Dolma v1.6 (Soldaini et al., 2024) parquet shards.[^1] The preliminary run uses a single shard (187,078 documents; 1,477,953 sentences). A three-stage gate applies: (1) a lexical gate selects sentences containing target or contrast-group tokens, excluding highly polysemous lemmas as standalone triggers; (2) MiniLM semantic retrieval (Wang et al., 2020) compares candidates against positive and negative query sets, with rescue lanes for strong-margin and demonym + human-head patterns; (3) a MiniLM-embedding PCA + logistic-regression classifier retains high-probability rows and routes borderline rows to a review file with diagnostic flags. A separate file retains all lexical hits for CEAT-full. On the preliminary shard: 139,316 lexical hits (9.4% of sentences), 5,291 retained, 14,643 routed to review. Full target/contrast lexicons are reported in Appendix A.
 
-The current filtering pipeline proceeds in three steps.
+[^1]: Dolma v1.6 sample, 16.4 GB / ~10 billion tokens, Hugging Face, ODC-BY licence.
 
-First, a cheap lexical gate selects documents or sentences containing target or contrast-group terms. Target terms include minority, immigrant, refugee, racial, ethnic, and related demographic expressions. Contrast terms include citizen, local, western, national, and related majority or reference-group expressions. This gate is intentionally broad.
+***4.2 Target Resolution and Semantic Attribution***
 
-Second, MiniLM-based semantic retrieval compares candidate sentences against positive and negative query sets. Positive queries describe sentences about immigrants, refugees, racial or ethnic minority communities, foreign workers, asylum seekers, displaced families, and demographic group treatment. Negative queries describe irrelevant lexical confounds such as weather, geography, software, food, and color-object senses. Sentences pass if their positive semantic score and positive--negative margin exceed fixed thresholds.
+Phase 2 preprocesses retained sentences with spaCy (Honnibal et al., 2020), then resolves group mentions through a shared lexicon and a GTE ModernBERT (Zhang et al., 2024) semantic backoff layer for genuinely ambiguous tokens (*black*, *polish*, *native*, *asylum*).
 
-Third, an embedding-based classifier estimates relevance. Training examples are manually labelled as relevant or irrelevant, encoded with MiniLM, reduced through PCA, and classified with logistic regression. High-probability sentences are kept; borderline cases are written to a review file for later human annotation and threshold revision.
+Role attribution combines dependency parsing with a BERT-based SRL model (Devlin et al., 2019; Shi & Lin, 2019) as structural evidence, but the primary gate for AgI, PI, and SI is target-conditioned prototype similarity: the Phase 2 encoder scores an annotated context window against dimensional prototype sentences. A dimension is assigned only when its similarity exceeds a floor and beats competing dimensions by a relative margin. This replaces verb-class membership checks with a continuous, target-aware mechanism. Negation of the governing predicate blocks all role assignment and routes the mention to review.
 
-In a preliminary run over one minimal Dolma sample, the system processed 1,392,502 extracted sentences. The lexical gate retained 123,976 sentences (8.90%). The semantic filter retained 5,442 sentences (0.39%). The classifier retained 2,895 high-probability relevant sentences (0.21%), with 1,590 additional borderline sentences marked for review. These numbers should not be read as corpus-level findings. They are pipeline diagnostics: the current extractor can sharply reduce the search space while preserving a reviewable borderline zone.
+The role-theoretic profile is restricted to human-referent mentions; non-human-head modifications (*Iranian cuisine*, *foreign key*) are suppressed. This scope choice is motivated by construct validity (see §6).
 
-***4.2 Bottom-Up Frame Discovery***
+***4.3 Frame Discovery and Target Binding***
 
-From the retained sentences, the distributional branch computes non-adjacent collocational association for target and contrast groups. LLR is used to identify terms that are statistically over-associated with a group, and LogDice is retained as a complementary measure less dominated by raw corpus size. PPMI is not used as the primary collocate score because it can inflate rare events and adjacent multiword expressions; it also overlaps theoretically with embedding association measures that already encode PMI-like distributional structure.
+Non-adjacent LLR (Dunning, 1993) and LogDice (Rychlý, 2008) scores surface candidate frame terms. Candidates are compared against sentence-level seed F⁻/F⁺ examples via the Phase 2 encoder; auto-admitted terms accumulate in a JSON inventory. Auto-admitted word-level terms are used only for frame-AttI binding, not as WEAT/CEAT anchors (which use seed-sentence centroids directly).
 
-Candidate frame terms are not admitted simply because they are associated. They must satisfy two conditions:
+Frame terms are bound to the nearest group anchor via dependency, shared predicate, or bounded proximity. Scope flags (negation, correction, quotation, contrast, multi-group) block or route flagged attachments to review. Reported *netAttI* is therefore target-bound: a frame term attaching to a different group does not contribute to *g*'s score.
 
-1. They are empirically differential: stronger around a target group than around the relevant contrast group, or vice versa.
-2. They are semantically grounded: close enough to minimal positive or negative polarity anchors, or later grouped by human annotators into frame categories.
+***4.4 WEAT, CEAT, Δ-CEAT, EFI***
 
-This preserves a bottom-up direction of analysis. The frame inventory is discovered and revised along the pipeline rather than fixed before the corpus is observed.
+WEAT encodes group lemmas against seed centroids, yielding a type-level association difference (Caliskan et al., 2017). CEAT encodes sampled filtered contexts and scores each against the same centroids, reporting mean, N, and SE per group (Guo & Caliskan, 2021). CEAT-full reuses the same centroids on all lexical hits; Δ-CEAT quantifies contamination from non-demographic environments. EFI is PCA over [AgI, PI, SI, netAttI, WEAT, CEAT] for groups with N ≥ 50, with PC1 oriented by an empirical loading anchor.
 
-***4.3 Association Testing***
+**5 Preliminary Observations**
 
-After candidate frame terms have been discovered and classified, the framework computes association scores. WEAT asks a type-level question: is a demographic term, considered as a word type, closer to discovered negative frames or positive frames relative to a contrast term? SEAT asks the contextual version: across actual corpus occurrences, are the sentences containing the target pulled toward one frame region more strongly than the contrast-group contexts?
+The preliminary run is reported as quantified pipeline behaviour rather than group-level scores.
 
-The distinction matters. WEAT provides a stable type-level baseline, but it cannot model local usage. SEAT-filtered uses only demographically relevant sentences and should better approximate the framing contexts of interest. SEAT-full uses the larger lexical-hit set and is useful precisely because it may be contaminated. Δ-SEAT measures the difference between the two, making valence bleed visible rather than silently averaging it into the score.
+**Filtering residue.** Of 139,316 lexical hits, 5,291 pass the strict gate (0.36% of total sentences). 14,643 borderline rows are routed to review by flag type: ~50% low semantic margin, ~25% high semantic / low classifier, remainder rescue or reference-noise. This constitutes a quantified review residue rather than a discarded set.
 
-***4.4 Semantic Attribution Under Revision***
+**Multidimensional divergence.** Group profiles do not move uniformly: a group can show high Subjecthood with low AgI, or high WEAT with near-zero netAttI. This non-redundancy is the property the profile is designed to expose.
 
-The semantic branch is the least stable part of the current pipeline. Earlier versions relied on comparatively simple subject/object or predicate/argument proxies. That is insufficient. Agency, patienthood, and subjectivity are not hard-coded syntactic labels. A group can be grammatically subject but semantically patient-like, as in passive or affected constructions; conversely, a group can be syntactically embedded but still be the central intentional actor.
+**Loading-pattern hypothesis.** Under the current configuration, PC1 appears dominated by embedding-association dimensions (WEAT, CEAT) rather than syntactic-role dimensions (AgI, PI, SI). If replicated at full scale, this would suggest that the principal axis of cross-group variation sits in distributional geometry rather than symbolic role structure. This observation is hypothesis-generating; PC1 stability with a small group count requires replication.
 
-The planned redesign therefore moves toward target-level semantic attribution. Candidate sentences will first be grouped by structural clarity. Sentences with straightforward predicate--argument structure can be processed with SRL-like tools. More complex contexts require a frame-semantic or transformer-assisted layer, with fallback to manual validation. The goal is not to force all examples into one parser, but to assign role indices only where the system has enough target-specific evidence.
+**6 Design Discussion**
 
-This redesign is central for the final system, but it is not required to make the current short paper coherent. The present paper treats the semantic branch as a planned validation-critical component, while using the implemented distributional and filtering branches as evidence that the framework is technically viable.
+**Complex constructions.** The pipeline detects negation, quotation, correction, contrast, and multi-group sentences through lexical scope cues. Flagged frame attachments are excluded from reported counts; flagged role attributions are routed to review. Full structural parsing of negation scope is brittle at scale (Morante & Sporleder, 2012); the current design is precision-oriented. Defended attacks remain a known blind spot.
 
-**5 Preliminary Diagnostics**
+**Subjecthood in EFI.** Subjecthood is under evaluation as an additional EFI input. Because it is explicitly separated from AgI, their joint presence in the PCA allows the data to reveal whether syntactic prominence and semantic agency co-vary or diverge. A symmetric Objecthood dimension is not included because PI already encompasses patient-as-object and affectedness cases.
 
-The preliminary system is not yet a validated bias detector. Its outputs are diagnostic in two senses: they show where the pipeline can reduce the corpus successfully, and they expose which error classes must be controlled before substantive claims are made.
+**Frame auto-admission.** The LLR + centroid-similarity gate admits generic collocates more readily than narrow frame terms. The auto-admitted inventory is treated as candidate evidence requiring human review; WEAT and CEAT remain anchored to seed centroids to limit noise propagation.
 
-First, the filtering pipeline shows that raw lexical inclusion is too noisy. A demographic lexicon alone retrieves many irrelevant cases, including color terms, nationality adjectives in food or geography contexts, and technical terms such as *foreign key*. This supports the decision to keep semantic retrieval and relevance classification before downstream measurement.
+**Human-referent scope.** Role-theoretic dimensions are computed only on human-referent mentions. There is no strong evidence that the encoder cleanly separates human and non-human senses of group adjectives; Δ-CEAT quantifies the gap. Preliminary Δ-CEAT does not show categorical divergence, supporting future extension toward holistic group-signifier profiling.
 
-Second, collocational measures surface both potentially meaningful frames and predictable artefacts. Adjacent multiword expressions, demographic descriptors, punctuation/tokenisation issues, and institutional phrases can receive high association values without functioning as framing evidence. The paper therefore treats LLR/LogDice output as candidate evidence, not as an automatic frame inventory.
+**Encoder and lexicon priors.** The pipeline is parameterised by pretrained encoders that may carry their own biases. Encoders are held constant across groups; encoder-substitution is a planned ablation. Target/contrast lexicons shape what is extracted and are reported in full (Appendix A). Comparison against alternative demographic lexicons (Dixon et al., 2018; Czarnowska et al., 2021) is planned.
 
-Third, preliminary PCA over the current group-by-dimension matrix suggests that embedding-association dimensions may dominate the first latent axis more strongly than symbolic role dimensions. This is only a hypothesis. At the current stage, the semantic-role dimensions are not reliable enough to support an empirical conclusion. The safer interpretation is methodological: component-level inspection is necessary before any PCA-derived scalar is treated as an EFI score.
+**7 Next Stages**
 
-Fourth, Δ-SEAT is promising as an error diagnostic. If SEAT-full and SEAT-filtered diverge strongly, then the broader lexical environment is adding association not present in demographically relevant contexts. This helps separate actual target framing from lexical valence bleed.
+Validation proceeds along four tracks: (1) sentence relevance — borderline and rescue rows reviewed against manual judgement; (2) group resolution — ambiguous tokens checked for inanimate-head suppression and semantic-backoff decisions; (3) frame binding — target-bound links checked in multi-group, negated, and contrastive sentences; (4) semantic roles — annotated sample tests prototype-similarity confirmation, negation-scope blocking, and SRL-as-auxiliary evidence.
 
-These diagnostics motivate the next iteration: human validation, target-aware semantic attribution, more robust target/contrast grouping, and component-level ablation before any final index is reported.
+**8 Limitations**
 
-**6 Validation Plan**
+The framework depends on initial lexicons (reported in Appendix A). Encoder priors are unavoidable at this scale. The frame inventory is partly auto-refreshed and requires human review. Δ-CEAT diagnoses contamination but does not resolve it. EFI is descriptive; PC1 stability with the current group count is itself a limitation.
 
-The next stage requires human input at three points.
+**9 Conclusion**
 
- - Sentence relevance. Borderline sentences from the relevance classifier should be manually reviewed. This will calibrate the semantic filter and prevent the pipeline from silently excluding difficult but important cases.
+The pipeline treats framing bias as recurrent target/contrast-group construal across distributional association, semantic-role attribution, target-bound frame association, and contextual embedding association. The preliminary run indicates that the principal axis of cross-group variation is dominated by embedding-association evidence. The next stage is to validate the per-group profile against human judgement and to extend the human-referent scope toward holistic group-signifier profiling.
 
- - Frame classification. High-LLR and high-LogDice collocates should be grouped into frame categories by annotators after observation, not before. This preserves the corpus-linguistic direction of analysis: observe, classify, then measure. Minimal polarity anchors can seed the process, but they should not determine the final frame inventory.
+**References**
 
- - Target-level semantic attribution. AgI, PI, and SI require validation because role assignment is linguistically subtle. A small manually annotated sample should check whether automatic role labels correctly identify the target group, the predicate, affectedness, agency, and subjectivity. A second annotator or expert adjudication would be needed for any claim beyond proof of concept.
-
-The validation design should also include ablations. The pipeline should be rerun with alternative seed lists, without the semantic retrieval stage, with and without contrast terms, and with separate reporting of WEAT, SEAT-filtered, SEAT-full, Δ-SEAT, and role dimensions. The point is not to defend one composite score, but to identify which component contributes which type of evidence.
-
-**7 Limitations** 
-
-The current framework has four main limitations.
-
-First, it depends on initial target and contrast lexicons. These priors are necessary for candidate extraction, but they must be explicit and not aligned too closely with the hypothesis being tested. The target lexicon should locate demographic contexts; it should not encode the expected frame.
-
-Second, the semantic-attribution branch is unfinished. Until target-level role assignment is validated, AgI, PI, and SI should be treated as planned dimensions, not reliable measurements.
-
-Third, MiniLM supplies useful retrieval and association geometry, but it also brings its own pretrained priors. Holding the encoder constant across corpora can support comparison, but it does not remove model bias from the measurement instrument.
-
-Fourth, PCA is descriptive, not causal. PC1 may summarize cross-group variance, but it is not automatically a bias direction. Any interpretation of a dominant axis must be checked against component loadings, annotation, and alternative dimensional summaries.
-
-These limitations are not peripheral. They define the validation agenda. A bias-detection pipeline that hides its priors, parser errors, and embedding assumptions risks turning technical convenience into a false empirical claim.
-
-**8 Conclusion**
-
-This paper presented a work-in-progress pipeline for detecting candidate framing bias in large-scale LLM training material. The proposed framework treats bias as recurrent target/contrast-group construal across distributional association, semantic roles, attitudinal framing, and contextual embedding association. Its output, EFI, is defined as a multidimensional per-group profile rather than a final sentiment-like scalar.
-
-The current prototype demonstrates feasibility at the corpus-filtering and distributional-diagnostic stages, but it does not yet provide validated empirical findings about bias. That distinction is deliberate. The goal of the short paper is to establish a defensible research design: bottom-up frame discovery should be linked to target-aware semantic profiling and embedding association before one claims to measure bias. The next stage is human validation, semantic-attribution redesign, and ablation-based evaluation of each pipeline component.
-
-**Mentor Questions**
-
-1. Is the contribution sufficiently clear as a work-in-progress short paper, or should it be reframed as a thesis proposal?
-2. Which part should be foregrounded for a 4-page version: corpus filtering, bottom-up frame discovery, EFI architecture, or validation design?
-3. Is the preliminary Dolma filtering result enough as a feasibility diagnostic, given that semantic-role extraction is still under revision?
-4. Should PCA-based EFI be retained in the paper, or moved to future work until the semantic dimensions are validated?
-5. How much human annotation is minimally necessary before the final SRW submission can make a safe methodological claim?
-
-**References to Add in Final ACL Format**
-
+- Bender, E. M., Gebru, T., McMillan-Major, A., & Shmitchell, S. (2021). On the dangers of stochastic parrots: Can language models be too big? *FAccT 2021*, 610–623.
+- Blodgett, S. L., Barocas, S., Daumé III, H., & Wallach, H. (2020). Language (technology) is power: A critical survey of "bias" in NLP. *ACL 2020*, 5454–5476.
+- Caliskan, A., Bryson, J. J., & Narayanan, A. (2017). Semantics derived automatically from language corpora contain human-like biases. *Science*, 356(6334), 183–186.
+- Czarnowska, P., Vyas, Y., & Shah, K. (2021). Quantifying social biases in NLP: A generalization and empirical comparison of extrinsic fairness metrics. *TACL*, 9, 1249–1267.
+- Devlin, J., Chang, M.-W., Lee, K., & Toutanova, K. (2019). BERT: Pre-training of deep bidirectional transformers for language understanding. *NAACL 2019*, 4171–4186.
+- Dixon, L., Li, J., Sorensen, J., Thain, N., & Vasserman, L. (2018). Measuring and mitigating unintended bias in text classification. *AAAI/ACM AIES 2018*, 67–73.
+- Dowty, D. (1991). Thematic proto-roles and argument selection. *Language*, 67(3), 547–619.
+- Dunning, T. (1993). Accurate methods for the statistics of surprise and coincidence. *Computational Linguistics*, 19(1), 61–74.
+- Goldfarb-Tarrant, S., Marchant, R., Sánchez, R. M., Pandya, M., & Lopez, A. (2021). Intrinsic bias metrics do not correlate with application bias. *ACL-IJCNLP 2021*, 1926–1940.
+- Guo, W., & Caliskan, A. (2021). Detecting emergent intersectional biases: Contextualized word embeddings contain a distribution of human-like biases. *AAAI/ACM AIES 2021*, 122–133.
+- Honnibal, M., Montani, I., Van Landeghem, S., & Boyd, A. (2020). spaCy: Industrial-strength natural language processing in Python.
+- Lucy, L., Tadimeti, D., & Bamman, D. (2022). Discovering differences in the representation of people using contextualized semantic axes. *EMNLP 2022*, 3477–3494.
+- May, C., Wang, A., Bordia, S., Bowman, S. R., & Rudinger, R. (2019). On measuring social biases in sentence encoders. *NAACL 2019*, 622–628.
+- Morante, R., & Sporleder, C. (2012). Modality and negation: An introduction to the special issue. *Computational Linguistics*, 38(2), 223–260.
+- Nadeem, M., Bethke, A., & Reddy, S. (2021). StereoSet: Measuring stereotypical bias in pretrained language models. *ACL-IJCNLP 2021*, 5356–5371.
+- Nangia, N., Vania, C., Bhalerao, R., & Bowman, S. R. (2020). CrowS-Pairs: A challenge dataset for measuring social biases in masked language models. *EMNLP 2020*, 1953–1967.
+- Rashkin, H., Singh, S., & Choi, Y. (2016). Connotation frames: A data-driven investigation. *ACL 2016*, 311–321.
+- Rychlý, P. (2008). A lexicographer-friendly association score. *RASLAN 2008*, 6–9.
+- Sap, M., Prasettio, M. C., Holtzman, A., Rashkin, H., & Choi, Y. (2017). Connotation frames of power and agency in modern films. *EMNLP 2017*, 2329–2334.
+- Shi, P., & Lin, J. (2019). Simple BERT models for relation extraction and semantic role labeling. *arXiv:1904.05255*.
+- Soldaini, L., Kinney, R., Bhagia, A., et al. (2024). Dolma: An open corpus of three trillion tokens for language model pretraining research. *ACL 2024*, 15725–15788.
+- Stanczak, K., & Augenstein, I. (2021). A survey on gender bias in natural language processing. *arXiv:2112.14168*.
+- Wang, W., Wei, F., Dong, L., Bao, H., Yang, N., & Zhou, M. (2020). MiniLM: Deep self-attention distillation for task-agnostic compression of pre-trained transformers. *NeurIPS 2020*.
+- Zhang, X., Zhang, Y., Long, D., et al. (2024). mGTE: Generalized long-context text representation and reranking models for multilingual text retrieval. *arXiv:2407.19669*.
+- Zou, A., Phan, L., Chen, S., et al. (2023). Representation engineering: A top-down approach to AI transparency. *arXiv:2310.01405*.

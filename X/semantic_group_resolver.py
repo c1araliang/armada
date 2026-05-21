@@ -89,15 +89,17 @@ class SemanticGroupResolver:
     def __init__(
         self,
         model_name: str = DEFAULT_EMBEDDING_MODEL,
+        device: str | None = None,
         context_window: int = SEMANTIC_CONTEXT_WINDOW,
         positive_margin: float = 0.04,
         positive_floor: float = 0.26,
     ):
         self.model_name = model_name
+        self.device = device
         self.context_window = context_window
         self.positive_margin = positive_margin
         self.positive_floor = positive_floor
-        self.model = SentenceTransformer(model_name)
+        self.model = SentenceTransformer(model_name, device=device)
         self.prompt_vectors = {}
         for lemma, meta in PROMPT_REGISTRY.items():
             override = TOKEN_OVERRIDES.get(lemma, {})

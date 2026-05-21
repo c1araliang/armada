@@ -15,8 +15,13 @@ import math
 from collections import Counter, defaultdict
 from lexicons import (
     TARGET_TOKENS, CONTRAST_TOKENS,
-    ALL_FRAME_TERMS, FRAME_SIGN,
     resolve_group_token,
+)
+from group_mentions import (
+    bind_frame_terms_to_mentions,
+    bound_frame_summary,
+    iter_primary_group_mentions,
+    sentence_scope_flags,
 )
 
 _ALL_GROUPS = TARGET_TOKENS | CONTRAST_TOKENS
@@ -25,19 +30,8 @@ _NON_ADJACENT_MIN_DISTANCE = 2
 
 
 def _iter_resolved_anchors(doc):
-    for token in doc:
-        resolved = resolve_group_token(token, doc)
-        if resolved is None:
-            continue
-        if token.dep_ in ("amod", "compound", "appos", "flat", "npadvmod"):
-            head_resolved = resolve_group_token(token.head, doc)
-            if head_resolved == resolved:
-                continue
-            if token.head.head != token.head:
-                grand_resolved = resolve_group_token(token.head.head, doc)
-                if grand_resolved == resolved:
-                    continue
-        yield token.i, resolved[1]
+    for mention in iter_primary_group_mentions(doc):
+        yield mention.token_i, mention.lemma
 
 
 # ── Sentence-level discourse association (Step 0: collocate discovery) ──
@@ -170,13 +164,68 @@ def compute_association_scores(cooc: dict) -> dict[tuple, dict[str, float]]:
 def compute_signed_association(
     association_scores: dict[tuple, dict[str, float]],
     score_key: str = "llr",
+    frame_sign: dict[str, int] | None = None,
 ) -> dict[tuple, float]:
     """Apply frame-type sign to the selected association score."""
+    if frame_sign is None:
+        frame_sign = {}
     signed = {}
     for (target, collocate), score_info in association_scores.items():
-        if collocate in FRAME_SIGN:
-            signed[(target, collocate)] = FRAME_SIGN[collocate] * score_info.get(score_key, 0.0)
+        if collocate in frame_sign:
+            signed[(target, collocate)] = frame_sign[collocate] * score_info.get(score_key, 0.0)
     return signed
+
+
+def compute_frame_attitude_indices(
+    processed_data: list[dict],
+    neg_frames: set[str],
+    pos_frames: set[str],
+) -> dict[str, dict[str, float]]:
+    """
+    Group-level target-bound evaluative frame association.
+
+    For each resolved group lemma, count the share of its sentences with a
+    syntactically or locally bound F-/F+ frame term. Negated/corrective frame
+    mentions are routed to review instead of counted as asserted frame AttI.
+    """
+    totals = Counter()
+    neg_hits = Counter()
+    pos_hits = Counter()
+    review_hits = Counter()
+
+    for item in processed_data:
+        doc = item["doc"]
+        group_lemmas = {mention.lemma for mention in iter_primary_group_mentions(doc)}
+        if not group_lemmas:
+            continue
+
+        frame_summary = bound_frame_summary(doc, neg_frames, pos_frames)
+
+        for lemma in group_lemmas:
+            totals[lemma] += 1
+            bound = frame_summary["by_lemma"].get(lemma)
+            if not bound:
+                continue
+            if bound["neg"]:
+                neg_hits[lemma] += 1
+            if bound["pos"]:
+                pos_hits[lemma] += 1
+            if bound["flags"]:
+                review_hits[lemma] += 1
+
+    scores = {}
+    for lemma, total in totals.items():
+        if total <= 0:
+            continue
+        neg = neg_hits[lemma] / total
+        pos = pos_hits[lemma] / total
+        scores[lemma] = {
+            "frame_neg_atti": round(neg, 3),
+            "frame_pos_atti": round(pos, 3),
+            "net_atti": round(neg - pos, 3),
+            "frame_review": round(review_hits[lemma] / total, 3),
+        }
+    return scores
 
 
 # ── WEAT utility (cosine similarity, used by run_pipeline._compute_weat) ──
@@ -197,9 +246,14 @@ def aggregate_sentence_metrics(
     extracted_data: list[dict],
     signed_association: dict[tuple, float],
     processed_data: list[dict],
+    neg_frames: set[str] | None = None,
+    pos_frames: set[str] | None = None,
 ) -> list[dict]:
     """Per-sentence summary row with indices + signed association."""
     rows = []
+    neg_frames = neg_frames or set()
+    pos_frames = pos_frames or set()
+    all_frame_terms = neg_frames | pos_frames
 
     for i, item in enumerate(extracted_data):
         targets_found = [f["token"] for f in item["findings"]] if item["findings"] else []
@@ -207,7 +261,9 @@ def aggregate_sentence_metrics(
         doc = processed_data[i]["doc"]
         sentence_lemmas = [t["lemma"] for t in processed_data[i]["tokens"]]
         anchor_lemmas = [lemma for _, lemma in _iter_resolved_anchors(doc)]
-        frame_lemmas = [l for l in sentence_lemmas if l in ALL_FRAME_TERMS]
+        frame_lemmas = [l for l in sentence_lemmas if l in all_frame_terms]
+        frame_summary = bound_frame_summary(doc, neg_frames, pos_frames)
+        frame_bindings = bind_frame_terms_to_mentions(doc, neg_frames, pos_frames)
 
         association_values = []
         for tl in anchor_lemmas:
@@ -219,11 +275,31 @@ def aggregate_sentence_metrics(
 
         frame_labels = []
         for fl in sorted(set(frame_lemmas)):
-            sign = FRAME_SIGN.get(fl, 0)
+            sign = -1 if fl in neg_frames else 1
             tag = "(-)" if sign < 0 else "(+)"
             frame_labels.append(f"{fl}{tag}")
 
+        bound_frame_labels = []
+        binding_flags = set(frame_summary["flags"])
+        for binding in frame_bindings:
+            flags = set(binding["flags"])
+            binding_flags.update(flags)
+            if binding["lemma"] is None or binding["blocked"]:
+                continue
+            tag = "(-)" if binding["sign"] < 0 else "(+)"
+            bound_frame_labels.append(f"{binding['lemma']}:{binding['term']}{tag}")
+        if frame_lemmas and not bound_frame_labels:
+            binding_flags.add("no_bound_frame")
+
         non_mwe = [f for f in item.get("findings", []) if not f.get("is_mwe_child")]
+        role_flags = sorted({
+            flag
+            for f in non_mwe
+            for flag in f.get("role_review_flags", [])
+        })
+        role_confidences = [f.get("role_confidence", 0.0) for f in non_mwe]
+        min_role_confidence = min(role_confidences) if role_confidences else 0.0
+        sent_subjecthood = sum(f.get("subjecthood", 0) for f in non_mwe)
         sent_agi      = sum(f["agi"]      for f in non_mwe)
         sent_pi       = sum(f["pi"]       for f in non_mwe)
         sent_si       = sum(f["si"]       for f in non_mwe)
@@ -235,9 +311,14 @@ def aggregate_sentence_metrics(
             "category": item["category"],
             "text": item["text"],
             "targets": ", ".join(targets_found) if targets_found else "null",
+            "subjecthood": sent_subjecthood,
             "agi": sent_agi, "pi": sent_pi, "si": sent_si,
-            "neg_atti": sent_neg_atti, "pos_atti": sent_pos_atti,
+            "role_confidence_min": round(min_role_confidence, 3),
+            "role_review_flags": ", ".join(role_flags) if role_flags else "null",
+            "local_neg_atti": sent_neg_atti, "local_pos_atti": sent_pos_atti,
             "frames": ", ".join(frame_labels) if frame_labels else "null",
+            "bound_frames": ", ".join(sorted(set(bound_frame_labels))) if bound_frame_labels else "null",
+            "frame_binding_flags": ", ".join(sorted(binding_flags)) if binding_flags else "null",
             "association": round(net_association, 3),
         })
 
@@ -248,7 +329,7 @@ def aggregate_sentence_metrics(
 
 def compute_group_indices(extracted_data: list[dict]) -> dict:
     """Proportionalized indices per lemma and per category."""
-    _KEYS = ("agi", "pi", "si", "neg_atti", "pos_atti")
+    _KEYS = ("subjecthood", "agi", "pi", "si", "neg_atti", "pos_atti")
 
     lemma_stats = defaultdict(lambda: {k: 0 for k in ("total", *_KEYS)} | {"type": ""})
     cat_stats = defaultdict(lambda: {k: 0 for k in ("total", *_KEYS)})
