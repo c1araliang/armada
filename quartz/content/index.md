@@ -139,9 +139,9 @@ Split into sentences (Regex hardened against Mr./Dr./Mrs. and other abbreviation
 [Semantic retrieval — MiniLM POS/NEG queries]
        ↓
   margin ≥ 0.10                   → STRONG_MARGIN         ─┐
-  pos ≥ 0.34 AND margin ≥ 0.03   → STRICT                ─┤
+  pos ≥ 0.34 AND margin ≥ 0.03    → STRICT                ─┤
        ↓ neither lane                                      │
-  lexical_human_rescue() = inherent                       ├─→ (Kept if not reference noise) ─→ results.tsv
+  lexical_human_rescue() = inherent                        ├─→ (Kept if not reference noise) ─→ results.tsv
   lexical_human_rescue() = candidate                       │   (Blocked if reference noise ──→ review.tsv)
     AND rescue_pos ≥ threshold AND rescue_margin ≥ 0.06   ─┘
        ↓ neither lane / blocked
