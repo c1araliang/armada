@@ -1,0 +1,2010 @@
+{
+  "last_updated": "2026-06-09",
+  "note": "Current-run candidate frame suggestions derived from sentence-level LLR/LogDice using seed frame prototypes; admission is gated by both sentence-level and anchor-level (sentiment) cosine.",
+  "seed_negative_terms": [
+    "a terrible war",
+    "anger and frustrations",
+    "associated with all manner of social evils and were assumed to have low moral character",
+    "concerned, remain under the threat of deportation",
+    "created some serious problems, ethnic tensions",
+    "crimes and acts of aggression",
+    "dangerous, threatening or criminal",
+    "have lower levels of household income and net worth and have poor health",
+    "life of pain and struggle by depressed, selfish, immature",
+    "negative connotations of poverty and desperation",
+    "rejection and condemnation",
+    "riots and even the murders",
+    "sad and depressed, trauma and crisis",
+    "steal, kill and destroy",
+    "they were alien to and unwanted",
+    "unpleasant or racist, or under extremely unpleasant severe conditions",
+    "violence and drugs",
+    "were forbidden or prohibited"
+  ],
+  "seed_positive_terms": [
+    "a passion for leadership",
+    "acceptance, a new home, renewed life, and good health",
+    "courage, and enthusiasm",
+    "development and empowerment",
+    "enjoy guaranteed basic human rights",
+    "glamorous, outspoken",
+    "inspire appreciation of the achievements, contributions",
+    "lovely and kind",
+    "peace and prosperity",
+    "strength, confidence",
+    "support and protection",
+    "welcomed with open arms, or celebrated",
+    "who experience and enjoy a safe, fairly happy",
+    "willing to help others and kindly",
+    "with dignity and respect"
+  ],
+  "auto_negative_terms": [
+    "attack",
+    "disease",
+    "gun",
+    "kill",
+    "race",
+    "racial",
+    "racist",
+    "terrorist",
+    "war"
+  ],
+  "auto_positive_terms": [
+    "change",
+    "community",
+    "encourage",
+    "good",
+    "insurance",
+    "support"
+  ],
+  "anchor_negative_terms": [
+    "bad",
+    "negative"
+  ],
+  "anchor_positive_terms": [
+    "good",
+    "positive"
+  ],
+  "candidates": [
+    {
+      "term": "million",
+      "minority_llr": 0.0,
+      "minority_logdice": 0.0,
+      "dominant_llr": 92.192,
+      "dominant_logdice": 9.846,
+      "differential": -92.192,
+      "found_with": [
+        "american"
+      ],
+      "frame_neg_sim": 0.5736,
+      "frame_pos_sim": 0.5679,
+      "anchor_neg_sim": 0.5745,
+      "anchor_pos_sim": 0.5995,
+      "suggested_frame_sign": 0,
+      "suggested_frame_bucket": "neutral",
+      "used_in_frame_inventory": false
+    },
+    {
+      "term": "police",
+      "minority_llr": 80.138,
+      "minority_logdice": 10.503,
+      "dominant_llr": 11.477,
+      "dominant_logdice": 9.542,
+      "differential": 68.661,
+      "found_with": [
+        "black",
+        "white"
+      ],
+      "frame_neg_sim": 0.7075,
+      "frame_pos_sim": 0.6329,
+      "anchor_neg_sim": 0.6335,
+      "anchor_pos_sim": 0.6459,
+      "suggested_frame_sign": 0,
+      "suggested_frame_bucket": "neutral",
+      "used_in_frame_inventory": false
+    },
+    {
+      "term": "color",
+      "minority_llr": 13.582,
+      "minority_logdice": 9.305,
+      "dominant_llr": 66.586,
+      "dominant_logdice": 10.25,
+      "differential": -53.004,
+      "found_with": [
+        "black",
+        "white"
+      ],
+      "frame_neg_sim": 0.6018,
+      "frame_pos_sim": 0.5801,
+      "anchor_neg_sim": 0.5936,
+      "anchor_pos_sim": 0.605,
+      "suggested_frame_sign": 0,
+      "suggested_frame_bucket": "neutral",
+      "used_in_frame_inventory": false
+    },
+    {
+      "term": "woman",
+      "minority_llr": 13.445,
+      "minority_logdice": 10.572,
+      "dominant_llr": 65.345,
+      "dominant_logdice": 8.73,
+      "differential": -51.9,
+      "found_with": [
+        "african",
+        "american",
+        "black",
+        "white"
+      ],
+      "frame_neg_sim": 0.6123,
+      "frame_pos_sim": 0.6501,
+      "anchor_neg_sim": 0.6021,
+      "anchor_pos_sim": 0.6201,
+      "suggested_frame_sign": 0,
+      "suggested_frame_bucket": "neutral",
+      "used_in_frame_inventory": false
+    },
+    {
+      "term": "percent",
+      "minority_llr": 0.016,
+      "minority_logdice": 9.291,
+      "dominant_llr": 57.08,
+      "dominant_logdice": 10.365,
+      "differential": -57.064,
+      "found_with": [
+        "american",
+        "black",
+        "white"
+      ],
+      "frame_neg_sim": 0.5341,
+      "frame_pos_sim": 0.5637,
+      "anchor_neg_sim": 0.5954,
+      "anchor_pos_sim": 0.6033,
+      "suggested_frame_sign": 0,
+      "suggested_frame_bucket": "neutral",
+      "used_in_frame_inventory": false
+    },
+    {
+      "term": "man",
+      "minority_llr": 3.289,
+      "minority_logdice": 10.154,
+      "dominant_llr": 51.072,
+      "dominant_logdice": 8.707,
+      "differential": -47.784,
+      "found_with": [
+        "american",
+        "black",
+        "white"
+      ],
+      "frame_neg_sim": 0.6453,
+      "frame_pos_sim": 0.6337,
+      "anchor_neg_sim": 0.653,
+      "anchor_pos_sim": 0.6547,
+      "suggested_frame_sign": 0,
+      "suggested_frame_bucket": "neutral",
+      "used_in_frame_inventory": false
+    },
+    {
+      "term": "tribe",
+      "minority_llr": 48.961,
+      "minority_logdice": 10.039,
+      "dominant_llr": 0.0,
+      "dominant_logdice": 0.0,
+      "differential": 48.961,
+      "found_with": [
+        "indian"
+      ],
+      "frame_neg_sim": 0.5815,
+      "frame_pos_sim": 0.5765,
+      "anchor_neg_sim": 0.5613,
+      "anchor_pos_sim": 0.561,
+      "suggested_frame_sign": 0,
+      "suggested_frame_bucket": "neutral",
+      "used_in_frame_inventory": false
+    },
+    {
+      "term": "people",
+      "minority_llr": 6.081,
+      "minority_logdice": 9.893,
+      "dominant_llr": 46.595,
+      "dominant_logdice": 10.517,
+      "differential": -40.513,
+      "found_with": [
+        "african",
+        "american",
+        "black",
+        "chinese",
+        "european",
+        "indian",
+        "russian",
+        "white"
+      ],
+      "frame_neg_sim": 0.6536,
+      "frame_pos_sim": 0.6794,
+      "anchor_neg_sim": 0.6569,
+      "anchor_pos_sim": 0.6595,
+      "suggested_frame_sign": 0,
+      "suggested_frame_bucket": "neutral",
+      "used_in_frame_inventory": false
+    },
+    {
+      "term": "compare",
+      "minority_llr": 7.729,
+      "minority_logdice": 9.145,
+      "dominant_llr": 38.466,
+      "dominant_logdice": 9.969,
+      "differential": -30.738,
+      "found_with": [
+        "black",
+        "white"
+      ],
+      "frame_neg_sim": 0.5723,
+      "frame_pos_sim": 0.6078,
+      "anchor_neg_sim": 0.5898,
+      "anchor_pos_sim": 0.6118,
+      "suggested_frame_sign": 0,
+      "suggested_frame_bucket": "neutral",
+      "used_in_frame_inventory": false
+    },
+    {
+      "term": "college",
+      "minority_llr": 0.0,
+      "minority_logdice": 0.0,
+      "dominant_llr": 36.441,
+      "dominant_logdice": 9.552,
+      "differential": -36.441,
+      "found_with": [
+        "white"
+      ],
+      "frame_neg_sim": 0.584,
+      "frame_pos_sim": 0.5889,
+      "anchor_neg_sim": 0.614,
+      "anchor_pos_sim": 0.6272,
+      "suggested_frame_sign": 0,
+      "suggested_frame_bucket": "neutral",
+      "used_in_frame_inventory": false
+    },
+    {
+      "term": "retirement",
+      "minority_llr": 0.0,
+      "minority_logdice": 0.0,
+      "dominant_llr": 34.91,
+      "dominant_logdice": 7.886,
+      "differential": -34.91,
+      "found_with": [
+        "american"
+      ],
+      "frame_neg_sim": 0.5645,
+      "frame_pos_sim": 0.6047,
+      "anchor_neg_sim": 0.5755,
+      "anchor_pos_sim": 0.5864,
+      "suggested_frame_sign": 0,
+      "suggested_frame_bucket": "neutral",
+      "used_in_frame_inventory": false
+    },
+    {
+      "term": "poll",
+      "minority_llr": 0.0,
+      "minority_logdice": 0.0,
+      "dominant_llr": 33.449,
+      "dominant_logdice": 8.98,
+      "differential": -33.449,
+      "found_with": [
+        "american"
+      ],
+      "frame_neg_sim": 0.6071,
+      "frame_pos_sim": 0.5954,
+      "anchor_neg_sim": 0.6209,
+      "anchor_pos_sim": 0.6166,
+      "suggested_frame_sign": 0,
+      "suggested_frame_bucket": "neutral",
+      "used_in_frame_inventory": false
+    },
+    {
+      "term": "officer",
+      "minority_llr": 31.022,
+      "minority_logdice": 9.343,
+      "dominant_llr": 0.0,
+      "dominant_logdice": 0.0,
+      "differential": 31.022,
+      "found_with": [
+        "black"
+      ],
+      "frame_neg_sim": 0.6669,
+      "frame_pos_sim": 0.6152,
+      "anchor_neg_sim": 0.5811,
+      "anchor_pos_sim": 0.6041,
+      "suggested_frame_sign": 0,
+      "suggested_frame_bucket": "neutral",
+      "used_in_frame_inventory": false
+    },
+    {
+      "term": "game",
+      "minority_llr": 30.183,
+      "minority_logdice": 9.866,
+      "dominant_llr": 0.014,
+      "dominant_logdice": 7.863,
+      "differential": 30.169,
+      "found_with": [
+        "american",
+        "indian"
+      ],
+      "frame_neg_sim": 0.631,
+      "frame_pos_sim": 0.5977,
+      "anchor_neg_sim": 0.6455,
+      "anchor_pos_sim": 0.657,
+      "suggested_frame_sign": 0,
+      "suggested_frame_bucket": "neutral",
+      "used_in_frame_inventory": false
+    },
+    {
+      "term": "likely",
+      "minority_llr": 29.448,
+      "minority_logdice": 10.088,
+      "dominant_llr": 18.222,
+      "dominant_logdice": 9.729,
+      "differential": 11.226,
+      "found_with": [
+        "african",
+        "american",
+        "black",
+        "white"
+      ],
+      "frame_neg_sim": 0.6376,
+      "frame_pos_sim": 0.6453,
+      "anchor_neg_sim": 0.6158,
+      "anchor_pos_sim": 0.6606,
+      "suggested_frame_sign": 0,
+      "suggested_frame_bucket": "neutral",
+      "used_in_frame_inventory": false
+    },
+    {
+      "term": "year",
+      "minority_llr": 8.221,
+      "minority_logdice": 9.707,
+      "dominant_llr": 28.568,
+      "dominant_logdice": 11.066,
+      "differential": -20.348,
+      "found_with": [
+        "african",
+        "american",
+        "black",
+        "canadian",
+        "european",
+        "indian",
+        "russian",
+        "white"
+      ],
+      "frame_neg_sim": 0.6091,
+      "frame_pos_sim": 0.6011,
+      "anchor_neg_sim": 0.6013,
+      "anchor_pos_sim": 0.6133,
+      "suggested_frame_sign": 0,
+      "suggested_frame_bucket": "neutral",
+      "used_in_frame_inventory": false
+    },
+    {
+      "term": "population",
+      "minority_llr": 0.023,
+      "minority_logdice": 9.186,
+      "dominant_llr": 28.553,
+      "dominant_logdice": 8.03,
+      "differential": -28.53,
+      "found_with": [
+        "american",
+        "black"
+      ],
+      "frame_neg_sim": 0.5574,
+      "frame_pos_sim": 0.5727,
+      "anchor_neg_sim": 0.557,
+      "anchor_pos_sim": 0.5649,
+      "suggested_frame_sign": 0,
+      "suggested_frame_bucket": "neutral",
+      "used_in_frame_inventory": false
+    },
+    {
+      "term": "cost",
+      "minority_llr": 0.0,
+      "minority_logdice": 0.0,
+      "dominant_llr": 27.087,
+      "dominant_logdice": 8.562,
+      "differential": -27.087,
+      "found_with": [
+        "american"
+      ],
+      "frame_neg_sim": 0.5882,
+      "frame_pos_sim": 0.5567,
+      "anchor_neg_sim": 0.6065,
+      "anchor_pos_sim": 0.599,
+      "suggested_frame_sign": 0,
+      "suggested_frame_bucket": "neutral",
+      "used_in_frame_inventory": false
+    },
+    {
+      "term": "plan",
+      "minority_llr": 0.0,
+      "minority_logdice": 0.0,
+      "dominant_llr": 26.305,
+      "dominant_logdice": 8.941,
+      "differential": -26.305,
+      "found_with": [
+        "american"
+      ],
+      "frame_neg_sim": 0.5958,
+      "frame_pos_sim": 0.5772,
+      "anchor_neg_sim": 0.5788,
+      "anchor_pos_sim": 0.6001,
+      "suggested_frame_sign": 0,
+      "suggested_frame_bucket": "neutral",
+      "used_in_frame_inventory": false
+    },
+    {
+      "term": "student",
+      "minority_llr": 23.91,
+      "minority_logdice": 10.413,
+      "dominant_llr": 21.757,
+      "dominant_logdice": 8.436,
+      "differential": 2.153,
+      "found_with": [
+        "african",
+        "american",
+        "black",
+        "white"
+      ],
+      "frame_neg_sim": 0.584,
+      "frame_pos_sim": 0.5946,
+      "anchor_neg_sim": 0.601,
+      "anchor_pos_sim": 0.5924,
+      "suggested_frame_sign": 0,
+      "suggested_frame_bucket": "neutral",
+      "used_in_frame_inventory": false
+    },
+    {
+      "term": "young",
+      "minority_llr": 0.386,
+      "minority_logdice": 9.378,
+      "dominant_llr": 22.039,
+      "dominant_logdice": 8.334,
+      "differential": -21.653,
+      "found_with": [
+        "american",
+        "black",
+        "white"
+      ],
+      "frame_neg_sim": 0.6427,
+      "frame_pos_sim": 0.65,
+      "anchor_neg_sim": 0.6518,
+      "anchor_pos_sim": 0.6718,
+      "suggested_frame_sign": 0,
+      "suggested_frame_bucket": "neutral",
+      "used_in_frame_inventory": false
+    },
+    {
+      "term": "more",
+      "minority_llr": 17.898,
+      "minority_logdice": 9.261,
+      "dominant_llr": 21.574,
+      "dominant_logdice": 11.347,
+      "differential": -3.677,
+      "found_with": [
+        "african",
+        "american",
+        "black",
+        "canadian",
+        "european",
+        "german",
+        "indian",
+        "russian",
+        "white"
+      ],
+      "frame_neg_sim": 0.6107,
+      "frame_pos_sim": 0.6279,
+      "anchor_neg_sim": 0.5814,
+      "anchor_pos_sim": 0.6226,
+      "suggested_frame_sign": 0,
+      "suggested_frame_bucket": "neutral",
+      "used_in_frame_inventory": false
+    },
+    {
+      "term": "nearly",
+      "minority_llr": 0.0,
+      "minority_logdice": 0.0,
+      "dominant_llr": 21.433,
+      "dominant_logdice": 8.901,
+      "differential": -21.433,
+      "found_with": [
+        "american"
+      ],
+      "frame_neg_sim": 0.6099,
+      "frame_pos_sim": 0.6229,
+      "anchor_neg_sim": 0.6342,
+      "anchor_pos_sim": 0.6372,
+      "suggested_frame_sign": 0,
+      "suggested_frame_bucket": "neutral",
+      "used_in_frame_inventory": false
+    },
+    {
+      "term": "program",
+      "minority_llr": 0.0,
+      "minority_logdice": 0.0,
+      "dominant_llr": 21.243,
+      "dominant_logdice": 9.233,
+      "differential": -21.243,
+      "found_with": [
+        "american"
+      ],
+      "frame_neg_sim": 0.5708,
+      "frame_pos_sim": 0.5921,
+      "anchor_neg_sim": 0.5802,
+      "anchor_pos_sim": 0.5919,
+      "suggested_frame_sign": 0,
+      "suggested_frame_bucket": "neutral",
+      "used_in_frame_inventory": false
+    },
+    {
+      "term": "family",
+      "minority_llr": 3.311,
+      "minority_logdice": 9.152,
+      "dominant_llr": 21.022,
+      "dominant_logdice": 9.084,
+      "differential": -17.711,
+      "found_with": [
+        "american",
+        "black",
+        "white"
+      ],
+      "frame_neg_sim": 0.6089,
+      "frame_pos_sim": 0.6545,
+      "anchor_neg_sim": 0.6242,
+      "anchor_pos_sim": 0.6596,
+      "suggested_frame_sign": 0,
+      "suggested_frame_bucket": "neutral",
+      "used_in_frame_inventory": false
+    },
+    {
+      "term": "run",
+      "minority_llr": 20.686,
+      "minority_logdice": 9.826,
+      "dominant_llr": 0.339,
+      "dominant_logdice": 8.142,
+      "differential": 20.347,
+      "found_with": [
+        "american",
+        "indian"
+      ],
+      "frame_neg_sim": 0.6083,
+      "frame_pos_sim": 0.5933,
+      "anchor_neg_sim": 0.624,
+      "anchor_pos_sim": 0.6063,
+      "suggested_frame_sign": 0,
+      "suggested_frame_bucket": "neutral",
+      "used_in_frame_inventory": false
+    },
+    {
+      "term": "many",
+      "minority_llr": 5.031,
+      "minority_logdice": 9.803,
+      "dominant_llr": 19.192,
+      "dominant_logdice": 10.052,
+      "differential": -14.161,
+      "found_with": [
+        "african",
+        "american",
+        "black",
+        "indian",
+        "white"
+      ],
+      "frame_neg_sim": 0.6339,
+      "frame_pos_sim": 0.6347,
+      "anchor_neg_sim": 0.6557,
+      "anchor_pos_sim": 0.6873,
+      "suggested_frame_sign": 0,
+      "suggested_frame_bucket": "neutral",
+      "used_in_frame_inventory": false
+    },
+    {
+      "term": "citizen",
+      "minority_llr": 0.0,
+      "minority_logdice": 0.0,
+      "dominant_llr": 19.005,
+      "dominant_logdice": 8.227,
+      "differential": -19.005,
+      "found_with": [
+        "american"
+      ],
+      "frame_neg_sim": 0.6027,
+      "frame_pos_sim": 0.6538,
+      "anchor_neg_sim": 0.5837,
+      "anchor_pos_sim": 0.6175,
+      "suggested_frame_sign": 0,
+      "suggested_frame_bucket": "neutral",
+      "used_in_frame_inventory": false
+    },
+    {
+      "term": "accord",
+      "minority_llr": 0.0,
+      "minority_logdice": 0.0,
+      "dominant_llr": 18.149,
+      "dominant_logdice": 9.936,
+      "differential": -18.149,
+      "found_with": [
+        "american",
+        "white"
+      ],
+      "frame_neg_sim": 0.5469,
+      "frame_pos_sim": 0.5996,
+      "anchor_neg_sim": 0.5388,
+      "anchor_pos_sim": 0.5773,
+      "suggested_frame_sign": 0,
+      "suggested_frame_bucket": "neutral",
+      "used_in_frame_inventory": false
+    },
+    {
+      "term": "school",
+      "minority_llr": 17.887,
+      "minority_logdice": 9.873,
+      "dominant_llr": 8.039,
+      "dominant_logdice": 8.184,
+      "differential": 9.848,
+      "found_with": [
+        "american",
+        "black",
+        "white"
+      ],
+      "frame_neg_sim": 0.593,
+      "frame_pos_sim": 0.5942,
+      "anchor_neg_sim": 0.6407,
+      "anchor_pos_sim": 0.6468,
+      "suggested_frame_sign": 0,
+      "suggested_frame_bucket": "neutral",
+      "used_in_frame_inventory": false
+    },
+    {
+      "term": "also",
+      "minority_llr": 9.115,
+      "minority_logdice": 10.534,
+      "dominant_llr": 17.186,
+      "dominant_logdice": 9.766,
+      "differential": -8.071,
+      "found_with": [
+        "african",
+        "american",
+        "black",
+        "canadian",
+        "european",
+        "german",
+        "russian",
+        "white"
+      ],
+      "frame_neg_sim": 0.633,
+      "frame_pos_sim": 0.63,
+      "anchor_neg_sim": 0.6429,
+      "anchor_pos_sim": 0.6726,
+      "suggested_frame_sign": 0,
+      "suggested_frame_bucket": "neutral",
+      "used_in_frame_inventory": false
+    },
+    {
+      "term": "government",
+      "minority_llr": 0.0,
+      "minority_logdice": 0.0,
+      "dominant_llr": 16.828,
+      "dominant_logdice": 9.694,
+      "differential": -16.828,
+      "found_with": [
+        "american"
+      ],
+      "frame_neg_sim": 0.6229,
+      "frame_pos_sim": 0.5978,
+      "anchor_neg_sim": 0.6231,
+      "anchor_pos_sim": 0.629,
+      "suggested_frame_sign": 0,
+      "suggested_frame_bucket": "neutral",
+      "used_in_frame_inventory": false
+    },
+    {
+      "term": "health",
+      "minority_llr": 0.0,
+      "minority_logdice": 0.0,
+      "dominant_llr": 16.828,
+      "dominant_logdice": 9.259,
+      "differential": -16.828,
+      "found_with": [
+        "american"
+      ],
+      "frame_neg_sim": 0.688,
+      "frame_pos_sim": 0.6977,
+      "anchor_neg_sim": 0.6404,
+      "anchor_pos_sim": 0.6693,
+      "suggested_frame_sign": 0,
+      "suggested_frame_bucket": "neutral",
+      "used_in_frame_inventory": false
+    },
+    {
+      "term": "-",
+      "minority_llr": 1.792,
+      "minority_logdice": 9.524,
+      "dominant_llr": 16.005,
+      "dominant_logdice": 9.883,
+      "differential": -14.213,
+      "found_with": [
+        "african",
+        "american",
+        "black",
+        "indian",
+        "white"
+      ],
+      "frame_neg_sim": 0.6624,
+      "frame_pos_sim": 0.6405,
+      "anchor_neg_sim": 0.695,
+      "anchor_pos_sim": 0.6621,
+      "suggested_frame_sign": 0,
+      "suggested_frame_bucket": "neutral",
+      "used_in_frame_inventory": false
+    },
+    {
+      "term": "rate",
+      "minority_llr": 15.816,
+      "minority_logdice": 9.312,
+      "dominant_llr": 13.86,
+      "dominant_logdice": 9.298,
+      "differential": 1.956,
+      "found_with": [
+        "american",
+        "black",
+        "white"
+      ],
+      "frame_neg_sim": 0.6069,
+      "frame_pos_sim": 0.5842,
+      "anchor_neg_sim": 0.5914,
+      "anchor_pos_sim": 0.6044,
+      "suggested_frame_sign": 0,
+      "suggested_frame_bucket": "neutral",
+      "used_in_frame_inventory": false
+    },
+    {
+      "term": "tax",
+      "minority_llr": 0.0,
+      "minority_logdice": 0.0,
+      "dominant_llr": 15.221,
+      "dominant_logdice": 8.29,
+      "differential": -15.221,
+      "found_with": [
+        "american"
+      ],
+      "frame_neg_sim": 0.6097,
+      "frame_pos_sim": 0.5513,
+      "anchor_neg_sim": 0.6084,
+      "anchor_pos_sim": 0.6106,
+      "suggested_frame_sign": 0,
+      "suggested_frame_bucket": "neutral",
+      "used_in_frame_inventory": false
+    },
+    {
+      "term": "estimate",
+      "minority_llr": 0.0,
+      "minority_logdice": 0.0,
+      "dominant_llr": 15.061,
+      "dominant_logdice": 8.507,
+      "differential": -15.061,
+      "found_with": [
+        "american"
+      ],
+      "frame_neg_sim": 0.5153,
+      "frame_pos_sim": 0.5707,
+      "anchor_neg_sim": 0.4952,
+      "anchor_pos_sim": 0.5097,
+      "suggested_frame_sign": 0,
+      "suggested_frame_bucket": "neutral",
+      "used_in_frame_inventory": false
+    },
+    {
+      "term": "car",
+      "minority_llr": 0.0,
+      "minority_logdice": 0.0,
+      "dominant_llr": 15.027,
+      "dominant_logdice": 8.229,
+      "differential": -15.027,
+      "found_with": [
+        "american"
+      ],
+      "frame_neg_sim": 0.623,
+      "frame_pos_sim": 0.5835,
+      "anchor_neg_sim": 0.6259,
+      "anchor_pos_sim": 0.6321,
+      "suggested_frame_sign": 0,
+      "suggested_frame_bucket": "neutral",
+      "used_in_frame_inventory": false
+    },
+    {
+      "term": "education",
+      "minority_llr": 14.907,
+      "minority_logdice": 9.373,
+      "dominant_llr": 0.0,
+      "dominant_logdice": 0.0,
+      "differential": 14.907,
+      "found_with": [
+        "black"
+      ],
+      "frame_neg_sim": 0.5853,
+      "frame_pos_sim": 0.5936,
+      "anchor_neg_sim": 0.5994,
+      "anchor_pos_sim": 0.6139,
+      "suggested_frame_sign": 0,
+      "suggested_frame_bucket": "neutral",
+      "used_in_frame_inventory": false
+    },
+    {
+      "term": "federal",
+      "minority_llr": 0.0,
+      "minority_logdice": 0.0,
+      "dominant_llr": 14.094,
+      "dominant_logdice": 8.289,
+      "differential": -14.094,
+      "found_with": [
+        "american"
+      ],
+      "frame_neg_sim": 0.611,
+      "frame_pos_sim": 0.5479,
+      "anchor_neg_sim": 0.5875,
+      "anchor_pos_sim": 0.5891,
+      "suggested_frame_sign": 0,
+      "suggested_frame_bucket": "neutral",
+      "used_in_frame_inventory": false
+    },
+    {
+      "term": "be",
+      "minority_llr": 14.063,
+      "minority_logdice": 10.393,
+      "dominant_llr": 4.716,
+      "dominant_logdice": 9.522,
+      "differential": 9.347,
+      "found_with": [
+        "african",
+        "american",
+        "black",
+        "indian",
+        "russian",
+        "white"
+      ],
+      "frame_neg_sim": 0.6304,
+      "frame_pos_sim": 0.6212,
+      "anchor_neg_sim": 0.6814,
+      "anchor_pos_sim": 0.6799,
+      "suggested_frame_sign": 0,
+      "suggested_frame_bucket": "neutral",
+      "used_in_frame_inventory": false
+    },
+    {
+      "term": "story",
+      "minority_llr": 13.448,
+      "minority_logdice": 9.865,
+      "dominant_llr": 2.834,
+      "dominant_logdice": 9.297,
+      "differential": 10.613,
+      "found_with": [
+        "african",
+        "american",
+        "black",
+        "white"
+      ],
+      "frame_neg_sim": 0.6175,
+      "frame_pos_sim": 0.6409,
+      "anchor_neg_sim": 0.636,
+      "anchor_pos_sim": 0.6293,
+      "suggested_frame_sign": 0,
+      "suggested_frame_bucket": "neutral",
+      "used_in_frame_inventory": false
+    },
+    {
+      "term": "majority",
+      "minority_llr": 0.0,
+      "minority_logdice": 0.0,
+      "dominant_llr": 13.238,
+      "dominant_logdice": 9.227,
+      "differential": -13.238,
+      "found_with": [
+        "american"
+      ],
+      "frame_neg_sim": 0.5833,
+      "frame_pos_sim": 0.6074,
+      "anchor_neg_sim": 0.5728,
+      "anchor_pos_sim": 0.6192,
+      "suggested_frame_sign": 0,
+      "suggested_frame_bucket": "neutral",
+      "used_in_frame_inventory": false
+    },
+    {
+      "term": "administration",
+      "minority_llr": 0.0,
+      "minority_logdice": 0.0,
+      "dominant_llr": 12.947,
+      "dominant_logdice": 7.881,
+      "differential": -12.947,
+      "found_with": [
+        "american"
+      ],
+      "frame_neg_sim": 0.5529,
+      "frame_pos_sim": 0.5973,
+      "anchor_neg_sim": 0.5279,
+      "anchor_pos_sim": 0.5373,
+      "suggested_frame_sign": 0,
+      "suggested_frame_bucket": "neutral",
+      "used_in_frame_inventory": false
+    },
+    {
+      "term": "cause",
+      "minority_llr": 0.0,
+      "minority_logdice": 0.0,
+      "dominant_llr": 12.713,
+      "dominant_logdice": 8.895,
+      "differential": -12.713,
+      "found_with": [
+        "american"
+      ],
+      "frame_neg_sim": 0.6362,
+      "frame_pos_sim": 0.5981,
+      "anchor_neg_sim": 0.6365,
+      "anchor_pos_sim": 0.6394,
+      "suggested_frame_sign": 0,
+      "suggested_frame_bucket": "neutral",
+      "used_in_frame_inventory": false
+    },
+    {
+      "term": "news",
+      "minority_llr": 0.0,
+      "minority_logdice": 0.0,
+      "dominant_llr": 11.793,
+      "dominant_logdice": 8.228,
+      "differential": -11.793,
+      "found_with": [
+        "american"
+      ],
+      "frame_neg_sim": 0.6661,
+      "frame_pos_sim": 0.6773,
+      "anchor_neg_sim": 0.6193,
+      "anchor_pos_sim": 0.6425,
+      "suggested_frame_sign": 0,
+      "suggested_frame_bucket": "neutral",
+      "used_in_frame_inventory": false
+    },
+    {
+      "term": "last",
+      "minority_llr": 0.0,
+      "minority_logdice": 0.0,
+      "dominant_llr": 11.764,
+      "dominant_logdice": 9.39,
+      "differential": -11.764,
+      "found_with": [
+        "american"
+      ],
+      "frame_neg_sim": 0.5953,
+      "frame_pos_sim": 0.5896,
+      "anchor_neg_sim": 0.6165,
+      "anchor_pos_sim": 0.6055,
+      "suggested_frame_sign": 0,
+      "suggested_frame_bucket": "neutral",
+      "used_in_frame_inventory": false
+    },
+    {
+      "term": "survey",
+      "minority_llr": 0.0,
+      "minority_logdice": 0.0,
+      "dominant_llr": 11.478,
+      "dominant_logdice": 8.735,
+      "differential": -11.478,
+      "found_with": [
+        "american"
+      ],
+      "frame_neg_sim": 0.576,
+      "frame_pos_sim": 0.587,
+      "anchor_neg_sim": 0.5913,
+      "anchor_pos_sim": 0.5744,
+      "suggested_frame_sign": 0,
+      "suggested_frame_bucket": "neutral",
+      "used_in_frame_inventory": false
+    },
+    {
+      "term": "see",
+      "minority_llr": 1.232,
+      "minority_logdice": 9.924,
+      "dominant_llr": 11.476,
+      "dominant_logdice": 10.363,
+      "differential": -10.244,
+      "found_with": [
+        "american",
+        "black",
+        "indian",
+        "white"
+      ],
+      "frame_neg_sim": 0.5833,
+      "frame_pos_sim": 0.6037,
+      "anchor_neg_sim": 0.6113,
+      "anchor_pos_sim": 0.6322,
+      "suggested_frame_sign": 0,
+      "suggested_frame_bucket": "neutral",
+      "used_in_frame_inventory": false
+    },
+    {
+      "term": "number",
+      "minority_llr": 0.044,
+      "minority_logdice": 9.125,
+      "dominant_llr": 11.407,
+      "dominant_logdice": 9.687,
+      "differential": -11.363,
+      "found_with": [
+        "american",
+        "black"
+      ],
+      "frame_neg_sim": 0.5979,
+      "frame_pos_sim": 0.554,
+      "anchor_neg_sim": 0.6233,
+      "anchor_pos_sim": 0.6316,
+      "suggested_frame_sign": 0,
+      "suggested_frame_bucket": "neutral",
+      "used_in_frame_inventory": false
+    },
+    {
+      "term": "day",
+      "minority_llr": 0.0,
+      "minority_logdice": 0.0,
+      "dominant_llr": 11.319,
+      "dominant_logdice": 9.822,
+      "differential": -11.319,
+      "found_with": [
+        "american"
+      ],
+      "frame_neg_sim": 0.5876,
+      "frame_pos_sim": 0.6062,
+      "anchor_neg_sim": 0.6273,
+      "anchor_pos_sim": 0.6558,
+      "suggested_frame_sign": 0,
+      "suggested_frame_bucket": "neutral",
+      "used_in_frame_inventory": false
+    },
+    {
+      "term": "freedom",
+      "minority_llr": 0.0,
+      "minority_logdice": 0.0,
+      "dominant_llr": 11.277,
+      "dominant_logdice": 8.099,
+      "differential": -11.277,
+      "found_with": [
+        "american"
+      ],
+      "frame_neg_sim": 0.6172,
+      "frame_pos_sim": 0.6621,
+      "anchor_neg_sim": 0.5722,
+      "anchor_pos_sim": 0.6764,
+      "suggested_frame_sign": 0,
+      "suggested_frame_bucket": "neutral",
+      "used_in_frame_inventory": false
+    },
+    {
+      "term": "vote",
+      "minority_llr": 0.0,
+      "minority_logdice": 0.0,
+      "dominant_llr": 11.197,
+      "dominant_logdice": 9.287,
+      "differential": -11.197,
+      "found_with": [
+        "american",
+        "white"
+      ],
+      "frame_neg_sim": 0.5721,
+      "frame_pos_sim": 0.625,
+      "anchor_neg_sim": 0.5874,
+      "anchor_pos_sim": 0.6166,
+      "suggested_frame_sign": 0,
+      "suggested_frame_bucket": "neutral",
+      "used_in_frame_inventory": false
+    },
+    {
+      "term": "work",
+      "minority_llr": 6.3,
+      "minority_logdice": 10.078,
+      "dominant_llr": 11.073,
+      "dominant_logdice": 8.957,
+      "differential": -4.773,
+      "found_with": [
+        "african",
+        "american",
+        "black",
+        "canadian",
+        "chinese",
+        "white"
+      ],
+      "frame_neg_sim": 0.6124,
+      "frame_pos_sim": 0.6348,
+      "anchor_neg_sim": 0.6446,
+      "anchor_pos_sim": 0.6669,
+      "suggested_frame_sign": 0,
+      "suggested_frame_bucket": "neutral",
+      "used_in_frame_inventory": false
+    },
+    {
+      "term": "week",
+      "minority_llr": 0.0,
+      "minority_logdice": 0.0,
+      "dominant_llr": 11.052,
+      "dominant_logdice": 8.931,
+      "differential": -11.052,
+      "found_with": [
+        "american"
+      ],
+      "frame_neg_sim": 0.5714,
+      "frame_pos_sim": 0.5675,
+      "anchor_neg_sim": 0.6168,
+      "anchor_pos_sim": 0.6443,
+      "suggested_frame_sign": 0,
+      "suggested_frame_bucket": "neutral",
+      "used_in_frame_inventory": false
+    },
+    {
+      "term": "city",
+      "minority_llr": 10.939,
+      "minority_logdice": 9.626,
+      "dominant_llr": 0.0,
+      "dominant_logdice": 0.0,
+      "differential": 10.939,
+      "found_with": [
+        "african"
+      ],
+      "frame_neg_sim": 0.6345,
+      "frame_pos_sim": 0.6194,
+      "anchor_neg_sim": 0.637,
+      "anchor_pos_sim": 0.639,
+      "suggested_frame_sign": 0,
+      "suggested_frame_bucket": "neutral",
+      "used_in_frame_inventory": false
+    },
+    {
+      "term": "approximately",
+      "minority_llr": 0.0,
+      "minority_logdice": 0.0,
+      "dominant_llr": 10.787,
+      "dominant_logdice": 7.957,
+      "differential": -10.787,
+      "found_with": [
+        "american"
+      ],
+      "frame_neg_sim": 0.5383,
+      "frame_pos_sim": 0.5536,
+      "anchor_neg_sim": 0.5496,
+      "anchor_pos_sim": 0.5483,
+      "suggested_frame_sign": 0,
+      "suggested_frame_bucket": "neutral",
+      "used_in_frame_inventory": false
+    },
+    {
+      "term": "male",
+      "minority_llr": 0.0,
+      "minority_logdice": 0.0,
+      "dominant_llr": 10.514,
+      "dominant_logdice": 9.353,
+      "differential": -10.514,
+      "found_with": [
+        "white"
+      ],
+      "frame_neg_sim": 0.6471,
+      "frame_pos_sim": 0.628,
+      "anchor_neg_sim": 0.6375,
+      "anchor_pos_sim": 0.6241,
+      "suggested_frame_sign": 0,
+      "suggested_frame_bucket": "neutral",
+      "used_in_frame_inventory": false
+    },
+    {
+      "term": "live",
+      "minority_llr": 0.779,
+      "minority_logdice": 9.539,
+      "dominant_llr": 10.438,
+      "dominant_logdice": 9.486,
+      "differential": -9.659,
+      "found_with": [
+        "african",
+        "american",
+        "black",
+        "white"
+      ],
+      "frame_neg_sim": 0.6049,
+      "frame_pos_sim": 0.6333,
+      "anchor_neg_sim": 0.605,
+      "anchor_pos_sim": 0.6504,
+      "suggested_frame_sign": 0,
+      "suggested_frame_bucket": "neutral",
+      "used_in_frame_inventory": false
+    },
+    {
+      "term": "experience",
+      "minority_llr": 10.264,
+      "minority_logdice": 9.79,
+      "dominant_llr": 4.642,
+      "dominant_logdice": 8.464,
+      "differential": 5.622,
+      "found_with": [
+        "african",
+        "american",
+        "black",
+        "white"
+      ],
+      "frame_neg_sim": 0.6245,
+      "frame_pos_sim": 0.6817,
+      "anchor_neg_sim": 0.6111,
+      "anchor_pos_sim": 0.6217,
+      "suggested_frame_sign": 0,
+      "suggested_frame_bucket": "neutral",
+      "used_in_frame_inventory": false
+    },
+    {
+      "term": "child",
+      "minority_llr": 0.974,
+      "minority_logdice": 9.494,
+      "dominant_llr": 9.856,
+      "dominant_logdice": 8.761,
+      "differential": -8.882,
+      "found_with": [
+        "american",
+        "black",
+        "white"
+      ],
+      "frame_neg_sim": 0.6253,
+      "frame_pos_sim": 0.6074,
+      "anchor_neg_sim": 0.6429,
+      "anchor_pos_sim": 0.6447,
+      "suggested_frame_sign": 0,
+      "suggested_frame_bucket": "neutral",
+      "used_in_frame_inventory": false
+    },
+    {
+      "term": "law",
+      "minority_llr": 9.817,
+      "minority_logdice": 9.353,
+      "dominant_llr": 6.422,
+      "dominant_logdice": 8.926,
+      "differential": 3.395,
+      "found_with": [
+        "american",
+        "black"
+      ],
+      "frame_neg_sim": 0.6772,
+      "frame_pos_sim": 0.6143,
+      "anchor_neg_sim": 0.6139,
+      "anchor_pos_sim": 0.6519,
+      "suggested_frame_sign": 0,
+      "suggested_frame_bucket": "neutral",
+      "used_in_frame_inventory": false
+    },
+    {
+      "term": "condition",
+      "minority_llr": 0.0,
+      "minority_logdice": 0.0,
+      "dominant_llr": 9.774,
+      "dominant_logdice": 8.344,
+      "differential": -9.774,
+      "found_with": [
+        "american"
+      ],
+      "frame_neg_sim": 0.6559,
+      "frame_pos_sim": 0.6355,
+      "anchor_neg_sim": 0.6271,
+      "anchor_pos_sim": 0.6385,
+      "suggested_frame_sign": 0,
+      "suggested_frame_bucket": "neutral",
+      "used_in_frame_inventory": false
+    },
+    {
+      "term": "non",
+      "minority_llr": 0.891,
+      "minority_logdice": 9.337,
+      "dominant_llr": 9.317,
+      "dominant_logdice": 9.862,
+      "differential": -8.426,
+      "found_with": [
+        "black",
+        "white"
+      ],
+      "frame_neg_sim": 0.616,
+      "frame_pos_sim": 0.5884,
+      "anchor_neg_sim": 0.7354,
+      "anchor_pos_sim": 0.6427,
+      "suggested_frame_sign": 0,
+      "suggested_frame_bucket": "neutral",
+      "used_in_frame_inventory": false
+    },
+    {
+      "term": "nation",
+      "minority_llr": 0.0,
+      "minority_logdice": 0.0,
+      "dominant_llr": 9.005,
+      "dominant_logdice": 8.892,
+      "differential": -9.005,
+      "found_with": [
+        "american"
+      ],
+      "frame_neg_sim": 0.6127,
+      "frame_pos_sim": 0.5817,
+      "anchor_neg_sim": 0.5694,
+      "anchor_pos_sim": 0.5751,
+      "suggested_frame_sign": 0,
+      "suggested_frame_bucket": "neutral",
+      "used_in_frame_inventory": false
+    },
+    {
+      "term": "recent",
+      "minority_llr": 0.0,
+      "minority_logdice": 0.0,
+      "dominant_llr": 8.64,
+      "dominant_logdice": 8.774,
+      "differential": -8.64,
+      "found_with": [
+        "american"
+      ],
+      "frame_neg_sim": 0.6097,
+      "frame_pos_sim": 0.6077,
+      "anchor_neg_sim": 0.6118,
+      "anchor_pos_sim": 0.6433,
+      "suggested_frame_sign": 0,
+      "suggested_frame_bucket": "neutral",
+      "used_in_frame_inventory": false
+    },
+    {
+      "term": "low",
+      "minority_llr": 0.0,
+      "minority_logdice": 0.0,
+      "dominant_llr": 8.476,
+      "dominant_logdice": 9.067,
+      "differential": -8.476,
+      "found_with": [
+        "american",
+        "white"
+      ],
+      "frame_neg_sim": 0.6497,
+      "frame_pos_sim": 0.6254,
+      "anchor_neg_sim": 0.6892,
+      "anchor_pos_sim": 0.6063,
+      "suggested_frame_sign": 0,
+      "suggested_frame_bucket": "neutral",
+      "used_in_frame_inventory": false
+    },
+    {
+      "term": "care",
+      "minority_llr": 0.0,
+      "minority_logdice": 0.0,
+      "dominant_llr": 8.474,
+      "dominant_logdice": 8.892,
+      "differential": -8.474,
+      "found_with": [
+        "american"
+      ],
+      "frame_neg_sim": 0.6167,
+      "frame_pos_sim": 0.669,
+      "anchor_neg_sim": 0.6401,
+      "anchor_pos_sim": 0.6949,
+      "suggested_frame_sign": 0,
+      "suggested_frame_bucket": "neutral",
+      "used_in_frame_inventory": false
+    },
+    {
+      "term": "most",
+      "minority_llr": 5.399,
+      "minority_logdice": 9.225,
+      "dominant_llr": 8.433,
+      "dominant_logdice": 10.061,
+      "differential": -3.034,
+      "found_with": [
+        "african",
+        "american",
+        "black",
+        "indian",
+        "white"
+      ],
+      "frame_neg_sim": 0.629,
+      "frame_pos_sim": 0.6494,
+      "anchor_neg_sim": 0.6001,
+      "anchor_pos_sim": 0.619,
+      "suggested_frame_sign": 0,
+      "suggested_frame_bucket": "neutral",
+      "used_in_frame_inventory": false
+    },
+    {
+      "term": "economy",
+      "minority_llr": 0.0,
+      "minority_logdice": 0.0,
+      "dominant_llr": 8.284,
+      "dominant_logdice": 8.028,
+      "differential": -8.284,
+      "found_with": [
+        "american"
+      ],
+      "frame_neg_sim": 0.5981,
+      "frame_pos_sim": 0.6523,
+      "anchor_neg_sim": 0.5616,
+      "anchor_pos_sim": 0.5775,
+      "suggested_frame_sign": 0,
+      "suggested_frame_bucket": "neutral",
+      "used_in_frame_inventory": false
+    },
+    {
+      "term": "goal",
+      "minority_llr": 0.0,
+      "minority_logdice": 0.0,
+      "dominant_llr": 8.284,
+      "dominant_logdice": 8.028,
+      "differential": -8.284,
+      "found_with": [
+        "american"
+      ],
+      "frame_neg_sim": 0.5909,
+      "frame_pos_sim": 0.598,
+      "anchor_neg_sim": 0.6066,
+      "anchor_pos_sim": 0.6344,
+      "suggested_frame_sign": 0,
+      "suggested_frame_bucket": "neutral",
+      "used_in_frame_inventory": false
+    },
+    {
+      "term": "pay",
+      "minority_llr": 0.0,
+      "minority_logdice": 0.0,
+      "dominant_llr": 8.182,
+      "dominant_logdice": 9.033,
+      "differential": -8.182,
+      "found_with": [
+        "american"
+      ],
+      "frame_neg_sim": 0.5891,
+      "frame_pos_sim": 0.6105,
+      "anchor_neg_sim": 0.5942,
+      "anchor_pos_sim": 0.6175,
+      "suggested_frame_sign": 0,
+      "suggested_frame_bucket": "neutral",
+      "used_in_frame_inventory": false
+    },
+    {
+      "term": "have",
+      "minority_llr": 8.142,
+      "minority_logdice": 9.831,
+      "dominant_llr": 1.158,
+      "dominant_logdice": 9.715,
+      "differential": 6.985,
+      "found_with": [
+        "african",
+        "american",
+        "black",
+        "british",
+        "canadian",
+        "chinese",
+        "european",
+        "german",
+        "indian",
+        "russian",
+        "white"
+      ],
+      "frame_neg_sim": 0.6047,
+      "frame_pos_sim": 0.6359,
+      "anchor_neg_sim": 0.624,
+      "anchor_pos_sim": 0.6801,
+      "suggested_frame_sign": 0,
+      "suggested_frame_bucket": "neutral",
+      "used_in_frame_inventory": false
+    },
+    {
+      "term": "face",
+      "minority_llr": 2.679,
+      "minority_logdice": 9.179,
+      "dominant_llr": 8.105,
+      "dominant_logdice": 9.523,
+      "differential": -5.425,
+      "found_with": [
+        "american",
+        "black",
+        "white"
+      ],
+      "frame_neg_sim": 0.6131,
+      "frame_pos_sim": 0.6593,
+      "anchor_neg_sim": 0.6387,
+      "anchor_pos_sim": 0.633,
+      "suggested_frame_sign": 0,
+      "suggested_frame_bucket": "neutral",
+      "used_in_frame_inventory": false
+    },
+    {
+      "term": "culture",
+      "minority_llr": 0.0,
+      "minority_logdice": 0.0,
+      "dominant_llr": 8.027,
+      "dominant_logdice": 8.057,
+      "differential": -8.027,
+      "found_with": [
+        "american"
+      ],
+      "frame_neg_sim": 0.6317,
+      "frame_pos_sim": 0.6132,
+      "anchor_neg_sim": 0.6162,
+      "anchor_pos_sim": 0.6195,
+      "suggested_frame_sign": 0,
+      "suggested_frame_bucket": "neutral",
+      "used_in_frame_inventory": false
+    },
+    {
+      "term": "industry",
+      "minority_llr": 0.0,
+      "minority_logdice": 0.0,
+      "dominant_llr": 7.99,
+      "dominant_logdice": 7.955,
+      "differential": -7.99,
+      "found_with": [
+        "american"
+      ],
+      "frame_neg_sim": 0.6149,
+      "frame_pos_sim": 0.5925,
+      "anchor_neg_sim": 0.6055,
+      "anchor_pos_sim": 0.6107,
+      "suggested_frame_sign": 0,
+      "suggested_frame_bucket": "neutral",
+      "used_in_frame_inventory": false
+    },
+    {
+      "term": "sign",
+      "minority_llr": 0.0,
+      "minority_logdice": 0.0,
+      "dominant_llr": 7.807,
+      "dominant_logdice": 8.097,
+      "differential": -7.807,
+      "found_with": [
+        "american"
+      ],
+      "frame_neg_sim": 0.6115,
+      "frame_pos_sim": 0.613,
+      "anchor_neg_sim": 0.619,
+      "anchor_pos_sim": 0.6563,
+      "suggested_frame_sign": 0,
+      "suggested_frame_bucket": "neutral",
+      "used_in_frame_inventory": false
+    },
+    {
+      "term": "food",
+      "minority_llr": 0.0,
+      "minority_logdice": 0.0,
+      "dominant_llr": 7.652,
+      "dominant_logdice": 8.45,
+      "differential": -7.652,
+      "found_with": [
+        "american"
+      ],
+      "frame_neg_sim": 0.5793,
+      "frame_pos_sim": 0.5913,
+      "anchor_neg_sim": 0.6263,
+      "anchor_pos_sim": 0.6455,
+      "suggested_frame_sign": 0,
+      "suggested_frame_bucket": "neutral",
+      "used_in_frame_inventory": false
+    },
+    {
+      "term": "look",
+      "minority_llr": 0.033,
+      "minority_logdice": 9.108,
+      "dominant_llr": 7.608,
+      "dominant_logdice": 8.765,
+      "differential": -7.575,
+      "found_with": [
+        "american",
+        "black",
+        "white"
+      ],
+      "frame_neg_sim": 0.5931,
+      "frame_pos_sim": 0.6252,
+      "anchor_neg_sim": 0.633,
+      "anchor_pos_sim": 0.6675,
+      "suggested_frame_sign": 0,
+      "suggested_frame_bucket": "neutral",
+      "used_in_frame_inventory": false
+    },
+    {
+      "term": "new",
+      "minority_llr": 0.0,
+      "minority_logdice": 0.0,
+      "dominant_llr": 7.598,
+      "dominant_logdice": 9.98,
+      "differential": -7.598,
+      "found_with": [
+        "american",
+        "european"
+      ],
+      "frame_neg_sim": 0.6379,
+      "frame_pos_sim": 0.6831,
+      "anchor_neg_sim": 0.6929,
+      "anchor_pos_sim": 0.6822,
+      "suggested_frame_sign": 0,
+      "suggested_frame_bucket": "neutral",
+      "used_in_frame_inventory": false
+    },
+    {
+      "term": "less",
+      "minority_llr": 0.0,
+      "minority_logdice": 0.0,
+      "dominant_llr": 7.554,
+      "dominant_logdice": 9.161,
+      "differential": -7.554,
+      "found_with": [
+        "american"
+      ],
+      "frame_neg_sim": 0.6141,
+      "frame_pos_sim": 0.5928,
+      "anchor_neg_sim": 0.7401,
+      "anchor_pos_sim": 0.5988,
+      "suggested_frame_sign": 0,
+      "suggested_frame_bucket": "neutral",
+      "used_in_frame_inventory": false
+    },
+    {
+      "term": "save",
+      "minority_llr": 0.0,
+      "minority_logdice": 0.0,
+      "dominant_llr": 7.505,
+      "dominant_logdice": 8.027,
+      "differential": -7.505,
+      "found_with": [
+        "american"
+      ],
+      "frame_neg_sim": 0.6066,
+      "frame_pos_sim": 0.6331,
+      "anchor_neg_sim": 0.5886,
+      "anchor_pos_sim": 0.631,
+      "suggested_frame_sign": 0,
+      "suggested_frame_bucket": "neutral",
+      "used_in_frame_inventory": false
+    },
+    {
+      "term": "important",
+      "minority_llr": 0.0,
+      "minority_logdice": 0.0,
+      "dominant_llr": 7.479,
+      "dominant_logdice": 8.89,
+      "differential": -7.479,
+      "found_with": [
+        "american"
+      ],
+      "frame_neg_sim": 0.643,
+      "frame_pos_sim": 0.6352,
+      "anchor_neg_sim": 0.61,
+      "anchor_pos_sim": 0.6744,
+      "suggested_frame_sign": 0,
+      "suggested_frame_bucket": "neutral",
+      "used_in_frame_inventory": false
+    },
+    {
+      "term": "%",
+      "minority_llr": 4.094,
+      "minority_logdice": 9.978,
+      "dominant_llr": 7.02,
+      "dominant_logdice": 10.047,
+      "differential": -2.926,
+      "found_with": [
+        "african",
+        "american",
+        "black",
+        "canadian",
+        "white"
+      ],
+      "frame_neg_sim": 0.5951,
+      "frame_pos_sim": 0.6021,
+      "anchor_neg_sim": 0.6605,
+      "anchor_pos_sim": 0.6427,
+      "suggested_frame_sign": 0,
+      "suggested_frame_bucket": "neutral",
+      "used_in_frame_inventory": false
+    },
+    {
+      "term": "way",
+      "minority_llr": 1.388,
+      "minority_logdice": 9.757,
+      "dominant_llr": 6.514,
+      "dominant_logdice": 10.053,
+      "differential": -5.126,
+      "found_with": [
+        "african",
+        "american",
+        "black",
+        "white"
+      ],
+      "frame_neg_sim": 0.6093,
+      "frame_pos_sim": 0.6473,
+      "anchor_neg_sim": 0.6525,
+      "anchor_pos_sim": 0.6679,
+      "suggested_frame_sign": 0,
+      "suggested_frame_bucket": "neutral",
+      "used_in_frame_inventory": false
+    },
+    {
+      "term": "group",
+      "minority_llr": 6.496,
+      "minority_logdice": 10.117,
+      "dominant_llr": 5.17,
+      "dominant_logdice": 9.383,
+      "differential": 1.326,
+      "found_with": [
+        "african",
+        "american",
+        "black",
+        "white"
+      ],
+      "frame_neg_sim": 0.6121,
+      "frame_pos_sim": 0.6151,
+      "anchor_neg_sim": 0.6197,
+      "anchor_pos_sim": 0.6545,
+      "suggested_frame_sign": 0,
+      "suggested_frame_bucket": "neutral",
+      "used_in_frame_inventory": false
+    },
+    {
+      "term": "other",
+      "minority_llr": 0.233,
+      "minority_logdice": 10.374,
+      "dominant_llr": 6.474,
+      "dominant_logdice": 10.324,
+      "differential": -6.242,
+      "found_with": [
+        "african",
+        "american",
+        "black",
+        "british",
+        "german",
+        "indian",
+        "russian",
+        "white"
+      ],
+      "frame_neg_sim": 0.6486,
+      "frame_pos_sim": 0.6327,
+      "anchor_neg_sim": 0.6573,
+      "anchor_pos_sim": 0.6539,
+      "suggested_frame_sign": 0,
+      "suggested_frame_bucket": "neutral",
+      "used_in_frame_inventory": false
+    },
+    {
+      "term": "very",
+      "minority_llr": 0.341,
+      "minority_logdice": 9.428,
+      "dominant_llr": 6.4,
+      "dominant_logdice": 8.95,
+      "differential": -6.059,
+      "found_with": [
+        "american",
+        "black",
+        "white"
+      ],
+      "frame_neg_sim": 0.643,
+      "frame_pos_sim": 0.6299,
+      "anchor_neg_sim": 0.679,
+      "anchor_pos_sim": 0.6885,
+      "suggested_frame_sign": 0,
+      "suggested_frame_bucket": "neutral",
+      "used_in_frame_inventory": false
+    },
+    {
+      "term": "just",
+      "minority_llr": 0.094,
+      "minority_logdice": 9.398,
+      "dominant_llr": 6.139,
+      "dominant_logdice": 10.138,
+      "differential": -6.046,
+      "found_with": [
+        "african",
+        "american",
+        "black",
+        "white"
+      ],
+      "frame_neg_sim": 0.6329,
+      "frame_pos_sim": 0.6091,
+      "anchor_neg_sim": 0.6554,
+      "anchor_pos_sim": 0.6627,
+      "suggested_frame_sign": 0,
+      "suggested_frame_bucket": "neutral",
+      "used_in_frame_inventory": false
+    },
+    {
+      "term": "then",
+      "minority_llr": 0.0,
+      "minority_logdice": 0.0,
+      "dominant_llr": 6.132,
+      "dominant_logdice": 8.645,
+      "differential": -6.132,
+      "found_with": [
+        "american",
+        "white"
+      ],
+      "frame_neg_sim": 0.6209,
+      "frame_pos_sim": 0.6465,
+      "anchor_neg_sim": 0.6106,
+      "anchor_pos_sim": 0.685,
+      "suggested_frame_sign": 0,
+      "suggested_frame_bucket": "neutral",
+      "used_in_frame_inventory": false
+    },
+    {
+      "term": "home",
+      "minority_llr": 0.0,
+      "minority_logdice": 0.0,
+      "dominant_llr": 6.096,
+      "dominant_logdice": 9.457,
+      "differential": -6.096,
+      "found_with": [
+        "american"
+      ],
+      "frame_neg_sim": 0.6062,
+      "frame_pos_sim": 0.6586,
+      "anchor_neg_sim": 0.619,
+      "anchor_pos_sim": 0.6832,
+      "suggested_frame_sign": 0,
+      "suggested_frame_bucket": "neutral",
+      "used_in_frame_inventory": false
+    },
+    {
+      "term": "big",
+      "minority_llr": 0.0,
+      "minority_logdice": 0.0,
+      "dominant_llr": 6.082,
+      "dominant_logdice": 8.549,
+      "differential": -6.082,
+      "found_with": [
+        "american"
+      ],
+      "frame_neg_sim": 0.643,
+      "frame_pos_sim": 0.6495,
+      "anchor_neg_sim": 0.7235,
+      "anchor_pos_sim": 0.7344,
+      "suggested_frame_sign": 0,
+      "suggested_frame_bucket": "neutral",
+      "used_in_frame_inventory": false
+    },
+    {
+      "term": "person",
+      "minority_llr": 5.983,
+      "minority_logdice": 9.271,
+      "dominant_llr": 0.0,
+      "dominant_logdice": 0.0,
+      "differential": 5.983,
+      "found_with": [
+        "black"
+      ],
+      "frame_neg_sim": 0.6362,
+      "frame_pos_sim": 0.6194,
+      "anchor_neg_sim": 0.6276,
+      "anchor_pos_sim": 0.6503,
+      "suggested_frame_sign": 0,
+      "suggested_frame_bucket": "neutral",
+      "used_in_frame_inventory": false
+    },
+    {
+      "term": "money",
+      "minority_llr": 0.0,
+      "minority_logdice": 0.0,
+      "dominant_llr": 5.808,
+      "dominant_logdice": 8.095,
+      "differential": -5.808,
+      "found_with": [
+        "american"
+      ],
+      "frame_neg_sim": 0.6406,
+      "frame_pos_sim": 0.6129,
+      "anchor_neg_sim": 0.6442,
+      "anchor_pos_sim": 0.6431,
+      "suggested_frame_sign": 0,
+      "suggested_frame_bucket": "neutral",
+      "used_in_frame_inventory": false
+    },
+    {
+      "term": "suggest",
+      "minority_llr": 0.0,
+      "minority_logdice": 0.0,
+      "dominant_llr": 5.688,
+      "dominant_logdice": 8.396,
+      "differential": -5.688,
+      "found_with": [
+        "american"
+      ],
+      "frame_neg_sim": 0.5783,
+      "frame_pos_sim": 0.6134,
+      "anchor_neg_sim": 0.6037,
+      "anchor_pos_sim": 0.6354,
+      "suggested_frame_sign": 0,
+      "suggested_frame_bucket": "neutral",
+      "used_in_frame_inventory": false
+    },
+    {
+      "term": "time",
+      "minority_llr": 4.553,
+      "minority_logdice": 10.389,
+      "dominant_llr": 5.614,
+      "dominant_logdice": 10.414,
+      "differential": -1.061,
+      "found_with": [
+        "african",
+        "american",
+        "black",
+        "indian",
+        "white"
+      ],
+      "frame_neg_sim": 0.5861,
+      "frame_pos_sim": 0.571,
+      "anchor_neg_sim": 0.6271,
+      "anchor_pos_sim": 0.6472,
+      "suggested_frame_sign": 0,
+      "suggested_frame_bucket": "neutral",
+      "used_in_frame_inventory": false
+    },
+    {
+      "term": "half",
+      "minority_llr": 0.0,
+      "minority_logdice": 0.0,
+      "dominant_llr": 5.607,
+      "dominant_logdice": 8.549,
+      "differential": -5.607,
+      "found_with": [
+        "american"
+      ],
+      "frame_neg_sim": 0.5989,
+      "frame_pos_sim": 0.6123,
+      "anchor_neg_sim": 0.6164,
+      "anchor_pos_sim": 0.6396,
+      "suggested_frame_sign": 0,
+      "suggested_frame_bucket": "neutral",
+      "used_in_frame_inventory": false
+    },
+    {
+      "term": "encourage",
+      "minority_llr": 0.0,
+      "minority_logdice": 0.0,
+      "dominant_llr": 5.539,
+      "dominant_logdice": 8.16,
+      "differential": -5.539,
+      "found_with": [
+        "american"
+      ],
+      "frame_neg_sim": 0.58,
+      "frame_pos_sim": 0.7467,
+      "anchor_neg_sim": 0.5584,
+      "anchor_pos_sim": 0.6219,
+      "suggested_frame_sign": 1,
+      "suggested_frame_bucket": "positive",
+      "used_in_frame_inventory": true
+    },
+    {
+      "term": "form",
+      "minority_llr": 0.0,
+      "minority_logdice": 0.0,
+      "dominant_llr": 5.493,
+      "dominant_logdice": 8.448,
+      "differential": -5.493,
+      "found_with": [
+        "american"
+      ],
+      "frame_neg_sim": 0.6119,
+      "frame_pos_sim": 0.6395,
+      "anchor_neg_sim": 0.6409,
+      "anchor_pos_sim": 0.6497,
+      "suggested_frame_sign": 0,
+      "suggested_frame_bucket": "neutral",
+      "used_in_frame_inventory": false
+    },
+    {
+      "term": "public",
+      "minority_llr": 0.0,
+      "minority_logdice": 0.0,
+      "dominant_llr": 5.459,
+      "dominant_logdice": 8.85,
+      "differential": -5.459,
+      "found_with": [
+        "american"
+      ],
+      "frame_neg_sim": 0.6675,
+      "frame_pos_sim": 0.6803,
+      "anchor_neg_sim": 0.6509,
+      "anchor_pos_sim": 0.6472,
+      "suggested_frame_sign": 0,
+      "suggested_frame_bucket": "neutral",
+      "used_in_frame_inventory": false
+    }
+  ]
+}

@@ -95,19 +95,22 @@ semantic_filter_results.tsv
 
 ### Pipeline steps (Updated)
 
-1. **Lexicons** — (Roughly) define target groups (*immigrant, refugee, asian...*), contrast groups (*european, citizen, local...*), ~~negative frames (*flood, swarm, tide...*), positive frames (*contribute, welcome, build...*)~~, and mental-state verbs (*believe, fear, decide...*), — no pre-specified frames.
+1. **Lexicons** — Define target groups (*immigrant, refugee, asian...*), contrast groups (*american, european, white...*), and mental-state verbs (*believe, fear, decide...*) — no pre-specified frames. Civic/polysemous tokens (like *citizen, native, local, national, nationalist*) are excluded.
 
 For formal analysis, a `full-pass filter` is required.
 
-The lexicon should thus be maintained and expanded in cross-reference with `NRC lexicon` by Saif M. Mohammad to close false-negative gaps. The original idea was a three-layer regex-spacy-llm per-word screening, which proved time-costly and wasting computing power.
+The lexicon should be maintained and expanded in cross-reference with `NRC lexicon` by Saif M. Mohammad to close false-negative gaps. The original three-layer regex-spacy-llm per-word screening was removed for performance reasons.
 
 Latest preprocessing flow:
 
 |Layer | Source | Task | Purpose |
 |---|---|---|---|
-| **1. Lexical Gate** | lexicons.py extract.py | import and combine `TARGET_TOKENS` and `CONTRAST_TOKENS` into a regex pattern (GROUP_RE) to filter documents that mention demographic terms | First-stage filter using keyword matching |
-| **2. Semantic Retrieval (two-lane)** | extract.py | encode each candidate sentence with `MiniLM` and score against hand-written `POS_QUERIES` / `NEG_QUERIES`. A sentence enters the corpus if it passes either the STRICT lane (`pos ≥ 0.34 AND margin ≥ 0.03`) or the STRONG_MARGIN lane (`margin ≥ 0.10`). Reference-noise patterns (URLs, bibliographic markers) still block kept rows and route them to review. | Final binary keep/review decision; no supervised classifier |
-| **3. Lexical-human rescue (MiniLM-controlled)** | `extract.py` | for sentences not admitted by the two-lane gate, classify the lexical hit as `inherent` (plural non-color demonym — admit directly) or `candidate` (gate token + human head within ±4 tokens — must clear `RESCUE_POS_QUERIES` / `RESCUE_NEG_QUERIES` at `pos ≥ 0.25 AND margin ≥ 0.06`) or `None` (no rescue path). | Recover person-anchored mentions that the topical 2-lane gate scored low, while filtering surface-similar non-human uses (`German Shepherd`, `Chinese New Year`, `white background`). |
+| **0. Pre-scan & Top-8 Selection** | `extract.py` | Pre-scan Parquet files to count demographic token frequencies (accounting for compounds and negations to avoid double-counting) and select the top 8 target and top 8 contrast labels by frequency (written to `demographic_word_counts.tsv`). | Restrict extraction and downstream analysis to the most frequent demographic groups for statistical stability. |
+| **1. Lexical Gate** | `lexicons.py`, `extract.py` | Combine the selected top-8 target and top-8 contrast labels into a regex pattern (`GROUP_RE`) to filter documents. Logs all matched sentences to `semantic_filter_lexical_all.txt` (used for `CEAT-full`). | First-stage document-level filtering and raw hit logging. |
+| **2. Inanimate-Adjacency Pre-filter** | `extract.py` | Discard sentences where every gate token is adjacent (±2 tokens) to an inanimate head noun in `INANIMATE_NOUNS` (e.g. *"German law"*, *"black hole"*, *"American government"*). | Fast heuristic filter to bypass expensive MiniLM scoring on non-demographic usages. |
+| **3. Semantic Retrieval (two-lane)** | `extract.py` | Score remaining sentences against `POS_QUERIES` / `NEG_QUERIES` using `MiniLM`. Sentences pass via either the `STRICT` lane (`pos ≥ 0.34 AND margin ≥ 0.03`) or the `STRONG_MARGIN` lane (`margin ≥ 0.10`). Reference-noise patterns (URLs, citations) block rows and route them to review. | Extract semantically relevant sentences based on top-level queries. |
+| **4. Lexical-human rescue (MiniLM-controlled)** | `extract.py` | For sentences failing the main lanes, check if they are `inherent` (plural non-color demonyms — admit directly) or `candidate` (demonym within ±4 tokens of a human head or pronoun — validated via rescue queries at `pos >= threshold` and `margin >= 0.06`). | Recover person-anchored mentions that the topical gate scored low, while filtering surface-similar non-human uses (*"German Shepherd"*, *"Chinese New Year"*). |
+| **5. ModernBERT Fine Screening (Post-processing)** | `extract.py` | Re-encode all review candidates from `semantic_filter_review.tsv` using the analysis model (`gte-modernbert-base`) and rescue qualifying sentences into `semantic_filter_results.tsv`. | Validate borderline sentences with the higher-capacity analysis model. |
 
 Preliminary results (2026-06-08) from `Dolma_v1.6_sample`, i.e., minimal Dolma, parquet 1/70:
 
@@ -115,32 +118,39 @@ Preliminary results (2026-06-08) from `Dolma_v1.6_sample`, i.e., minimal Dolma, 
 |---|---|---|
 |total_sentences| 1142085 | sentences extracted and evaluated.|
 |lexical_hits | 84922 | sentences containing at least one TARGET or CONTRAST token.|
+|inanimate_prefilter_removed | 33691 | sentences discarded because all gate tokens were adjacent to inanimate nouns.|
 |semantic_pass (STRICT) | 986 | sentences passing the STRICT lane (pos ≥ 0.34 AND margin ≥ 0.03).|
 |strong_margin_kept | 1632 | sentences passing the STRONG_MARGIN lane (margin ≥ 0.10).|
 |lexical_human_rescue_kept | 5309 | sentences admitted via the rescue lane (`inherent` plus MiniLM-confirmed `candidate`).|
-|kept | 7925 | rows in `semantic_filter_results.tsv` (STRICT ∪ STRONG_MARGIN ∪ LEXICAL_HUMAN_RESCUE minus reference-noise blocks).|
+|kept | 7925 | rows in `semantic_filter_results.tsv` (STRICT ∪ STRONG_MARGIN ∪ LEXICAL_HUMAN_RESCUE minus reference-noise blocks, including rescued rows).|
 |borderline_review | 304 | sentences with `margin ≥ 0.05` that did not pass either main lane and were not rescue-admitted — routed to `semantic_filter_review.tsv` for human inspection.|
 
 Visualized `extract.py`:
 
 ```
 Parquet document
-       ↓
-[Lexical gate]  ─────────────→ (Logs all hits to semantic_filter_lexical_all.txt for CEAT-full)
+       ↓ (Pre-scan counts word frequencies to select top-8 target + top-8 contrast)
+[Lexical gate (top-16)] ──────→ (Logs all hits to semantic_filter_lexical_all.txt for CEAT-full)
        ↓ hit
 Split into sentences (Regex hardened against Mr./Dr./Mrs. and other abbreviations)
        ↓
-[Semantic retrieval — POS / NEG queries]
+[Inanimate-adjacency pre-filter]  ──(every token next to inanimate)──→ Discarded
+       ↓ passed (at least one demographic token has no inanimate neighbor)
+[Semantic retrieval — MiniLM POS/NEG queries]
        ↓
-  pos ≥ 0.34 AND margin ≥ 0.03   → STRICT                → results.tsv
-  margin ≥ 0.10                   → STRONG_MARGIN         → results.tsv
-       ↓ neither lane
-  lexical_human_rescue() = inherent          → LEXICAL_HUMAN_RESCUE → results.tsv
-  lexical_human_rescue() = candidate
-    AND rescue_pos ≥ 0.25 AND rescue_margin ≥ 0.06
-                                              → LEXICAL_HUMAN_RESCUE → results.tsv
-  margin ≥ 0.05 (no lane, no rescue)         → BORDERLINE           → review.tsv
-  reference_noise_like:*                      → blocked from results, routed to review.tsv
+  margin ≥ 0.10                   → STRONG_MARGIN         ─┐
+  pos ≥ 0.34 AND margin ≥ 0.03   → STRICT                ─┤
+       ↓ neither lane                                      │
+  lexical_human_rescue() = inherent                       ├─→ (Kept if not reference noise) ─→ results.tsv
+  lexical_human_rescue() = candidate                       │   (Blocked if reference noise ──→ review.tsv)
+    AND rescue_pos ≥ threshold AND rescue_margin ≥ 0.06   ─┘
+       ↓ neither lane / blocked
+  margin ≥ 0.05 OR reference noise                        ─→ review.tsv (with review_flags)
+       ↓
+[GTE ModernBERT Fine Screening (Post-processing)]
+       ↓
+  Recalculated scores pass main/rescue gates              ─→ Rescued to results.tsv
+  Otherwise                                               ─→ Remain in review.tsv
 ```
 
 Then measure the **sentence-level, non-adjacent highest-Log-likelihood ratio (LLR) > LogDice collocates of each target AND contrast group** to produce an empirically discovered statistical evidence of collocation profile for both sides.
@@ -156,7 +166,7 @@ The problematic 1st version measured predefined results, while Sinclair's corpus
     * **WEAT** (static embeddings): type-level — is the vector for *immigrant* closer to the F⁻ centroid or F⁺ centroid?
     * **CEAT** (contextualized sentence embeddings): sampled context distribution — across encoded sentences containing *immigrant*, is the contextual embedding closer to the F⁻ centroid or F⁺ centroid? The pipeline reports the mean plus `N` and `SE`.
     Frame inventory is auto-refreshed each run by a two-tier admission: sentence-cosine vs. seed prototypes for magnitude, plus a 4-word sentiment-anchor cosine for direction. Anchors never enter centroid geometry.
-5. **EFI via PCA** — Assemble group × dimension matrix [AgI, PI, SI, frame-derived netAttI, WEAT, CEAT]. Run PCA on groups with `N ≥ 50`. Subjecthood is retained as a diagnostic column, not an EFI dimension. **PC1 and PC2 are both reported** with their loadings; no a priori sign flip is applied (PCA component signs are mathematically arbitrary; substantive interpretation comes from the loading pattern of the run). On the current corpus PC1 captures *overall attribution intensity* (~33.5% variance, where CEAT, SI, and AgI load positively together) and PC2 captures the *evaluative vs. grammatical-role trade-off* (~22.1% variance, where frame-netAttI and WEAT cluster opposite patienthood PI and subjectivity SI); the two-axis structure is empirical, not assumed.
+5. **EFI via PCA** — Assemble group × dimension matrix [AgI, PI, SI, frame-derived netAttI, WEAT, CEAT]. Run PCA on groups with `N ≥ 50`. Subjecthood is retained as a diagnostic column, not an EFI dimension. **PC1 and PC2 are both reported** with their loadings; no a priori sign flip is applied (PCA component signs are mathematically arbitrary; substantive interpretation comes from the loading pattern of the run). On the current corpus PC1 captures *overall attribution intensity* (~33.7% variance, where CEAT, SI, and AgI load positively together) and PC2 captures the *evaluative vs. grammatical-role trade-off* (~21.7% variance, where frame-netAttI and WEAT cluster opposite patienthood PI and subjectivity SI); the two-axis structure is empirical, not assumed.
 6. **Output** — Per-sentence table (targets, indexical counts) + per-group summary (proportionalized indices, WEAT/CEAT scores, EFI, PCA loadings, regression β), with the reported group table filtered to lemmas with `N ≥ 50`.
 
 ### Design decisions from early testing

@@ -31,11 +31,11 @@ tags:
 
 2026-05-06: Drawing annotated code map.
 
-2026-05-07: @milestone May 16 AILC; June 4 Venice Conf; June 8 AACL Short Paper. Invite Prof. Arora for 1st year term paper supervision.
+2026-05-07: @milestone May 16 AILC; June 4 Venice Conf; June 8 SRW Short Paper. Invite Prof. Arora for 1st year term paper supervision.
 
 2026-05-08: @group WP2 report update; Abstract draft for AILC. [new anotation rule ATS introduced](https://c1araliang.github.io/armada/ats/)
 
-2026-05-11 Creation of [cache](https://c1araliang.github.io/armada/cache), a temporary storage for drafts under revision; Polishing abstract draft for AILC; Short Paper draft for AACL.
+2026-05-11: Polishing abstract draft for AILC; Short Paper draft for AACL.
 
 2026-05-12 Code-cleaning, ensuring minimal reference; AILC draft (soften the tones for making claims);
 
@@ -69,17 +69,30 @@ tags:
 
 2026-05-30: Queries cleaning and updates; dropped `-man/-woman/-boy/-girl/-people` inherent rescue path (forms still enter via GROUP_RE, scored by main 2-lane MiniLM); Rule 1b candidate window made bidirectional (±4); personal pronouns added to `_HUMAN_HEADS`; `RESCUE_POS_MIN` lowered 0.30→0.25 (rmargin floor 0.06 unchanged); updated documentation and cleaned stale comments.
 
+2026-06-04: @milestone Venice abstract submitted.
+
 2026-06-07: Removed polysemous civic tokens from demographic sets; added native-american compound; rewrote resolve_group_token as keyword extraction + inanimate suppression; removed SemanticGroupResolver; added Phase 1 inanimate-adjacency pre-filter; `non-` prefix now suppresses unconditionally.
+
 2026-06-07: Expanded and organized INANIMATE_NOUNS and HUMAN_NOUNS in lexicons.py based on spaCy head analysis to resolve false positives (privilege, history, neighborhood, identity, right); successfully reran Phase 1 extraction showing pre-filter removals rose 29,865 -> 33,625 and kept sentences refined to 6,936.
+
 2026-06-07: Implemented Rule 1c in lexical_human_rescue() to route det-preceded singular demonyms as candidates; bypassed margin check for candidates with very high absolute POS score (rp >= 0.35 MiniLM / 0.53 ModernBERT); allowed GTE ModernBERT main-lane screening to rescue STRICT/STRONG_MARGIN sentences. Rerun successfully rescued all targeted human sentences (white man, American slave, Jewish immigrants) while stabilizing kept count at 7,911 (filtering out the initial 19,823 bloat from inherent routing).
+
 2026-06-07: Restored hard-blocking on bibliographic and index_page_ref noise flags in extract.py after tightening regexes; successfully ran Phase 1 extraction with final kept count settled at 7,933 sentences.
+
 2026-06-07: Implemented adjacent hyphenated chain rule and active label filtering wrapper for resolved canonicals, and fixed [demo]-born bear/born lemmatization bug in lexicons.py.
+
 2026-06-07: Added Phase 1 compound counting and non-[demo] negation discounting to pre-scan frequency analyzer; updated Phase 2 active label check to permit compound canonicals (e.g. native-american) if base parts are active; invalidated SRL cache to force full metrics re-computation.
 
 2026-06-07: Removed `foreign` from TARGET_TOKENS; fixed compound part-match bypass in resolve_group_token; replaced foreign with jewish in active_labels.json; fixed conj chain recursion in _resolve_role; added SRL ARG0 patient-dep guard and filtered-roles SI gate; fixed AGI elif-blocking (guarded-if nsubj fallback); added gerund-pcomp and gerund-amod unwrapping in _resolve_role; added SI preference/affection prototype [6]; added Italian/black-players and Americans-love test sentences to dim_sanity.py.
-2026-06-07: Added QUANTIFIER_NOUNS check to climb through partitive noun constructions; enhanced complement verb promotion for misclassified noun verbs and adjectival gerund structures; restricted prepositional PI path to recipient prepositions (for, to) and deprivation preposition (from with verbal-head guard); expanded AGI/SI prototype sentences (abuse/getting away, consuming medication, loving qualities); removed PI from si_target_eligible to prevent patient-only targets from triggering SI.
 
+2026-06-07: Added QUANTIFIER_NOUNS check to climb through partitive noun constructions; enhanced complement verb promotion for misclassified noun verbs and adjectival gerund structures; restricted prepositional PI path to recipient prepositions (for, to) and deprivation preposition (from with verbal-head guard); expanded AGI/SI prototype sentences (abuse/getting away, consuming medication, loving qualities); removed PI from si_target_eligible to prevent patient-only targets from triggering SI.
 
 2026-06-08: Removed LLR differential constraint (diff > 0) from candidate frame word discovery, sorting candidates by max LLR of either side; restored the expected PC2 evaluative-thematic trade-off; added pipeline_run.log TeeLogger redirection.
 
-2026-06-09: SRL cache key now reads first 50 and last 50 hash value
+2026-06-08: @milestone SRW mentorship submitted.
+
+2026-06-08: @group WP2 overleaft due August 1st.
+
+2026-06-09: SRL cache key now reads first 50 and last 50 hash value; updated index.md preprocessing flow, results table, and diagram to align with extract.py.
+
+2026-06-09: @idea dimensional mean + per-sentence max >>> role attribution (Centroid Margin Guard/Hard Gating/**Soft Fusion**)
