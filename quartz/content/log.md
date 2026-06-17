@@ -96,3 +96,13 @@ tags:
 2026-06-09: SRL cache key now reads first 50 and last 50 hash value; updated index.md preprocessing flow, results table, and diagram to align with extract.py.
 
 2026-06-09: @idea dimensional mean + per-sentence max >>> role attribution (Centroid Margin Guard/Hard Gating/**Soft Fusion**)
+
+2026-06-12: Fixed AGENTS.md: `lexical_human_rescue()` description updated to document Rule 1c (DET+singular demonym) and personal-pronoun inclusion in `_HUMAN_HEADS`; Phase 1 purpose summary updated to list all three rules and context-aware threshold. Entries had stalled at 2026-05-29 state missing tracker #45 and #54.
+
+2026-06-12: Tightened AGENTS.md Update Rules: added change-type → section mapping table and mandatory closeout self-check to prevent future Annotated Code Map drift.
+
+2026-06-17: Added missing cache.tex citations to reading.md; grouped Hofmann and Ouyang (InstructGPT) under §2.2.2 Output; moved Bender et al. (2021) to §2.1 Foundational; removed Lucy et al. (2022) due to method discrepancies.
+
+
+
+

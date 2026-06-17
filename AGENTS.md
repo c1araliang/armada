@@ -31,7 +31,7 @@ ARMADA is a PhD-level computational linguistics project that detects and quantif
 
 The pipeline has two phases:
 
-- **Phase 1** (`extract.py`): Offline, per-corpus streaming filter. Applies a 2-lane semantic gate (lexical mention regex → MiniLM semantic retrieval against POS/NEG queries; a row enters the corpus if it passes either the STRICT lane `pos >= 0.34 AND margin >= 0.03` or the STRONG_MARGIN lane `margin >= 0.10`) plus a constrained `LEXICAL_HUMAN_RESCUE` lane that admits plural non-color demonyms directly and routes `demonym + human-head adjacency` candidates through a second MiniLM pass against rescue queries (`pos >= 0.25 AND margin >= 0.06`). An inanimate-adjacency pre-filter (added 2026-06-07) discards sentences where every gate token is adjacent to an inanimate noun before MiniLM scoring. Outputs a sentence-level TSV of demographically-relevant sentences. The earlier PCA+LogReg classifier was removed after a 2026-05-28 ablation; pure-regex rescue paths (article-prefix, predicate-adjective, inanimate-noun veto) were removed 2026-05-29 in favor of MiniLM rescue scoring; see `decisions.md`.
+- **Phase 1** (`extract.py`): Offline, per-corpus streaming filter. Applies a 2-lane semantic gate (lexical mention regex → MiniLM semantic retrieval against POS/NEG queries; a row enters the corpus if it passes either the STRICT lane `pos >= 0.34 AND margin >= 0.03` or the STRONG_MARGIN lane `margin >= 0.10`) plus a constrained `LEXICAL_HUMAN_RESCUE` lane with three surface rules: Rule 1a admits plural non-color demonyms directly ("Germans", "refugees"); Rule 1c admits singular non-color demonyms preceded by a determiner ("an American", "the German who") as MiniLM-scored candidates; Rule 1b admits gate token + human-head noun or personal pronoun within ±4 tokens as MiniLM-scored candidates, with a context-aware threshold (0.25 for non-color demonyms or color+direct-human-head; 0.32 for other color adjacencies). An inanimate-adjacency pre-filter (added 2026-06-07) discards sentences where every gate token is adjacent to an inanimate noun before MiniLM scoring. Outputs a sentence-level TSV of demographically-relevant sentences. The earlier PCA+LogReg classifier was removed after a 2026-05-28 ablation; earlier pure-regex rescue paths (article-prefix, predicate-adjective, inanimate-noun veto) were removed 2026-05-29; see `decisions.md`.
 - **Phase 2** (`X/run_pipeline.py`): Analysis. Reads the filtered TSV, runs preprocessing, feature extraction (Subjecthood/AgI/PI/SI plus local AttI diagnostics), LLR/LogDice collocate discovery, target-bound frame-derived AttI, WEAT, CEAT, CEAT-full/Δ-CEAT, PCA-based EFI, and regression. Writes per-sentence and per-group output tables.
 
 Core per-group framing dimensions:
@@ -90,8 +90,22 @@ Update this file when:
 - thresholds, prompts, lexicons, classifier features, frame taxonomy, or evaluation logic change;
 - generated output paths change;
 - a file is promoted from experimental/legacy status to active use, or the reverse;
-- validation commands change.
+- validation commands change;
 - future-agent behavior changes, including documentation update policy or artifact-review policy.
+
+**Which section to touch** — map each change type to the specific part of this file that must be updated:
+
+| Change | Section(s) to update |
+|---|---|
+| Any function body or logic change in `extract.py` or `X/*.py` | The matching bullet under `Key sections:` in the Annotated Code Map |
+| New/removed function in a pipeline file | Add/remove the bullet under that file's `Key sections:` |
+| Threshold change | The matching `Key sections:` bullet AND the `Current thresholds` block in `tracker.md` |
+| Rescue-lane rule change (any of Rules 1a/1b/1c, `_HUMAN_HEADS`, `_COLOR_GATE_TOKENS`) | `_HUMAN_HEADS`, `_COLOR_GATE_TOKENS`, and `lexical_human_rescue()` bullets AND the Phase 1 purpose summary in `## Purpose` |
+| New output file or schema change | `Data/Output Conventions` section |
+| New runtime env var | `Key sections:` bullet for the file that reads it |
+| Lexicon change (`TARGET_TOKENS`, `CONTRAST_TOKENS`, `INANIMATE_NOUNS`, `HUMAN_NOUNS`, `COMPOUND_TARGET_HEADS`) | `Key sections:` bullet for `lexicons.py` |
+
+**Closeout self-check** — if a function you modified has a `Key sections:` bullet in the Annotated Code Map below, verify that bullet still matches the new behaviour and update it in the same response if not. Do not scan functions that have no bullet.
 
 Do not let `todo.md` and `tracker.md` drift into the same role. `todo.md` says what remains to do; `tracker.md` records status and changes.
 
@@ -109,11 +123,11 @@ Do not let `todo.md` and `tracker.md` drift into the same role. `todo.md` says w
     - `POS_QUERIES` / `NEG_QUERIES` — hardcoded retrieval prompts used to compute main-lane semantic similarity; control what the 2-lane gate accepts.
     - `RESCUE_POS_QUERIES` / `RESCUE_NEG_QUERIES` — second query set used only on `lexical_human_rescue()` candidates. POS = paraphrases of "person identified by nationality / ethnicity / race / skin color"; NEG = paraphrases for animal breeds, ethnic-named cultural products / holidays / sports competitions, public events, color/material descriptions, geographically-named tech brands, languages, and country-named institutions.
     - `GROUP_RE` — compiled regex from `TARGET_TOKENS ∪ CONTRAST_TOKENS − GATE_EXCLUDE_TOKENS`; document-level lexical gate.
-    - `_HUMAN_HEADS` — built from `HUMAN_NOUNS` plus regular-plural heuristics; backs `is_human_noun()`.
+    - `_HUMAN_HEADS` — built from `HUMAN_NOUNS` plus regular-plural heuristics, four irregular plurals (`men`, `women`, `children`, `people`), and a full set of personal pronouns (`he`, `she`, `they`, `him`, `her`, `them`, `we`, `us`, `i`, `you`, etc.). A pronoun in the ±4 window of a gate token is a strong surface signal that the token refers to a person in context. Backs `is_human_noun()`.
     - `_INANIMATE_HEADS` — built from `INANIMATE_NOUNS` plus regular-plural heuristics; used by `_inanimate_adjacent_only()` pre-filter.
     - `_COLOR_GATE_TOKENS` — color-tone gate tokens (`black`, `white`, `brown`, `yellow`, `dark`, `darker`, `colored`) whose plurals are excluded from the inherent-rescue path because they often refer to wine/sports teams/colors rather than people.
     - `_inanimate_adjacent_only(sentence)` — returns True if every gate token in the sentence is adjacent (±2 whitespace tokens) to an inanimate noun. Used as a pre-filter before MiniLM scoring to discard sentences like "German law", "black hole", "American government". Sentences are still written to `semantic_filter_lexical_all.txt` before this filter.
-    - `lexical_human_rescue(sentence)` — returns `"inherent"` / `"candidate"` / `None`. `inherent` admits plural non-color demonyms directly ("Germans", "Americans", "refugees"). `candidate` flags `gate token + human head within ±4` for MiniLM rescue scoring. `None` means no rescue path applies.
+    - `lexical_human_rescue(sentence)` — returns `"inherent"` / `"candidate"` / `None`. Three surface rules run in order per gate-token position: **Rule 1a** (`inherent`) — token is a +s/+es plural of a non-color gate token; admit directly without MiniLM. **Rule 1c** (`candidate`) — token is a non-color gate token preceded by a determiner within ±2 tokens and not followed by a known non-human noun (e.g. "an American gained", "the German who…"); route to MiniLM rescue at `RESCUE_POS_MIN=0.25`. **Rule 1b** (`candidate`) — gate token has a human-head noun or personal pronoun within ±4 tokens; route to MiniLM rescue with context-aware threshold: `0.25` if the token is a non-color demonym or a color token directly preceding a human noun (+1/+2), else `0.32` for other color-token candidates. `None` means no rule fired.
     - `split_sentences()` — sentence splitter that protects common abbreviations, figure labels, initials, and acronyms before regex splitting; keeps sentences with `MIN_SENT_LEN=40` and `MAX_SENT_LEN=800`.
     - `iter_sentences()` — streams parquet batches; applies `GROUP_RE` at document level, then yields sentences.
     - `process_batch()` — per-batch pipeline: (1) lexical re-check per sentence; (2) inanimate-adjacency pre-filter (discards before MiniLM); (3) MiniLM main-lane scores — `STRICT` or `STRONG_MARGIN` admit directly; (4) for non-passing rows, `lexical_human_rescue()` is consulted: `inherent` admits as `LEXICAL_HUMAN_RESCUE` directly; `candidate` is rescue-scored against rescue queries with context-aware thresholds. Reference-noise rows are blocked from final output and routed to review. (5) Review rows undergo GTE ModernBERT fine screening; validated rows are rescued into the kept set, the rest remain in review with diagnostic `review_flags`.
