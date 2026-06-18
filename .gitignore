@@ -6,10 +6,10 @@
 
 # Exceptions: keep these specific standalone files in the root
 !/extract.py
-!/extract_PCA+LogReg.py
 !/.gitignore
 !/AGENTS.md
 !/sync.py
+!/My Library.bib
 
 # Subdirectory ignores (Datasets and References)
 /dolma/
@@ -30,7 +30,7 @@ __pycache__/
 *.csv
 *lexical_all.txt
 *.tex
-*.bib
+
 
 # OS-specific and editor config
 .DS_Store
