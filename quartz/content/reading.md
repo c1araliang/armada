@@ -6,7 +6,6 @@ tags:
 
 ---
 
-WP2 Domain Alignment and Bias Identification: T2.2 Bias Analysis/Detection (F3BF)
 
 ## Scope
 
@@ -51,24 +50,24 @@ Foundational work on bias in language and pretraining corpus ethics, forming the
 
 | # | Study | Target | Key method | Goal | Tags |
 |:---|:---|:---|:---|:---|:---|
-| 1 | [Said (1978)](https://www.penguinrandomhouse.com/books/168494/orientalism-by-edward-w-said/) *Orientalism* | Postcolonial cultural theory | Foundational critique of Western discursive construction of the "Orient"; informs the postcolonial framing of minority/dominant asymmetry in F3BF's lexicons | **Theory** | `postcolonial` `lexicon-foundation` |
+| 1 | [Said (1978)](https://www.penguinrandomhouse.com/books/168494/orientalism-by-edward-w-said/) *Orientalism* | Postcolonial cultural theory | Foundational critique of Western discursive construction of the "Orient"; informs the postcolonial framing of minority/dominant asymmetry in my lexicons | **Theory** | `postcolonial` `lexicon-foundation` |
 | 2 | [Dowty (1991)](https://doi.org/10.2307/415037) Thematic Proto-Roles | Formal semantics | Replaces discrete thematic roles with gradient Proto-Agent / Proto-Patient entailment clusters; grounding for AgI and PI dimensions | **Theory** | `role-extraction` `formal-semantics` |
-| 3 | [Hall (1992/2018)](https://www.politybooks.com/bookdetail?isbn=9780745609607) "The West and the Rest" | Postcolonial cultural theory | Discourse and power analysis of how "the West" was constructed via binary opposition with "the Rest"; conceptual foundation for the minority/dominant typology in F3BF's lexicons | **Theory** | `postcolonial` `lexicon-foundation` |
-| 4 | [Quijano (2000)](https://muse.jhu.edu/article/23906) Coloniality of Power | Latin American studies | Coloniality of power / Eurocentrism as a structuring global axis; motivates the postcolonial frame for F3BF's target/contrast group partition | **Theory** | `postcolonial` `lexicon-foundation` |
+| 3 | [Hall (1992/2018)](https://www.politybooks.com/bookdetail?isbn=9780745609607) "The West and the Rest" | Postcolonial cultural theory | Discourse and power analysis of how "the West" was constructed via binary opposition with "the Rest"; conceptual foundation for the minority/dominant typology in my lexicons | **Theory** | `postcolonial` `lexicon-foundation` |
+| 4 | [Quijano (2000)](https://muse.jhu.edu/article/23906) Coloniality of Power | Latin American studies | Coloniality of power / Eurocentrism as a structuring global axis; motivates the postcolonial frame for the target/contrast group partition | **Theory** | `postcolonial` `lexicon-foundation` |
 | 5 | [Sinclair (2004)](https://www.routledge.com/Trust-the-Text-Language-Corpus-and-Discourse/Sinclair/p/book/9780415317689) *Trust the Text* | Language corpora | Foundational corpus-driven methodology: meaning emerges from observed textual patterns rather than intuition; basis for bottom-up, minimal-prior frame discovery | **Methodology** | `corpus-linguistic` `bottom-up` |
 | 6 | [Bamman, O'Connor & Smith (2013)](https://aclanthology.org/P13-1035/) Latent Personas | 42,306 Wikipedia movie plot summaries | Agent verb / patient verb / attribute patterns from dependency parses (nsubj, dobj, nsubjpass); Dirichlet persona clustering | **Analysis** | `role-extraction` `corpus-linguistic` |
 | 7 | [Rashkin, Singh & Choi (2016)](https://doi.org/10.18653/v1/P16-1030) Connotation Frames | *New York Times* corpus | Crowd-annotated lexicon of ~1,000 transitive verbs encoding agent/theme power, agency, and emotional affect per verb | **Analysis** | `role-extraction` `corpus-linguistic` `verb-level` |
 | 8 | [Sap et al. (2017)](https://aclanthology.org/D17-1247/) Connotation Frames of Power & Agency | ~2,000 film screenplays | Extends Rashkin's connotation-frame lexicon to power and agency dimensions; crowd-sourced annotations for ~2,000 verbs; applied to gender bias in films | **Analysis** | `role-extraction` `corpus-linguistic` `verb-level` |
 | 9 | [Mendelsohn, Tsvetkov & Jurafsky (2020)](https://doi.org/10.3389/frai.2020.00055) Dehumanization Framework | *New York Times* (1986–2015), LGBTQ discourse | w2v cosine similarity to four theory-derived dehumanization concept clusters; denial of agency measured alongside metaphor | **Analysis** | `metaphor-framing` `predefined-categories` `demographic-profiling` |
-| 10 | [Bender et al. (2021)](https://doi.org/10.1145/3442188.3445922) Stochastic Parrots | Large language models (general) | Risks of ever-larger LLMs: environmental cost, encoded societal biases from uncurated training data, and the illusion of meaning from statistical pattern matching | **Analysis** | `llm-risks` `training-data` |
+| 10 | [Bender et al. (2021)](https://doi.org/10.1145/3442188.3445922) Stochastic Parrots | Large language models (general) | Risks of ever-larger LLMs: environmental cost, encoded societal biases from uncurated training data, and the illusion of meaning from statistical pattern matching; LM lacking actual communicative intent, let alone experiencee-based world or pragmatic percetion. | **Analysis** | `llm-risks` `training-data` |
 | 11 | [Mendelsohn & Budak (ACL 2025)](https://aclanthology.org/2025.acl-long.398/) "When People are Floods" | 400K US immigration tweets | Word-level + document-level LLM technique for seven predefined metaphor concepts; ideology × engagement analysis | **Analysis** | `metaphor-framing` `predefined-categories` `demographic-profiling` |
 
 
-- `role-extraction` (#6–8): Rashkin (#7) is the closest overlap with F3BF's role indices and attitudinal dimensions; Sap et al. (2017) (#8) extends the same verb lexicon to power and agency entailments, directly motivating the AgI dimension; Bamman (#6) is the syntactic ancestor of AgI/PI but has no bias analysis or embeddings.
+- `role-extraction` (#6–8): Rashkin (#7) is the closest overlap with my role indices and attitudinal dimensions; Sap et al. (2017) (#8) extends the same verb lexicon to power and agency entailments, directly motivating the AgI dimension; Bamman (#6) is the syntactic ancestor of AgI/PI but has no bias analysis or embeddings.
 - Mendelsohn 2020 (#9) and Mendelsohn & Budak 2025 (#11) form a `metaphor-framing` pair: #9 studies news/LGBTQ discourse via w2v dehumanization clusters; #11 studies immigration tweets using LLMs as measurement tool. Both are corpus-level analyses of human discourse bias; neither studies LLMs as the object.
 - `corpus-linguistic` methodology (#2, #5): Sinclair (#5) grounds the bottom-up, corpus-driven approach; Dowty (#2) provides the thematic proto-role theory for AgI/PI. Collocate statistics (Dunning LLR, Rychlý LogDice) and association metrics (WEAT, CEAT) are listed in §2.6 Tools & Methods.
 - `postcolonial` (#1, #3, #4): Said (#1), Hall (#3), and Quijano (#4) are the theoretical anchors for the minority/dominant lexicon typology; they are listed here as foundational sources, not bias-detection methods.
-- `corpus-ethics` foundation (#10): Bender et al. (2021) (#10) is the seminal critique of training LLMs on massive uncurated corpora, establishing the core ethical motivation for F3BF's focus on pretraining data analysis.
+- `corpus-ethics` foundation (#10): Bender et al. (2021) (#10) is the seminal critique of training LLMs on massive uncurated corpora, establishing the core ethical motivation for my focus on pretraining data analysis.
 - None integrates role extraction with association testing or collocate-driven frame discovery.
 
 ### 2.2 Studies of bias in LLM
@@ -82,11 +81,11 @@ Bias probed in contextualized embeddings or model-side association structure rat
 | 1 | [Ethayarajh (2019)](https://aclanthology.org/D19-1006/) How Contextual are Contextualized Representations? | BERT, ELMo, GPT-2 geometry | Shows embeddings occupy a narrow cone (anisotropy); contextual variance in upper layers but not fully separable by sense; motivates why CEAT/WEAT cannot cleanly isolate human-referent from non-human-referent demonym senses | **Analysis** | `representation-mechanism` `polysemy` |
 | 2 | [Haber & Poesio (2021)](https://aclanthology.org/2021.findings-emnlp.226/) Patterns of Polysemy | BERT-Large on graded word-sense similarity | Contextual models correlate with human sense-similarity judgments but consistently fail on certain polysemic alternations; empirical grounding for why demonym polysemy (human vs. institution) is not cleanly separated | **Analysis** | `polysemy` `representation-mechanism` |
 | 3 | [Buijtelaar & Pezzelle (EACL 2023)](https://aclanthology.org/2023.eacl-main.163/) Psycholinguistic Analysis of BERT's Compounds | BERT, noun compounds | Higher transformer layers best represent compound meaning; moderate alignment with human lexeme-meaning-dominance judgments; constituent meaning does not average uniformly — the head contributes disproportionately | **Analysis** | `representation-mechanism` `compound-semantics` |
-| 4 | [Zaitova et al. (Findings NAACL 2025)](https://aclanthology.org/2025.findings-naacl.228/) Attention on MWEs | BERT-based models, six Indo-European languages | Fine-tuning shifts attention over multiword expressions non-uniformly by task (semantic vs. syntactic); reveals that constituent-level attention is idiomaticity-dependent, motivating F3BF's explicit compound-resolution rules | **Analysis** | `representation-mechanism` `compound-semantics` |
+| 4 | [Zaitova et al. (Findings NAACL 2025)](https://aclanthology.org/2025.findings-naacl.228/) Attention on MWEs | BERT-based models, six Indo-European languages | Fine-tuning shifts attention over multiword expressions non-uniformly by task (semantic vs. syntactic); reveals that constituent-level attention is idiomaticity-dependent, motivating my explicit compound-resolution rules | **Analysis** | `representation-mechanism` `compound-semantics` |
 
 - WEAT and CEAT association testing methods are moved to §2.6 Tools & Methods.
-- Ethayarajh (#1) and Haber & Poesio (#2) are cited in F3BF's Limitations (§Realist vs Instrumentalist): contextual encoders do not cleanly separate polysemic alternations along a stable axis, which motivates Δ-CEAT as a contamination diagnostic.
-- Zaitova (#4) and Buijtelaar & Pezzelle (#3) probe how BERT-based models internally process compound and multiword expressions; the findings ground F3BF's §Compound/MWE Group Mentions limitation: attention over compound constituents is non-uniform and meaning concentrates in deeper layers, so asymmetric suppression of dominant-side constituents is an approximation without guaranteed encoder-side support.
+- Ethayarajh (#1) and Haber & Poesio (#2) are cited in short paper Limitations (§Realist vs Instrumentalist): contextual encoders do not cleanly separate polysemic alternations along a stable axis, which motivates Δ-CEAT as a contamination diagnostic.
+- Zaitova (#4) and Buijtelaar & Pezzelle (#3) probe how BERT-based models internally process compound and multiword expressions; the findings ground §Compound/MWE Group Mentions limitation: attention over compound constituents is non-uniform and meaning concentrates in deeper layers, so asymmetric suppression of dominant-side constituents is an approximation without guaranteed encoder-side support.
 - This subsection is model-side but not output-side: it captures representational structure rather than generated judgments or behaviors.
 
 #### 2.2.1.1 Animacy Conflation in Geometric Space
@@ -99,7 +98,7 @@ Geometric work on how models fail to separate human-referent from non-human-refe
 | 2 | [Wdowicz (2025)](https://doi.org/10.1007/s43681-025-00898-z) Not a Mirror, a Caricature | GPT models prompted with American / Polish / Japanese identity cues | Self-Construal Scale (30 items); models produce fully separated, near-zero within-culture variance profiles — caricature rather than mirror; anglocentric default in 75% of neutral conditions | **Analysis** | `representation-mechanism` `demographic-profiling` |
 
 - Klafka & Ettinger (#1) show that animacy is recoverable with near-perfect accuracy from verb and object token embeddings — *more* robustly than from the subject token itself (especially in GPT). The finding is distributional spread, not geometric disentanglement: animacy is present and non-locally encoded across all token positions, which is the probing-level pre-condition for why CEAT cannot isolate human-referent from non-human-referent contexts for a demonym appearing in both. Note: the paper frames this as a positive result (features *are* recoverable), not as a failure of disentanglement — the failure framing belongs to Ethayarajh (#1) and Haber & Poesio (#2) in §2.2.1.
-- Wdowicz (#2) documents the *output* of animacy conflation: when human identity is underspecified, models collapse to a high-resource dominant-culture prototype, which is the LLM-side mirror of the corpus-level frequency collapse F3BF measures via CEAT-full and Δ-CEAT.
+- Wdowicz (#2) documents the *output* of animacy conflation: when human identity is underspecified, models collapse to a high-resource dominant-culture prototype, which is the LLM-side mirror of the corpus-level frequency collapse I measures via CEAT-full and Δ-CEAT.
 
 #### 2.2.1.2 Identity Conflation at Intersectionality
 
@@ -115,9 +114,9 @@ Studies on how models fail to maintain distinct representational space for indiv
 
 - Ghai (#1) provides geometric visualization evidence that intersectional bias in static embeddings is non-additive — the distribution is not the sum of each component's bias — which is the embedding-space correlate of CEAT's emergent intersectional bias finding (now listed in §2.6).
 - Dev (#2) establishes the cyclical erasure mechanism for non-binary identities: the same binary-forcing logic applies to demonym polysemy (human vs. inanimate use), where the model lacks geometric capacity to separate senses for low-frequency groups.
-- Khan (#3) provides a quantitative signature of the problem in coreference: confidence disparity as high as 40% at intersectional identity cells, driven by stereotype memorization rather than reasoning — directly relevant to F3BF's finding that CEAT scores for compound demonyms (`Asian American`, `undocumented immigrant`) may reflect memorized collocational patterns rather than stable representational structure.
-- Pawar (#4) and Wdowicz (§2.2.1.1 #1) form a complementary pair: Pawar shows name-triggered cultural flattening in prompted tasks; Wdowicz shows it in identity-cued generation. Both converge on the same corpus-level explanation F3BF targets: high-resource dominant-culture training signal overwhelms low-frequency minority signal at the representational level.
-- Shieh (#5) is citable in F3BF's Discussion as evidence that bias persists even when explicit demographic labels are absent — strengthening the motivation for corpus-level upstream analysis rather than output-level filtering.
+- Khan (#3) provides a quantitative signature of the problem in coreference: confidence disparity as high as 40% at intersectional identity cells, driven by stereotype memorization rather than reasoning — directly relevant to  finding that CEAT scores for compound demonyms (`Asian American`, `undocumented immigrant`) may reflect memorized collocational patterns rather than stable representational structure.
+- Pawar (#4) and Wdowicz (§2.2.1.1 #1) form a complementary pair: Pawar shows name-triggered cultural flattening in prompted tasks; Wdowicz shows it in identity-cued generation. Both converge on the same corpus-level explanation: high-resource dominant-culture training signal overwhelms low-frequency minority signal at the representational level.
+- Shieh (#5) is citable as evidence that bias persists even when explicit demographic labels are absent — strengthening the motivation for corpus-level upstream analysis rather than output-level filtering.
 
 #### 2.2.2 Output
 
@@ -155,13 +154,13 @@ Bias analyzed in pretraining data, news, social media, or annotated narrative co
 | 4 | [Görge et al. (2025)](https://arxiv.org/abs/2512.10734) | Small Heap corpus (OpenWebText2, CC-News, Wikipedia) + 3 LLMs (0.6B–8B) | LLM-generated word lists, Demographic Representation Score, stereotype filter, counterfactual augmentation; debiased fine-tuning did *not* consistently improve benchmark scores | **Detection / mitigation** | `pretraining-data` `predefined-categories` `mitigation` |
 
 - Entity Framing (#2) assigns narrative roles (shared `role-extraction` tag with §2.1 #7–8) but uses a taxonomy-first approach and no association testing.
-- `pretraining-data` (#1, #3, #4) share F3BF's data scope but not its linguistic granularity: they measure polarity, representation counts, or affect distributions rather than collocate-grounded discourse structures.
+- `pretraining-data` (#1, #3, #4) measure polarity, representation counts, or affect distributions rather than collocate-grounded discourse structures.
 - Görge et al. (#4) shows that data debiasing improves dataset-level bias measures, but does not consistently improve model-level bias benchmark performance; i.e., cleaning obvious demographic skew does not automatically make models fairer.
 - Kadan et al. (#1) combines corpus-level emotion-word distribution and co-occurrence analysis with model-level emotion evaluation. It spans input *and* model-internal bias, but keeps them **correlational** — parallel measurements without corpus intervention. This is the gap Feng et al. and Itzhak et al. close in §2.2.4 (causal evidence) and that RepE closes at the representation level.
 
 #### 2.2.4 All stages
 
-Bias traced across pipeline stages or causally attributed to a specific stage. RepE leads because it shares the goal of mechanistic analysis and provides the theoretical grounding for F3BF's vector-space operations. Entries are sorted by year (ascending).
+Bias traced across pipeline stages or causally attributed to a specific stage. RepE leads because it shares the goal of mechanistic analysis and provides the theoretical grounding for vector-space operations. Entries are sorted by year (ascending).
 
 | # | Study | Target | Key method | Goal | Tags |
 |:---|:---|:---|:---|:---|:---|
@@ -180,12 +179,12 @@ Relevant work that informs evaluation, reporting, or corpus selection but does n
 |:---|:---|:---|:---|:---|:---|
 | 1 | [Blodgett et al. (2021)](https://aclanthology.org/2021.acl-long.81/) Stereotyping Norwegian Salmon | StereoSet, CrowS-Pairs, WinoBias, Winogender | Measurement-modeling critique of four NLP bias benchmarks; demonstrates that none operationalizes a clearly defined construct of stereotyping; challenges construct validity of predefined-inventory benchmarks | **Critique** | `benchmark` `measurement-validity` |
 | 2 | [Tian et al. (2023)](https://arxiv.org/abs/2305.14975) "Just Ask for Calibration" | RLHF-tuned LLM outputs | RLHF distorts token-level probability calibration; verbalized confidence is better calibrated; relevant as implementation detail if LLM-as-judge is used for validation | **Analysis** | `calibration` `implementation-detail` |
-| 3 | [Soldaini et al. (ACL 2024)](https://aclanthology.org/2024.acl-long.840/) Dolma | Three-trillion-token English pretraining corpus | Open corpus (ODC-BY) underlying OLMo; F3BF operates on Dolma v1.6-sample; best-resource award ACL 2024 | **Corpus** | `corpus-resource` `pretraining-data` |
-| 4 | [Russo & Vidal (JAIR 2025)](https://doi.org/10.1613/jair.1.19388) Doc-BiasO | ML lifecycle documentation | Ontology for bias types and metric definitions; absorbable for F3BF's reporting layer, pipeline-irrelevant | **Documentation** | `ontology` `interoperability` |
+| 3 | [Soldaini et al. (ACL 2024)](https://aclanthology.org/2024.acl-long.840/) Dolma | Three-trillion-token English pretraining corpus | Open corpus (ODC-BY) underlying OLMo; Core data used as of June 2026; best-resource award ACL 2024 | **Corpus** | `corpus-resource` `pretraining-data` |
+| 4 | [Russo & Vidal (JAIR 2025)](https://doi.org/10.1613/jair.1.19388) Doc-BiasO | ML lifecycle documentation | Ontology for bias types and metric definitions; absorbable for reporting layer, pipeline-irrelevant | **Documentation** | `ontology` `interoperability` |
 | 5 | [WildChat (Allen AI) + ShareChat (2025)](https://arxiv.org/abs/2512.17843) | Large-scale real user–LLM conversations | Conversational corpora; structural messiness of incomplete conversational data risks breaking extraction heuristics; structured Alpaca significantly more suitable for syntactic tractability | **Corpus** | `corpus-resource` `assessed-rejected` |
 | 6 | ["Don't Erase, Inform!" (2025)](https://arxiv.org/abs/2505.24538) | Cultural heritage metadata | Lexical flagging of offensive terms from a multilingual vocabulary co-created with marginalized communities; cross-referenceable for lexical coverage but orthogonal (cultural heritage context, not contemporary metaphorical framing) | **Detection** | `lexical-detection` `multilingual` |
 
-- Blodgett (#1) critiques StereoSet and CrowS-Pairs (§2.2.2 #1–2) as lacking clearly defined constructs; directly supports F3BF's move away from predefined-inventory benchmark design.
+- Blodgett (#1) critiques StereoSet and CrowS-Pairs (§2.2.2 #1–2) as lacking clearly defined constructs; directly supports moving away from predefined-inventory benchmark design.
 - Tian (#2) matters only as an auxiliary evaluation note for any future LLM-as-judge validation step.
 - Dolma (#3) is the source corpus; listed here because it is a resource paper, not a bias-detection method.
 - Doc-BiasO (#4) is useful for metric naming and interoperability, not for the bias-detection pipeline itself.
@@ -194,7 +193,7 @@ Relevant work that informs evaluation, reporting, or corpus selection but does n
 
 ### 2.6 Tools & Methods
 
-Implementation tools and statistical methods cited as components of F3BF's pipeline. These are not bias-detection papers; they are listed separately to avoid inflating the substantive literature counts. Entries are sorted by year (ascending).
+Implementation tools and statistical methods cited as components of the current pipeline. These are not bias-detection papers; they are listed separately to avoid inflating the substantive literature counts. Entries are sorted by year (ascending).
 
 | # | Citation | Used for |
 |:---|:---|:---|
@@ -207,14 +206,14 @@ Implementation tools and statistical methods cited as components of F3BF's pipel
 | 7 | [Azzalini, Dolci & Tanelli (2022)](https://www.semanticscholar.org/paper/Bias-Score%3A-Estimating-Gender-Bias-in-Sentence-Azzalini-Dolci/a8caf23b86b050ad217a05db6aac94396e73d37a) Bias Score | Sentence-level bias scoring, providing weighting analogy for context token relevance in embedding evaluation |
 | 8 | [Zhang et al. (EMNLP 2024)](https://aclanthology.org/2024.emnlp-industry.103/) mGTE | GTE-ModernBERT encoder for frame-refresh, WEAT, CEAT, CEAT-full, and AttI prototype scoring |
 
-### 2.3 Relevance gap for F3BF
+### 2.3 Relevance gap
 
-Across 11 foundational + 11 model-internal (4 core + 2 animacy-conflation + 5 identity-conflation) + 10 output + 4 input + 3 all-stage + 6 bonus + 8 tools works, three converging gaps define F3BF's niche:
+Across 11 foundational + 11 model-internal (4 core + 2 animacy-conflation + 5 identity-conflation) + 10 output + 4 input + 3 all-stage + 6 bonus + 8 tools works, three converging gaps identified:
 
 1. **Predefined frames dominate bias-on-LLM work, but bottom-up discovery is not absent.** 
 Most existing bias measurement assumes the frame shape in advance: fixed target–attribute word lists, polarity/regard/affect schemes, or predefined metaphor and narrative-role typologies. Bottom-up alternatives do exist: Bamman (§2.1 #6) clusters latent personas from dependency-parsed agent/patient verb patterns, and corpus-assisted discourse studies, e.g. Gabrielatos & Baker (2006) on UK refugee coverage, and the RASIM project, use LLR-based collocate analysis to surface frame structure from a corpus rather than impose it. The actual gap is integration: such bottom-up frame discovery is rarely connected to association testing on demographic groups, and almost never run on pretraining-scale corpora driving contemporary LLMs. We close that link: minimal attitudinal polarity seeds anchor LLR/LogDice surface on target/contrast groups in corpus (Dolma); candidate terms enter F⁻/F⁺ only if both empirically differential (via LLR) and semantically grounded (MiNiLM cosine-sim gate), accompanied by human review to ensure frame type alignment (which does require partial reruns concerning association testing and sequential EFI via PCA); the frame inventory updates along the pipeline rather than being fixed in advance. 
 2. **No composite group profiling.** No study assembles syntactic-semantic role indices + association scores into a per-group multidimensional framing profile and derives a composite summary of cross-group variation through PCA.
-3. F3BF produces diagnostic outputs consumable by pre-processing mitigation, and does not currently claim intra- or post-processing coverage. 
+3. Current pipeline produces diagnostic outputs consumable by pre-processing mitigation, and does not currently claim intra- or post-processing coverage. 
 
 ---
 
@@ -228,7 +227,7 @@ RepE (tested primarily on **Llama-2-13b-chat**) asks the following question:
 
 > **Can high-level concepts such as bias be detected and controlled as directions in model representations?**
 
-The paper adopts a **Hopfieldian** view of neural cognition: representations are the fundamental unit of analysis, not individual neurons or circuits (the Sherringtonian view pursued by mechanistic interpretability). This justifies working with **population-level geometric operations** (PCA, cosine similarity) rather than tracing circuits — which is exactly what F3BF does on the corpus side with WEAT, SEAT, prototype matching, and PCA-based EFI.
+The paper adopts a **Hopfieldian** view of neural cognition: representations are the fundamental unit of analysis, not individual neurons or circuits (the Sherringtonian view pursued by mechanistic interpretability). This justifies working with **population-level geometric operations** (PCA, cosine similarity) rather than tracing circuits.
 
 RepE distinguishes two extraction targets: **concepts** (declarative knowledge, e.g. truthfulness, bias — elicited via "Consider the amount of [concept] in...") and **functions** (procedural knowledge, e.g. honesty, power-seeking — elicited via contrastive experimental/reference prompts). Bias is treated as a concept in §6.3, with the specific template *"Consider the bias in the following scenario..."*
 
@@ -316,15 +315,15 @@ This upgrades vector-space analysis from "useful geometry" to **causal represent
 ### E. Key findings
 
 - **Bias is a structural property of learned representations, not a surface artifact.** 
-- **Interpretability and intervention share the same substrate.** Reading vectors that identify a bias direction are directly usable as control signals — which means any mechanism F3BF identifies at corpus level could in principle become a RepE steering target for downstream validation.
+- **Interpretability and intervention share the same substrate.** Reading vectors that identify a bias direction are directly usable as control signals — which means any mechanism identified at corpus level could in principle become a RepE steering target for downstream validation.
 - **A unified bias subspace may exist**. Bias directions extracted from one stereotype domain can transfer to others, suggesting low-dimensional shared structure.
 - **RLHF does not necessarily remove bias geometrically**. RLHF is weight-level training that updates the model to produce refusals on bias-adjacent prompts. But the biased *direction* installed by pretraining remains causally active; RLHF works around it, not erase it. Once Jailbreaks technics defeat the gate (RLHF or frontend censorship), the underlying direction flows through unfiltered. 
 
 ### F. Comparison across aspects
 
-The relevant comparison is **SOTA in §2 vs RepE vs F3BF**. CEAT functions as a **complement to F3BF's workflow**, especially for contextual variation and intersectionality.
+The relevant comparison is **SOTA in §2 vs RepE vs My Work**. 
 
-| Aspect | SOTA in §2 | RepE | F3BF |
+| Aspect | SOTA in §2 | RepE | My work |
 |:---|:---|:---|:---|
 | Main target | Outputs, embeddings, corpora, or pipeline stages | Internal representations and generation | Training material and corpus-derived framing mechanisms |
 | Main strength | Broad coverage of the problem space | **Mechanistic and causal representation-level evidence** | **Mechanism-specific linguistic analysis at corpus level** |
@@ -335,7 +334,6 @@ The relevant comparison is **SOTA in §2 vs RepE vs F3BF**. CEAT functions as a 
 | Supports mitigation/intervention? | Sometimes, often category-based | **Yes**, but coarse and potentially overcorrective | Yes, through upstream corpus intervention |
 | Linguistic relevance | Mixed | Medium | **High** |
 
-RepE is strongest on internal mechanism and causal manipulation, while F3BF is strongest on linguistic decomposition and source tracing. CEAT complements F3BF by improving contextual association measurement, especially through distributional variation and intersectionality.
 
 ### G. Limitations, challenges, and future directions
 
@@ -347,16 +345,16 @@ RepE is strongest on internal mechanism and causal manipulation, while F3BF is s
   - **Overcorrection**: legitimate demographic-specific information, e.g. Black Females are de facto reported to be most affected by sarcoidosis, becomes neutralized by the intervention.
 - **Hyperparameter dependence**: effect depends on layer choice and coefficient strength.
 
-### H. Implications for F3BF
+### H. Implications
 
 RepE is both a validation paper and a boundary marker.
 
 #### Why it validates my direction
 
-RepE strengthens the logic behind several components of **F3BF**:
+RepE strengthens the logic:
 
-- **F3BF's developmental orientation is warranted**: if bias occupies causally active directions in the trained model, then studying where those directions were installed — in the training corpus — is the right level of analysis. RepE confirms the mechanism exists; F3BF targets its origin.
-- **WEAT / SEAT** become more theoretically credible if social associations really do occupy meaningful linear subspaces.
+- **Current developmental orientation is warranted**: if bias occupies causally active directions in the trained model, then studying where those directions were installed — in the training corpus — is the right level of analysis. RepE confirms the mechanism exists; I target its origin.
+- **WEAT / CEAT** become more theoretically credible if social associations really do occupy meaningful linear subspaces.
 - **Prototype-based attitudinal matching** becomes easier to justify if concept directions are readable through contrastive geometry.
 - **PCA-based EFI construction** becomes more interpretable as a dimensional summary of structured variation, even if it is not identical to a pure causal direction.
 
@@ -368,11 +366,11 @@ It's insufficient not because it is weak, but because it operates at a different
 
 In the future, one can:
 
-- Use RepE-style steering as a **validation layer** for mechanisms first identified by F3BF in training data.
+- Use RepE-style steering as a **validation layer** for mechanisms first identified in training data.
 
 - Extend from single vector to context-aware subspace.
 
-The overcorrection issue in §G reflects a representational choice in RepE itself. Its bias stimuli are scenario-level (*"Consider the bias in the following scenario..."*), framing bias as a single *biased vs. unbiased* dichotomy, and the default extraction keeps only the first principal component of the contrast. The resulting vector averages across linguistically distinct mechanisms — attitudinal vs. indexical, factual-demographic vs. evaluative-stereotype, F⁻ vs. F⁺ — so steering along it hits all of them at once, neutralizing legitimate demographic information alongside evaluative bias. Follow-up work already moves towards this direction (e.g. [Gaussian Concept Subspace](https://arxiv.org/abs/2410.00153), ICLR 2025, modeling concepts as distributions over a subspace rather than points). F3BF fits here not as a design for that subspace but as the source of the mechanism distinctions any such subspace would need to respect.
+The overcorrection issue in §G reflects a representational choice in RepE itself. Its bias stimuli are scenario-level (*"Consider the bias in the following scenario..."*), framing bias as a single *biased vs. unbiased* dichotomy, and the default extraction keeps only the first principal component of the contrast. The resulting vector averages across linguistically distinct mechanisms — attitudinal vs. indexical, factual-demographic vs. evaluative-stereotype, F⁻ vs. F⁺ — so steering along it hits all of them at once, neutralizing legitimate demographic information alongside evaluative bias. Follow-up work already moves towards this direction (e.g. [Gaussian Concept Subspace](https://arxiv.org/abs/2410.00153), ICLR 2025, modeling concepts as distributions over a subspace rather than points). My work fits here not as a design for that subspace but as the source of the mechanism distinctions any such subspace would need to respect.
 
 
 
@@ -403,9 +401,9 @@ CEAT improves on WEAT/SEAT-style testing by:
 - Bias magnitude correlates **negatively** with how contextualized the model is: more contextualized models (BERT, GPT-2) show lower average bias than less contextualized ones (ELMo), but bias is still **present in all models**.
 - Intersectional biases associated with members of **multiple minority groups** (African American females, Mexican American females) have the **highest magnitude** across all models — stronger than single-category biases.
 
-### Relevance to F3BF
+### Relevance
 
-CEAT clarifies two points for F3BF:
+CEAT clarifies two points:
 
 1. contextualized bias measurement should report **variation**, not just averages;
 2. intersectionality should be treated as a real methodological requirement, not a bonus feature.
@@ -426,15 +424,11 @@ A term with **high mean Δ and low variance** is systematically contaminated acr
 
 **2. Centroid collapse → full distribution**
 
-F3BF's SEAT already uses real Dolma sentences (not bleached templates like vanilla SEAT's `"This is WORD."`), so the contextualization is meaningful. But the current implementation still **collapses those sentences to a single centroid** — averaging GTE ModernBERT embeddings before computing cosine similarity — producing one scalar per group. CEAT's upgrade is to never collapse: keep the full set of per-sentence embeddings and sample from them, so the effect size is a distribution rather than a point. This applies directly to Δ-SEAT: instead of one `SEAT-full − SEAT-filtered` value per term, you get a distribution of Δ values across sampling draws, with variance as a first-class output.
+The previously installed SEAT already uses real Dolma sentences (not bleached templates like vanilla SEAT's `"This is WORD."`), so the contextualization is meaningful. But such implementation still **collapses those sentences to a single centroid** — averaging GTE ModernBERT embeddings before computing cosine similarity — producing one scalar per group. CEAT's upgrade is to never collapse: keep the full set of per-sentence embeddings and sample from them, so the effect size is a distribution rather than a point. 
 
 **3. Intersectional testing for compound group terms**
 
 CEAT's Intersectional Bias Detection (IBD) tests whether bias emerges at an intersection that does not exist for either component alone. For compound group terms (`Asian American`, `undocumented immigrant`) in EFI, running IBD-style testing alongside per-component WEAT scores reveals emergent intersectional bias directions that the PCA reduction would otherwise miss if the per-group vectors were computed independently.
-
-### Limit relative to F3BF
-
-CEAT improves contextual bias measurement, but like RepE, it does not identify **which linguistic mechanisms in the corpus created the effect**.
 
 ---
 
@@ -442,23 +436,20 @@ CEAT improves contextual bias measurement, but like RepE, it does not identify *
 
 the field has studied multitude of aspects but individually; **no existing work integrates the linguistic grounding to construct an analysis/detection pipeline on LLM training material**.
 
-F3BF within ARMADA addresses this by closing the chain: bottom-up frame discovery (LLR/LogDice → human classification → F⁻/F⁺) → role-based analysis (AgI, PI, SI via transformer SRL) → empirically anchored association testing (WEAT, SEAT, Δ-SEAT, attitudinal matching) → composite group profiling (EFI via PCA) — all on a single pretraining corpus (Dolma v1.6).
-
 ## 4. In-Group Synergies and Takeaways
 
 ### 4.1 In-group synergies under "Domain Alignment and Bias Identification"
 
 Our research package cluster around different levels of the **grounding stage of LLM development**. T2.3 centers around **uncertainty, confidence, and output reliability**; they help determine when an answer is unstable, miscalibrated, or inconsistent. T2.1 works more on the **conceptual grounding** layer by clarifying what grounding should mean in NLP plus **reasoning support and grounding verification**, asking whether outputs are supported by structured knowledge or retrieved evidence.
 
-F3BF complements these lines of work by targeting a different failure mode: an answer can be confident, consistent, or grounded and still encode biased group portrayal inherited from training material. This makes F3BF relevant to also **explainability, grounding, uncertainty, and robustness**, but from the upstream side of the pipeline.
+My work complements these lines of work by targeting a different failure mode: an answer can be confident, consistent, or grounded and still encode biased group portrayal inherited from training material. It's relevant to also **explainability, grounding, uncertainty, and robustness**, but from the upstream side of the pipeline.
 
 The main takeaways are:
 
-- A **grounding or verification WP** could use **F3BF's discourse patterns** to distinguish factual grounding problems from bias in group portrayal.
-- An **interpretability / representation WP** could use RepE-style steering to test whether **F3BF-discovered mechanisms** correspond to identifiable concept directions.
+- A **grounding or verification WP** could use **identified discourse patterns** to distinguish factual grounding problems from bias in group portrayal.
+- An **interpretability / representation WP** could use RepE-style steering to test whether **discovered mechanisms** correspond to identifiable concept directions.
 - An **uncertainty / confidence WP** could compare calibration and confidence signals with bias-sensitive context patterns; high confidence does not rule out bias.
 - A **robustness / evaluation WP** could test whether corpus or representation interventions improve contextual robustness.
-- A **benchmarking / statistics WP** could extend **F3BF's SEAT analysis** with CEAT-style heterogeneity estimates and intersectional testing.
 
 ---
 
