@@ -103,4 +103,8 @@ tags:
 
 2026-06-17: Added missing cache.tex citations to reading.md; grouped Hofmann and Ouyang (InstructGPT) under §2.2.2 Output; moved Bender et al. (2021) to §2.1 Foundational; removed Lucy et al. (2022) due to method discrepancies.
 
-2026-06-22: Reorganized reading.md: moved WEAT/CEAT entries to §2.6 Tools & Methods, deleted the two Kurpicz-Briki papers, sorted all subsections by year ascending, and updated the relevance gap counts and cross-references.
+2026-06-18: @group meeting and survey udpates.
+
+2026-06-19: short paper revision plan.
+
+2026-06-22: Reorganized reading.md: moved WEAT/CEAT entries to §2.6 Tools & Methods, deleted the two Kurpicz-Briki papers, sorted all subsections by year ascending, updated relevance gap counts and cross-references.
