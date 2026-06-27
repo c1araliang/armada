@@ -200,7 +200,7 @@ Implementation tools and statistical methods cited as components of the current 
 | 1 | [Dunning (1993)](https://aclanthology.org/J93-1003/) Log-Likelihood Ratio — *Computational Linguistics* | LLR statistic for sparse collocation scoring in frame-term discovery |
 | 2 | [Rychlý (2008)](https://www.sketchengine.eu/wp-content/uploads/2015/03/Lexicographer-Friendly_2008.pdf) LogDice — Corpus lexicography | LogDice association measure used alongside LLR for frame-term ranking |
 | 3 | [Caliskan, Bryson & Narayanan (2017)](https://doi.org/10.1126/science.aal4230) WEAT | Type-level embedding association metric (WEAT) comparing group target embeddings with F⁻/F⁺ frame centroids in GTE ModernBERT space |
-| 4 | [Shi & Lin (2019)](https://aclanthology.org/D19-1473/) Simple BERT SRL | BERT-based SRL; the dannyshao fine-tuned variant used for PI patient-label detection |
+| 4 | [Shi & Lin (2019)](https://arxiv.org/abs/1904.05255) Simple BERT SRL | BERT-based SRL; the dannyshao fine-tuned variant used for PI patient-label detection |
 | 5 | [Honnibal et al. (2020)](https://doi.org/10.5281/zenodo.1212303) spaCy | Phase 2 dependency parsing, NER, compound canonicalization, inanimate-head guard |
 | 6 | [Guo & Caliskan (2021)](https://doi.org/10.1145/3461702.3462536) CEAT | Contextualized embedding association metric (CEAT / Δ-CEAT) evaluated over natural pretraining corpus contexts |
 | 7 | [Azzalini, Dolci & Tanelli (2022)](https://www.semanticscholar.org/paper/Bias-Score%3A-Estimating-Gender-Bias-in-Sentence-Azzalini-Dolci/a8caf23b86b050ad217a05db6aac94396e73d37a) Bias Score | Sentence-level bias scoring, providing weighting analogy for context token relevance in embedding evaluation |

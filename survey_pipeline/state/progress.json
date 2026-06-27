@@ -1,0 +1,28 @@
+{
+  "iteration": 0,
+  "phase": 0,
+  "score": 0.0,
+  "stale_count": 0,
+  "status": "init",
+  "last_seen": "2026-06-27T10:29:00Z",
+  "scope": "bias_only",
+  "survey_file": "../survey.md",
+  "responsible_sections": [
+    "# Bias as an Evaluation Dimension",
+    "## Bias and Representation",
+    "## Foundational Works",
+    "## Model Internal",
+    "## Model Output",
+    "## Input Material",
+    "## All Stages",
+    "## Relevant works",
+    "## Bias as a Representation Problem"
+  ],
+  "out_of_scope_sections": [
+    "# Knowledge Grounding",
+    "# Grounding at Training-time",
+    "# Synergies with other WP",
+    "# Conclusion"
+  ],
+  "notes": "Human author owns all out_of_scope_sections. Pipeline must not modify them."
+}

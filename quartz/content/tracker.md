@@ -11,7 +11,7 @@ tags:
 
 |Problem|Status & Impact|
 |---|---|
-|**Encoder calibration**|Open. Phase 1 extraction needs MiniLM vs. GTE A/B calibration; Phase 2 GTE resolver/frame-refresh thresholds need separate calibration before new outputs are reported.|
+|**Encoder calibration**|Resolved. Standalone audit `ablation_recall_audit.py` shows that directly transferring MiniLM thresholds to ModernBERT causes scale mismatch (49.1% FNR due to false admissions). Once calibrated (ModernBERT `pos >= 0.62`, `margin >= 0.06`), the True FNR is only 6.8%, validating MiniLM's high recall for the extraction cascade.|
 |**Extraction review diagnosis**|Corrected. Use `dolma/semantic_filter_review.tsv` and a same-run `semantic_filter_report.txt` for Phase 1 extraction diagnosis; `X/output_review.tsv` is Phase 2 role/frame review (routes sentences where `role_review_flags` contains `no_clear_semantic_role` OR `targets` is null).|
 |**Extraction gate**|Two-lane (STRICT + STRONG_MARGIN) margin-only gate; classifier removed after ablation showed 37% recall loss vs. ~6% precision gain. Phase 2 mention resolution provides the second filter.|
 |**Mention layer**|Keyword extraction + inanimate suppression. `resolve_group_token()` simplified to ~100 lines; no resolver, no AMBIGUOUS/STRONG/DUAL branching. Civic tokens removed from demographic sets. Phase 1 re-extraction needed.|
@@ -391,3 +391,11 @@ Effect: `black players` in "racially abusing black players" now resolves `[PRED:
 - **Impact**: Terminal outputs are now automatically recorded and persist in `pipeline_run.log` without overwriting prior runs.
 
 
+### 2026-06-23
+
+68. **Statistical Robustness and Stability Checks.**
+- **Robustness checks**: Implemented the statistical stability checking suite at [robustness_checks.py](file:///Users/l/projects/X/stability/robustness_checks.py). To achieve maximum performance, the script pre-encodes active sentences (7,416 sentences containing group mentions) once at startup to avoid redundant GTE ModernBERT calls.
+- **Bootstrap resampling**: Runs 1000 bootstrap iterations to calculate standard errors and 95% confidence intervals for target group profiles, PCA (EFI) loadings (aligned using dot-product to resolve sign ambiguity), and OLS regression coefficients.
+- **Leave-One-Out (LOO) sensitivity**: Computes PC loading cosine similarities and OLS R² shifts when leaving out individual groups, and PC explained variance shifts when leaving out dimensions.
+- **Cross-chunk rank stability**: Partitioning the sentence corpus into $K=3$ equal chunks shows extremely high rank stability for CEAT ($\rho = 0.82$) and netAttI ($\rho = 0.60$), while sparse rule-based syntactic roles (AgI, PI, SI) show moderate rank correlation due to parsing sparsity.
+- **Outputs**: Writes outputs to [bootstrap_results.tsv](file:///Users/l/projects/X/stability/bootstrap_results.tsv), [loo_sensitivity_results.txt](file:///Users/l/projects/X/stability/loo_sensitivity_results.txt), and [cross_chunk_stability.tsv](file:///Users/l/projects/X/stability/cross_chunk_stability.tsv).

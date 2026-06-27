@@ -1,0 +1,161 @@
+=== ARMADA STATISTICAL ROBUSTNESS AND STABILITY CHECKS ===
+Input path: /Users/l/projects/dolma/semantic_filter_results.tsv
+
+Loading spaCy model...
+Active extraction labels loaded: 16 tokens
+Preprocessed 7925 sentences.
+SRL cache loaded: 7925 entries.
+  Loaded from candidate_terms.json: 9 accumulated neg frames, 6 accumulated pos frames
+Loading SentenceTransformer for centroid encoding...
+Traceback (most recent call last):
+  File "/Users/l/projects/X/stability/robustness_checks.py", line 550, in <module>
+    main()
+  File "/Users/l/projects/X/stability/robustness_checks.py", line 403, in main
+    sentence_encoder = SentenceTransformer(ANALYSIS_EMBEDDING_MODEL, device=ANALYSIS_DEVICE)
+NameError: name 'ANALYSIS_EMBEDDING_MODEL' is not defined
+=== ARMADA STATISTICAL ROBUSTNESS AND STABILITY CHECKS ===
+Input path: /Users/l/projects/dolma/semantic_filter_results.tsv
+
+Loading spaCy model...
+Active extraction labels loaded: 16 tokens
+Preprocessed 7925 sentences.
+SRL cache loaded: 7925 entries.
+  Loaded from candidate_terms.json: 9 accumulated neg frames, 6 accumulated pos frames
+Loading SentenceTransformer for centroid encoding...
+Pre-encoding all cleaned sentences once with GTE ModernBERT...
+Active target groups for stability analysis (N >= 50): ['african', 'american', 'black', 'british', 'canadian', 'chinese', 'european', 'french', 'german', 'indian', 'japanese', 'jewish', 'russian', 'spanish', 'western', 'white']
+
+Pre-building sentence-level metrics database...
+
+Running bootstrap resampling (B=10 iterations)...
+  Iteration 1/10...
+  Iteration 2/10...
+  Iteration 3/10...
+  Iteration 4/10...
+  Iteration 5/10...
+  Iteration 6/10...
+  Iteration 7/10...
+  Iteration 8/10...
+  Iteration 9/10...
+  Iteration 10/10...
+
+→ Bootstrap results written to bootstrap_results.tsv
+→ Leave-one-out sensitivity report written to loo_sensitivity_results.txt
+
+=== LEAVE-ONE-GROUP-OUT PCA & REGRESSION SENSITIVITY ===
+  Removed group 'african     ': PC1 CosSim=0.9922, PC2 CosSim=0.9177, WEAT ΔR²=+0.0826, CEAT ΔR²=+0.0724
+  Removed group 'american    ': PC1 CosSim=0.9980, PC2 CosSim=0.9792, WEAT ΔR²=-0.0677, CEAT ΔR²=+0.1431
+  Removed group 'black       ': PC1 CosSim=0.9848, PC2 CosSim=0.9818, WEAT ΔR²=+0.1740, CEAT ΔR²=+0.0326
+  Removed group 'british     ': PC1 CosSim=0.9998, PC2 CosSim=0.9952, WEAT ΔR²=+0.0398, CEAT ΔR²=+0.0047
+  Removed group 'canadian    ': PC1 CosSim=0.9925, PC2 CosSim=0.9943, WEAT ΔR²=+0.0361, CEAT ΔR²=+0.0329
+  Removed group 'chinese     ': PC1 CosSim=0.9884, PC2 CosSim=0.9501, WEAT ΔR²=-0.0001, CEAT ΔR²=+0.0340
+  Removed group 'european    ': PC1 CosSim=0.9985, PC2 CosSim=0.7490, WEAT ΔR²=-0.0088, CEAT ΔR²=+0.0014
+  Removed group 'french      ': PC1 CosSim=0.9990, PC2 CosSim=0.9994, WEAT ΔR²=-0.0030, CEAT ΔR²=-0.0036
+  Removed group 'german      ': PC1 CosSim=0.9650, PC2 CosSim=0.8051, WEAT ΔR²=+0.0180, CEAT ΔR²=+0.0145
+  Removed group 'indian      ': PC1 CosSim=1.0000, PC2 CosSim=0.9982, WEAT ΔR²=-0.0120, CEAT ΔR²=-0.0013
+  Removed group 'japanese    ': PC1 CosSim=0.9751, PC2 CosSim=0.9786, WEAT ΔR²=+0.0041, CEAT ΔR²=-0.0180
+  Removed group 'jewish      ': PC1 CosSim=0.9890, PC2 CosSim=0.9682, WEAT ΔR²=+0.0231, CEAT ΔR²=+0.0421
+  Removed group 'russian     ': PC1 CosSim=0.9050, PC2 CosSim=0.9235, WEAT ΔR²=+0.1213, CEAT ΔR²=-0.0720
+  Removed group 'spanish     ': PC1 CosSim=0.9895, PC2 CosSim=0.9743, WEAT ΔR²=-0.0135, CEAT ΔR²=-0.0379
+  Removed group 'western     ': PC1 CosSim=0.9979, PC2 CosSim=0.9835, WEAT ΔR²=+0.0141, CEAT ΔR²=+0.0423
+  Removed group 'white       ': PC1 CosSim=0.9623, PC2 CosSim=0.9813, WEAT ΔR²=-0.0950, CEAT ΔR²=-0.0867
+
+=== LEAVE-ONE-DIMENSION-OUT PCA SENSITIVITY ===
+  Removed dimension 'AGI       ': PC1 VarExplained=0.332 (baseline was 0.333), PC2 VarExplained=0.240 (baseline was 0.217)
+  Removed dimension 'PI        ': PC1 VarExplained=0.394 (baseline was 0.333), PC2 VarExplained=0.253 (baseline was 0.217)
+  Removed dimension 'SI        ': PC1 VarExplained=0.326 (baseline was 0.333), PC2 VarExplained=0.232 (baseline was 0.217)
+  Removed dimension 'net_atti  ': PC1 VarExplained=0.396 (baseline was 0.333), PC2 VarExplained=0.235 (baseline was 0.217)
+  Removed dimension 'weat      ': PC1 VarExplained=0.397 (baseline was 0.333), PC2 VarExplained=0.246 (baseline was 0.217)
+  Removed dimension 'ceat      ': PC1 VarExplained=0.303 (baseline was 0.333), PC2 VarExplained=0.260 (baseline was 0.217)
+
+Computing profiles for K=3 chunks (chunk size ≈ 2641 sentences)...
+
+→ Cross-chunk stability metrics written to cross_chunk_stability.tsv
+
+=== CROSS-CHUNK RANK STABILITY ===
+  AGI       : AvgSpearman=0.2340 (Min=0.0618, Max=0.3736)
+  PI        : AvgSpearman=0.2599 (Min=0.2104, Max=0.3135)
+  SI        : AvgSpearman=0.3476 (Min=0.0088, Max=0.5487)
+  net_atti  : AvgSpearman=0.5836 (Min=0.4941, Max=0.6726)
+  ceat      : AvgSpearman=0.7921 (Min=0.7882, Max=0.7976)
+=== ARMADA STATISTICAL ROBUSTNESS AND STABILITY CHECKS ===
+Input path: /Users/l/projects/dolma/semantic_filter_results.tsv
+
+Loading spaCy model...
+Active extraction labels loaded: 16 tokens
+Preprocessed 7925 sentences.
+SRL cache loaded: 7925 entries.
+  Loaded from candidate_terms.json: 9 accumulated neg frames, 6 accumulated pos frames
+Loading SentenceTransformer for centroid encoding...
+Pre-encoding all cleaned sentences once with GTE ModernBERT...
+=== ARMADA STATISTICAL ROBUSTNESS AND STABILITY CHECKS ===
+Input path: /Users/l/projects/dolma/semantic_filter_results.tsv
+
+Loading spaCy model...
+Active extraction labels loaded: 16 tokens
+=== ARMADA STATISTICAL ROBUSTNESS AND STABILITY CHECKS ===
+Input path: /Users/l/projects/dolma/semantic_filter_results.tsv
+
+Loading spaCy model...
+Active extraction labels loaded: 16 tokens
+Preprocessed 7925 sentences.
+SRL cache loaded: 7925 entries.
+  Loaded from candidate_terms.json: 9 accumulated neg frames, 6 accumulated pos frames
+Loading SentenceTransformer for centroid encoding...
+Active target groups for stability analysis (N >= 50): ['african', 'american', 'black', 'british', 'canadian', 'chinese', 'european', 'french', 'german', 'indian', 'japanese', 'jewish', 'russian', 'spanish', 'western', 'white']
+Filtered dataset to 7416 active sentences containing target group mentions.
+Pre-encoding active sentences once with GTE ModernBERT...
+
+Pre-building sentence-level metrics database...
+
+Running bootstrap resampling (B=1000 iterations)...
+  Iteration 100/1000...
+  Iteration 200/1000...
+  Iteration 300/1000...
+  Iteration 400/1000...
+  Iteration 500/1000...
+  Iteration 600/1000...
+  Iteration 700/1000...
+  Iteration 800/1000...
+  Iteration 900/1000...
+  Iteration 1000/1000...
+
+→ Bootstrap results written to bootstrap_results.tsv
+→ Leave-one-out sensitivity report written to loo_sensitivity_results.txt
+
+=== LEAVE-ONE-GROUP-OUT PCA & REGRESSION SENSITIVITY ===
+  Removed group 'african     ': PC1 CosSim=0.9922, PC2 CosSim=0.9177, WEAT ΔR²=+0.0826, CEAT ΔR²=+0.0724
+  Removed group 'american    ': PC1 CosSim=0.9980, PC2 CosSim=0.9792, WEAT ΔR²=-0.0677, CEAT ΔR²=+0.1431
+  Removed group 'black       ': PC1 CosSim=0.9848, PC2 CosSim=0.9818, WEAT ΔR²=+0.1740, CEAT ΔR²=+0.0326
+  Removed group 'british     ': PC1 CosSim=0.9998, PC2 CosSim=0.9952, WEAT ΔR²=+0.0398, CEAT ΔR²=+0.0047
+  Removed group 'canadian    ': PC1 CosSim=0.9925, PC2 CosSim=0.9943, WEAT ΔR²=+0.0361, CEAT ΔR²=+0.0329
+  Removed group 'chinese     ': PC1 CosSim=0.9884, PC2 CosSim=0.9501, WEAT ΔR²=-0.0001, CEAT ΔR²=+0.0340
+  Removed group 'european    ': PC1 CosSim=0.9985, PC2 CosSim=0.7490, WEAT ΔR²=-0.0088, CEAT ΔR²=+0.0014
+  Removed group 'french      ': PC1 CosSim=0.9990, PC2 CosSim=0.9994, WEAT ΔR²=-0.0030, CEAT ΔR²=-0.0036
+  Removed group 'german      ': PC1 CosSim=0.9650, PC2 CosSim=0.8051, WEAT ΔR²=+0.0180, CEAT ΔR²=+0.0145
+  Removed group 'indian      ': PC1 CosSim=1.0000, PC2 CosSim=0.9982, WEAT ΔR²=-0.0120, CEAT ΔR²=-0.0013
+  Removed group 'japanese    ': PC1 CosSim=0.9751, PC2 CosSim=0.9786, WEAT ΔR²=+0.0041, CEAT ΔR²=-0.0180
+  Removed group 'jewish      ': PC1 CosSim=0.9890, PC2 CosSim=0.9682, WEAT ΔR²=+0.0231, CEAT ΔR²=+0.0421
+  Removed group 'russian     ': PC1 CosSim=0.9050, PC2 CosSim=0.9235, WEAT ΔR²=+0.1213, CEAT ΔR²=-0.0720
+  Removed group 'spanish     ': PC1 CosSim=0.9895, PC2 CosSim=0.9743, WEAT ΔR²=-0.0135, CEAT ΔR²=-0.0379
+  Removed group 'western     ': PC1 CosSim=0.9979, PC2 CosSim=0.9835, WEAT ΔR²=+0.0141, CEAT ΔR²=+0.0423
+  Removed group 'white       ': PC1 CosSim=0.9623, PC2 CosSim=0.9813, WEAT ΔR²=-0.0950, CEAT ΔR²=-0.0867
+
+=== LEAVE-ONE-DIMENSION-OUT PCA SENSITIVITY ===
+  Removed dimension 'AGI       ': PC1 VarExplained=0.332 (baseline was 0.333), PC2 VarExplained=0.240 (baseline was 0.217)
+  Removed dimension 'PI        ': PC1 VarExplained=0.394 (baseline was 0.333), PC2 VarExplained=0.253 (baseline was 0.217)
+  Removed dimension 'SI        ': PC1 VarExplained=0.326 (baseline was 0.333), PC2 VarExplained=0.232 (baseline was 0.217)
+  Removed dimension 'net_atti  ': PC1 VarExplained=0.396 (baseline was 0.333), PC2 VarExplained=0.235 (baseline was 0.217)
+  Removed dimension 'weat      ': PC1 VarExplained=0.397 (baseline was 0.333), PC2 VarExplained=0.246 (baseline was 0.217)
+  Removed dimension 'ceat      ': PC1 VarExplained=0.303 (baseline was 0.333), PC2 VarExplained=0.260 (baseline was 0.217)
+
+Computing profiles for K=3 chunks (chunk size ≈ 2472 sentences)...
+
+→ Cross-chunk stability metrics written to cross_chunk_stability.tsv
+
+=== CROSS-CHUNK RANK STABILITY ===
+  AGI       : AvgSpearman=0.2490 (Min=0.0471, Max=0.3912)
+  PI        : AvgSpearman=0.2571 (Min=0.1959, Max=0.3061)
+  SI        : AvgSpearman=0.3434 (Min=-0.0074, Max=0.5534)
+  net_atti  : AvgSpearman=0.6014 (Min=0.4941, Max=0.6691)
+  ceat      : AvgSpearman=0.8216 (Min=0.8206, Max=0.8235)

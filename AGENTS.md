@@ -19,7 +19,7 @@ Note: output will be reviewed by LLM committee incl. but not limited to GPT, Cla
 - Most important code: `extract.py`, `X/embedding_config.py`, `X/run_pipeline.py`, `X/lexicons.py`, `X/group_mentions.py`, `X/step3_feature_extraction.py`, `X/step4_metrics.py`.
 - Protected research artifacts: `dolma/semantic_filter_results.tsv`, `dolma/semantic_filter_lexical_all.txt`, `dolma/semantic_filter_review.tsv`, `X/group_stats.tsv`, `X/output_results.tsv`, `X/output_review.tsv`, `X/association_discourse.tsv`, `X/candidate_terms.json`.
 - Do not scan unless directly relevant: `X/venv/`, `quartz/public/`, `dolma/data/`, `__pycache__/`, `.git/`, `.DS_Store`.
-- Syntax check: `cd /Users/l/projects && source X/venv/bin/activate && python -m py_compile extract.py X/*.py`.
+- Syntax check: `cd /Users/l/projects && source X/venv/bin/activate && python -m py_compile extract.py X/*.py X/ablation/*.py X/stability/*.py`
 - Phase 1 run: `cd /Users/l/projects && source X/venv/bin/activate && python extract.py`.
 - Phase 2 run: `cd /Users/l/projects/X && source venv/bin/activate && python run_pipeline.py`.
 
@@ -138,6 +138,17 @@ Do not let `todo.md` and `tracker.md` drift into the same role. `todo.md` says w
   - Edit risk: **High** — thresholds, main-lane and rescue prompts, `lexical_human_rescue()` rules, and `INANIMATE_NOUNS` coverage all directly control what enters the analysis corpus.
   - Status: Active.
   - Notes: `X/` is added to `sys.path` at startup. `ARMADA_MAX_FILES` defaults to `1` for single-shard testing; increase for full-corpus run. On Apple Silicon, extraction auto-selects `mps` unless `ARMADA_DEVICE=cpu` is set. Rescue scoring reuses the per-sentence MiniLM embeddings already computed for the main lane (no additional encoder pass).
+
+- `X/ablation/ablation_recall_audit.py`
+  - Role: Standalone recall audit to evaluate Phase 1 MiniLM recall relative to GTE-ModernBERT. Partitions a random sample from `semantic_filter_lexical_all.txt` into accepted/rejected and computes False Negative Rate (FNR) under uncalibrated and calibrated thresholds to highlight model scale differences. Calibrated FNR = 6.8% (N=300, seed=42, one shard).
+  - Outputs: `X/ablation/ablation_sample.tsv`, `X/ablation/ablation_audit_results.tsv`, `X/ablation/ablation_report.txt`.
+  - Status: Active diagnostic tool.
+
+- `X/stability/robustness_checks.py`
+  - Role: Statistical robustness and stability checks. Runs bootstrap resampling (B=1000) for target-group profiles (AgI/PI/SI/netAttI/CEAT), PC loadings, and regression coefficients; computes Leave-One-Out (LOO) sensitivity for groups and dimensions; and computes cross-chunk Spearman rank correlations (K=3) as a proxy for cross-shard stability.
+  - Outputs: `X/stability/bootstrap_results.tsv`, `X/stability/loo_sensitivity_results.txt`, `X/stability/cross_chunk_stability.tsv`, `X/stability/robustness_checks.log`.
+  - Status: Active diagnostic and validation tool.
+
 
 
 ### Phase 2 — Analysis Pipeline
