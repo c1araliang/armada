@@ -163,8 +163,8 @@ Already catalogued in reading.md §2.2.5 + §2.6:
 - [ ] **§.4 Model Output:** Write prose. Pair InstructGPT (#3) + Hofmann (#5) for the RLHF dual finding. Group predefined-inventory benchmarks (#1, #2, #4, #7) under a construct-validity critique via Blodgett. Highlight Ashery (#8) as motivation for upstream intervention.
 - [ ] **§.5 Input Material:** Write prose. Lead with Görge (#4) finding: data debiasing ≠ benchmark improvement. Connect to ARMADA's upstream corpus-level framing analysis.
 - [ ] **§.6 All Stages:** Write prose. Lead with RepE as mechanistic validation. Pair Feng + Itzhak to establish pretraining as primary causal source.
-- [ ] **§.7 Relevant Works:** Write brief subsection. Flag Tian (#2) and Doc-BiasO (#4) as implementation-detail references only.
-- [ ] **§.8 Bias as a Representation Problem:** Write synthesis. Connect: bottom-up discovery gap (reading.md §2.3 gap #1) → composite group profiling gap (gap #2) → ARMADA as closing both. RepE as future validation layer per reading.md §H. Current pipeline: diagnostic outputs for pre-processing mitigation only (gap #3).
+- [x] **§.7 Relevant Works:** Write brief subsection. Flag Tian (#2) and Doc-BiasO (#4) as implementation-detail references only.
+- [ ] **§.8 Bias as a Representation Problem:** Write synthesis of representational geometry issues in language models. Discuss the trade-offs of representation-level interventions (e.g. projections, steering vectors in RepE) and their limitations regarding context-aware semantic nuances, overcorrection risks, and polysemic/intersectional alignment.
 - [ ] **§.1 Bias and Representation:** Update once §.2–§.8 are drafted; revise scope statement to accurately reflect section content.
 - [ ] After all sections drafted: verify citation keys against `My Library.bib`; check every 20 citations per Gate 1 protocol.
 
@@ -203,6 +203,14 @@ From reading.md — all 10 original seeds plus key additions:
   (no work in reading.md does both at pretraining scale).
 - **Audience:** NLP researchers familiar with LLMs; ARMADA WP2 reviewers; grounding survey
   readers needing bias as a third axis.
+
+---
+
+## Target Venue / Length / Publishing
+
+- **Target Venue:** The VLDB Journal | Springer Nature Link
+- **Max Pages:** 25
+- **Publishing Required:** No
 
 ---
 

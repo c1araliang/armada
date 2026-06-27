@@ -115,3 +115,6 @@ tags:
 2026-06-25: Collective bibliography sorting and updates.
 
 2026-06-26: @group new midterm milestone July 15th.
+
+2026-06-27: Detailed literature drafting for Bias chapter (§§ Foundational Works to Bias as a Representation Problem) including mathematical formulations, empirical settings, and dataset details. Added sociolinguistics citations in intro paragraph.
+
