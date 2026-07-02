@@ -5,6 +5,9 @@ Performs:
 1. Bootstrap CIs (B=1000) for group-level metrics, PCA (EFI) loadings, and OLS regressions.
 2. Leave-One-Out (LOO) sensitivity for demographic groups and dimensions.
 3. Cross-Chunk rank stability using Spearman rank correlation.
+4. Scaling-choice sensitivity: PCA under z-score / min-max / raw scaling.
+5. Factor analysis comparison: ML factor analysis vs. PCA loadings.
+6. CEAT SE uncertainty propagation: Monte Carlo perturbation of CEAT values.
 """
 
 import sys
@@ -27,7 +30,9 @@ sys.path.append(str(project_dir))
 import spacy
 from sentence_transformers import SentenceTransformer
 from sklearn.decomposition import PCA
-from sklearn.preprocessing import StandardScaler
+from sklearn.preprocessing import StandardScaler, MinMaxScaler
+from factor_analyzer import FactorAnalyzer
+from factor_analyzer.factor_analyzer import calculate_bartlett_sphericity, calculate_kmo
 
 # Import modules from the main pipeline
 from run_pipeline import (
@@ -349,6 +354,262 @@ def run_cross_chunk_stability(sentence_metrics, target_groups, original_weat, K=
         
     return correlation_results
 
+
+def run_scaling_sensitivity(baseline_profiles):
+    """Compare PCA results under z-score (StandardScaler), min-max, and raw (no) scaling.
+    Addresses Pastra point (i.3): sensitivity to scaling choices.
+    """
+    dims = ["AGI", "PI", "SI", "net_atti", "weat", "ceat"]
+    labels = [g["lemma"] for g in baseline_profiles]
+    matrix = np.array([[g.get(d, 0.0) for d in dims] for g in baseline_profiles])
+
+    scalers = {
+        "zscore": StandardScaler(),
+        "minmax": MinMaxScaler(),
+        "raw": None,
+    }
+
+    results = {}
+    for scaler_name, scaler in scalers.items():
+        X = scaler.fit_transform(matrix) if scaler else matrix.copy()
+        pca = PCA(n_components=min(len(dims), len(labels)))
+        scores = pca.fit_transform(X)
+
+        pc1_loadings = dict(zip(dims, pca.components_[0].round(4)))
+        pc2_loadings = dict(zip(dims, pca.components_[1].round(4))) if pca.n_components_ >= 2 else {d: 0.0 for d in dims}
+        pc1_var = round(pca.explained_variance_ratio_[0], 4)
+        pc2_var = round(pca.explained_variance_ratio_[1], 4) if pca.n_components_ >= 2 else 0.0
+
+        # EFI scores per group
+        group_scores = dict(zip(labels, scores[:, 0].round(4)))
+
+        results[scaler_name] = {
+            "pc1_loadings": pc1_loadings,
+            "pc2_loadings": pc2_loadings,
+            "pc1_var": pc1_var,
+            "pc2_var": pc2_var,
+            "group_scores": group_scores,
+        }
+
+    # Align sign of minmax/raw loadings to zscore using dot product
+    ref_pc1 = np.array([results["zscore"]["pc1_loadings"][d] for d in dims])
+    ref_pc2 = np.array([results["zscore"]["pc2_loadings"][d] for d in dims])
+    for alt in ["minmax", "raw"]:
+        alt_pc1 = np.array([results[alt]["pc1_loadings"][d] for d in dims])
+        if np.dot(ref_pc1, alt_pc1) < 0:
+            results[alt]["pc1_loadings"] = {d: round(-v, 4) for d, v in results[alt]["pc1_loadings"].items()}
+            results[alt]["group_scores"] = {g: round(-v, 4) for g, v in results[alt]["group_scores"].items()}
+        alt_pc2 = np.array([results[alt]["pc2_loadings"][d] for d in dims])
+        if np.dot(ref_pc2, alt_pc2) < 0:
+            results[alt]["pc2_loadings"] = {d: round(-v, 4) for d, v in results[alt]["pc2_loadings"].items()}
+
+    # Cross-scaling Spearman: do group EFI rankings agree?
+    zscore_ranks = [results["zscore"]["group_scores"][g] for g in sorted(labels)]
+    rank_corrs = {}
+    for alt in ["minmax", "raw"]:
+        alt_ranks = [results[alt]["group_scores"][g] for g in sorted(labels)]
+        corr, pval = spearmanr(zscore_ranks, alt_ranks)
+        rank_corrs[alt] = {"spearman": round(corr, 4), "pval": round(pval, 6)}
+
+    results["rank_correlations"] = rank_corrs
+    return results
+
+
+def run_factor_analysis(baseline_profiles):
+    """Compare Maximum Likelihood factor analysis with PCA loadings.
+    Addresses Pastra point (i.5): factor analysis / clustering comparison.
+    """
+    dims = ["AGI", "PI", "SI", "net_atti", "weat", "ceat"]
+    labels = [g["lemma"] for g in baseline_profiles]
+    matrix = np.array([[g.get(d, 0.0) for d in dims] for g in baseline_profiles])
+
+    # Standardize for comparability with PCA
+    scaler = StandardScaler()
+    X = scaler.fit_transform(matrix)
+
+    report_lines = []
+    report_lines.append("=== FACTOR ANALYSIS VS. PCA COMPARISON ===")
+
+    # Bartlett's test of sphericity
+    try:
+        chi_sq, p_val = calculate_bartlett_sphericity(X)
+        report_lines.append(f"  Bartlett's test: χ²={chi_sq:.2f}, p={p_val:.6f}")
+        if p_val > 0.05:
+            report_lines.append("  ⚠ p > 0.05: correlations may be insufficient for factor extraction")
+    except Exception as e:
+        report_lines.append(f"  Bartlett's test failed: {e}")
+
+    # KMO test
+    try:
+        kmo_all, kmo_model = calculate_kmo(X)
+        report_lines.append(f"  KMO measure of sampling adequacy: {kmo_model:.4f}")
+        if kmo_model < 0.5:
+            report_lines.append("  ⚠ KMO < 0.5: data may not be suitable for factor analysis")
+    except Exception as e:
+        report_lines.append(f"  KMO test failed: {e}")
+
+    # Run FA with 2 factors (matching PCA n_components interpretation)
+    n_factors = 2
+    fa_results = {}
+    for rotation in [None, "varimax"]:
+        rot_label = rotation or "none"
+        try:
+            fa = FactorAnalyzer(
+                n_factors=n_factors,
+                rotation=rotation,
+                method="ml",  # Maximum Likelihood
+                is_corr_matrix=False,
+            )
+            fa.fit(X)
+            loadings = fa.loadings_
+            var_explained = fa.get_factor_variance()
+            # var_explained returns (SS Loadings, Proportion Var, Cumulative Var)
+
+            fa_results[rot_label] = {
+                "loadings": {dims[i]: {f"F{j+1}": round(loadings[i, j], 4) for j in range(n_factors)} for i in range(len(dims))},
+                "ss_loadings": [round(v, 4) for v in var_explained[0]],
+                "proportion_var": [round(v, 4) for v in var_explained[1]],
+                "cumulative_var": [round(v, 4) for v in var_explained[2]],
+            }
+
+            report_lines.append(f"\n  Factor Analysis (ML, rotation={rot_label}):")
+            report_lines.append(f"    Proportion variance: F1={var_explained[1][0]:.3f}, F2={var_explained[1][1]:.3f}")
+            report_lines.append(f"    Cumulative: {var_explained[2][-1]:.3f}")
+            report_lines.append(f"    {'Dimension':<10}  {'F1':>8}  {'F2':>8}")
+            for i, d in enumerate(dims):
+                report_lines.append(f"    {d:<10}  {loadings[i, 0]:>8.4f}  {loadings[i, 1]:>8.4f}")
+        except Exception as e:
+            report_lines.append(f"\n  Factor Analysis (ML, rotation={rot_label}) failed: {e}")
+            fa_results[rot_label] = None
+
+    # Compare with PCA
+    pca = PCA(n_components=n_factors)
+    pca.fit(X)
+    report_lines.append(f"\n  PCA (baseline, z-score):")
+    report_lines.append(f"    Proportion variance: PC1={pca.explained_variance_ratio_[0]:.3f}, PC2={pca.explained_variance_ratio_[1]:.3f}")
+    report_lines.append(f"    {'Dimension':<10}  {'PC1':>8}  {'PC2':>8}")
+    for i, d in enumerate(dims):
+        report_lines.append(f"    {d:<10}  {pca.components_[0, i]:>8.4f}  {pca.components_[1, i]:>8.4f}")
+
+    # Congruence coefficients between PCA and FA(no rotation)
+    if fa_results.get("none") is not None:
+        report_lines.append("\n  Tucker's congruence (PCA PC1 vs FA F1, no rotation):")
+        pca_pc1 = pca.components_[0]
+        fa_f1 = np.array([fa_results["none"]["loadings"][d]["F1"] for d in dims])
+        tucker = np.dot(pca_pc1, fa_f1) / (np.linalg.norm(pca_pc1) * np.linalg.norm(fa_f1))
+        report_lines.append(f"    Tucker's φ = {tucker:.4f}")
+        if abs(tucker) > 0.95:
+            report_lines.append("    → Factor structure replicates PCA structure well")
+        elif abs(tucker) > 0.85:
+            report_lines.append("    → Fair replication")
+        else:
+            report_lines.append("    → Poor replication — PCA and FA disagree on latent structure")
+
+    return "\n".join(report_lines), fa_results
+
+
+def run_ceat_uncertainty_propagation(
+    baseline_profiles,
+    group_ceat_se,
+    n_mc=2000,
+):
+    """Monte Carlo propagation of CEAT standard errors into EFI and regression.
+    Addresses Pastra point (i.6): uncertainty propagation from CEAT SE.
+
+    For each MC iteration, perturb each group's CEAT by sampling from
+    N(observed_ceat, ceat_se), then re-run PCA and regression.
+    """
+    dims = ["AGI", "PI", "SI", "net_atti", "weat", "ceat"]
+    predictors = ["AGI", "PI", "SI", "net_atti"]
+    groups = [g["lemma"] for g in baseline_profiles]
+
+    np.random.seed(123)
+
+    # Storage
+    mc_pc1_loadings = defaultdict(list)
+    mc_pc2_loadings = defaultdict(list)
+    mc_pc1_var = []
+    mc_pc2_var = []
+    mc_reg_weat = defaultdict(list)
+    mc_reg_ceat = defaultdict(list)
+    mc_efi_scores = defaultdict(list)
+
+    # Baseline for sign alignment
+    baseline_efi = _compute_efi(baseline_profiles)
+    base_pc1 = np.array([baseline_efi["pc1_loadings"][d] for d in dims])
+    base_pc2 = np.array([baseline_efi["pc2_loadings"][d] for d in dims])
+
+    print(f"\nRunning CEAT uncertainty propagation (MC={n_mc})...")
+    for it in range(n_mc):
+        if (it + 1) % (max(1, n_mc // 10)) == 0:
+            print(f"  MC iteration {it + 1}/{n_mc}...")
+
+        # Perturb CEAT values
+        perturbed = []
+        for p in baseline_profiles:
+            pp = dict(p)
+            se = group_ceat_se.get(p["lemma"], 0.0)
+            pp["ceat"] = float(np.random.normal(p["ceat"], se))
+            perturbed.append(pp)
+
+        # Re-run PCA
+        efi = _compute_efi(perturbed)
+
+        # Sign alignment
+        pc1_vec = np.array([efi["pc1_loadings"][d] for d in dims])
+        if np.dot(base_pc1, pc1_vec) < 0:
+            pc1_vec = -pc1_vec
+            for d in dims:
+                efi["pc1_loadings"][d] = -efi["pc1_loadings"][d]
+            for g in groups:
+                efi["pc1_scores"][g] = -efi["pc1_scores"][g]
+        pc2_vec = np.array([efi["pc2_loadings"][d] for d in dims])
+        if np.dot(base_pc2, pc2_vec) < 0:
+            for d in dims:
+                efi["pc2_loadings"][d] = -efi["pc2_loadings"][d]
+
+        for d in dims:
+            mc_pc1_loadings[d].append(efi["pc1_loadings"][d])
+            mc_pc2_loadings[d].append(efi["pc2_loadings"][d])
+        mc_pc1_var.append(efi["pc1_variance_explained"])
+        mc_pc2_var.append(efi["pc2_variance_explained"])
+
+        for g in groups:
+            mc_efi_scores[g].append(efi["pc1_scores"][g])
+
+        # Re-run regressions (CEAT is also a target)
+        reg_weat = _run_regression(perturbed, "weat", predictors)
+        reg_ceat = _run_regression(perturbed, "ceat", predictors)
+        if reg_weat:
+            mc_reg_weat["r_squared"].append(reg_weat["r_squared"])
+            for pn in predictors:
+                mc_reg_weat[f"b_{pn}"].append(reg_weat["coefficients"].get(pn, 0.0))
+        if reg_ceat:
+            mc_reg_ceat["r_squared"].append(reg_ceat["r_squared"])
+            for pn in predictors:
+                mc_reg_ceat[f"b_{pn}"].append(reg_ceat["coefficients"].get(pn, 0.0))
+
+    # Compile results
+    def _stats(vals, obs):
+        arr = np.array(vals)
+        return {
+            "observed": round(obs, 4),
+            "mc_mean": round(np.mean(arr), 4),
+            "mc_se": round(np.std(arr, ddof=1), 4),
+            "mc_ci_lower": round(np.percentile(arr, 2.5), 4),
+            "mc_ci_upper": round(np.percentile(arr, 97.5), 4),
+        }
+
+    return {
+        "pc1_loadings": {d: _stats(mc_pc1_loadings[d], baseline_efi["pc1_loadings"][d]) for d in dims},
+        "pc2_loadings": {d: _stats(mc_pc2_loadings[d], baseline_efi["pc2_loadings"][d]) for d in dims},
+        "pc1_var": _stats(mc_pc1_var, baseline_efi["pc1_variance_explained"]),
+        "pc2_var": _stats(mc_pc2_var, baseline_efi["pc2_variance_explained"]),
+        "efi_scores": {g: _stats(mc_efi_scores[g], baseline_efi["pc1_scores"].get(g, 0.0)) for g in groups},
+        "reg_weat": {k: _stats(v, 0.0) for k, v in mc_reg_weat.items()},
+        "reg_ceat": {k: _stats(v, 0.0) for k, v in mc_reg_ceat.items()},
+    }
+
 def main():
     parser = argparse.ArgumentParser(description="ARMADA Robustness Checks")
     parser.add_argument("sentences_path", nargs="?", default="dolma/semantic_filter_results.tsv", help="Path to input TSV")
@@ -567,6 +828,91 @@ def main():
     print("\n=== CROSS-CHUNK RANK STABILITY ===")
     for r in cross_chunk:
         print(f"  {r['Metric']:<10}: AvgSpearman={r['AvgPairwiseSpearman']:.4f} (Min={r['MinPairwiseSpearman']:.4f}, Max={r['MaxPairwiseSpearman']:.4f})")
-        
+
+    # 4. SCALING-CHOICE SENSITIVITY (Pastra i.3)
+    print("\n" + "=" * 60)
+    print("=== SCALING-CHOICE SENSITIVITY (i.3) ===")
+    scaling = run_scaling_sensitivity(baseline_profiles)
+    dims = ["AGI", "PI", "SI", "net_atti", "weat", "ceat"]
+    scaling_tsv = log_dir / "scaling_sensitivity.tsv"
+    with open(scaling_tsv, "w", encoding="utf-8", newline="") as f:
+        w = csv.writer(f, delimiter="\t")
+        w.writerow(["Scaler", "Component", "Dimension", "Loading", "VarExplained"])
+        for sc_name in ["zscore", "minmax", "raw"]:
+            sc = scaling[sc_name]
+            for d in dims:
+                w.writerow([sc_name, "PC1", d, sc["pc1_loadings"][d], sc["pc1_var"]])
+                w.writerow([sc_name, "PC2", d, sc["pc2_loadings"][d], sc["pc2_var"]])
+    with open(scaling_tsv, "a", encoding="utf-8") as f:
+        f.write("\n# Rank correlation of EFI scores (zscore vs. alternative)\n")
+        for alt, rc in scaling["rank_correlations"].items():
+            f.write(f"# zscore_vs_{alt}: Spearman={rc['spearman']}, p={rc['pval']}\n")
+
+    print(f"→ Scaling sensitivity written to {scaling_tsv.name}")
+    for sc_name in ["zscore", "minmax", "raw"]:
+        sc = scaling[sc_name]
+        print(f"  {sc_name}: PC1 VarExpl={sc['pc1_var']:.3f}, PC2 VarExpl={sc['pc2_var']:.3f}")
+        load_str = ", ".join(f"{d}={sc['pc1_loadings'][d]:.3f}" for d in dims)
+        print(f"    PC1 loadings: {load_str}")
+    for alt, rc in scaling["rank_correlations"].items():
+        print(f"  EFI rank corr (zscore vs {alt}): ρ={rc['spearman']:.4f} (p={rc['pval']:.4f})")
+
+    # 5. FACTOR ANALYSIS COMPARISON (Pastra i.5)
+    print("\n" + "=" * 60)
+    fa_report, fa_results = run_factor_analysis(baseline_profiles)
+    fa_txt = log_dir / "factor_analysis_comparison.txt"
+    fa_txt.write_text(fa_report, encoding="utf-8")
+    print(f"→ Factor analysis comparison written to {fa_txt.name}")
+    print("\n" + fa_report)
+
+    # 6. CEAT SE UNCERTAINTY PROPAGATION (Pastra i.6)
+    print("\n" + "=" * 60)
+    print("=== CEAT SE UNCERTAINTY PROPAGATION (i.6) ===")
+    group_ceat_se = {}
+    with open(group_stats_path, "r", encoding="utf-8") as f:
+        reader = csv.DictReader(f, delimiter="\t")
+        for row in reader:
+            lemma = row["Lemma"]
+            se_val = row.get("CEAT_SE", "0").strip()
+            group_ceat_se[lemma] = float(se_val) if se_val else 0.0
+
+    mc_results = run_ceat_uncertainty_propagation(
+        baseline_profiles,
+        group_ceat_se,
+        n_mc=2000,
+    )
+
+    mc_tsv = log_dir / "ceat_uncertainty_propagation.tsv"
+    with open(mc_tsv, "w", encoding="utf-8", newline="") as f:
+        w = csv.writer(f, delimiter="\t")
+        w.writerow(["Type", "Identifier", "Observed", "MC_Mean", "MC_SE", "MC_CI_Lower", "MC_CI_Upper"])
+        for d in dims:
+            s = mc_results["pc1_loadings"][d]
+            w.writerow(["PC1_Loading", d, s["observed"], s["mc_mean"], s["mc_se"], s["mc_ci_lower"], s["mc_ci_upper"]])
+        for d in dims:
+            s = mc_results["pc2_loadings"][d]
+            w.writerow(["PC2_Loading", d, s["observed"], s["mc_mean"], s["mc_se"], s["mc_ci_lower"], s["mc_ci_upper"]])
+        s = mc_results["pc1_var"]
+        w.writerow(["PC1_Variance", "var_explained", s["observed"], s["mc_mean"], s["mc_se"], s["mc_ci_lower"], s["mc_ci_upper"]])
+        s = mc_results["pc2_var"]
+        w.writerow(["PC2_Variance", "var_explained", s["observed"], s["mc_mean"], s["mc_se"], s["mc_ci_lower"], s["mc_ci_upper"]])
+        for g, s in sorted(mc_results["efi_scores"].items()):
+            w.writerow(["EFI_Score", g, s["observed"], s["mc_mean"], s["mc_se"], s["mc_ci_lower"], s["mc_ci_upper"]])
+        for k, s in sorted(mc_results["reg_ceat"].items()):
+            w.writerow(["Regression_CEAT", k, s["observed"], s["mc_mean"], s["mc_se"], s["mc_ci_lower"], s["mc_ci_upper"]])
+
+    print(f"→ CEAT uncertainty propagation written to {mc_tsv.name}")
+    print("\n  PCA loadings sensitivity to CEAT SE perturbation:")
+    for d in dims:
+        s = mc_results["pc1_loadings"][d]
+        print(f"    PC1 {d:<10}: obs={s['observed']:.4f}, MC 95% CI=[{s['mc_ci_lower']:.4f}, {s['mc_ci_upper']:.4f}]")
+    print("\n  EFI score sensitivity:")
+    for g, s in sorted(mc_results["efi_scores"].items()):
+        print(f"    {g:<12}: obs={s['observed']:.3f}, MC 95% CI=[{s['mc_ci_lower']:.3f}, {s['mc_ci_upper']:.3f}]")
+    if mc_results["reg_ceat"]:
+        print("\n  CEAT regression sensitivity:")
+        for k, s in sorted(mc_results["reg_ceat"].items()):
+            print(f"    {k:<12}: MC 95% CI=[{s['mc_ci_lower']:.4f}, {s['mc_ci_upper']:.4f}]")
+
 if __name__ == "__main__":
     main()

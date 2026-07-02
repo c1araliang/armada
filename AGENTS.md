@@ -145,8 +145,8 @@ Do not let `todo.md` and `tracker.md` drift into the same role. `todo.md` says w
   - Status: Active diagnostic tool.
 
 - `X/stability/robustness_checks.py`
-  - Role: Statistical robustness and stability checks. Runs bootstrap resampling (B=1000) for target-group profiles (AgI/PI/SI/netAttI/CEAT), PC loadings, and regression coefficients; computes Leave-One-Out (LOO) sensitivity for groups and dimensions; and computes cross-chunk Spearman rank correlations (K=3) as a proxy for cross-shard stability.
-  - Outputs: `X/stability/bootstrap_results.tsv`, `X/stability/loo_sensitivity_results.txt`, `X/stability/cross_chunk_stability.tsv`, `X/stability/robustness_checks.log`.
+  - Role: Statistical robustness and stability checks. Runs bootstrap resampling (B=1000) for target-group profiles (AgI/PI/SI/netAttI/CEAT), PC loadings, and regression coefficients; computes Leave-One-Out (LOO) sensitivity for groups and dimensions; computes cross-chunk Spearman rank correlations (K=3) as a proxy for cross-shard stability; scaling-choice sensitivity (z-score/min-max/raw PCA comparison); ML factor analysis vs. PCA comparison with Bartlett/KMO adequacy tests and Tucker's congruence; and CEAT SE uncertainty propagation via Monte Carlo (MC=2000) into EFI loadings, scores, and regression coefficients.
+  - Outputs: `X/stability/bootstrap_results.tsv`, `X/stability/loo_sensitivity_results.txt`, `X/stability/cross_chunk_stability.tsv`, `X/stability/scaling_sensitivity.tsv`, `X/stability/factor_analysis_comparison.txt`, `X/stability/ceat_uncertainty_propagation.tsv`, `X/stability/robustness_checks.log`.
   - Status: Active diagnostic and validation tool.
 
 

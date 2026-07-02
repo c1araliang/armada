@@ -21,10 +21,9 @@ TARGET_TOKENS = {
 
     # ethnic / racial minority (named groups)
     "asian", "chinese", "japanese", "korean", "vietnamese", "filipino",
-    "indian", "hindi", "russian", "balkan",
+    "indian", "hindi", "balkan",
     "arab", "arabic",
     "muslim", "islamic",
-    "jewish", "jew", "zionist",
     "hispanic", "latino", "latina", "latinx", "spanish",
     "mexican", "mexicano",
     "african", "nigger", "negro", "black",
@@ -53,11 +52,6 @@ TARGET_TOKENS = {
     "ecuadorian", "guatemalan", "honduran", "salvadoran", "nicaraguan",
     "haitian", "jamaican", "dominican", "brazilian", "latinx",
     "chilean", "argentinian", "uruguayan", "paraguayan",
-
-    # Eastern Europe (non-EU-core / historically marginalized)
-    "polish", "romanian", "hungarian", "czech", "slovak", "bulgarian",
-    "serbian", "croatian", "bosnian", "albanian", "ukrainian",
-    "belarusian", "moldovan", "georgian", "armenian",
 
     # Roma / stateless / broad
     "romani", "sinti", "kurdish",
@@ -91,14 +85,19 @@ CONTRAST_TOKENS = {
     "french", "german", "dutch", "belgian", "swiss", "austrian",
     "italian", "spanish", "portuguese",
 
+    # Eastern Europe
+    "russian", "polish", "romanian", "hungarian", "czech", "slovak", "bulgarian",
+    "serbian", "croatian", "bosnian", "albanian", "ukrainian",
+    "belarusian", "moldovan", "georgian", "armenian",
+
     # Scandinavia
     "swedish", "norwegian", "danish", "finnish", "icelandic",
 
     # Anglosphere
     "australian", "canadian", "irish", "scottish",
 
-    # Southern Europe / other historically dominant
-    "greek", "israeli",
+    # Southern Europe / other dominants
+    "greek", "israeli", "jewish", "jew", "zionist",
 
     # ideological / historical labels used contrastively in corpus
     "settler",
@@ -352,8 +351,8 @@ INANIMATE_NOUNS = {
     "character", "class", "value", "name", "origin", "influence", "background", 
     "suffering", "way", "conquest", "root", "access", "ethnicity", "oppression", 
     "preference", "condition", "color", "racism", "attack", "body", "campaign", 
-    "ideal", "presence", "invasion", "historical",
-}
+    "ideal", "presence", "invasion", "historical", "makeup"
+,}
 
 INANIMATE_ENTITY_TYPES = (
     "GPE", "LOC", "EVENT", "PRODUCT", "WORK_OF_ART",

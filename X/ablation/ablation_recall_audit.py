@@ -47,9 +47,11 @@ from pathlib import Path
 import numpy as np
 
 # ── Path setup (mirrors extract.py) ──────────────────────────────────────────
-PROJECT_ROOT = Path(__file__).parent
+PROJECT_ROOT = Path(__file__).resolve().parents[2]  # X/ablation/ -> X/ -> project root
 X_DIR = PROJECT_ROOT / "X"
 sys.path.insert(0, str(X_DIR))
+sys.path.insert(0, str(PROJECT_ROOT))
+
 
 from embedding_config import ANALYSIS_EMBEDDING_MODEL, DEFAULT_EMBEDDING_BATCH_SIZE  # type: ignore
 from extract import (  # type: ignore
@@ -71,11 +73,13 @@ from extract import (  # type: ignore
 )
 
 # ── File paths ────────────────────────────────────────────────────────────────
-LEXICAL_ALL = PROJECT_ROOT / "dolma" / "semantic_filter_lexical_all.txt"
-RESULTS_TSV = PROJECT_ROOT / "dolma" / "semantic_filter_results.tsv"
-SAMPLE_OUT  = PROJECT_ROOT / "ablation_sample.tsv"
-AUDIT_OUT   = PROJECT_ROOT / "ablation_audit_results.tsv"
-REPORT_OUT  = PROJECT_ROOT / "ablation_report.txt"
+LEXICAL_ALL  = PROJECT_ROOT / "dolma" / "semantic_filter_lexical_all.txt"
+RESULTS_TSV  = PROJECT_ROOT / "dolma" / "semantic_filter_results.tsv"
+ABLATION_DIR = PROJECT_ROOT / "X" / "ablation"
+SAMPLE_OUT   = ABLATION_DIR / "ablation_sample.tsv"
+AUDIT_OUT    = ABLATION_DIR / "ablation_audit_results.tsv"
+REPORT_OUT   = ABLATION_DIR / "ablation_report.txt"
+
 
 
 # =============================================================================

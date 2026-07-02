@@ -11,7 +11,7 @@ tags:
 
 **DC:** Wuyue `Clara` Liang
 
-**Latest Update**: 2026-06-27
+**Latest Update**: 2026-07-02
 
 ## Current Situation
 
@@ -166,8 +166,9 @@ The problematic 1st version measured predefined results, while Sinclair's corpus
     * **WEAT** (static embeddings): type-level — is the vector for *immigrant* closer to the F⁻ centroid or F⁺ centroid?
     * **CEAT** (contextualized sentence embeddings): sampled context distribution — across encoded sentences containing *immigrant*, is the contextual embedding closer to the F⁻ centroid or F⁺ centroid? The pipeline reports the mean plus `N` and `SE`.
     Frame inventory is auto-refreshed each run by a two-tier admission: sentence-cosine vs. seed prototypes for magnitude, plus a 4-word sentiment-anchor cosine for direction. Anchors never enter centroid geometry.
-5. **EFI via PCA** — Assemble group × dimension matrix [AgI, PI, SI, frame-derived netAttI, WEAT, CEAT]. Run PCA on groups with `N ≥ 50`. Subjecthood is retained as a diagnostic column, not an EFI dimension. **PC1 and PC2 are both reported** with their loadings; no a priori sign flip is applied (PCA component signs are mathematically arbitrary; substantive interpretation comes from the loading pattern of the run). On the current corpus PC1 captures *overall attribution intensity* (~33.7% variance, where CEAT, SI, and AgI load positively together) and PC2 captures the *evaluative vs. grammatical-role trade-off* (~21.7% variance, where frame-netAttI and WEAT cluster opposite patienthood PI and subjectivity SI); the two-axis structure is empirical, not assumed.
+5. **EFI via PCA** — Assemble group × dimension matrix [AgI, PI, SI, frame-derived netAttI, WEAT, CEAT]. Run PCA on groups with `N ≥ 50`. Subjecthood is retained as a diagnostic column, not an EFI dimension. **PC1 and PC2 are both reported** with their loadings; no a priori sign flip is applied. On the pilot corpus, PC2 captured the *evaluative vs. grammatical-role trade-off* (~21.7% variance). However, scaling to 4 shards (~34.5% PC1, ~23.7% PC2 variance) reveals a structural decoupling: static type-level embeddings (WEAT) are context-blind and decouple from target-bound syntactic framing (netAttI, $\rho = -0.028$), whereas contextualized CEAT aligns with context-dependent roles. The two-axis structure is empirical, not assumed.
 6. **Output** — Per-sentence table (targets, indexical counts) + per-group summary (proportionalized indices, WEAT/CEAT scores, EFI, PCA loadings, regression β), with the reported group table filtered to lemmas with `N ≥ 50`.
+
 
 ### Design decisions from early testing
 

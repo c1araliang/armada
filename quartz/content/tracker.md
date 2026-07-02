@@ -399,3 +399,11 @@ Effect: `black players` in "racially abusing black players" now resolves `[PRED:
 - **Leave-One-Out (LOO) sensitivity**: Computes PC loading cosine similarities and OLS R² shifts when leaving out individual groups, and PC explained variance shifts when leaving out dimensions.
 - **Cross-chunk rank stability**: Partitioning the sentence corpus into $K=3$ equal chunks shows extremely high rank stability for CEAT ($\rho = 0.82$) and netAttI ($\rho = 0.60$), while sparse rule-based syntactic roles (AgI, PI, SI) show moderate rank correlation due to parsing sparsity.
 - **Outputs**: Writes outputs to [bootstrap_results.tsv](file:///Users/l/projects/X/stability/bootstrap_results.tsv), [loo_sensitivity_results.txt](file:///Users/l/projects/X/stability/loo_sensitivity_results.txt), and [cross_chunk_stability.tsv](file:///Users/l/projects/X/stability/cross_chunk_stability.tsv).
+
+### 2026-06-28
+
+69. **Pipeline Scaling & Frame Customization Check**
+- **Changes**: Scaled the analysis pipeline to a 4-shard Dolma subset (~31.3k sentences) and implemented Option 1 & 2 combined changes under `run_pipeline.py`. Added positive/negative anchor margins (`ANCHOR_POS_MARGIN = 0.025`, `ANCHOR_NEG_MARGIN = 0.01`) and implemented `blacklist_terms` support in `candidate_terms.json`.
+- **Bug Fix**: Resolved the `net_atti` zeroing mismatch bug in `robustness_checks.py`. The script now loads frame and anchor parameters correctly, generating valid loadings and cross-chunk Spearman rank correlations ($\rho = 0.7847$) for the netAttI dimension.
+- **Academic Insight**: Confirmed that scaling data to 4 shards resolves role-index rank instability (Spearman correlation for AgI/PI/SI went from $<0.35$ to $>0.56\text{--}0.71$). Discovered that `netAttI` and `WEAT` are decoupled ($\rho = -0.028$) because static embeddings are context-blind, whereas contextualized CEAT aligns closely with syntactic framing.
+

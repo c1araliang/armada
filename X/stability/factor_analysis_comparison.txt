@@ -1,0 +1,40 @@
+=== FACTOR ANALYSIS VS. PCA COMPARISON ===
+  Bartlett's test: χ²=20.00, p=0.171901
+  ⚠ p > 0.05: correlations may be insufficient for factor extraction
+  KMO measure of sampling adequacy: 0.5026
+
+  Factor Analysis (ML, rotation=none):
+    Proportion variance: F1=0.292, F2=0.191
+    Cumulative: 0.483
+    Dimension         F1        F2
+    AGI           0.4370    0.1654
+    PI            0.0640   -0.0127
+    SI            0.9914   -0.1103
+    net_atti      0.3025    0.5643
+    weat         -0.1829    0.5083
+    ceat          0.6685    0.7285
+
+  Factor Analysis (ML, rotation=varimax):
+    Proportion variance: F1=0.246, F2=0.237
+    Cumulative: 0.483
+    Dimension         F1        F2
+    AGI           0.3862    0.2630
+    PI            0.0652    0.0026
+    SI            0.9897    0.1246
+    net_atti      0.1622    0.6194
+    weat         -0.2967    0.4514
+    ceat          0.4796    0.8646
+
+  PCA (baseline, z-score):
+    Proportion variance: PC1=0.385, PC2=0.210
+    Dimension        PC1       PC2
+    AGI           0.4437    0.0923
+    PI            0.0944    0.4128
+    SI            0.4592   -0.4720
+    net_atti      0.4541    0.0435
+    weat          0.1703    0.7718
+    ceat          0.5900   -0.0243
+
+  Tucker's congruence (PCA PC1 vs FA F1, no rotation):
+    Tucker's φ = 0.8738
+    → Fair replication

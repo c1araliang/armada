@@ -4,25 +4,25 @@ sample_n:            300
 sample_seed:         42
 
 ── Step 2: MiniLM Pipeline Cross-Check ──────────────
-accepted_by_minilm:  35  (11.7%)
-rejected_by_minilm:  265  (88.3%)
-rejected_by_tag:     {'main_lane_miss': 146, 'candidate': 115, 'inherent': 4}
-rejected_inanim_adj: 120  (45.3% of rejects)
+accepted_by_minilm:  27  (9.0%)
+rejected_by_minilm:  273  (91.0%)
+rejected_by_tag:     {'candidate': 104, 'main_lane_miss': 163, 'inherent': 6}
+rejected_inanim_adj: 114  (41.8% of rejects)
 
 ── Step 3: ModernBERT Recall Audit ──────────────────
-sentences_audited:   265
+sentences_audited:   273
 
  [Option A: Uncalibrated - MiniLM thresholds direct transfer]
-  mbt_would_admit:     130  (49.1% of rejects)
-  FALSE NEGATIVE RATE: 49.1%
+  mbt_would_admit:     113  (41.4% of rejects)
+  FALSE NEGATIVE RATE: 41.4%
   *Note: High FNR is due to embedding scale mismatch. ModernBERT
    base similarity is higher, causing false admissions of inanimate
    phrases like 'white matter' or 'Spanish style homes'.
 
  [Option B: Calibrated - Model scale shift adjusted]
   (Thresholds: sem_min=0.62, margin_min=0.06, strong_margin=0.12)
-  mbt_would_admit (FN): 18  (6.8% of rejects)
-  TRUE RECALL LOSS FNR: 6.8%
+  mbt_would_admit (FN): 12  (4.4% of rejects)
+  TRUE RECALL LOSS FNR: 4.4%
 
 ── Interpretation ───────────────────────────────────
 FNR < 8%: Under calibrated model scales, the MiniLM cascade
@@ -30,33 +30,27 @@ retains >92% of demographic sentences that ModernBERT would admit.
 The engineering tradeoff is highly justified.
 
 ── Calibrated False Negatives (admitted under Option B) ─
-  [STRICT pos=0.685 margin=0.095]  The Palmer Park neighborhood of Detroit was one shining exception, a middle-class neighborhood fierc
-  [STRICT pos=0.638 margin=0.086]  Why Do China's Foreign Death Row Inmates Get Better Treatment Than Their Chinese Inmates?
-  [STRICT pos=0.693 margin=0.086]  In its narrowest political manifestation, Pan-Africanists envision a unified African nation where al
-  [STRICT pos=0.652 margin=0.074]  Most Spanish schools have the classic option of housing with local families.
-  [STRICT pos=0.645 margin=0.073]  In a series of essays, written as a letter to his son, Coates confronts the notion of race in Americ
-  [STRICT pos=0.663 margin=0.070]  In what has become a common scene every year, ranks of police officers lined the street leading up t
-  [STRICT pos=0.626 margin=0.069]  By the time she found them, her tiny American family had expanded to about 400 living members and a 
-  [STRICT pos=0.657 margin=0.067]  The main theme which Wright has tried to imply throughout this poem is how badly Aborigines were tre
-  [STRICT pos=0.645 margin=0.064]  In their written accounts, the members of the Chorographic Commission portrayed Spanish soldiers as 
-  [RESCUE_CANDIDATE pos=0.615 margin=0.052]  He had known great hardship-having being in prison for 27 years facing many humiliations for the sak
-  [RESCUE_CANDIDATE pos=0.613 margin=0.025]  Mae, a British citizen, has skied almost her entire life and dreamed of competing at the Olympics.
-  [RESCUE_CANDIDATE pos=0.704 margin=0.015]  Results were more often abnormal in men, Blacks, and after ingestion of flavonoid-rich foods.
-  [RESCUE_CANDIDATE pos=0.563 margin=0.007]  The New York Times now has a strict policy against hiring heterosexuals, white people, or anyone who
-  [RESCUE_CANDIDATE pos=0.637 margin=0.006]  In 2016, 19.2% of the European Union population was aged 65 and over.
-  [RESCUE_INHERENT pos=0.549 margin=-0.018]  Her opponent warned of Trojan Horses and Doomsday Machines and the prospect of demoralization of Ame
-  [RESCUE_INHERENT pos=0.581 margin=-0.022]  How many plastic bags do Americans use every SECOND?
-  [RESCUE_INHERENT pos=0.554 margin=-0.061]  Dmitry Bykov, one of Russia’s leading journalists, penned a fiery piece in the Sobesednik weekly thi
-  [RESCUE_CANDIDATE pos=0.640 margin=-0.074]  Host countries of foreigner nannies are the US and European countries such as Belgium, France, Germa
+  [STRICT pos=0.652 margin=0.102]  She was so accustomed to being persecuted because of her faith and her heritage that she felt compel
+  [STRICT pos=0.637 margin=0.076]  The holiday season balancing act is something that most people in the western world experience every
+  [STRICT pos=0.673 margin=0.073]  Men play from the white tees and women play from the red tees.
+  [STRICT pos=0.624 margin=0.066]  Susie is a supporter of the London 2012 Games and both her and her husband Roman, a Holocaust surviv
+  [STRICT pos=0.656 margin=0.062]  These efforts were attempts to “clean up” the negative image of blackface and make black music accep
+  [RESCUE_INHERENT pos=0.614 margin=0.027]  The writing is on the wall for Canadians still interested in independently-minded social justice: de
+  [RESCUE_INHERENT pos=0.593 margin=0.025]  This attack as well was not aimed at Zionists but at unarmed members of ancient Jewish communities w
+  [RESCUE_INHERENT pos=0.630 margin=-0.011]  Will Durant, American historian: "India was the motherland of our race, and Sanskrit the mother of E
+  [RESCUE_INHERENT pos=0.614 margin=-0.023]  The ads aimed to use the profile of the Bondi Rescue personalities to pass on the SunSmart message t
+  [RESCUE_INHERENT pos=0.592 margin=-0.029]  Set in pre WWII facist Italy, this charming film follows a group of elderly British women, who the I
+  [RESCUE_INHERENT pos=0.589 margin=-0.035]  British settlers pushed west into French and Native American lands.
+  [RESCUE_CANDIDATE pos=0.635 margin=-0.078]  It was that country in which, after each 100 km you pass, the surroundings would change dramatically
 
 ── True Negatives (both reject under Option B) ──────────
-  [pos=0.516 margin=-0.041]  The Dallas Limo and Black Car Service is a premium provider of taxi services and more.
-  [pos=0.601 margin=-0.001]  In addition to an extensive introduction, which touches on a number of critical issues related to th
-  [pos=0.599 margin=-0.058]  More recently, a study analyzing the 2002 steel tariffs imposed by the George W. Bush administration
-  [pos=0.528 margin=-0.051]  However, the energy input in Indian agriculture is still meager compared to developed countries.
-  [pos=0.510 margin=-0.035]  South Carolina might have put him in the White House, but the Party would never forget it.
-  [pos=0.546 margin=-0.109]  In 2010, the Ontario Ministry of Education joined 10 other Canadian provinces/territories and introd
-  [pos=0.532 margin=-0.111]  The books linked below are the honors texts for American Literature, which is English 3 in the Excel
-  [pos=0.527 margin=-0.049]  The countryside here is flat and featureless, although there were a few farms and a narrow track imm
-  [pos=0.569 margin=-0.032]  The English and Literary Studies graduate of the University of Calabar and head of Next Stage Produc
-  [pos=0.569 margin=-0.085]  Prior to this he obtained two Masters Degrees: one in International Business and the other in French
+  [pos=0.542 margin=-0.024]  I have a tuxedo blazer, as well, and of all my black blazers, I wear it the least.
+  [pos=0.675 margin=0.055]  Having a reddish tinge the body and main face are white.
+  [pos=0.540 margin=-0.039]  Shot Scope conforms to the Rules of Golf and has been used on the European Tour.
+  [pos=0.597 margin=-0.024]  I learn most of this talking to a softly spoken, tall Canadian in the queue to the toilets at a well
+  [pos=0.567 margin=0.012]  Gray Hodges is proud to present this decorative gas, by Bradford White.
+  [pos=0.577 margin=0.010]  In fact, they are the work of contemporary German-born conceptual artist Anselm Kiefer, as viewed in
+  [pos=0.567 margin=-0.002]  Japanese Knotweed is an invasive species of concrete-busting plant that can cause damage to both cit
+  [pos=0.512 margin=-0.037]  Just north of The Quarry is the USS Boston, an American liberty ship, which was converted into a min
+  [pos=0.529 margin=-0.072]  These flat pattern sets of a rather unusual design were made after the second world war, some being 
+  [pos=0.583 margin=0.008]  Although never perfectly calibrated and often at odds, the strategy held together and was ultimately

@@ -399,3 +399,1067 @@ Computing CEAT-full from sampled lexical hits: reported groups only (N >= 50)...
 → output_results.tsv
 → output_review.tsv
 → group_stats.tsv
+
+============================================================
+=== ARMADA Pipeline Run: 2026-06-28 10:22:06 ===
+============================================================
+
+Loading spaCy model...
+Active extraction labels loaded: 16 tokens from active_labels.json
+Loading sentence encoder (GTE ModernBERT)...
+  analysis device: mps
+  analysis embedding batch: 16
+  CEAT-full mode: reported
+Loading SRL role labeler...
+Loading attitudinal prototype matcher...
+Reading input from: /Users/l/projects/dolma/semantic_filter_results.tsv
+Preprocessed 31321 sentences.
+  SRL extraction: 100/31321 sentences
+  SRL extraction: 200/31321 sentences
+  SRL extraction: 300/31321 sentences
+  SRL extraction: 400/31321 sentences
+  SRL extraction: 500/31321 sentences
+  SRL extraction: 600/31321 sentences
+  SRL extraction: 700/31321 sentences
+  SRL extraction: 800/31321 sentences
+  SRL extraction: 900/31321 sentences
+  SRL extraction: 1000/31321 sentences
+  SRL extraction: 1100/31321 sentences
+  SRL extraction: 1200/31321 sentences
+  SRL extraction: 1300/31321 sentences
+  SRL extraction: 1400/31321 sentences
+  SRL extraction: 1500/31321 sentences
+  SRL extraction: 1600/31321 sentences
+  SRL extraction: 1700/31321 sentences
+  SRL extraction: 1800/31321 sentences
+  SRL extraction: 1900/31321 sentences
+  SRL extraction: 2000/31321 sentences
+  SRL extraction: 2100/31321 sentences
+  SRL extraction: 2200/31321 sentences
+  SRL extraction: 2300/31321 sentences
+  SRL extraction: 2400/31321 sentences
+  SRL extraction: 2500/31321 sentences
+  SRL extraction: 2600/31321 sentences
+  SRL extraction: 2700/31321 sentences
+  SRL extraction: 2800/31321 sentences
+  SRL extraction: 2900/31321 sentences
+  SRL extraction: 3000/31321 sentences
+  SRL extraction: 3100/31321 sentences
+  SRL extraction: 3200/31321 sentences
+  SRL extraction: 3300/31321 sentences
+  SRL extraction: 3400/31321 sentences
+  SRL extraction: 3500/31321 sentences
+  SRL extraction: 3600/31321 sentences
+  SRL extraction: 3700/31321 sentences
+  SRL extraction: 3800/31321 sentences
+  SRL extraction: 3900/31321 sentences
+  SRL extraction: 4000/31321 sentences
+  SRL extraction: 4100/31321 sentences
+  SRL extraction: 4200/31321 sentences
+  SRL extraction: 4300/31321 sentences
+  SRL extraction: 4400/31321 sentences
+  SRL extraction: 4500/31321 sentences
+  SRL extraction: 4600/31321 sentences
+  SRL extraction: 4700/31321 sentences
+  SRL extraction: 4800/31321 sentences
+  SRL extraction: 4900/31321 sentences
+  SRL extraction: 5000/31321 sentences
+  SRL extraction: 5100/31321 sentences
+  SRL extraction: 5200/31321 sentences
+  SRL extraction: 5300/31321 sentences
+  SRL extraction: 5400/31321 sentences
+  SRL extraction: 5500/31321 sentences
+  SRL extraction: 5600/31321 sentences
+  SRL extraction: 5700/31321 sentences
+  SRL extraction: 5800/31321 sentences
+  SRL extraction: 5900/31321 sentences
+  SRL extraction: 6000/31321 sentences
+  SRL extraction: 6100/31321 sentences
+  SRL extraction: 6200/31321 sentences
+  SRL extraction: 6300/31321 sentences
+  SRL extraction: 6400/31321 sentences
+  SRL extraction: 6500/31321 sentences
+  SRL extraction: 6600/31321 sentences
+  SRL extraction: 6700/31321 sentences
+  SRL extraction: 6800/31321 sentences
+  SRL extraction: 6900/31321 sentences
+  SRL extraction: 7000/31321 sentences
+  SRL extraction: 7100/31321 sentences
+  SRL extraction: 7200/31321 sentences
+  SRL extraction: 7300/31321 sentences
+  SRL extraction: 7400/31321 sentences
+  SRL extraction: 7500/31321 sentences
+  SRL extraction: 7600/31321 sentences
+  SRL extraction: 7700/31321 sentences
+  SRL extraction: 7800/31321 sentences
+  SRL extraction: 7900/31321 sentences
+  SRL extraction: 8000/31321 sentences
+  SRL extraction: 8100/31321 sentences
+  SRL extraction: 8200/31321 sentences
+  SRL extraction: 8300/31321 sentences
+  SRL extraction: 8400/31321 sentences
+  SRL extraction: 8500/31321 sentences
+  SRL extraction: 8600/31321 sentences
+  SRL extraction: 8700/31321 sentences
+  SRL extraction: 8800/31321 sentences
+  SRL extraction: 8900/31321 sentences
+  SRL extraction: 9000/31321 sentences
+  SRL extraction: 9100/31321 sentences
+  SRL extraction: 9200/31321 sentences
+  SRL extraction: 9300/31321 sentences
+  SRL extraction: 9400/31321 sentences
+  SRL extraction: 9500/31321 sentences
+  SRL extraction: 9600/31321 sentences
+  SRL extraction: 9700/31321 sentences
+  SRL extraction: 9800/31321 sentences
+  SRL extraction: 9900/31321 sentences
+  SRL extraction: 10000/31321 sentences
+  SRL extraction: 10100/31321 sentences
+  SRL extraction: 10200/31321 sentences
+  SRL extraction: 10300/31321 sentences
+  SRL extraction: 10400/31321 sentences
+  SRL extraction: 10500/31321 sentences
+  SRL extraction: 10600/31321 sentences
+  SRL extraction: 10700/31321 sentences
+  SRL extraction: 10800/31321 sentences
+  SRL extraction: 10900/31321 sentences
+  SRL extraction: 11000/31321 sentences
+  SRL extraction: 11100/31321 sentences
+  SRL extraction: 11200/31321 sentences
+  SRL extraction: 11300/31321 sentences
+  SRL extraction: 11400/31321 sentences
+  SRL extraction: 11500/31321 sentences
+  SRL extraction: 11600/31321 sentences
+  SRL extraction: 11700/31321 sentences
+  SRL extraction: 11800/31321 sentences
+  SRL extraction: 11900/31321 sentences
+  SRL extraction: 12000/31321 sentences
+  SRL extraction: 12100/31321 sentences
+  SRL extraction: 12200/31321 sentences
+  SRL extraction: 12300/31321 sentences
+  SRL extraction: 12400/31321 sentences
+  SRL extraction: 12500/31321 sentences
+  SRL extraction: 12600/31321 sentences
+  SRL extraction: 12700/31321 sentences
+  SRL extraction: 12800/31321 sentences
+  SRL extraction: 12900/31321 sentences
+  SRL extraction: 13000/31321 sentences
+  SRL extraction: 13100/31321 sentences
+  SRL extraction: 13200/31321 sentences
+  SRL extraction: 13300/31321 sentences
+  SRL extraction: 13400/31321 sentences
+  SRL extraction: 13500/31321 sentences
+  SRL extraction: 13600/31321 sentences
+  SRL extraction: 13700/31321 sentences
+  SRL extraction: 13800/31321 sentences
+  SRL extraction: 13900/31321 sentences
+  SRL extraction: 14000/31321 sentences
+  SRL extraction: 14100/31321 sentences
+  SRL extraction: 14200/31321 sentences
+  SRL extraction: 14300/31321 sentences
+  SRL extraction: 14400/31321 sentences
+  SRL extraction: 14500/31321 sentences
+  SRL extraction: 14600/31321 sentences
+  SRL extraction: 14700/31321 sentences
+  SRL extraction: 14800/31321 sentences
+  SRL extraction: 14900/31321 sentences
+  SRL extraction: 15000/31321 sentences
+  SRL extraction: 15100/31321 sentences
+  SRL extraction: 15200/31321 sentences
+  SRL extraction: 15300/31321 sentences
+  SRL extraction: 15400/31321 sentences
+  SRL extraction: 15500/31321 sentences
+  SRL extraction: 15600/31321 sentences
+  SRL extraction: 15700/31321 sentences
+  SRL extraction: 15800/31321 sentences
+  SRL extraction: 15900/31321 sentences
+  SRL extraction: 16000/31321 sentences
+  SRL extraction: 16100/31321 sentences
+  SRL extraction: 16200/31321 sentences
+  SRL extraction: 16300/31321 sentences
+  SRL extraction: 16400/31321 sentences
+  SRL extraction: 16500/31321 sentences
+  SRL extraction: 16600/31321 sentences
+  SRL extraction: 16700/31321 sentences
+  SRL extraction: 16800/31321 sentences
+  SRL extraction: 16900/31321 sentences
+  SRL extraction: 17000/31321 sentences
+  SRL extraction: 17100/31321 sentences
+  SRL extraction: 17200/31321 sentences
+  SRL extraction: 17300/31321 sentences
+  SRL extraction: 17400/31321 sentences
+  SRL extraction: 17500/31321 sentences
+  SRL extraction: 17600/31321 sentences
+  SRL extraction: 17700/31321 sentences
+  SRL extraction: 17800/31321 sentences
+  SRL extraction: 17900/31321 sentences
+  SRL extraction: 18000/31321 sentences
+  SRL extraction: 18100/31321 sentences
+  SRL extraction: 18200/31321 sentences
+  SRL extraction: 18300/31321 sentences
+  SRL extraction: 18400/31321 sentences
+  SRL extraction: 18500/31321 sentences
+  SRL extraction: 18600/31321 sentences
+  SRL extraction: 18700/31321 sentences
+  SRL extraction: 18800/31321 sentences
+  SRL extraction: 18900/31321 sentences
+  SRL extraction: 19000/31321 sentences
+  SRL extraction: 19100/31321 sentences
+  SRL extraction: 19200/31321 sentences
+  SRL extraction: 19300/31321 sentences
+  SRL extraction: 19400/31321 sentences
+  SRL extraction: 19500/31321 sentences
+  SRL extraction: 19600/31321 sentences
+  SRL extraction: 19700/31321 sentences
+  SRL extraction: 19800/31321 sentences
+  SRL extraction: 19900/31321 sentences
+  SRL extraction: 20000/31321 sentences
+  SRL extraction: 20100/31321 sentences
+  SRL extraction: 20200/31321 sentences
+  SRL extraction: 20300/31321 sentences
+  SRL extraction: 20400/31321 sentences
+  SRL extraction: 20500/31321 sentences
+  SRL extraction: 20600/31321 sentences
+  SRL extraction: 20700/31321 sentences
+  SRL extraction: 20800/31321 sentences
+  SRL extraction: 20900/31321 sentences
+  SRL extraction: 21000/31321 sentences
+  SRL extraction: 21100/31321 sentences
+  SRL extraction: 21200/31321 sentences
+  SRL extraction: 21300/31321 sentences
+  SRL extraction: 21400/31321 sentences
+  SRL extraction: 21500/31321 sentences
+  SRL extraction: 21600/31321 sentences
+  SRL extraction: 21700/31321 sentences
+  SRL extraction: 21800/31321 sentences
+  SRL extraction: 21900/31321 sentences
+  SRL extraction: 22000/31321 sentences
+  SRL extraction: 22100/31321 sentences
+  SRL extraction: 22200/31321 sentences
+  SRL extraction: 22300/31321 sentences
+  SRL extraction: 22400/31321 sentences
+  SRL extraction: 22500/31321 sentences
+  SRL extraction: 22600/31321 sentences
+  SRL extraction: 22700/31321 sentences
+  SRL extraction: 22800/31321 sentences
+  SRL extraction: 22900/31321 sentences
+  SRL extraction: 23000/31321 sentences
+  SRL extraction: 23100/31321 sentences
+  SRL extraction: 23200/31321 sentences
+  SRL extraction: 23300/31321 sentences
+  SRL extraction: 23400/31321 sentences
+  SRL extraction: 23500/31321 sentences
+  SRL extraction: 23600/31321 sentences
+  SRL extraction: 23700/31321 sentences
+  SRL extraction: 23800/31321 sentences
+  SRL extraction: 23900/31321 sentences
+  SRL extraction: 24000/31321 sentences
+  SRL extraction: 24100/31321 sentences
+  SRL extraction: 24200/31321 sentences
+  SRL extraction: 24300/31321 sentences
+  SRL extraction: 24400/31321 sentences
+  SRL extraction: 24500/31321 sentences
+  SRL extraction: 24600/31321 sentences
+  SRL extraction: 24700/31321 sentences
+  SRL extraction: 24800/31321 sentences
+  SRL extraction: 24900/31321 sentences
+  SRL extraction: 25000/31321 sentences
+  SRL extraction: 25100/31321 sentences
+  SRL extraction: 25200/31321 sentences
+  SRL extraction: 25300/31321 sentences
+  SRL extraction: 25400/31321 sentences
+  SRL extraction: 25500/31321 sentences
+  SRL extraction: 25600/31321 sentences
+  SRL extraction: 25700/31321 sentences
+  SRL extraction: 25800/31321 sentences
+  SRL extraction: 25900/31321 sentences
+  SRL extraction: 26000/31321 sentences
+  SRL extraction: 26100/31321 sentences
+  SRL extraction: 26200/31321 sentences
+  SRL extraction: 26300/31321 sentences
+  SRL extraction: 26400/31321 sentences
+  SRL extraction: 26500/31321 sentences
+  SRL extraction: 26600/31321 sentences
+  SRL extraction: 26700/31321 sentences
+  SRL extraction: 26800/31321 sentences
+  SRL extraction: 26900/31321 sentences
+  SRL extraction: 27000/31321 sentences
+  SRL extraction: 27100/31321 sentences
+  SRL extraction: 27200/31321 sentences
+  SRL extraction: 27300/31321 sentences
+  SRL extraction: 27400/31321 sentences
+  SRL extraction: 27500/31321 sentences
+  SRL extraction: 27600/31321 sentences
+  SRL extraction: 27700/31321 sentences
+  SRL extraction: 27800/31321 sentences
+  SRL extraction: 27900/31321 sentences
+  SRL extraction: 28000/31321 sentences
+  SRL extraction: 28100/31321 sentences
+  SRL extraction: 28200/31321 sentences
+  SRL extraction: 28300/31321 sentences
+  SRL extraction: 28400/31321 sentences
+  SRL extraction: 28500/31321 sentences
+  SRL extraction: 28600/31321 sentences
+  SRL extraction: 28700/31321 sentences
+  SRL extraction: 28800/31321 sentences
+  SRL extraction: 28900/31321 sentences
+  SRL extraction: 29000/31321 sentences
+  SRL extraction: 29100/31321 sentences
+  SRL extraction: 29200/31321 sentences
+  SRL extraction: 29300/31321 sentences
+  SRL extraction: 29400/31321 sentences
+  SRL extraction: 29500/31321 sentences
+  SRL extraction: 29600/31321 sentences
+  SRL extraction: 29700/31321 sentences
+  SRL extraction: 29800/31321 sentences
+  SRL extraction: 29900/31321 sentences
+  SRL extraction: 30000/31321 sentences
+  SRL extraction: 30100/31321 sentences
+  SRL extraction: 30200/31321 sentences
+  SRL extraction: 30300/31321 sentences
+  SRL extraction: 30400/31321 sentences
+  SRL extraction: 30500/31321 sentences
+  SRL extraction: 30600/31321 sentences
+  SRL extraction: 30700/31321 sentences
+  SRL extraction: 30800/31321 sentences
+  SRL extraction: 30900/31321 sentences
+  SRL extraction: 31000/31321 sentences
+  SRL extraction: 31100/31321 sentences
+  SRL extraction: 31200/31321 sentences
+  SRL extraction: 31300/31321 sentences
+Target tokens in 29278/31321 sentences.
+
+Discourse association written to: association_discourse.tsv (sentence-level, min pair count = 18, min distance = 2)
+  Loaded from candidate_terms.json: 0 accumulated neg frames, 0 accumulated pos frames
+    New auto-negative: ['racial', 'race', 'racism', 'racist', 'war', 'killing', 'crime', 'enemy', 'slave', 'segregation', 'disease', 'drug', 'arrest', 'opioid', 'terrorist']
+    New auto-positive: ['community', 'insurance', 'speak', 'makeup', 'arrival', 'coverage', 'serve']
+Candidate terms refreshed: 100 total, 15 auto-negative, 7 auto-positive
+Computing CEAT-full from sampled lexical hits: reported groups only (N >= 50)...
+  CEAT-full scanned 25,000 lexical-hit lines...
+  CEAT-full scanned 50,000 lexical-hit lines...
+  CEAT-full scanned 75,000 lexical-hit lines...
+  CEAT-full scanned 100,000 lexical-hit lines...
+  CEAT-full scanned 125,000 lexical-hit lines...
+  CEAT-full scanned 150,000 lexical-hit lines...
+  CEAT-full scanned 175,000 lexical-hit lines...
+  CEAT-full scanned 200,000 lexical-hit lines...
+  CEAT-full scanned 225,000 lexical-hit lines...
+  CEAT-full scanned 250,000 lexical-hit lines...
+  CEAT-full scanned 275,000 lexical-hit lines...
+  CEAT-full scanned 300,000 lexical-hit lines...
+  CEAT-full scanned 325,000 lexical-hit lines...
+  CEAT-full scanned 333,287 lines, matched 316,453, encoded 8,000 sampled contexts.
+  CEAT-full computed for 16 groups, Δ-CEAT for 16
+
+================================================================================
+  WEAT / CEAT SCORES  (>0 = closer to F⁻ than F⁺, N >= 50)
+================================================================================
+  Lemma                     WEAT       CEAT     CEAT-f     Δ-CEAT     N
+  ----------------------------------------------------------------------
+  american               -0.0373    +0.0026    -0.0134    -0.0160   500
+  black                  +0.0160    +0.0284    -0.0035    -0.0319   500
+  white                  -0.0480    +0.0290    -0.0153    -0.0443   500
+  african                +0.0070    +0.0103    -0.0132    -0.0235   500
+  indian                 +0.0033    +0.0084    -0.0195    -0.0279   500
+  canadian               -0.0275    -0.0192    -0.0221    -0.0029   500
+  european               -0.0020    +0.0022    -0.0120    -0.0142   500
+  german                 +0.0012    +0.0151    -0.0092    -0.0243   500
+  russian                +0.0183    +0.0207    +0.0023    -0.0184   500
+  chinese                -0.0109    +0.0006    -0.0134    -0.0140   500
+  jewish                 -0.0186    +0.0118    -0.0046    -0.0164   500
+  british                -0.0371    +0.0017    -0.0131    -0.0148   500
+  french                 -0.0192    -0.0095    -0.0223    -0.0128   500
+  western                -0.0212    +0.0000    -0.0133    -0.0133   500
+  japanese               -0.0140    -0.0047    -0.0217    -0.0170   493
+  spanish                +0.0099    -0.0053    -0.0134    -0.0081   419
+
+======================================================================
+  PER-GROUP INDICES (proportionalized, N >= 50)
+======================================================================
+  Lemma          Type        N   Subj   AgI    PI    SI    F-    F+  netAt
+  ---------------------------------------------------------------------
+  american       dominant  10237   0.46  0.17  0.32  0.21  0.04  0.03   0.01
+  black          minority  4437   0.27  0.14  0.34  0.17  0.07  0.06   0.01
+  white          dominant  3877   0.26  0.15  0.29  0.19  0.07  0.02   0.06
+  african        minority  2943   0.24  0.11  0.24  0.11  0.06  0.06  -0.00
+  indian         minority  2760   0.35  0.15  0.30  0.10  0.03  0.02   0.00
+  canadian       dominant  1668   0.41  0.14  0.32  0.13  0.02  0.04  -0.01
+  european       dominant  1637   0.35  0.16  0.25  0.13  0.02  0.04  -0.01
+  german         dominant  1556   0.45  0.28  0.34  0.14  0.05  0.02   0.03
+  russian        minority  1228   0.40  0.23  0.34  0.19  0.03  0.04  -0.01
+  chinese        minority  1049   0.29  0.14  0.36  0.14  0.01  0.07  -0.06
+  jewish         minority  925   0.24  0.13  0.36  0.12  0.03  0.17  -0.14
+  british        dominant  792   0.28  0.16  0.28  0.12  0.03  0.01   0.02
+  french         dominant  651   0.23  0.12  0.31  0.10  0.01  0.08  -0.07
+  western        dominant  583   0.20  0.10  0.32  0.13  0.01  0.01  -0.00
+  japanese       minority  493   0.26  0.11  0.29  0.13  0.07  0.03   0.04
+  spanish        minority  419   0.20  0.11  0.36  0.06  0.03  0.17  -0.14
+
+============================================================
+  EFI (PCA)  —  PC1 explains 38.5% and PC2 explains 26.3% of variance (groups with N >= 50)
+============================================================
+  PC1 loadings (axis of largest cross-group variance):
+    SI         +0.559  +++++++++++
+    net_atti   +0.514  ++++++++++
+    ceat       +0.476  +++++++++
+    AGI        +0.429  ++++++++
+    PI         -0.108  --
+    weat       -0.045  
+
+  PC2 loadings (largest variance orthogonal to PC1):
+    PI         +0.607  ++++++++++++
+    weat       +0.545  ++++++++++
+    net_atti   -0.370  -------
+    AGI        +0.341  ++++++
+    ceat       +0.284  +++++
+    SI         -0.002  
+
+  EFI scores (PC1 / PC2):
+    [C] white            PC1=+2.490  PC2=-1.404
+    [T] russian          PC1=+2.129  PC2=+2.107
+    [C] german           PC1=+1.968  PC2=+1.710
+    [C] american         PC1=+1.459  PC2=-0.753
+    [T] black            PC1=+1.400  PC2=+1.417
+    [C] british          PC1=+0.156  PC2=-1.619
+    [C] european         PC1=+0.114  PC2=-0.897
+    [T] indian           PC1=-0.150  PC2=+0.189
+    [T] japanese         PC1=-0.231  PC2=-1.352
+    [T] african          PC1=-0.269  PC2=-0.994
+    [C] western          PC1=-0.659  PC2=-0.764
+    [T] chinese          PC1=-0.848  PC2=+0.812
+    [C] canadian         PC1=-1.061  PC2=-0.974
+    [T] jewish           PC1=-1.421  PC2=+1.394
+    [C] french           PC1=-1.864  PC2=-0.502
+    [T] spanish          PC1=-3.212  PC2=+1.632
+
+============================================================
+  REGRESSION: WEAT ~ AgI + PI + SI + frame-netAttI  (n=16, R²=0.1851)
+============================================================
+  intercept: -0.0238
+  β(AGI): +0.1552
+  β(PI): +0.0365
+  β(SI): -0.1702
+  β(net_atti): -0.0407
+
+============================================================
+  REGRESSION: CEAT ~ AgI + PI + SI + frame-netAttI  (n=16, R²=0.3369)
+============================================================
+  intercept: -0.0209
+  β(AGI): +0.0565
+  β(PI): -0.0167
+  β(SI): +0.1719
+  β(net_atti): -0.0115
+
+→ output_results.tsv
+→ output_review.tsv
+→ group_stats.tsv
+
+============================================================
+=== ARMADA Pipeline Run: 2026-06-28 13:23:17 ===
+============================================================
+
+Loading spaCy model...
+Active extraction labels loaded: 16 tokens from active_labels.json
+Loading sentence encoder (GTE ModernBERT)...
+  analysis device: mps
+  analysis embedding batch: 16
+  CEAT-full mode: reported
+Loading SRL role labeler...
+Loading attitudinal prototype matcher...
+Reading input from: /Users/l/projects/dolma/semantic_filter_results.tsv
+
+============================================================
+=== ARMADA Pipeline Run: 2026-06-28 13:24:40 ===
+============================================================
+
+Loading spaCy model...
+Active extraction labels loaded: 16 tokens from active_labels.json
+Loading sentence encoder (GTE ModernBERT)...
+  analysis device: mps
+  analysis embedding batch: 16
+  CEAT-full mode: reported
+Loading SRL role labeler...
+Loading attitudinal prototype matcher...
+Reading input from: /Users/l/projects/dolma/semantic_filter_results.tsv
+Preprocessed 31321 sentences.
+  SRL extraction: 100/31321 sentences
+  SRL extraction: 200/31321 sentences
+  SRL extraction: 300/31321 sentences
+  SRL extraction: 400/31321 sentences
+  SRL extraction: 500/31321 sentences
+  SRL extraction: 600/31321 sentences
+  SRL extraction: 700/31321 sentences
+  SRL extraction: 800/31321 sentences
+  SRL extraction: 900/31321 sentences
+  SRL extraction: 1000/31321 sentences
+  SRL extraction: 1100/31321 sentences
+  SRL extraction: 1200/31321 sentences
+  SRL extraction: 1300/31321 sentences
+  SRL extraction: 1400/31321 sentences
+  SRL extraction: 1500/31321 sentences
+  SRL extraction: 1600/31321 sentences
+  SRL extraction: 1700/31321 sentences
+  SRL extraction: 1800/31321 sentences
+  SRL extraction: 1900/31321 sentences
+  SRL extraction: 2000/31321 sentences
+  SRL extraction: 2100/31321 sentences
+  SRL extraction: 2200/31321 sentences
+  SRL extraction: 2300/31321 sentences
+  SRL extraction: 2400/31321 sentences
+  SRL extraction: 2500/31321 sentences
+  SRL extraction: 2600/31321 sentences
+  SRL extraction: 2700/31321 sentences
+  SRL extraction: 2800/31321 sentences
+  SRL extraction: 2900/31321 sentences
+  SRL extraction: 3000/31321 sentences
+  SRL extraction: 3100/31321 sentences
+  SRL extraction: 3200/31321 sentences
+  SRL extraction: 3300/31321 sentences
+  SRL extraction: 3400/31321 sentences
+  SRL extraction: 3500/31321 sentences
+  SRL extraction: 3600/31321 sentences
+  SRL extraction: 3700/31321 sentences
+  SRL extraction: 3800/31321 sentences
+  SRL extraction: 3900/31321 sentences
+  SRL extraction: 4000/31321 sentences
+  SRL extraction: 4100/31321 sentences
+  SRL extraction: 4200/31321 sentences
+  SRL extraction: 4300/31321 sentences
+  SRL extraction: 4400/31321 sentences
+  SRL extraction: 4500/31321 sentences
+  SRL extraction: 4600/31321 sentences
+  SRL extraction: 4700/31321 sentences
+  SRL extraction: 4800/31321 sentences
+  SRL extraction: 4900/31321 sentences
+  SRL extraction: 5000/31321 sentences
+  SRL extraction: 5100/31321 sentences
+  SRL extraction: 5200/31321 sentences
+  SRL extraction: 5300/31321 sentences
+  SRL extraction: 5400/31321 sentences
+  SRL extraction: 5500/31321 sentences
+  SRL extraction: 5600/31321 sentences
+  SRL extraction: 5700/31321 sentences
+  SRL extraction: 5800/31321 sentences
+  SRL extraction: 5900/31321 sentences
+  SRL extraction: 6000/31321 sentences
+  SRL extraction: 6100/31321 sentences
+  SRL extraction: 6200/31321 sentences
+  SRL extraction: 6300/31321 sentences
+  SRL extraction: 6400/31321 sentences
+  SRL extraction: 6500/31321 sentences
+  SRL extraction: 6600/31321 sentences
+  SRL extraction: 6700/31321 sentences
+  SRL extraction: 6800/31321 sentences
+  SRL extraction: 6900/31321 sentences
+  SRL extraction: 7000/31321 sentences
+  SRL extraction: 7100/31321 sentences
+  SRL extraction: 7200/31321 sentences
+  SRL extraction: 7300/31321 sentences
+  SRL extraction: 7400/31321 sentences
+  SRL extraction: 7500/31321 sentences
+  SRL extraction: 7600/31321 sentences
+  SRL extraction: 7700/31321 sentences
+  SRL extraction: 7800/31321 sentences
+  SRL extraction: 7900/31321 sentences
+  SRL extraction: 8000/31321 sentences
+  SRL extraction: 8100/31321 sentences
+  SRL extraction: 8200/31321 sentences
+  SRL extraction: 8300/31321 sentences
+  SRL extraction: 8400/31321 sentences
+  SRL extraction: 8500/31321 sentences
+  SRL extraction: 8600/31321 sentences
+  SRL extraction: 8700/31321 sentences
+  SRL extraction: 8800/31321 sentences
+  SRL extraction: 8900/31321 sentences
+  SRL extraction: 9000/31321 sentences
+  SRL extraction: 9100/31321 sentences
+  SRL extraction: 9200/31321 sentences
+  SRL extraction: 9300/31321 sentences
+  SRL extraction: 9400/31321 sentences
+  SRL extraction: 9500/31321 sentences
+  SRL extraction: 9600/31321 sentences
+  SRL extraction: 9700/31321 sentences
+  SRL extraction: 9800/31321 sentences
+  SRL extraction: 9900/31321 sentences
+  SRL extraction: 10000/31321 sentences
+  SRL extraction: 10100/31321 sentences
+  SRL extraction: 10200/31321 sentences
+  SRL extraction: 10300/31321 sentences
+  SRL extraction: 10400/31321 sentences
+  SRL extraction: 10500/31321 sentences
+  SRL extraction: 10600/31321 sentences
+  SRL extraction: 10700/31321 sentences
+  SRL extraction: 10800/31321 sentences
+  SRL extraction: 10900/31321 sentences
+  SRL extraction: 11000/31321 sentences
+  SRL extraction: 11100/31321 sentences
+  SRL extraction: 11200/31321 sentences
+  SRL extraction: 11300/31321 sentences
+  SRL extraction: 11400/31321 sentences
+  SRL extraction: 11500/31321 sentences
+  SRL extraction: 11600/31321 sentences
+  SRL extraction: 11700/31321 sentences
+  SRL extraction: 11800/31321 sentences
+  SRL extraction: 11900/31321 sentences
+  SRL extraction: 12000/31321 sentences
+  SRL extraction: 12100/31321 sentences
+  SRL extraction: 12200/31321 sentences
+  SRL extraction: 12300/31321 sentences
+  SRL extraction: 12400/31321 sentences
+  SRL extraction: 12500/31321 sentences
+  SRL extraction: 12600/31321 sentences
+  SRL extraction: 12700/31321 sentences
+  SRL extraction: 12800/31321 sentences
+  SRL extraction: 12900/31321 sentences
+  SRL extraction: 13000/31321 sentences
+  SRL extraction: 13100/31321 sentences
+  SRL extraction: 13200/31321 sentences
+  SRL extraction: 13300/31321 sentences
+  SRL extraction: 13400/31321 sentences
+  SRL extraction: 13500/31321 sentences
+  SRL extraction: 13600/31321 sentences
+  SRL extraction: 13700/31321 sentences
+  SRL extraction: 13800/31321 sentences
+  SRL extraction: 13900/31321 sentences
+  SRL extraction: 14000/31321 sentences
+  SRL extraction: 14100/31321 sentences
+  SRL extraction: 14200/31321 sentences
+  SRL extraction: 14300/31321 sentences
+  SRL extraction: 14400/31321 sentences
+  SRL extraction: 14500/31321 sentences
+  SRL extraction: 14600/31321 sentences
+  SRL extraction: 14700/31321 sentences
+  SRL extraction: 14800/31321 sentences
+  SRL extraction: 14900/31321 sentences
+  SRL extraction: 15000/31321 sentences
+  SRL extraction: 15100/31321 sentences
+  SRL extraction: 15200/31321 sentences
+  SRL extraction: 15300/31321 sentences
+  SRL extraction: 15400/31321 sentences
+  SRL extraction: 15500/31321 sentences
+  SRL extraction: 15600/31321 sentences
+  SRL extraction: 15700/31321 sentences
+  SRL extraction: 15800/31321 sentences
+  SRL extraction: 15900/31321 sentences
+  SRL extraction: 16000/31321 sentences
+  SRL extraction: 16100/31321 sentences
+  SRL extraction: 16200/31321 sentences
+  SRL extraction: 16300/31321 sentences
+  SRL extraction: 16400/31321 sentences
+  SRL extraction: 16500/31321 sentences
+  SRL extraction: 16600/31321 sentences
+  SRL extraction: 16700/31321 sentences
+  SRL extraction: 16800/31321 sentences
+  SRL extraction: 16900/31321 sentences
+  SRL extraction: 17000/31321 sentences
+  SRL extraction: 17100/31321 sentences
+  SRL extraction: 17200/31321 sentences
+  SRL extraction: 17300/31321 sentences
+  SRL extraction: 17400/31321 sentences
+  SRL extraction: 17500/31321 sentences
+  SRL extraction: 17600/31321 sentences
+  SRL extraction: 17700/31321 sentences
+  SRL extraction: 17800/31321 sentences
+  SRL extraction: 17900/31321 sentences
+  SRL extraction: 18000/31321 sentences
+  SRL extraction: 18100/31321 sentences
+  SRL extraction: 18200/31321 sentences
+  SRL extraction: 18300/31321 sentences
+  SRL extraction: 18400/31321 sentences
+  SRL extraction: 18500/31321 sentences
+  SRL extraction: 18600/31321 sentences
+  SRL extraction: 18700/31321 sentences
+  SRL extraction: 18800/31321 sentences
+  SRL extraction: 18900/31321 sentences
+  SRL extraction: 19000/31321 sentences
+  SRL extraction: 19100/31321 sentences
+  SRL extraction: 19200/31321 sentences
+  SRL extraction: 19300/31321 sentences
+  SRL extraction: 19400/31321 sentences
+  SRL extraction: 19500/31321 sentences
+  SRL extraction: 19600/31321 sentences
+  SRL extraction: 19700/31321 sentences
+  SRL extraction: 19800/31321 sentences
+  SRL extraction: 19900/31321 sentences
+  SRL extraction: 20000/31321 sentences
+  SRL extraction: 20100/31321 sentences
+  SRL extraction: 20200/31321 sentences
+  SRL extraction: 20300/31321 sentences
+  SRL extraction: 20400/31321 sentences
+  SRL extraction: 20500/31321 sentences
+  SRL extraction: 20600/31321 sentences
+  SRL extraction: 20700/31321 sentences
+  SRL extraction: 20800/31321 sentences
+  SRL extraction: 20900/31321 sentences
+  SRL extraction: 21000/31321 sentences
+  SRL extraction: 21100/31321 sentences
+  SRL extraction: 21200/31321 sentences
+  SRL extraction: 21300/31321 sentences
+  SRL extraction: 21400/31321 sentences
+  SRL extraction: 21500/31321 sentences
+  SRL extraction: 21600/31321 sentences
+  SRL extraction: 21700/31321 sentences
+  SRL extraction: 21800/31321 sentences
+  SRL extraction: 21900/31321 sentences
+  SRL extraction: 22000/31321 sentences
+  SRL extraction: 22100/31321 sentences
+  SRL extraction: 22200/31321 sentences
+  SRL extraction: 22300/31321 sentences
+  SRL extraction: 22400/31321 sentences
+  SRL extraction: 22500/31321 sentences
+  SRL extraction: 22600/31321 sentences
+  SRL extraction: 22700/31321 sentences
+  SRL extraction: 22800/31321 sentences
+  SRL extraction: 22900/31321 sentences
+  SRL extraction: 23000/31321 sentences
+  SRL extraction: 23100/31321 sentences
+  SRL extraction: 23200/31321 sentences
+  SRL extraction: 23300/31321 sentences
+  SRL extraction: 23400/31321 sentences
+  SRL extraction: 23500/31321 sentences
+  SRL extraction: 23600/31321 sentences
+  SRL extraction: 23700/31321 sentences
+  SRL extraction: 23800/31321 sentences
+  SRL extraction: 23900/31321 sentences
+  SRL extraction: 24000/31321 sentences
+  SRL extraction: 24100/31321 sentences
+  SRL extraction: 24200/31321 sentences
+  SRL extraction: 24300/31321 sentences
+  SRL extraction: 24400/31321 sentences
+  SRL extraction: 24500/31321 sentences
+  SRL extraction: 24600/31321 sentences
+  SRL extraction: 24700/31321 sentences
+  SRL extraction: 24800/31321 sentences
+  SRL extraction: 24900/31321 sentences
+  SRL extraction: 25000/31321 sentences
+  SRL extraction: 25100/31321 sentences
+  SRL extraction: 25200/31321 sentences
+  SRL extraction: 25300/31321 sentences
+  SRL extraction: 25400/31321 sentences
+  SRL extraction: 25500/31321 sentences
+  SRL extraction: 25600/31321 sentences
+  SRL extraction: 25700/31321 sentences
+  SRL extraction: 25800/31321 sentences
+  SRL extraction: 25900/31321 sentences
+  SRL extraction: 26000/31321 sentences
+  SRL extraction: 26100/31321 sentences
+  SRL extraction: 26200/31321 sentences
+  SRL extraction: 26300/31321 sentences
+  SRL extraction: 26400/31321 sentences
+  SRL extraction: 26500/31321 sentences
+  SRL extraction: 26600/31321 sentences
+  SRL extraction: 26700/31321 sentences
+  SRL extraction: 26800/31321 sentences
+  SRL extraction: 26900/31321 sentences
+  SRL extraction: 27000/31321 sentences
+  SRL extraction: 27100/31321 sentences
+  SRL extraction: 27200/31321 sentences
+  SRL extraction: 27300/31321 sentences
+  SRL extraction: 27400/31321 sentences
+  SRL extraction: 27500/31321 sentences
+  SRL extraction: 27600/31321 sentences
+  SRL extraction: 27700/31321 sentences
+  SRL extraction: 27800/31321 sentences
+  SRL extraction: 27900/31321 sentences
+  SRL extraction: 28000/31321 sentences
+  SRL extraction: 28100/31321 sentences
+  SRL extraction: 28200/31321 sentences
+  SRL extraction: 28300/31321 sentences
+  SRL extraction: 28400/31321 sentences
+  SRL extraction: 28500/31321 sentences
+  SRL extraction: 28600/31321 sentences
+  SRL extraction: 28700/31321 sentences
+  SRL extraction: 28800/31321 sentences
+  SRL extraction: 28900/31321 sentences
+  SRL extraction: 29000/31321 sentences
+  SRL extraction: 29100/31321 sentences
+  SRL extraction: 29200/31321 sentences
+  SRL extraction: 29300/31321 sentences
+  SRL extraction: 29400/31321 sentences
+  SRL extraction: 29500/31321 sentences
+  SRL extraction: 29600/31321 sentences
+  SRL extraction: 29700/31321 sentences
+  SRL extraction: 29800/31321 sentences
+  SRL extraction: 29900/31321 sentences
+  SRL extraction: 30000/31321 sentences
+  SRL extraction: 30100/31321 sentences
+  SRL extraction: 30200/31321 sentences
+  SRL extraction: 30300/31321 sentences
+  SRL extraction: 30400/31321 sentences
+  SRL extraction: 30500/31321 sentences
+  SRL extraction: 30600/31321 sentences
+  SRL extraction: 30700/31321 sentences
+  SRL extraction: 30800/31321 sentences
+  SRL extraction: 30900/31321 sentences
+  SRL extraction: 31000/31321 sentences
+  SRL extraction: 31100/31321 sentences
+  SRL extraction: 31200/31321 sentences
+  SRL extraction: 31300/31321 sentences
+Target tokens in 29237/31321 sentences.
+
+Discourse association written to: association_discourse.tsv (sentence-level, min pair count = 18, min distance = 2)
+  Loaded from candidate_terms.json: 0 accumulated neg frames, 0 accumulated pos frames
+    New auto-negative: ['racial', 'race', 'racism', 'racist', 'war', 'killing', 'crime', 'enemy', 'slave', 'segregation', 'disease', 'drug', 'arrest', 'opioid', 'terrorist']
+    New auto-positive: ['community', 'insurance', 'arrival', 'coverage']
+Candidate terms refreshed: 100 total, 15 auto-negative, 4 auto-positive
+Computing CEAT-full from sampled lexical hits: reported groups only (N >= 50)...
+  CEAT-full scanned 25,000 lexical-hit lines...
+  CEAT-full scanned 50,000 lexical-hit lines...
+  CEAT-full scanned 75,000 lexical-hit lines...
+  CEAT-full scanned 100,000 lexical-hit lines...
+  CEAT-full scanned 125,000 lexical-hit lines...
+  CEAT-full scanned 150,000 lexical-hit lines...
+  CEAT-full scanned 175,000 lexical-hit lines...
+  CEAT-full scanned 200,000 lexical-hit lines...
+  CEAT-full scanned 225,000 lexical-hit lines...
+  CEAT-full scanned 250,000 lexical-hit lines...
+  CEAT-full scanned 275,000 lexical-hit lines...
+  CEAT-full scanned 300,000 lexical-hit lines...
+  CEAT-full scanned 325,000 lexical-hit lines...
+  CEAT-full scanned 333,287 lines, matched 316,453, encoded 8,000 sampled contexts.
+  CEAT-full computed for 16 groups, Δ-CEAT for 16
+
+================================================================================
+  WEAT / CEAT SCORES  (>0 = closer to F⁻ than F⁺, N >= 50)
+================================================================================
+  Lemma                     WEAT       CEAT     CEAT-f     Δ-CEAT     N
+  ----------------------------------------------------------------------
+  american               -0.0367    +0.0031    -0.0130    -0.0161   500
+  black                  +0.0155    +0.0287    -0.0038    -0.0325   500
+  white                  -0.0479    +0.0294    -0.0155    -0.0449   500
+  african                +0.0074    +0.0108    -0.0129    -0.0237   500
+  indian                 +0.0035    +0.0088    -0.0193    -0.0281   500
+  canadian               -0.0274    -0.0184    -0.0218    -0.0034   500
+  european               -0.0016    +0.0035    -0.0117    -0.0152   500
+  german                 +0.0008    +0.0152    -0.0089    -0.0241   500
+  russian                +0.0186    +0.0205    +0.0028    -0.0177   500
+  chinese                -0.0110    +0.0011    -0.0133    -0.0144   500
+  jewish                 -0.0181    +0.0129    -0.0040    -0.0169   500
+  british                -0.0379    +0.0019    -0.0132    -0.0151   500
+  french                 -0.0195    -0.0091    -0.0224    -0.0133   500
+  western                -0.0209    +0.0003    -0.0131    -0.0134   500
+  japanese               -0.0140    -0.0044    -0.0217    -0.0173   493
+  spanish                +0.0094    -0.0048    -0.0134    -0.0086   419
+
+======================================================================
+  PER-GROUP INDICES (proportionalized, N >= 50)
+======================================================================
+  Lemma          Type        N   Subj   AgI    PI    SI    F-    F+  netAt
+  ---------------------------------------------------------------------
+  american       dominant  10295   0.45  0.17  0.32  0.21  0.04  0.02   0.02
+  black          minority  4436   0.27  0.14  0.34  0.17  0.07  0.05   0.02
+  white          dominant  3894   0.26  0.15  0.29  0.19  0.07  0.01   0.06
+  african        minority  2943   0.24  0.11  0.24  0.11  0.06  0.05   0.01
+  indian         minority  2759   0.35  0.15  0.30  0.10  0.03  0.01   0.01
+  canadian       dominant  1673   0.41  0.14  0.32  0.13  0.02  0.03  -0.00
+  european       dominant  1651   0.35  0.16  0.25  0.13  0.02  0.03  -0.01
+  german         dominant  1567   0.44  0.28  0.34  0.14  0.05  0.01   0.05
+  russian        dominant  1196   0.41  0.23  0.34  0.19  0.03  0.01   0.03
+  chinese        minority  1049   0.29  0.14  0.36  0.14  0.01  0.02  -0.01
+  jewish         dominant  847   0.24  0.13  0.37  0.13  0.03  0.16  -0.13
+  british        dominant  797   0.28  0.16  0.28  0.12  0.03  0.01   0.02
+  french         dominant  655   0.23  0.12  0.31  0.10  0.01  0.01  -0.00
+  western        dominant  583   0.20  0.10  0.32  0.13  0.01  0.01   0.00
+  japanese       minority  493   0.26  0.11  0.29  0.13  0.07  0.01   0.06
+  spanish        minority  419   0.20  0.11  0.36  0.06  0.03  0.03   0.00
+
+============================================================
+  EFI (PCA)  —  PC1 explains 34.5% and PC2 explains 23.7% of variance (groups with N >= 50)
+============================================================
+  PC1 loadings (axis of largest cross-group variance):
+    SI         +0.551  +++++++++++
+    ceat       +0.539  ++++++++++
+    AGI        +0.525  ++++++++++
+    net_atti   +0.348  ++++++
+    weat       +0.088  +
+    PI         +0.038  
+
+  PC2 loadings (largest variance orthogonal to PC1):
+    PI         +0.654  +++++++++++++
+    weat       +0.521  ++++++++++
+    net_atti   -0.482  ---------
+    AGI        +0.162  +++
+    ceat       +0.158  +++
+    SI         -0.134  --
+
+  EFI scores (PC1 / PC2):
+    [C] russian          PC1=+2.705  PC2=+1.345
+    [C] german           PC1=+2.338  PC2=+0.933
+    [C] white            PC1=+2.012  PC2=-1.926
+    [T] black            PC1=+1.599  PC2=+1.141
+    [C] american         PC1=+1.139  PC2=-0.957
+    [T] indian           PC1=-0.231  PC2=+0.310
+    [C] european         PC1=-0.254  PC2=-0.745
+    [C] british          PC1=-0.351  PC2=-1.513
+    [T] chinese          PC1=-0.476  PC2=+0.852
+    [T] japanese         PC1=-0.540  PC2=-1.291
+    [T] african          PC1=-0.605  PC2=-0.840
+    [C] western          PC1=-1.055  PC2=-0.283
+    [C] jewish           PC1=-1.199  PC2=+2.364
+    [C] canadian         PC1=-1.413  PC2=-0.508
+    [C] french           PC1=-1.690  PC2=-0.327
+    [T] spanish          PC1=-1.980  PC2=+1.445
+
+============================================================
+  REGRESSION: WEAT ~ AgI + PI + SI + frame-netAttI  (n=16, R²=0.181)
+============================================================
+  intercept: -0.0293
+  β(AGI): +0.1406
+  β(PI): +0.0780
+  β(SI): -0.2039
+  β(net_atti): +0.0133
+
+============================================================
+  REGRESSION: CEAT ~ AgI + PI + SI + frame-netAttI  (n=16, R²=0.3334)
+============================================================
+  intercept: -0.0205
+  β(AGI): +0.0552
+  β(PI): -0.0126
+  β(SI): +0.1656
+  β(net_atti): -0.0163
+
+→ output_results.tsv
+→ output_review.tsv
+→ group_stats.tsv
+
+============================================================
+=== ARMADA Pipeline Run: 2026-06-29 10:37:00 ===
+============================================================
+
+Loading spaCy model...
+Active extraction labels loaded: 16 tokens from active_labels.json
+Loading sentence encoder (GTE ModernBERT)...
+  analysis device: mps
+  analysis embedding batch: 16
+  CEAT-full mode: reported
+Loading SRL role labeler...
+Loading attitudinal prototype matcher...
+Reading input from: /Users/l/projects/dolma/semantic_filter_results.tsv
+Preprocessed 31321 sentences.
+SRL cache hit — loaded 31321 extraction results.
+Target tokens in 29237/31321 sentences.
+
+Discourse association written to: association_discourse.tsv (sentence-level, min pair count = 18, min distance = 2)
+  Loaded from candidate_terms.json: 0 accumulated neg frames, 0 accumulated pos frames
+    New auto-negative: ['racial', 'race', 'racism', 'racist', 'war', 'killing', 'crime', 'enemy', 'slave', 'segregation', 'disease', 'drug', 'arrest', 'opioid', 'terrorist', 'ethnicity', 'kill', 'chronic', 'attack', 'poor', 'violence', 'murder', 'slavery', 'hate', 'pain', 'battle', 'prejudice', 'discrimination', 'illegal', 'overdose', 'gun', 'suspect', 'foreign', 'disorder', 'addiction', 'risk', 'bomb', 'negative', 'fear', 'decade', 'prison', 'terrorism', 'debate', 'never', 'victim', 'destroy', 'disaster']
+    New auto-positive: ['insurance', 'arrival', 'coverage', 'benefit', 'holiday', 'straight', 'achievement', 'consumer', 'warming', 'arrive', 'wear', 'support', 'increase', 'provide', 'service', 'thank', 'expand', 'rise', 'friend', 'attend', 'leader', 'good', 'happiness', 'perceive', 'opportunity', 'fair', 'apply', 'assistance', 'offer', 'healthy', 'result', 'forward', 'responsibility', 'portray', 'skill', 'recommend', 'conduct', 'credit', 'contribution', 'truth']
+Candidate terms refreshed: 500 total, 47 auto-negative, 40 auto-positive
+Computing CEAT-full from sampled lexical hits: reported groups only (N >= 50)...
+  CEAT-full scanned 25,000 lexical-hit lines...
+  CEAT-full scanned 50,000 lexical-hit lines...
+  CEAT-full scanned 75,000 lexical-hit lines...
+  CEAT-full scanned 100,000 lexical-hit lines...
+  CEAT-full scanned 125,000 lexical-hit lines...
+  CEAT-full scanned 150,000 lexical-hit lines...
+  CEAT-full scanned 175,000 lexical-hit lines...
+  CEAT-full scanned 200,000 lexical-hit lines...
+  CEAT-full scanned 225,000 lexical-hit lines...
+  CEAT-full scanned 250,000 lexical-hit lines...
+  CEAT-full scanned 275,000 lexical-hit lines...
+  CEAT-full scanned 300,000 lexical-hit lines...
+  CEAT-full scanned 325,000 lexical-hit lines...
+  CEAT-full scanned 333,287 lines, matched 316,453, encoded 8,000 sampled contexts.
+  CEAT-full computed for 16 groups, Δ-CEAT for 16
+
+================================================================================
+  WEAT / CEAT SCORES  (>0 = closer to F⁻ than F⁺, N >= 50)
+================================================================================
+  Lemma                     WEAT       CEAT     CEAT-f     Δ-CEAT     N
+  ----------------------------------------------------------------------
+  american               -0.0367    +0.0031    -0.0130    -0.0161   500
+  black                  +0.0155    +0.0287    -0.0038    -0.0325   500
+  white                  -0.0479    +0.0294    -0.0155    -0.0449   500
+  african                +0.0074    +0.0108    -0.0129    -0.0237   500
+  indian                 +0.0035    +0.0088    -0.0193    -0.0281   500
+  canadian               -0.0274    -0.0184    -0.0218    -0.0034   500
+  european               -0.0016    +0.0035    -0.0117    -0.0152   500
+  german                 +0.0008    +0.0152    -0.0089    -0.0241   500
+  russian                +0.0186    +0.0205    +0.0028    -0.0177   500
+  chinese                -0.0110    +0.0011    -0.0133    -0.0144   500
+  jewish                 -0.0181    +0.0129    -0.0040    -0.0169   500
+  british                -0.0379    +0.0019    -0.0132    -0.0151   500
+  french                 -0.0195    -0.0091    -0.0224    -0.0133   500
+  western                -0.0209    +0.0003    -0.0131    -0.0134   500
+  japanese               -0.0140    -0.0044    -0.0217    -0.0173   493
+  spanish                +0.0094    -0.0048    -0.0134    -0.0086   419
+
+======================================================================
+  PER-GROUP INDICES (proportionalized, N >= 50)
+======================================================================
+  Lemma          Type        N   Subj   AgI    PI    SI    F-    F+  netAt
+  ---------------------------------------------------------------------
+  american       dominant  10295   0.45  0.17  0.32  0.21  0.10  0.13  -0.03
+  black          minority  4436   0.27  0.14  0.34  0.17  0.14  0.09   0.05
+  white          dominant  3894   0.26  0.15  0.29  0.19  0.13  0.07   0.06
+  african        minority  2943   0.24  0.11  0.24  0.11  0.10  0.10  -0.00
+  indian         minority  2759   0.35  0.15  0.30  0.10  0.07  0.08  -0.01
+  canadian       dominant  1673   0.41  0.14  0.32  0.13  0.06  0.15  -0.10
+  european       dominant  1651   0.35  0.16  0.25  0.13  0.06  0.11  -0.06
+  german         dominant  1567   0.44  0.28  0.34  0.14  0.11  0.07   0.04
+  russian        dominant  1196   0.41  0.23  0.34  0.19  0.07  0.07  -0.00
+  chinese        minority  1049   0.29  0.14  0.36  0.14  0.06  0.13  -0.07
+  jewish         dominant  847   0.24  0.13  0.37  0.13  0.07  0.11  -0.03
+  british        dominant  797   0.28  0.16  0.28  0.12  0.06  0.08  -0.02
+  french         dominant  655   0.23  0.12  0.31  0.10  0.03  0.07  -0.04
+  western        dominant  583   0.20  0.10  0.32  0.13  0.05  0.12  -0.08
+  japanese       minority  493   0.26  0.11  0.29  0.13  0.13  0.05   0.07
+  spanish        minority  419   0.20  0.11  0.36  0.06  0.06  0.06  -0.00
+
+============================================================
+  EFI (PCA)  —  PC1 explains 37.9% and PC2 explains 21.0% of variance (groups with N >= 50)
+============================================================
+  PC1 loadings (axis of largest cross-group variance):
+    ceat       +0.585  +++++++++++
+    net_atti   +0.462  +++++++++
+    SI         +0.457  +++++++++
+    AGI        +0.442  ++++++++
+    weat       +0.169  +++
+    PI         +0.103  ++
+
+  PC2 loadings (largest variance orthogonal to PC1):
+    weat       +0.772  +++++++++++++++
+    SI         -0.476  ---------
+    PI         +0.409  ++++++++
+    AGI        +0.088  +
+    net_atti   +0.042  
+    ceat       -0.022  
+
+  EFI scores (PC1 / PC2):
+    [C] russian          PC1=+2.611  PC2=+0.902
+    [C] german           PC1=+2.372  PC2=+1.044
+    [T] black            PC1=+2.293  PC2=+0.875
+    [C] white            PC1=+2.043  PC2=-2.371
+    [C] american         PC1=+0.539  PC2=-1.840
+    [C] jewish           PC1=-0.070  PC2=+0.321
+    [T] indian           PC1=-0.130  PC2=+0.867
+    [T] japanese         PC1=-0.139  PC2=-0.281
+    [T] african          PC1=-0.422  PC2=+0.189
+    [C] european         PC1=-0.629  PC2=-0.284
+    [C] british          PC1=-0.733  PC2=-1.258
+    [T] chinese          PC1=-0.778  PC2=+0.400
+    [T] spanish          PC1=-1.426  PC2=+2.294
+    [C] western          PC1=-1.529  PC2=-0.367
+    [C] french           PC1=-1.789  PC2=+0.028
+    [C] canadian         PC1=-2.214  PC2=-0.518
+
+============================================================
+  REGRESSION: WEAT ~ AgI + PI + SI + frame-netAttI  (n=16, R²=0.2271)
+============================================================
+  intercept: -0.0252
+  β(AGI): +0.1286
+  β(PI): +0.0831
+  β(SI): -0.2221
+  β(net_atti): +0.0911
+
+============================================================
+  REGRESSION: CEAT ~ AgI + PI + SI + frame-netAttI  (n=16, R²=0.5595)
+============================================================
+  intercept: -0.0177
+  β(AGI): +0.0283
+  β(PI): +0.0113
+  β(SI): +0.1326
+  β(net_atti): +0.1317
+
+→ output_results.tsv
+→ output_review.tsv
+→ group_stats.tsv

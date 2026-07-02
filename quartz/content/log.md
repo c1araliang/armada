@@ -116,5 +116,13 @@ tags:
 
 2026-06-26: @group new midterm milestone July 15th.
 
-2026-06-27: Detailed literature drafting for Bias chapter (§§ Foundational Works to Bias as a Representation Problem) including mathematical formulations, empirical settings, and dataset details. Added sociolinguistics citations in intro paragraph.
+2026-06-27: @group Detailed literature drafting for Bias chapter (§§ Foundational Works to Bias as a Representation Problem) including mathematical formulations, empirical settings, and dataset details. Added sociolinguistics citations in intro paragraph.
 
+2026-06-28: Evaluated 4-shard data run; resolved net_atti zeroing bug in robustness checks; confirmed major thematic role stability gains (Spearman >0.56); analyzed WEAT/netAttI decoupling.
+
+2026-06-29: Short paper refinement with taxonomy table, visualizing one-sentence going through the pipeline (to be replaced by actual graph); two-test results analysis; PC2 problem -- fp autoadmission, now resolved by expanding top_n from 100 to 500.
+
+2026-06-30: @group further polishing draft with CDA citations, eliminating exaggerated adjectives from original notes.
+2026-06-30: Aiming for AACL SRW full paper.
+
+2026-07-02: Bibliography updates; planning for end-of-year paper.

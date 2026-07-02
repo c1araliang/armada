@@ -1,25 +1,25 @@
 === LEAVE-ONE-GROUP-OUT PCA & REGRESSION SENSITIVITY ===
-  Removed group 'african     ': PC1 CosSim=0.9922, PC2 CosSim=0.9177, WEAT ΔR²=+0.0826, CEAT ΔR²=+0.0724
-  Removed group 'american    ': PC1 CosSim=0.9980, PC2 CosSim=0.9792, WEAT ΔR²=-0.0677, CEAT ΔR²=+0.1431
-  Removed group 'black       ': PC1 CosSim=0.9848, PC2 CosSim=0.9818, WEAT ΔR²=+0.1740, CEAT ΔR²=+0.0326
-  Removed group 'british     ': PC1 CosSim=0.9998, PC2 CosSim=0.9952, WEAT ΔR²=+0.0398, CEAT ΔR²=+0.0047
-  Removed group 'canadian    ': PC1 CosSim=0.9925, PC2 CosSim=0.9943, WEAT ΔR²=+0.0361, CEAT ΔR²=+0.0329
-  Removed group 'chinese     ': PC1 CosSim=0.9884, PC2 CosSim=0.9501, WEAT ΔR²=-0.0001, CEAT ΔR²=+0.0340
-  Removed group 'european    ': PC1 CosSim=0.9985, PC2 CosSim=0.7490, WEAT ΔR²=-0.0088, CEAT ΔR²=+0.0014
-  Removed group 'french      ': PC1 CosSim=0.9990, PC2 CosSim=0.9994, WEAT ΔR²=-0.0030, CEAT ΔR²=-0.0036
-  Removed group 'german      ': PC1 CosSim=0.9650, PC2 CosSim=0.8051, WEAT ΔR²=+0.0180, CEAT ΔR²=+0.0145
-  Removed group 'indian      ': PC1 CosSim=1.0000, PC2 CosSim=0.9982, WEAT ΔR²=-0.0120, CEAT ΔR²=-0.0013
-  Removed group 'japanese    ': PC1 CosSim=0.9751, PC2 CosSim=0.9786, WEAT ΔR²=+0.0041, CEAT ΔR²=-0.0180
-  Removed group 'jewish      ': PC1 CosSim=0.9890, PC2 CosSim=0.9682, WEAT ΔR²=+0.0231, CEAT ΔR²=+0.0421
-  Removed group 'russian     ': PC1 CosSim=0.9050, PC2 CosSim=0.9235, WEAT ΔR²=+0.1213, CEAT ΔR²=-0.0720
-  Removed group 'spanish     ': PC1 CosSim=0.9895, PC2 CosSim=0.9743, WEAT ΔR²=-0.0135, CEAT ΔR²=-0.0379
-  Removed group 'western     ': PC1 CosSim=0.9979, PC2 CosSim=0.9835, WEAT ΔR²=+0.0141, CEAT ΔR²=+0.0423
-  Removed group 'white       ': PC1 CosSim=0.9623, PC2 CosSim=0.9813, WEAT ΔR²=-0.0950, CEAT ΔR²=-0.0867
+  Removed group 'african     ': PC1 CosSim=0.9992, PC2 CosSim=0.9725, WEAT ΔR²=+0.0879, CEAT ΔR²=+0.0274
+  Removed group 'american    ': PC1 CosSim=0.9986, PC2 CosSim=0.9055, WEAT ΔR²=-0.0681, CEAT ΔR²=+0.0707
+  Removed group 'black       ': PC1 CosSim=0.9805, PC2 CosSim=0.9741, WEAT ΔR²=+0.1076, CEAT ΔR²=-0.0233
+  Removed group 'british     ': PC1 CosSim=0.9994, PC2 CosSim=0.9664, WEAT ΔR²=+0.0589, CEAT ΔR²=-0.0016
+  Removed group 'canadian    ': PC1 CosSim=0.9956, PC2 CosSim=0.9857, WEAT ΔR²=-0.0130, CEAT ΔR²=-0.0369
+  Removed group 'chinese     ': PC1 CosSim=0.9979, PC2 CosSim=0.9979, WEAT ΔR²=+0.0035, CEAT ΔR²=-0.0084
+  Removed group 'european    ': PC1 CosSim=0.9996, PC2 CosSim=0.9370, WEAT ΔR²=+0.0557, CEAT ΔR²=+0.0212
+  Removed group 'french      ': PC1 CosSim=0.9997, PC2 CosSim=0.9980, WEAT ΔR²=+0.0066, CEAT ΔR²=-0.0265
+  Removed group 'german      ': PC1 CosSim=0.9873, PC2 CosSim=0.7584, WEAT ΔR²=+0.0498, CEAT ΔR²=-0.0167
+  Removed group 'indian      ': PC1 CosSim=0.9999, PC2 CosSim=0.9924, WEAT ΔR²=-0.0181, CEAT ΔR²=+0.0061
+  Removed group 'japanese    ': PC1 CosSim=0.9962, PC2 CosSim=0.9962, WEAT ΔR²=+0.0057, CEAT ΔR²=+0.2373
+  Removed group 'jewish      ': PC1 CosSim=0.9993, PC2 CosSim=0.9924, WEAT ΔR²=+0.0078, CEAT ΔR²=+0.0211
+  Removed group 'russian     ': PC1 CosSim=0.9668, PC2 CosSim=0.9045, WEAT ΔR²=+0.0979, CEAT ΔR²=-0.0350
+  Removed group 'spanish     ': PC1 CosSim=0.9908, PC2 CosSim=0.1475, WEAT ΔR²=-0.0592, CEAT ΔR²=-0.0213
+  Removed group 'western     ': PC1 CosSim=0.9991, PC2 CosSim=0.9969, WEAT ΔR²=-0.0129, CEAT ΔR²=+0.0091
+  Removed group 'white       ': PC1 CosSim=0.9604, PC2 CosSim=0.5494, WEAT ΔR²=+0.0559, CEAT ΔR²=-0.0814
 
 === LEAVE-ONE-DIMENSION-OUT PCA SENSITIVITY ===
-  Removed dimension 'AGI       ': PC1 VarExplained=0.332 (baseline was 0.333), PC2 VarExplained=0.240 (baseline was 0.217)
-  Removed dimension 'PI        ': PC1 VarExplained=0.394 (baseline was 0.333), PC2 VarExplained=0.253 (baseline was 0.217)
-  Removed dimension 'SI        ': PC1 VarExplained=0.326 (baseline was 0.333), PC2 VarExplained=0.232 (baseline was 0.217)
-  Removed dimension 'net_atti  ': PC1 VarExplained=0.396 (baseline was 0.333), PC2 VarExplained=0.235 (baseline was 0.217)
-  Removed dimension 'weat      ': PC1 VarExplained=0.397 (baseline was 0.333), PC2 VarExplained=0.246 (baseline was 0.217)
-  Removed dimension 'ceat      ': PC1 VarExplained=0.303 (baseline was 0.333), PC2 VarExplained=0.260 (baseline was 0.217)
+  Removed dimension 'AGI       ': PC1 VarExplained=0.399 (baseline was 0.385), PC2 VarExplained=0.251 (baseline was 0.210)
+  Removed dimension 'PI        ': PC1 VarExplained=0.460 (baseline was 0.385), PC2 VarExplained=0.244 (baseline was 0.210)
+  Removed dimension 'SI        ': PC1 VarExplained=0.400 (baseline was 0.385), PC2 VarExplained=0.228 (baseline was 0.210)
+  Removed dimension 'net_atti  ': PC1 VarExplained=0.397 (baseline was 0.385), PC2 VarExplained=0.252 (baseline was 0.210)
+  Removed dimension 'weat      ': PC1 VarExplained=0.455 (baseline was 0.385), PC2 VarExplained=0.219 (baseline was 0.210)
+  Removed dimension 'ceat      ': PC1 VarExplained=0.326 (baseline was 0.385), PC2 VarExplained=0.251 (baseline was 0.210)

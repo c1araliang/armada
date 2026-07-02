@@ -63,7 +63,7 @@ _ALL_GROUPS = TARGET_TOKENS | CONTRAST_TOKENS
 ASSOCIATION_MIN_COUNT = 18
 ANALYSIS_MIN_GROUP_COUNT = 50
 REPORT_MIN_GROUP_COUNT = 50
-FRAME_REFRESH_TOP_N = 100
+FRAME_REFRESH_TOP_N = 500
 FRAME_SIM_FLOOR = 0.55
 FRAME_SIM_MARGIN = 0.06   # sentence-tier margin; raised from 0.04 because anchor tier is now direction-only
 
@@ -289,6 +289,15 @@ def _refresh_frame_inventory(
     neg_terms = set(prior_auto_neg)
     pos_terms = set(prior_auto_pos)
 
+    blacklist = set()
+    if json_path.exists():
+        try:
+            with open(json_path, encoding="utf-8") as f:
+                data = json.load(f)
+                blacklist = set(data.get("blacklist_terms", []))
+        except Exception:
+            pass
+
     seed_neg_list = sorted(seed_neg_terms)
     seed_pos_list = sorted(seed_pos_terms)
 
@@ -302,6 +311,7 @@ def _refresh_frame_inventory(
             "auto_positive_terms": sorted(pos_terms),
             "anchor_negative_terms": list(anchor_neg),
             "anchor_positive_terms": list(anchor_pos),
+            "blacklist_terms": sorted(list(blacklist)),
             "candidates": [],
         }
         with open(json_path, "w", encoding="utf-8") as f:
@@ -357,14 +367,21 @@ def _refresh_frame_inventory(
             max(neg_sim, pos_sim) >= FRAME_SIM_FLOOR
             and abs(diff) >= FRAME_SIM_MARGIN
         )
-        # Anchor tier is direction-only: it must agree with the sentence-tier
-        # direction (anchor_diff and diff non-zero and same sign). Anchor's job
-        # is sanity-check / veto, not magnitude — its absolute margin is
-        # systematically smaller than sentence cosine on long seeds and a
-        # second floor would just re-introduce the strict-cutoff problem the
-        # earlier ANCHOR_SIM_MARGIN=0.05 had.
-        anchor_passes = (anchor_diff * diff) > 0
-        if sentence_passes and anchor_passes:
+        
+        # Combined Option 1 (margin check) and Option 2 (blacklist check)
+        ANCHOR_NEG_MARGIN = 0.01
+        ANCHOR_POS_MARGIN = 0.025
+        anchor_diff_val = abs(anchor_diff)
+        required_margin = ANCHOR_NEG_MARGIN if diff > 0 else ANCHOR_POS_MARGIN
+        
+        anchor_passes = (
+            (anchor_diff * diff) > 0
+            and anchor_diff_val >= required_margin
+        )
+        
+        is_blacklisted = candidate["term"] in blacklist
+        
+        if sentence_passes and anchor_passes and not is_blacklisted:
             suggested_sign = -1 if diff > 0 else 1
             suggested_bucket = "negative" if diff > 0 else "positive"
             use_in_inventory = True
@@ -407,6 +424,7 @@ def _refresh_frame_inventory(
         "auto_positive_terms": all_auto_pos,
         "anchor_negative_terms": list(anchor_neg),
         "anchor_positive_terms": list(anchor_pos),
+        "blacklist_terms": sorted(list(blacklist)),
         "candidates": annotated,
     }
     with open(json_path, "w", encoding="utf-8") as f:
