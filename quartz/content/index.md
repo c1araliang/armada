@@ -11,7 +11,7 @@ tags:
 
 **DC:** Wuyue `Clara` Liang
 
-**Latest Update**: 2026-07-02
+**Latest Update**: 2026-07-20
 
 ## Current Situation
 
@@ -89,6 +89,7 @@ semantic_filter_results.tsv
                                                      | EFI_PC1, EFI_PC2,    |
                                                      | Subj/AgI/PI/SI/frame-AttI |
                                                      +----------------------+
+
 ```
 
 ## What I Built and What It Showed
@@ -105,32 +106,33 @@ Latest preprocessing flow:
 
 |Layer | Source | Task | Purpose |
 |---|---|---|---|
-| **0. Pre-scan & Top-8 Selection** | `extract.py` | Pre-scan Parquet files to count demographic token frequencies (accounting for compounds and negations to avoid double-counting) and select the top 8 target and top 8 contrast labels by frequency (written to `demographic_word_counts.tsv`). | Restrict extraction and downstream analysis to the most frequent demographic groups for statistical stability. |
-| **1. Lexical Gate** | `lexicons.py`, `extract.py` | Combine the selected top-8 target and top-8 contrast labels into a regex pattern (`GROUP_RE`) to filter documents. Logs all matched sentences to `semantic_filter_lexical_all.txt` (used for `CEAT-full`). | First-stage document-level filtering and raw hit logging. |
+| **0. Pre-scan & Top-14 Selection** | `extract.py` | Pre-scan Parquet files to count demographic token frequencies (accounting for compounds and negations to avoid double-counting) and select the top 14 target and top 14 contrast labels by frequency (written to `demographic_word_counts.tsv`). | Restrict extraction and downstream analysis to the most frequent demographic groups for statistical stability. |
+| **1. Lexical Gate** | `lexicons.py`, `extract.py` | Combine the selected top-14 target and top-14 contrast labels into a regex pattern (`GROUP_RE`) to filter documents. Logs all matched sentences to `semantic_filter_lexical_all.txt` (used for `CEAT-full`). | First-stage document-level filtering and raw hit logging. |
 | **2. Inanimate-Adjacency Pre-filter** | `extract.py` | Discard sentences where every gate token is adjacent (±2 tokens) to an inanimate head noun in `INANIMATE_NOUNS` (e.g. *"German law"*, *"black hole"*, *"American government"*). | Fast heuristic filter to bypass expensive MiniLM scoring on non-demographic usages. |
 | **3. Semantic Retrieval (two-lane)** | `extract.py` | Score remaining sentences against `POS_QUERIES` / `NEG_QUERIES` using `MiniLM`. Sentences pass via either the `STRICT` lane (`pos ≥ 0.34 AND margin ≥ 0.03`) or the `STRONG_MARGIN` lane (`margin ≥ 0.10`). Reference-noise patterns (URLs, citations) block rows and route them to review. | Extract semantically relevant sentences based on top-level queries. |
 | **4. Lexical-human rescue (MiniLM-controlled)** | `extract.py` | For sentences failing the main lanes, check if they are `inherent` (plural non-color demonyms — admit directly) or `candidate` (demonym within ±4 tokens of a human head or pronoun — validated via rescue queries at `pos >= threshold` and `margin >= 0.06`). | Recover person-anchored mentions that the topical gate scored low, while filtering surface-similar non-human uses (*"German Shepherd"*, *"Chinese New Year"*). |
 | **5. ModernBERT Fine Screening (Post-processing)** | `extract.py` | Re-encode all review candidates from `semantic_filter_review.tsv` using the analysis model (`gte-modernbert-base`) and rescue qualifying sentences into `semantic_filter_results.tsv`. | Validate borderline sentences with the higher-capacity analysis model. |
 
-Preliminary results (2026-06-08) from `Dolma_v1.6_sample`, i.e., minimal Dolma, parquet 1/70:
+Preliminary results (2026-07-08) from `Dolma v1.6-sample`, 4 parquet shards:
 
 |Metric | Value | Meaning|
 |---|---|---|
-|total_sentences| 1142085 | sentences extracted and evaluated.|
-|lexical_hits | 84922 | sentences containing at least one TARGET or CONTRAST token.|
-|inanimate_prefilter_removed | 33691 | sentences discarded because all gate tokens were adjacent to inanimate nouns.|
-|semantic_pass (STRICT) | 986 | sentences passing the STRICT lane (pos ≥ 0.34 AND margin ≥ 0.03).|
-|strong_margin_kept | 1632 | sentences passing the STRONG_MARGIN lane (margin ≥ 0.10).|
-|lexical_human_rescue_kept | 5309 | sentences admitted via the rescue lane (`inherent` plus MiniLM-confirmed `candidate`).|
-|kept | 7925 | rows in `semantic_filter_results.tsv` (STRICT ∪ STRONG_MARGIN ∪ LEXICAL_HUMAN_RESCUE minus reference-noise blocks, including rescued rows).|
-|borderline_review | 304 | sentences with `margin ≥ 0.05` that did not pass either main lane and were not rescue-admitted — routed to `semantic_filter_review.tsv` for human inspection.|
+|total_sentences| 4769376 | sentences extracted and evaluated.|
+|lexical_hits | 390942 | sentences containing at least one TARGET or CONTRAST token.|
+|inanimate_prefilter_removed | 155613 | sentences discarded because all gate tokens were adjacent to inanimate nouns.|
+|semantic_pass (STRICT) | 4757 | sentences passing the STRICT lane (pos ≥ 0.34 AND margin ≥ 0.03).|
+|strong_margin_kept | 8019 | sentences passing the STRONG_MARGIN lane (margin ≥ 0.10).|
+|lexical_human_rescue_kept | 28650 | sentences admitted via the rescue lane (`inherent` plus MiniLM-confirmed `candidate`).|
+|kept | 41418 | rows in `semantic_filter_results.tsv` (STRICT ∪ STRONG_MARGIN ∪ LEXICAL_HUMAN_RESCUE minus reference-noise blocks, including rescued rows).|
+|borderline_review | 1382 | sentences with `margin ≥ 0.05` that did not pass either main lane and were not rescue-admitted — routed to `semantic_filter_review.tsv` for human inspection.|
+
 
 Visualized `extract.py`:
 
 ```
 Parquet document
-       ↓ (Pre-scan counts word frequencies to select top-8 target + top-8 contrast)
-[Lexical gate (top-16)] ──────→ (Logs all hits to semantic_filter_lexical_all.txt for CEAT-full)
+       ↓ (Pre-scan counts word frequencies to select top-14 target + top-14 contrast)
+[Lexical gate (top-28)] ──────→ (Logs all hits to semantic_filter_lexical_all.txt for CEAT-full)
        ↓ hit
 Split into sentences (Regex hardened against Mr./Dr./Mrs. and other abbreviations)
        ↓
@@ -162,11 +164,35 @@ The problematic 1st version measured predefined results, while Sinclair's corpus
 1. **Framing** — Develop a composite frame taxonomy (metaphorical: natural disaster, dehumanization, invasion, contribution...; attitudinal: positive-negative, verbal-adjectival...) based on post-hoc classification and loop auto-refresh.
 2. **Preprocessing** — Sentence Preclassification → Strip noise (HTML, encoding artifacts) if there's any → spaCy token-level annotations (lemma, POS, dependency relation).
 3. **Feature extraction** — For each target token or small target span, the pipeline separates Subjecthood from AgI, treats AGI / PI / SI as **independent** dimensions (a single mention can pass any combination, judged on per-dim absolute floors `AGI_FLOOR=0.626`, `PI_FLOOR=0.637`, `SI_FLOOR=0.597`), and routes negation, correction, quotation, contrast, and ambiguous frame binding into review flags. PI fires on direct syntactic evidence (SRL `PATIENT_LABELS` / `dobj` / `nsubjpass` / `pcomp+auxpass`) without prototype confirmation; AGI on SRL ARG0 still requires prototype confirmation to filter unaccusatives; SI requires a target-as-experiencer guard. Reported AttI uses target-bound frame association; local prototype matching remains diagnostic.
+
+```
+┌───────────────────────────────────────────────────────┐
+│  Role Attribution (step3_feature_extraction.py)       │
+│                                                       │
+│  Input per mention:                                   │
+│    ├─ spaCy dep parse → effective_dep (nsubj/dobj/    │
+│    │                     nsubjpass/pobj/pcomp)        │
+│    ├─ SRL (bert-base) → ARG0/ARG1/PATIENT labels      │
+│    └─ GTE ModernBERT + Prototypes → agi_sim/pi_sim/   │
+│                                      si_sim cosines   │
+│                                                       │
+│  Decision logic:                                      │
+│    AgI: (SRL ARG0 + proto confirms) OR                │
+│         (nsubj + proto confirms)                      │
+│    PI:  SRL PATIENT directly OR dobj/nsubjpass/pcomp  │
+│         directly (proto disagree → flag, not veto)    │
+│    SI:  (nsubj OR AgI in roles) AND proto confirms    │
+│                                                       │
+│                                                       │
+│                                                       │
+└───────────────────────────────────────────────────────┘
+```
+
 4. **Association testing (WEAT + CEAT)** — Using seed sentence prototypes encoded into F⁻ and F⁺ centroids:
     * **WEAT** (static embeddings): type-level — is the vector for *immigrant* closer to the F⁻ centroid or F⁺ centroid?
     * **CEAT** (contextualized sentence embeddings): sampled context distribution — across encoded sentences containing *immigrant*, is the contextual embedding closer to the F⁻ centroid or F⁺ centroid? The pipeline reports the mean plus `N` and `SE`.
     Frame inventory is auto-refreshed each run by a two-tier admission: sentence-cosine vs. seed prototypes for magnitude, plus a 4-word sentiment-anchor cosine for direction. Anchors never enter centroid geometry.
-5. **EFI via PCA** — Assemble group × dimension matrix [AgI, PI, SI, frame-derived netAttI, WEAT, CEAT]. Run PCA on groups with `N ≥ 50`. Subjecthood is retained as a diagnostic column, not an EFI dimension. **PC1 and PC2 are both reported** with their loadings; no a priori sign flip is applied. On the pilot corpus, PC2 captured the *evaluative vs. grammatical-role trade-off* (~21.7% variance). However, scaling to 4 shards (~34.5% PC1, ~23.7% PC2 variance) reveals a structural decoupling: static type-level embeddings (WEAT) are context-blind and decouple from target-bound syntactic framing (netAttI, $\rho = -0.028$), whereas contextualized CEAT aligns with context-dependent roles. The two-axis structure is empirical, not assumed.
+5. **EFI via PCA** — Assemble group × dimension matrix [AgI, PI, SI, frame-derived netAttI, WEAT, CEAT]. Run PCA on groups with `N ≥ 50`. Subjecthood is retained as a diagnostic column, not an EFI dimension. **PC1 and PC2 are both reported** with their loadings; no a priori sign flip is applied. On the pilot corpus, PC2 captured the tradeoff between *static structural evaluation* in the embedding space (WEAT) and *dynamic compositional subjectivity* in context (SI). Expanding demographic groups to top-14+14 (yielding 27 active groups on 4 shards, ~41.6% PC1, ~22.8% PC2 variance) completely stabilized the PC2 loadings structure against Leave-One-Out (LOO) perturbations (min LOO CosSim rose from 0.15 to 0.9456), while Bartlett's sphericity test became highly significant ($p = 0.00055$, KMO = 0.601), confirming the validity of factor extraction. The two-axis structure is empirical, not assumed.
 6. **Output** — Per-sentence table (targets, indexical counts) + per-group summary (proportionalized indices, WEAT/CEAT scores, EFI, PCA loadings, regression β), with the reported group table filtered to lemmas with `N ≥ 50`.
 
 

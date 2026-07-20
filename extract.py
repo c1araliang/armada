@@ -961,7 +961,7 @@ def main():
                 f.write(f"{token}\t{cat}\t{count}\n")
         print(f"Demographic word counts written to {freq_file}")
 
-    # 3. Limit to top 8 target and top 8 contrast (keep only black/white for color labels)
+    # 3. Limit to top 14 target and top 14 contrast (keep only black/white for color labels)
     EXCLUDED_COLOR_TOKENS = {"brown", "yellow", "colored", "whiter", "dark", "darker", "nonwhite", "non-white", "poc", "of color"}
 
     target_candidates = [t for t in TARGET_TOKENS if t not in EXCLUDED_COLOR_TOKENS]
@@ -970,14 +970,14 @@ def main():
     target_candidates.sort(key=lambda x: counts[x], reverse=True)
     contrast_candidates.sort(key=lambda x: counts[x], reverse=True)
 
-    top_targets = set(target_candidates[:8])
-    top_contrasts = set(contrast_candidates[:8])
+    top_targets = set(target_candidates[:14])
+    top_contrasts = set(contrast_candidates[:14])
 
-    print("Selected Top 8 Target labels for extraction:")
-    for t in target_candidates[:8]:
+    print("Selected Top 14 Target labels for extraction:")
+    for t in target_candidates[:14]:
         print(f"  {t}: {counts[t]}")
-    print("Selected Top 8 Contrast labels for extraction:")
-    for c in contrast_candidates[:8]:
+    print("Selected Top 14 Contrast labels for extraction:")
+    for c in contrast_candidates[:14]:
         print(f"  {c}: {counts[c]}")
 
     # Recompile gate regexes to restrict extraction

@@ -109,15 +109,7 @@ _POS_ATTI_CANON: list[str] = [
     "happy or pleasant",
 ]
 
-# Dimensional paraphrases. Order convention (per dimension):
-#   [0] ruling definition (AGI ↔ PI structurally parallel)
-#   [1] past simple, female singular, mixed voice
-#   [2] present perfect (progressive where it reads naturally), male singular
-#   [3] present progressive, plural, active or active-with-embedded-passive
-#   [4] present or past simple, "the group" / collective, polarity-mixed
-#   [5] present simple, male singular, polarity-mixed
-#   [6] past perfect, male singular (AGI/PI only)
-#   [7] future simple, female singular (AGI/PI only)
+# Dimensional paraphrases. 
 
 AGI_PROTOTYPES: list[str] = [
     "They are intended to bring about effects, physically or mentally.",
@@ -206,6 +198,7 @@ class AttitudinalPrototypeMatcher:
         agi_floor: float = AGI_FLOOR,
         pi_floor: float = PI_FLOOR,
         si_floor: float = SI_FLOOR,
+        batch_size: int = 32,
     ):
         self.sentence_encoder = sentence_encoder
         self.context_window = context_window
@@ -214,6 +207,7 @@ class AttitudinalPrototypeMatcher:
         self.agi_floor = agi_floor
         self.pi_floor = pi_floor
         self.si_floor = si_floor
+        self.batch_size = batch_size
 
         encode = lambda texts: self.sentence_encoder.encode(
             texts, normalize_embeddings=True, show_progress_bar=False,
@@ -245,7 +239,9 @@ class AttitudinalPrototypeMatcher:
             pieces.append(text)
         return " ".join(pieces)
 
-    def match(self, token, doc, head_verb=None, span_indices: set[int] | None = None) -> dict:
+    def match(self, token, doc, head_verb=None, span_indices: set[int] | None = None, key=None) -> dict:
+        if hasattr(self, "lookup") and key is not None and key in self.lookup:
+            return self.lookup[key]
         focus_text = self._build_focus_text(token, doc, head_verb=head_verb, span_indices=span_indices)
         vec = self.sentence_encoder.encode(
             focus_text,
@@ -279,3 +275,42 @@ class AttitudinalPrototypeMatcher:
             "anchor_neg_sim": round(anchor_neg_sim, 4),
             "anchor_pos_sim": round(anchor_pos_sim, 4),
         }
+
+    def batch_match(self, focus_texts: list[str]) -> list[dict]:
+        if not focus_texts:
+            return []
+        vecs = self.sentence_encoder.encode(
+            focus_texts,
+            batch_size=self.batch_size,
+            normalize_embeddings=True,
+            show_progress_bar=True,
+        )
+        results = []
+        for focus_text, vec in zip(focus_texts, vecs):
+            neg_sim = float(np.max(self.neg_prototypes @ vec))
+            pos_sim = float(np.max(self.pos_prototypes @ vec))
+            agi_sim = float(np.max(self.agi_prototypes @ vec))
+            pi_sim  = float(np.max(self.pi_prototypes  @ vec))
+            si_sim  = float(np.max(self.si_prototypes  @ vec))
+            anchor_neg_sim = float(np.max(self.anchor_neg_vecs @ vec))
+            anchor_pos_sim = float(np.max(self.anchor_pos_vecs @ vec))
+
+            margin = abs(pos_sim - neg_sim)
+            best = max(pos_sim, neg_sim)
+
+            label = None
+            if best >= self.positive_floor and margin >= self.positive_margin:
+                label = "posAttI" if pos_sim > neg_sim else "negAttI"
+
+            results.append({
+                "label": label,
+                "focus_text": focus_text,
+                "neg_sim": round(neg_sim, 4),
+                "pos_sim": round(pos_sim, 4),
+                "agi_sim": round(agi_sim, 4),
+                "pi_sim":  round(pi_sim,  4),
+                "si_sim":  round(si_sim,  4),
+                "anchor_neg_sim": round(anchor_neg_sim, 4),
+                "anchor_pos_sim": round(anchor_pos_sim, 4),
+            })
+        return results

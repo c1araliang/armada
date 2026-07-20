@@ -16,14 +16,13 @@ TARGET_TOKENS = {
     "deportee", "deportees",
 
     # foreignness framing
-    "foreigner", "foreigners",
-    "alien",                 # legal/rhetorical sense
+    "foreigner", "foreigners",      
 
     # ethnic / racial minority (named groups)
     "asian", "chinese", "japanese", "korean", "vietnamese", "filipino",
     "indian", "hindi", "balkan",
     "arab", "arabic",
-    "muslim", "islamic",
+    "muslim",
     "hispanic", "latino", "latina", "latinx", "spanish",
     "mexican", "mexicano",
     "african", "nigger", "negro", "black",

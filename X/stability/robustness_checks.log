@@ -676,3 +676,493 @@ Running CEAT uncertainty propagation (MC=2000)...
     b_SI        : MC 95% CI=[0.1116, 0.1811]
     b_net_atti  : MC 95% CI=[0.1091, 0.1605]
     r_squared   : MC 95% CI=[0.4981, 0.6643]
+=== ARMADA STATISTICAL ROBUSTNESS AND STABILITY CHECKS ===
+Input path: /Users/l/projects/dolma/semantic_filter_results.tsv
+
+Loading spaCy model...
+Active extraction labels loaded: 27 tokens
+  Preprocessed 1000/20612 sentences...
+  Preprocessed 2000/20612 sentences...
+  Preprocessed 3000/20612 sentences...
+  Preprocessed 4000/20612 sentences...
+  Preprocessed 5000/20612 sentences...
+  Preprocessed 6000/20612 sentences...
+  Preprocessed 7000/20612 sentences...
+  Preprocessed 8000/20612 sentences...
+  Preprocessed 9000/20612 sentences...
+  Preprocessed 10000/20612 sentences...
+  Preprocessed 11000/20612 sentences...
+  Preprocessed 12000/20612 sentences...
+  Preprocessed 13000/20612 sentences...
+  Preprocessed 14000/20612 sentences...
+  Preprocessed 15000/20612 sentences...
+  Preprocessed 16000/20612 sentences...
+  Preprocessed 17000/20612 sentences...
+  Preprocessed 18000/20612 sentences...
+  Preprocessed 19000/20612 sentences...
+  Preprocessed 20000/20612 sentences...
+  Preprocessed 20612/20612 sentences...
+Preprocessed 20612 sentences.
+SRL cache loaded: 20612 entries.
+  Loaded from candidate_terms.json: 40 accumulated neg frames, 17 accumulated pos frames, 10 accumulated review pos frames
+Traceback (most recent call last):
+  File "/Users/l/projects/X/stability/robustness_checks.py", line 918, in <module>
+    main()
+  File "/Users/l/projects/X/stability/robustness_checks.py", line 661, in main
+    auto_neg_frames, auto_pos_frames = _load_seeds(project_dir / "X")
+ValueError: too many values to unpack (expected 2)
+=== ARMADA STATISTICAL ROBUSTNESS AND STABILITY CHECKS ===
+Input path: /Users/l/projects/dolma/semantic_filter_results.tsv
+
+Loading spaCy model...
+Active extraction labels loaded: 27 tokens
+  Preprocessed 1000/20612 sentences...
+  Preprocessed 2000/20612 sentences...
+  Preprocessed 3000/20612 sentences...
+  Preprocessed 4000/20612 sentences...
+  Preprocessed 5000/20612 sentences...
+  Preprocessed 6000/20612 sentences...
+  Preprocessed 7000/20612 sentences...
+  Preprocessed 8000/20612 sentences...
+  Preprocessed 9000/20612 sentences...
+  Preprocessed 10000/20612 sentences...
+  Preprocessed 11000/20612 sentences...
+  Preprocessed 12000/20612 sentences...
+  Preprocessed 13000/20612 sentences...
+  Preprocessed 14000/20612 sentences...
+  Preprocessed 15000/20612 sentences...
+  Preprocessed 16000/20612 sentences...
+  Preprocessed 17000/20612 sentences...
+  Preprocessed 18000/20612 sentences...
+  Preprocessed 19000/20612 sentences...
+  Preprocessed 20000/20612 sentences...
+  Preprocessed 20612/20612 sentences...
+Preprocessed 20612 sentences.
+SRL cache loaded: 20612 entries.
+  Loaded from candidate_terms.json: 40 accumulated neg frames, 17 accumulated pos frames, 10 accumulated review pos frames
+Loading SentenceTransformer for centroid encoding...
+Active target groups for stability analysis (N >= 50): ['african', 'american', 'arab', 'asian', 'australian', 'black', 'british', 'canadian', 'chinese', 'european', 'french', 'german', 'greek', 'indian', 'indigenous', 'islamic', 'italian', 'japanese', 'jewish', 'korean', 'mexican', 'muslim', 'palestinian', 'russian', 'spanish', 'western', 'white']
+Filtered dataset to 19658 active sentences containing target group mentions.
+Pre-encoding active sentences once with GTE ModernBERT...
+
+Pre-building sentence-level metrics database...
+
+Running bootstrap resampling (B=1000 iterations)...
+  Iteration 100/1000...
+  Iteration 200/1000...
+  Iteration 300/1000...
+  Iteration 400/1000...
+  Iteration 500/1000...
+  Iteration 600/1000...
+  Iteration 700/1000...
+  Iteration 800/1000...
+  Iteration 900/1000...
+  Iteration 1000/1000...
+
+→ Bootstrap results written to bootstrap_results.tsv
+→ Leave-one-out sensitivity report written to loo_sensitivity_results.txt
+
+=== LEAVE-ONE-GROUP-OUT PCA & REGRESSION SENSITIVITY ===
+  Removed group 'african     ': PC1 CosSim=0.9995, PC2 CosSim=0.9961, WEAT ΔR²=+0.0237, CEAT ΔR²=+0.0148
+  Removed group 'american    ': PC1 CosSim=0.9987, PC2 CosSim=0.9951, WEAT ΔR²=-0.0390, CEAT ΔR²=+0.0078
+  Removed group 'arab        ': PC1 CosSim=0.9965, PC2 CosSim=0.9940, WEAT ΔR²=-0.0287, CEAT ΔR²=-0.0163
+  Removed group 'asian       ': PC1 CosSim=0.9987, PC2 CosSim=0.9978, WEAT ΔR²=+0.0310, CEAT ΔR²=-0.0046
+  Removed group 'australian  ': PC1 CosSim=0.9988, PC2 CosSim=0.9988, WEAT ΔR²=+0.0122, CEAT ΔR²=-0.0380
+  Removed group 'black       ': PC1 CosSim=0.9989, PC2 CosSim=0.9993, WEAT ΔR²=+0.0693, CEAT ΔR²=-0.0057
+  Removed group 'british     ': PC1 CosSim=0.9997, PC2 CosSim=0.9991, WEAT ΔR²=+0.0638, CEAT ΔR²=-0.0021
+  Removed group 'canadian    ': PC1 CosSim=0.9997, PC2 CosSim=0.9996, WEAT ΔR²=+0.0107, CEAT ΔR²=+0.0019
+  Removed group 'chinese     ': PC1 CosSim=0.9989, PC2 CosSim=0.9989, WEAT ΔR²=-0.0016, CEAT ΔR²=-0.0087
+  Removed group 'european    ': PC1 CosSim=0.9998, PC2 CosSim=0.9998, WEAT ΔR²=+0.0021, CEAT ΔR²=+0.0054
+  Removed group 'french      ': PC1 CosSim=0.9985, PC2 CosSim=0.9993, WEAT ΔR²=+0.0134, CEAT ΔR²=-0.0132
+  Removed group 'german      ': PC1 CosSim=0.9991, PC2 CosSim=0.9980, WEAT ΔR²=+0.0291, CEAT ΔR²=+0.0296
+  Removed group 'greek       ': PC1 CosSim=0.9999, PC2 CosSim=0.9923, WEAT ΔR²=+0.0215, CEAT ΔR²=+0.0365
+  Removed group 'indian      ': PC1 CosSim=1.0000, PC2 CosSim=0.9999, WEAT ΔR²=-0.0040, CEAT ΔR²=-0.0009
+  Removed group 'indigenous  ': PC1 CosSim=0.9994, PC2 CosSim=0.9964, WEAT ΔR²=+0.0092, CEAT ΔR²=+0.0506
+  Removed group 'islamic     ': PC1 CosSim=0.9961, PC2 CosSim=0.9608, WEAT ΔR²=+0.0022, CEAT ΔR²=-0.0113
+  Removed group 'italian     ': PC1 CosSim=0.9997, PC2 CosSim=0.9994, WEAT ΔR²=+0.0077, CEAT ΔR²=+0.0052
+  Removed group 'japanese    ': PC1 CosSim=0.9983, PC2 CosSim=0.9962, WEAT ΔR²=+0.0146, CEAT ΔR²=+0.0564
+  Removed group 'jewish      ': PC1 CosSim=0.9996, PC2 CosSim=0.9984, WEAT ΔR²=+0.0260, CEAT ΔR²=+0.0070
+  Removed group 'korean      ': PC1 CosSim=0.9999, PC2 CosSim=0.9987, WEAT ΔR²=-0.0025, CEAT ΔR²=+0.0063
+  Removed group 'mexican     ': PC1 CosSim=0.9997, PC2 CosSim=0.9998, WEAT ΔR²=-0.0129, CEAT ΔR²=+0.0103
+  Removed group 'muslim      ': PC1 CosSim=0.9986, PC2 CosSim=0.9974, WEAT ΔR²=-0.0008, CEAT ΔR²=-0.0146
+  Removed group 'palestinian ': PC1 CosSim=0.9858, PC2 CosSim=0.9883, WEAT ΔR²=-0.0927, CEAT ΔR²=-0.0471
+  Removed group 'russian     ': PC1 CosSim=0.9972, PC2 CosSim=0.9923, WEAT ΔR²=+0.0290, CEAT ΔR²=-0.0050
+  Removed group 'spanish     ': PC1 CosSim=0.9996, PC2 CosSim=0.9930, WEAT ΔR²=-0.0106, CEAT ΔR²=+0.0019
+  Removed group 'western     ': PC1 CosSim=0.9996, PC2 CosSim=0.9997, WEAT ΔR²=-0.0118, CEAT ΔR²=-0.0031
+  Removed group 'white       ': PC1 CosSim=0.9975, PC2 CosSim=0.9908, WEAT ΔR²=-0.0398, CEAT ΔR²=+0.0057
+
+=== LEAVE-ONE-DIMENSION-OUT PCA SENSITIVITY ===
+  Removed dimension 'AGI       ': PC1 VarExplained=0.419 (baseline was 0.402), PC2 VarExplained=0.248 (baseline was 0.242)
+  Removed dimension 'PI        ': PC1 VarExplained=0.432 (baseline was 0.402), PC2 VarExplained=0.283 (baseline was 0.242)
+  Removed dimension 'SI        ': PC1 VarExplained=0.475 (baseline was 0.402), PC2 VarExplained=0.198 (baseline was 0.242)
+  Removed dimension 'net_atti  ': PC1 VarExplained=0.428 (baseline was 0.402), PC2 VarExplained=0.263 (baseline was 0.242)
+  Removed dimension 'weat      ': PC1 VarExplained=0.442 (baseline was 0.402), PC2 VarExplained=0.261 (baseline was 0.242)
+  Removed dimension 'ceat      ': PC1 VarExplained=0.361 (baseline was 0.402), PC2 VarExplained=0.282 (baseline was 0.242)
+
+Computing profiles for K=3 chunks (chunk size ≈ 6552 sentences)...
+
+→ Cross-chunk stability metrics written to cross_chunk_stability.tsv
+
+=== CROSS-CHUNK RANK STABILITY ===
+  AGI       : AvgSpearman=0.5778 (Min=0.5118, Max=0.6236)
+  PI        : AvgSpearman=0.5617 (Min=0.4818, Max=0.7120)
+  SI        : AvgSpearman=0.5870 (Min=0.5525, Max=0.6439)
+  net_atti  : AvgSpearman=0.6850 (Min=0.5695, Max=0.7766)
+  ceat      : AvgSpearman=0.8977 (Min=0.8890, Max=0.9098)
+
+============================================================
+=== SCALING-CHOICE SENSITIVITY (i.3) ===
+→ Scaling sensitivity written to scaling_sensitivity.tsv
+  zscore: PC1 VarExpl=0.402, PC2 VarExpl=0.242
+    PC1 loadings: AGI=0.447, PI=0.391, SI=0.162, net_atti=0.417, weat=0.367, ceat=0.559
+  minmax: PC1 VarExpl=0.413, PC2 VarExpl=0.255
+    PC1 loadings: AGI=0.471, PI=0.378, SI=0.266, net_atti=0.293, weat=0.292, ceat=0.627
+  raw: PC1 VarExpl=0.412, PC2 VarExpl=0.288
+    PC1 loadings: AGI=0.607, PI=0.499, SI=0.230, net_atti=0.528, weat=0.111, ceat=0.198
+  EFI rank corr (zscore vs minmax): ρ=0.9750 (p=0.0000)
+  EFI rank corr (zscore vs raw): ρ=0.9206 (p=0.0000)
+
+============================================================
+/Users/l/projects/X/venv/lib/python3.10/site-packages/sklearn/utils/deprecation.py:132: FutureWarning: 'force_all_finite' was renamed to 'ensure_all_finite' in 1.6 and will be removed in 1.8.
+  warnings.warn(
+/Users/l/projects/X/venv/lib/python3.10/site-packages/sklearn/utils/deprecation.py:132: FutureWarning: 'force_all_finite' was renamed to 'ensure_all_finite' in 1.6 and will be removed in 1.8.
+  warnings.warn(
+→ Factor analysis comparison written to factor_analysis_comparison.txt
+
+=== FACTOR ANALYSIS VS. PCA COMPARISON ===
+  Bartlett's test: χ²=40.43, p=0.000390
+  KMO measure of sampling adequacy: 0.5560
+
+  Factor Analysis (ML, rotation=none):
+    Proportion variance: F1=0.316, F2=0.223
+    Cumulative: 0.539
+    Dimension         F1        F2
+    AGI           0.3556    0.4618
+    PI            0.3420    0.1901
+    SI           -0.0264    0.9971
+    net_atti      0.6941   -0.0888
+    weat          0.4892   -0.2295
+    ceat          0.9645    0.1874
+
+  Factor Analysis (ML, rotation=varimax):
+    Proportion variance: F1=0.296, F2=0.243
+    Cumulative: 0.539
+    Dimension         F1        F2
+    AGI           0.2444    0.5291
+    PI            0.2913    0.2611
+    SI           -0.2467    0.9665
+    net_atti      0.6965    0.0673
+    weat          0.5279   -0.1154
+    ceat          0.8989    0.3965
+
+  PCA (baseline, z-score):
+    Proportion variance: PC1=0.402, PC2=0.242
+    Dimension        PC1       PC2
+    AGI           0.4465    0.3890
+    PI            0.3912    0.1905
+    SI            0.1621    0.7156
+    net_atti      0.4174   -0.3617
+    weat          0.3670   -0.3926
+    ceat          0.5589   -0.1239
+
+  Tucker's congruence (PCA PC1 vs FA F1, no rotation):
+    Tucker's φ = 0.9418
+    → Fair replication
+
+============================================================
+=== CEAT SE UNCERTAINTY PROPAGATION (i.6) ===
+
+Running CEAT uncertainty propagation (MC=2000)...
+  MC iteration 200/2000...
+  MC iteration 400/2000...
+  MC iteration 600/2000...
+  MC iteration 800/2000...
+  MC iteration 1000/2000...
+  MC iteration 1200/2000...
+  MC iteration 1400/2000...
+  MC iteration 1600/2000...
+  MC iteration 1800/2000...
+  MC iteration 2000/2000...
+→ CEAT uncertainty propagation written to ceat_uncertainty_propagation.tsv
+
+  PCA loadings sensitivity to CEAT SE perturbation:
+    PC1 AGI       : obs=0.4470, MC 95% CI=[0.4240, 0.4700]
+    PC1 PI        : obs=0.3910, MC 95% CI=[0.3770, 0.4080]
+    PC1 SI        : obs=0.1620, MC 95% CI=[0.1280, 0.1980]
+    PC1 net_atti  : obs=0.4170, MC 95% CI=[0.3860, 0.4480]
+    PC1 weat      : obs=0.3670, MC 95% CI=[0.3460, 0.3870]
+    PC1 ceat      : obs=0.5590, MC 95% CI=[0.5480, 0.5660]
+
+  EFI score sensitivity:
+    african     : obs=-0.910, MC 95% CI=[-1.095, -0.728]
+    american    : obs=-0.463, MC 95% CI=[-0.664, -0.237]
+    arab        : obs=1.867, MC 95% CI=[1.671, 2.032]
+    asian       : obs=-2.131, MC 95% CI=[-2.283, -1.960]
+    australian  : obs=-2.131, MC 95% CI=[-2.276, -1.966]
+    black       : obs=1.800, MC 95% CI=[1.623, 1.942]
+    british     : obs=-1.377, MC 95% CI=[-1.541, -1.214]
+    canadian    : obs=-1.845, MC 95% CI=[-1.981, -1.685]
+    chinese     : obs=-1.066, MC 95% CI=[-1.222, -0.892]
+    european    : obs=-0.783, MC 95% CI=[-0.946, -0.632]
+    french      : obs=-1.818, MC 95% CI=[-1.973, -1.622]
+    german      : obs=1.871, MC 95% CI=[1.708, 2.030]
+    greek       : obs=0.868, MC 95% CI=[0.664, 1.075]
+    indian      : obs=-0.253, MC 95% CI=[-0.403, -0.094]
+    indigenous  : obs=-0.492, MC 95% CI=[-0.679, -0.304]
+    islamic     : obs=1.698, MC 95% CI=[1.191, 2.174]
+    italian     : obs=-1.180, MC 95% CI=[-1.340, -1.008]
+    japanese    : obs=-0.831, MC 95% CI=[-1.064, -0.576]
+    jewish      : obs=0.242, MC 95% CI=[0.065, 0.425]
+    korean      : obs=0.546, MC 95% CI=[0.349, 0.759]
+    mexican     : obs=1.657, MC 95% CI=[1.453, 1.839]
+    muslim      : obs=1.367, MC 95% CI=[1.175, 1.547]
+    palestinian : obs=3.969, MC 95% CI=[3.790, 4.121]
+    russian     : obs=1.864, MC 95% CI=[1.667, 2.057]
+    spanish     : obs=-0.629, MC 95% CI=[-0.868, -0.365]
+    western     : obs=-1.934, MC 95% CI=[-2.104, -1.749]
+    white       : obs=0.093, MC 95% CI=[-0.116, 0.279]
+
+  CEAT regression sensitivity:
+    b_AGI       : MC 95% CI=[0.0462, 0.1000]
+    b_PI        : MC 95% CI=[0.0405, 0.0872]
+    b_SI        : MC 95% CI=[0.0158, 0.0749]
+    b_net_atti  : MC 95% CI=[0.1634, 0.2300]
+    r_squared   : MC 95% CI=[0.4796, 0.6274]
+=== ARMADA STATISTICAL ROBUSTNESS AND STABILITY CHECKS ===
+Input path: /Users/l/projects/dolma/semantic_filter_results.tsv
+
+Loading spaCy model...
+Active extraction labels loaded: 27 tokens
+  Preprocessed 1000/41418 sentences...
+  Preprocessed 2000/41418 sentences...
+  Preprocessed 3000/41418 sentences...
+  Preprocessed 4000/41418 sentences...
+  Preprocessed 5000/41418 sentences...
+  Preprocessed 6000/41418 sentences...
+  Preprocessed 7000/41418 sentences...
+  Preprocessed 8000/41418 sentences...
+  Preprocessed 9000/41418 sentences...
+  Preprocessed 10000/41418 sentences...
+  Preprocessed 11000/41418 sentences...
+  Preprocessed 12000/41418 sentences...
+  Preprocessed 13000/41418 sentences...
+  Preprocessed 14000/41418 sentences...
+  Preprocessed 15000/41418 sentences...
+  Preprocessed 16000/41418 sentences...
+  Preprocessed 17000/41418 sentences...
+  Preprocessed 18000/41418 sentences...
+  Preprocessed 19000/41418 sentences...
+  Preprocessed 20000/41418 sentences...
+  Preprocessed 21000/41418 sentences...
+  Preprocessed 22000/41418 sentences...
+  Preprocessed 23000/41418 sentences...
+  Preprocessed 24000/41418 sentences...
+  Preprocessed 25000/41418 sentences...
+  Preprocessed 26000/41418 sentences...
+  Preprocessed 27000/41418 sentences...
+  Preprocessed 28000/41418 sentences...
+  Preprocessed 29000/41418 sentences...
+  Preprocessed 30000/41418 sentences...
+  Preprocessed 31000/41418 sentences...
+  Preprocessed 32000/41418 sentences...
+  Preprocessed 33000/41418 sentences...
+  Preprocessed 34000/41418 sentences...
+  Preprocessed 35000/41418 sentences...
+  Preprocessed 36000/41418 sentences...
+  Preprocessed 37000/41418 sentences...
+  Preprocessed 38000/41418 sentences...
+  Preprocessed 39000/41418 sentences...
+  Preprocessed 40000/41418 sentences...
+  Preprocessed 41000/41418 sentences...
+  Preprocessed 41418/41418 sentences...
+Preprocessed 41418 sentences.
+SRL cache loaded: 41418 entries.
+  Loaded from candidate_terms.json: 42 neg frames, 6 pos frames, 14 review pos, 0 review neg, 4 blacklisted
+Loading SentenceTransformer for centroid encoding...
+Active target groups for stability analysis (N >= 50): ['african', 'american', 'arab', 'asian', 'australian', 'black', 'british', 'canadian', 'chinese', 'european', 'french', 'german', 'greek', 'indian', 'indigenous', 'italian', 'japanese', 'jewish', 'korean', 'mexican', 'muslim', 'palestinian', 'russian', 'spanish', 'thai', 'western', 'white']
+Filtered dataset to 39498 active sentences containing target group mentions.
+Pre-encoding active sentences once with GTE ModernBERT...
+
+Pre-building sentence-level metrics database...
+
+Running bootstrap resampling (B=1000 iterations)...
+  Iteration 100/1000...
+  Iteration 200/1000...
+  Iteration 300/1000...
+  Iteration 400/1000...
+  Iteration 500/1000...
+  Iteration 600/1000...
+  Iteration 700/1000...
+  Iteration 800/1000...
+  Iteration 900/1000...
+  Iteration 1000/1000...
+
+→ Bootstrap results written to bootstrap_results.tsv
+→ Leave-one-out sensitivity report written to loo_sensitivity_results.txt
+
+=== LEAVE-ONE-GROUP-OUT PCA & REGRESSION SENSITIVITY ===
+  Removed group 'african     ': PC1 CosSim=0.9995, PC2 CosSim=0.9898, WEAT ΔR²=+0.0180, CEAT ΔR²=+0.0050
+  Removed group 'american    ': PC1 CosSim=0.9996, PC2 CosSim=0.9991, WEAT ΔR²=-0.0425, CEAT ΔR²=-0.0009
+  Removed group 'arab        ': PC1 CosSim=0.9981, PC2 CosSim=0.9894, WEAT ΔR²=-0.0293, CEAT ΔR²=-0.0295
+  Removed group 'asian       ': PC1 CosSim=0.9984, PC2 CosSim=0.9948, WEAT ΔR²=+0.0175, CEAT ΔR²=+0.0045
+  Removed group 'australian  ': PC1 CosSim=0.9998, PC2 CosSim=0.9997, WEAT ΔR²=+0.0049, CEAT ΔR²=-0.0412
+  Removed group 'black       ': PC1 CosSim=0.9985, PC2 CosSim=0.9986, WEAT ΔR²=+0.0874, CEAT ΔR²=-0.0091
+  Removed group 'british     ': PC1 CosSim=0.9998, PC2 CosSim=0.9991, WEAT ΔR²=+0.0820, CEAT ΔR²=+0.0001
+  Removed group 'canadian    ': PC1 CosSim=0.9995, PC2 CosSim=0.9983, WEAT ΔR²=+0.0143, CEAT ΔR²=-0.0156
+  Removed group 'chinese     ': PC1 CosSim=0.9998, PC2 CosSim=1.0000, WEAT ΔR²=-0.0014, CEAT ΔR²=-0.0048
+  Removed group 'european    ': PC1 CosSim=0.9999, PC2 CosSim=0.9992, WEAT ΔR²=+0.0002, CEAT ΔR²=+0.0084
+  Removed group 'french      ': PC1 CosSim=0.9994, PC2 CosSim=0.9997, WEAT ΔR²=+0.0076, CEAT ΔR²=-0.0104
+  Removed group 'german      ': PC1 CosSim=0.9989, PC2 CosSim=0.9987, WEAT ΔR²=+0.0721, CEAT ΔR²=+0.0553
+  Removed group 'greek       ': PC1 CosSim=0.9998, PC2 CosSim=0.9946, WEAT ΔR²=+0.0253, CEAT ΔR²=+0.0001
+  Removed group 'indian      ': PC1 CosSim=1.0000, PC2 CosSim=0.9998, WEAT ΔR²=-0.0071, CEAT ΔR²=+0.0008
+  Removed group 'indigenous  ': PC1 CosSim=0.9978, PC2 CosSim=0.9914, WEAT ΔR²=+0.0184, CEAT ΔR²=+0.0433
+  Removed group 'italian     ': PC1 CosSim=0.9999, PC2 CosSim=0.9999, WEAT ΔR²=+0.0092, CEAT ΔR²=-0.0112
+  Removed group 'japanese    ': PC1 CosSim=0.9989, PC2 CosSim=0.9998, WEAT ΔR²=-0.0012, CEAT ΔR²=+0.0558
+  Removed group 'jewish      ': PC1 CosSim=0.9997, PC2 CosSim=0.9999, WEAT ΔR²=+0.0020, CEAT ΔR²=+0.0192
+  Removed group 'korean      ': PC1 CosSim=0.9999, PC2 CosSim=0.9958, WEAT ΔR²=-0.0028, CEAT ΔR²=-0.0028
+  Removed group 'mexican     ': PC1 CosSim=0.9990, PC2 CosSim=0.9951, WEAT ΔR²=-0.0154, CEAT ΔR²=+0.0170
+  Removed group 'muslim      ': PC1 CosSim=0.9969, PC2 CosSim=0.9944, WEAT ΔR²=+0.0056, CEAT ΔR²=-0.0328
+  Removed group 'palestinian ': PC1 CosSim=0.9753, PC2 CosSim=0.9456, WEAT ΔR²=-0.0878, CEAT ΔR²=-0.0772
+  Removed group 'russian     ': PC1 CosSim=0.9987, PC2 CosSim=0.9999, WEAT ΔR²=+0.0233, CEAT ΔR²=-0.0002
+  Removed group 'spanish     ': PC1 CosSim=0.9995, PC2 CosSim=0.9866, WEAT ΔR²=-0.0186, CEAT ΔR²=+0.0410
+  Removed group 'thai        ': PC1 CosSim=0.9992, PC2 CosSim=0.9945, WEAT ΔR²=-0.0179, CEAT ΔR²=+0.0768
+  Removed group 'western     ': PC1 CosSim=0.9998, PC2 CosSim=0.9999, WEAT ΔR²=-0.0106, CEAT ΔR²=-0.0042
+  Removed group 'white       ': PC1 CosSim=0.9943, PC2 CosSim=0.9617, WEAT ΔR²=-0.0135, CEAT ΔR²=+0.0125
+
+=== LEAVE-ONE-DIMENSION-OUT PCA SENSITIVITY ===
+  Removed dimension 'AGI       ': PC1 VarExplained=0.407 (baseline was 0.416), PC2 VarExplained=0.268 (baseline was 0.228)
+  Removed dimension 'PI        ': PC1 VarExplained=0.445 (baseline was 0.416), PC2 VarExplained=0.274 (baseline was 0.228)
+  Removed dimension 'SI        ': PC1 VarExplained=0.482 (baseline was 0.416), PC2 VarExplained=0.180 (baseline was 0.228)
+  Removed dimension 'net_atti  ': PC1 VarExplained=0.430 (baseline was 0.416), PC2 VarExplained=0.271 (baseline was 0.228)
+  Removed dimension 'weat      ': PC1 VarExplained=0.475 (baseline was 0.416), PC2 VarExplained=0.197 (baseline was 0.228)
+  Removed dimension 'ceat      ': PC1 VarExplained=0.397 (baseline was 0.416), PC2 VarExplained=0.259 (baseline was 0.228)
+
+Computing profiles for K=3 chunks (chunk size ≈ 13166 sentences)...
+
+→ Cross-chunk stability metrics written to cross_chunk_stability.tsv
+
+=== CROSS-CHUNK RANK STABILITY ===
+  AGI       : AvgSpearman=0.7177 (Min=0.6786, Max=0.7859)
+  PI        : AvgSpearman=0.7499 (Min=0.7220, Max=0.7777)
+  SI        : AvgSpearman=0.7219 (Min=0.6748, Max=0.7849)
+  net_atti  : AvgSpearman=0.7179 (Min=0.6166, Max=0.8839)
+  ceat      : AvgSpearman=0.9395 (Min=0.9151, Max=0.9599)
+
+============================================================
+=== SCALING-CHOICE SENSITIVITY (i.3) ===
+→ Scaling sensitivity written to scaling_sensitivity.tsv
+  zscore: PC1 VarExpl=0.416, PC2 VarExpl=0.228
+    PC1 loadings: AGI=0.491, PI=0.395, SI=0.250, net_atti=0.440, weat=0.286, ceat=0.515
+  minmax: PC1 VarExpl=0.437, PC2 VarExpl=0.210
+    PC1 loadings: AGI=0.380, PI=0.344, SI=0.218, net_atti=0.537, weat=0.234, ceat=0.589
+  raw: PC1 VarExpl=0.487, PC2 VarExpl=0.207
+    PC1 loadings: AGI=0.705, PI=0.484, SI=0.399, net_atti=0.286, weat=0.073, ceat=0.148
+  EFI rank corr (zscore vs minmax): ρ=0.9799 (p=0.0000)
+  EFI rank corr (zscore vs raw): ρ=0.9048 (p=0.0000)
+
+============================================================
+/Users/l/projects/X/venv/lib/python3.10/site-packages/sklearn/utils/deprecation.py:132: FutureWarning: 'force_all_finite' was renamed to 'ensure_all_finite' in 1.6 and will be removed in 1.8.
+  warnings.warn(
+/Users/l/projects/X/venv/lib/python3.10/site-packages/sklearn/utils/deprecation.py:132: FutureWarning: 'force_all_finite' was renamed to 'ensure_all_finite' in 1.6 and will be removed in 1.8.
+  warnings.warn(
+→ Factor analysis comparison written to factor_analysis_comparison.txt
+
+=== FACTOR ANALYSIS VS. PCA COMPARISON ===
+  Bartlett's test: χ²=39.43, p=0.000552
+  KMO measure of sampling adequacy: 0.6006
+
+  Factor Analysis (ML, rotation=none):
+    Proportion variance: F1=0.303, F2=0.232
+    Cumulative: 0.535
+    Dimension         F1        F2
+    AGI           0.4769    0.4454
+    PI            0.4210    0.1574
+    SI           -0.0050    0.9975
+    net_atti      0.5841    0.2977
+    weat          0.5175   -0.2776
+    ceat          0.8978    0.0947
+
+  Factor Analysis (ML, rotation=varimax):
+    Proportion variance: F1=0.329, F2=0.207
+    Cumulative: 0.535
+    Dimension         F1        F2
+    AGI           0.5669    0.3231
+    PI            0.4460    0.0558
+    SI            0.2258    0.9716
+    net_atti      0.6371    0.1546
+    weat          0.4393   -0.3897
+    ceat          0.8954   -0.1154
+
+  PCA (baseline, z-score):
+    Proportion variance: PC1=0.416, PC2=0.228
+    Dimension        PC1       PC2
+    AGI           0.4911    0.1528
+    PI            0.3947   -0.0393
+    SI            0.2497    0.7064
+    net_atti      0.4401    0.1327
+    weat          0.2859   -0.6421
+    ceat          0.5150   -0.2150
+
+  Tucker's congruence (PCA PC1 vs FA F1, no rotation):
+    Tucker's φ = 0.9389
+    → Fair replication
+
+============================================================
+=== CEAT SE UNCERTAINTY PROPAGATION (i.6) ===
+
+Running CEAT uncertainty propagation (MC=2000)...
+  MC iteration 200/2000...
+  MC iteration 400/2000...
+  MC iteration 600/2000...
+  MC iteration 800/2000...
+  MC iteration 1000/2000...
+  MC iteration 1200/2000...
+  MC iteration 1400/2000...
+  MC iteration 1600/2000...
+  MC iteration 1800/2000...
+  MC iteration 2000/2000...
+→ CEAT uncertainty propagation written to ceat_uncertainty_propagation.tsv
+
+  PCA loadings sensitivity to CEAT SE perturbation:
+    PC1 AGI       : obs=0.4910, MC 95% CI=[0.4830, 0.5010]
+    PC1 PI        : obs=0.3950, MC 95% CI=[0.3820, 0.4090]
+    PC1 SI        : obs=0.2500, MC 95% CI=[0.2310, 0.2700]
+    PC1 net_atti  : obs=0.4400, MC 95% CI=[0.4260, 0.4540]
+    PC1 weat      : obs=0.2860, MC 95% CI=[0.2640, 0.3060]
+    PC1 ceat      : obs=0.5150, MC 95% CI=[0.5000, 0.5240]
+
+  EFI score sensitivity:
+    african     : obs=-0.904, MC 95% CI=[-1.065, -0.749]
+    american    : obs=0.108, MC 95% CI=[-0.062, 0.296]
+    arab        : obs=1.430, MC 95% CI=[1.260, 1.574]
+    asian       : obs=-2.253, MC 95% CI=[-2.390, -2.112]
+    australian  : obs=-2.051, MC 95% CI=[-2.167, -1.911]
+    black       : obs=2.202, MC 95% CI=[2.044, 2.339]
+    british     : obs=-1.294, MC 95% CI=[-1.442, -1.145]
+    canadian    : obs=-1.821, MC 95% CI=[-1.956, -1.661]
+    chinese     : obs=-0.699, MC 95% CI=[-0.842, -0.546]
+    european    : obs=-0.900, MC 95% CI=[-1.039, -0.769]
+    french      : obs=-1.795, MC 95% CI=[-1.936, -1.655]
+    german      : obs=2.584, MC 95% CI=[2.434, 2.730]
+    greek       : obs=0.991, MC 95% CI=[0.844, 1.147]
+    indian      : obs=-0.374, MC 95% CI=[-0.527, -0.221]
+    indigenous  : obs=-1.185, MC 95% CI=[-1.366, -1.015]
+    italian     : obs=-1.074, MC 95% CI=[-1.209, -0.928]
+    japanese    : obs=-0.706, MC 95% CI=[-0.850, -0.555]
+    jewish      : obs=-0.406, MC 95% CI=[-0.566, -0.244]
+    korean      : obs=0.177, MC 95% CI=[0.020, 0.339]
+    mexican     : obs=1.391, MC 95% CI=[1.214, 1.551]
+    muslim      : obs=2.391, MC 95% CI=[2.194, 2.570]
+    palestinian : obs=3.770, MC 95% CI=[3.592, 3.917]
+    russian     : obs=2.205, MC 95% CI=[2.047, 2.355]
+    spanish     : obs=-0.819, MC 95% CI=[-0.999, -0.631]
+    thai        : obs=-0.367, MC 95% CI=[-0.542, -0.146]
+    western     : obs=-1.341, MC 95% CI=[-1.469, -1.197]
+    white       : obs=0.739, MC 95% CI=[0.528, 0.918]
+
+  CEAT regression sensitivity:
+    b_AGI       : MC 95% CI=[0.0759, 0.1233]
+    b_PI        : MC 95% CI=[0.0460, 0.0939]
+    b_SI        : MC 95% CI=[-0.1170, -0.0646]
+    b_net_atti  : MC 95% CI=[0.2287, 0.2875]
+    r_squared   : MC 95% CI=[0.4182, 0.5340]

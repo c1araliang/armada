@@ -65,26 +65,30 @@ def preprocess(nlp, sentences: list[dict]) -> list[dict]:
     3. Attach the Doc object to each record for downstream use
     """
     results = []
-    for entry in sentences:
-        cleaned = remove_noise(entry["raw_text"])
-        doc = nlp(cleaned)
-        results.append({
-            "category": entry["category"],
-            "raw_text": entry["raw_text"],
-            "cleaned_text": cleaned,
-            "doc": doc,
-            "tokens": [
-                {
-                    "text": token.text,
-                    "lemma": token.lemma_.lower(),
-                    "pos": token.pos_,
-                    "dep": token.dep_,
-                    "head": token.head.text,
-                    "i": token.i,
-                }
-                for token in doc
-            ],
-        })
+    total = len(sentences)
+    chunk_size = 1000
+    for i in range(0, total, chunk_size):
+        chunk = sentences[i:i+chunk_size]
+        texts = [remove_noise(entry["raw_text"]) for entry in chunk]
+        for entry, doc in zip(chunk, nlp.pipe(texts, batch_size=256)):
+            results.append({
+                "category": entry["category"],
+                "raw_text": entry["raw_text"],
+                "cleaned_text": doc.text,
+                "doc": doc,
+                "tokens": [
+                    {
+                        "text": token.text,
+                        "lemma": token.lemma_.lower(),
+                        "pos": token.pos_,
+                        "dep": token.dep_,
+                        "head": token.head.text,
+                        "i": token.i,
+                    }
+                    for token in doc
+                ],
+            })
+        print(f"  Preprocessed {len(results)}/{total} sentences...", flush=True)
     return results
 
 

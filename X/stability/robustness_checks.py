@@ -658,7 +658,7 @@ def main():
     print(f"SRL cache loaded: {len(extracted)} entries.")
     
     # Load seeds and centroids
-    auto_neg_frames, auto_pos_frames = _load_seeds(project_dir / "X")
+    auto_neg_frames, auto_pos_frames, _, _, _ = _load_seeds(project_dir / "X")
     seed_neg_terms, seed_pos_terms = _load_seed_sentences(project_dir / "X")
     
     print("Loading SentenceTransformer for centroid encoding...")

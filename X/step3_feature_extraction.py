@@ -279,7 +279,7 @@ def _collect_srl_roles(doc) -> dict[int, dict]:
     return token_roles
 
 
-def extract_roles(doc) -> list[dict]:
+def extract_roles(doc, doc_id: int | None = None) -> list[dict]:
     """Extract AgI, PI, SI and local diagnostic AttI for each group token."""
     findings = []
     resolved_mentions = []
@@ -325,6 +325,7 @@ def extract_roles(doc) -> list[dict]:
                 token, doc,
                 head_verb=head_verb,
                 span_indices=_group_span_indices(token, doc),
+                key=(doc_id, token.i) if doc_id is not None else None,
             )
         agi_sim = atti_info["agi_sim"]
         pi_sim  = atti_info["pi_sim"]
@@ -650,9 +651,33 @@ def _resolve_anaphora(doc, findings: list[dict]):
 
 
 def extract_all(processed_data: list[dict]) -> list[dict]:
+    # Batch-encode all target mention focus texts if attitude matcher is loaded
+    if _ATTITUDE_MATCHER is not None:
+        print("  Scanning target mentions for batch attitude matching...", flush=True)
+        keys = []
+        focus_texts = []
+        for i, item in enumerate(processed_data):
+            doc = item["doc"]
+            for token in doc:
+                resolved = resolve_group_token(token, doc)
+                if resolved is not None:
+                    head_verb, _, _ = _resolve_role(token, doc)
+                    span_indices = _group_span_indices(token, doc)
+                    focus_text = _ATTITUDE_MATCHER._build_focus_text(
+                        token, doc, head_verb=head_verb, span_indices=span_indices
+                    )
+                    keys.append((i, token.i))
+                    focus_texts.append(focus_text)
+
+        if focus_texts:
+            print(f"  Batch encoding {len(focus_texts)} target mention focus texts...", flush=True)
+            match_results = _ATTITUDE_MATCHER.batch_match(focus_texts)
+            _ATTITUDE_MATCHER.lookup = {k: res for k, res in zip(keys, match_results)}
+            print("  Batch attitude matching complete.", flush=True)
+
     results = []
     for i, item in enumerate(processed_data):
-        roles = extract_roles(item["doc"])
+        roles = extract_roles(item["doc"], doc_id=i)
         results.append({
             "sentence_id": i,
             "category": item["category"],
@@ -660,5 +685,5 @@ def extract_all(processed_data: list[dict]) -> list[dict]:
             "findings": roles,
         })
         if _SRL_ROLE_LABELER is not None and (i + 1) % 100 == 0:
-            print(f"  SRL extraction: {i + 1}/{len(processed_data)} sentences")
+            print(f"  SRL extraction: {i + 1}/{len(processed_data)} sentences", flush=True)
     return results

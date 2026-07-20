@@ -407,3 +407,22 @@ Effect: `black players` in "racially abusing black players" now resolves `[PRED:
 - **Bug Fix**: Resolved the `net_atti` zeroing mismatch bug in `robustness_checks.py`. The script now loads frame and anchor parameters correctly, generating valid loadings and cross-chunk Spearman rank correlations ($\rho = 0.7847$) for the netAttI dimension.
 - **Academic Insight**: Confirmed that scaling data to 4 shards resolves role-index rank instability (Spearman correlation for AgI/PI/SI went from $<0.35$ to $>0.56\text{--}0.71$). Discovered that `netAttI` and `WEAT` are decoupled ($\rho = -0.028$) because static embeddings are context-blind, whereas contextualized CEAT aligns closely with syntactic framing.
 
+### 2026-07-07
+
+70. **Group K Expansion, Batch Interactive Terminal Review, and PC2 Stabilization.**
+- **Group K Expansion**: Changed demographic group selection in `extract.py` from top-8+8 to top-14+14 to increase the number of groups/observations for PCA. Re-extracted the corpus on 2 parquet shards, generating 20,612 kept sentences and 27 active groups.
+- **Batch Interactive Terminal Review**: Introduced a batch review loop inside `_refresh_frame_inventory()` in `X/run_pipeline.py`. The terminal prints all proposed auto-admissions at once, prompts the user if they wish to override any of them, and selectively accepts terms to modify (Admit [a], Quarantine/Review [r], Skip/Blacklist [s]) using candidates' full metadata (including `found_with` target lemmas, LLRs, LogDice, GTE cosines, and anchor values). The collections are automatically updated in `candidate_terms.json`.
+- **PC2 Stabilization**: Stability checks validated that increasing the number of observations (groups) from 16 to 27 completely resolved PC2 LOO instability (min PC2 CosSim went from 0.15 to 0.9608). Bartlett's sphericity test became highly significant ($p = 0.00039$), confirming the validity of Factor Analysis, and Tucker's Congruence coefficient reached 0.9418.
+- **Auto-positive Frame Refresh**: The clean frame refresh successfully discovered 11 high-quality auto-positive frames (including `peace`, `hope`, `protection`, `opportunity`, `treat`) while keeping topic FPs quarantined.
+- **Outputs**: Stale caches deleted and regenerated. All output files (`semantic_filter_results.tsv`, `group_stats.tsv`, `bootstrap_results.tsv`, `loo_sensitivity_results.txt`) updated.
+
+### 2026-07-08
+
+71. **Full-Corpus Robustness and Stability Check Re-run on 4-Shard Data.**
+- **Robustness Check Re-run**: Executed `stability/robustness_checks.py` on the 4-shard corpus (20,612 kept sentences, 27 active groups, 41,418 lexical hits).
+- **Alignment of PC2 tradeoff**: PC2 now reveals a highly stable tradeoff between static embedding association (WEAT loading $-0.642$) and dynamic compositional subjectivity (SI loading $+0.706$). AgI loads minimally ($+0.153$), indicating that its variance is successfully absorbed by PC1.
+- **Diagnostics verified**: LOO sensitivity shows that omitting `palestinian` causes a minor PC2 similarity drop (cosine similarity $= 0.9456$) and `white` causes $0.9617$, while all other group removals keep PC2 similarity $> 0.990$. Bartlett's sphericity test remains highly significant ($\chi^2 = 39.43, p = 0.00055$), and Tucker's Congruence coefficient with maximum-likelihood factor analysis is $\phi = 0.9389$ (fair-to-good replication).
+- **CEAT uncertainty propagation**: Monte Carlo propagation of CEAT standard errors yields a PC2 SI loading MC SE of $0.0048$ (95\% CI $[0.695, 0.714]$) and WEAT loading MC SE of $0.0150$ (95\% CI $[-0.671, -0.613]$), confirming that the PC2 axis is highly robust.
+- **Outputs**: All stability output files (`bootstrap_results.tsv`, `loo_sensitivity_results.txt`, `cross_chunk_stability.tsv`, `scaling_sensitivity.tsv`, `factor_analysis_comparison.txt`, `ceat_uncertainty_propagation.tsv`) regenerated and aligned with the 4-shard data run.
+
+

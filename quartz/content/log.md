@@ -126,3 +126,11 @@ tags:
 2026-06-30: Aiming for AACL SRW full paper.
 
 2026-07-02: Bibliography updates; planning for end-of-year paper.
+
+2026-07-07: Expanded group K to 14+14 and re-ran Phase 1 and 2 on 2 shards; introduced positive review category to quarantine topic-collocate FPs; validated PC2 stability using robustness checks.
+
+2026-07-08: Re-ran statistical robustness checks on 4-shard data (20,612 sentences, 27 groups); updated paper draft and local documentation with 4-shard stability metrics.
+
+2026-07-17: @group Overhaulling final section [Bias as a Linguistic Problem] to compress grounding taxonomy, integrate missing literature, and align citations with Zotero keys.
+
+2026-07-20: @milestone July 26 THREE graphs added to AACL SRW full paper/thesis proposal; section reordered, redundant subsection cleaned.

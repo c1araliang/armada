@@ -38,6 +38,14 @@ from step4_metrics import (
     compute_group_indices,
     cosine_similarity,
 )
+
+
+def _clean_term(term: str) -> str:
+    """Strip any parentheses comments from a term (e.g. '(comment)word' -> 'word')."""
+    if not term:
+        return ""
+    return re.sub(r"\(.*?\)", "", term).strip()
+
 from sentence_transformers import SentenceTransformer
 from lexicons import (
     TARGET_TOKENS, CONTRAST_TOKENS, POLITICAL_GROUP_TOKENS,
@@ -63,7 +71,7 @@ _ALL_GROUPS = TARGET_TOKENS | CONTRAST_TOKENS
 ASSOCIATION_MIN_COUNT = 18
 ANALYSIS_MIN_GROUP_COUNT = 50
 REPORT_MIN_GROUP_COUNT = 50
-FRAME_REFRESH_TOP_N = 500
+FRAME_REFRESH_TOP_N = 300
 FRAME_SIM_FLOOR = 0.55
 FRAME_SIM_MARGIN = 0.06   # sentence-tier margin; raised from 0.04 because anchor tier is now direction-only
 
@@ -95,7 +103,7 @@ def _select_analysis_device() -> str:
 ANALYSIS_DEVICE = _select_analysis_device()
 ANALYSIS_EMB_BATCH_SIZE = _env_int(
     "ARMADA_ANALYSIS_EMB_BATCH_SIZE",
-    16 if ANALYSIS_DEVICE == "mps" else DEFAULT_EMBEDDING_BATCH_SIZE,
+    256 if ANALYSIS_DEVICE == "mps" else DEFAULT_EMBEDDING_BATCH_SIZE,
 )
 CEAT_FULL_MODE = os.environ.get(
     "ARMADA_CEAT_FULL_MODE",
@@ -168,10 +176,10 @@ def _write_discourse_association(
             ])
 
 
-def _load_seeds(project_dir: Path) -> tuple[set[str], set[str]]:
+def _load_seeds(project_dir: Path) -> tuple[set[str], set[str], set[str], set[str], set[str]]:
     """Load accumulated auto-frame word sets from candidate_terms.json.
 
-    Returns (auto_neg, auto_pos): word-level terms accumulated from prior
+    Returns (auto_neg, auto_pos, review_pos, review_neg, blacklist): word-level terms accumulated from prior
     auto-refresh runs; used for AttI frame binding and candidate exclusion.
     Exits hard if candidate_terms.json is missing or unparseable — the file
     must exist before running Phase 2.
@@ -190,9 +198,14 @@ def _load_seeds(project_dir: Path) -> tuple[set[str], set[str]]:
         sys.exit(f"Error: could not parse {json_path}: {e}")
     auto_neg = set(data.get("auto_negative_terms", []))
     auto_pos = set(data.get("auto_positive_terms", []))
+    review_pos = set(data.get("review_positive_terms", []))
+    review_neg = set(data.get("review_negative_terms", []))
+    blacklist = set(data.get("blacklist_terms", []))
     print(f"  Loaded from candidate_terms.json: "
-          f"{len(auto_neg)} accumulated neg frames, {len(auto_pos)} accumulated pos frames")
-    return auto_neg, auto_pos
+          f"{len(auto_neg)} neg frames, {len(auto_pos)} pos frames, "
+          f"{len(review_pos)} review pos, {len(review_neg)} review neg, "
+          f"{len(blacklist)} blacklisted")
+    return auto_neg, auto_pos, review_pos, review_neg, blacklist
 
 
 def _load_seed_sentences(project_dir: Path) -> tuple[list[str], list[str]]:
@@ -264,39 +277,20 @@ def _refresh_frame_inventory(
     prior_auto_pos: set[str],
     anchor_neg: list[str],
     anchor_pos: list[str],
+    prior_review_pos: set[str],
+    prior_review_neg: set[str],
+    prior_blacklist: set[str],
 ) -> tuple[set[str], set[str], list[dict]]:
     """
-    Refresh frame sets from current LLR candidates using a two-tier admission rule.
-
-    Tier 1 (sentence-level): GTE cosine of candidate term against sentence-level
-    seed prototypes (`seed_neg/pos_terms`). Captures contextual framing similarity
-    but is permissive — long humanitarian-topic seeds can drag in topic markers
-    (`right`, `story`, `people`) regardless of polarity.
-
-    Tier 2 (anchor-level): GTE cosine of candidate term against four abstract
-    sentiment anchors (`anchor_neg`/`anchor_pos`, default ['bad','negative'] /
-    ['good','positive']). This is a word-level polarity sanity check that the
-    candidate's overall sentiment direction matches what Tier 1 suggested.
-
-    Both tiers must agree in direction and clear their thresholds for admission.
-
-    Prior auto_neg/pos accumulated from previous runs are carried forward and
-    extended with newly admitted candidates. These word-level sets are used by
-    AttI (syntactic binding) and as exclusion guard for _find_candidates.
+    Refresh frame sets from current LLR candidates using a two-tier admission rule,
+    with an interactive terminal batch-review step.
     """
     json_path = project_dir / "candidate_terms.json"
-    # Start frame sets from accumulated auto terms (carry forward across runs)
     neg_terms = set(prior_auto_neg)
     pos_terms = set(prior_auto_pos)
-
-    blacklist = set()
-    if json_path.exists():
-        try:
-            with open(json_path, encoding="utf-8") as f:
-                data = json.load(f)
-                blacklist = set(data.get("blacklist_terms", []))
-        except Exception:
-            pass
+    review_pos = set(prior_review_pos)
+    review_neg = set(prior_review_neg)
+    blacklist = set(prior_blacklist)
 
     seed_neg_list = sorted(seed_neg_terms)
     seed_pos_list = sorted(seed_pos_terms)
@@ -309,6 +303,8 @@ def _refresh_frame_inventory(
             "seed_positive_terms": seed_pos_list,
             "auto_negative_terms": sorted(neg_terms),
             "auto_positive_terms": sorted(pos_terms),
+            "review_negative_terms": sorted(list(review_neg)),
+            "review_positive_terms": sorted(list(review_pos)),
             "anchor_negative_terms": list(anchor_neg),
             "anchor_positive_terms": list(anchor_pos),
             "blacklist_terms": sorted(list(blacklist)),
@@ -349,9 +345,11 @@ def _refresh_frame_inventory(
         show_progress_bar=False,
     )
 
+    proposed_neg = []
+    proposed_pos = []
+    candidate_by_term = {}
     annotated = []
-    new_auto_negative: list[str] = []
-    new_auto_positive: list[str] = []
+
     for candidate, vec in zip(candidates, candidate_vecs):
         neg_sim = float(np.max(seed_neg_vecs @ vec))
         pos_sim = float(np.max(seed_pos_vecs @ vec))
@@ -368,7 +366,6 @@ def _refresh_frame_inventory(
             and abs(diff) >= FRAME_SIM_MARGIN
         )
         
-        # Combined Option 1 (margin check) and Option 2 (blacklist check)
         ANCHOR_NEG_MARGIN = 0.01
         ANCHOR_POS_MARGIN = 0.025
         anchor_diff_val = abs(anchor_diff)
@@ -379,9 +376,7 @@ def _refresh_frame_inventory(
             and anchor_diff_val >= required_margin
         )
         
-        is_blacklisted = candidate["term"] in blacklist
-        
-        if sentence_passes and anchor_passes and not is_blacklisted:
+        if sentence_passes and anchor_passes:
             suggested_sign = -1 if diff > 0 else 1
             suggested_bucket = "negative" if diff > 0 else "positive"
             use_in_inventory = True
@@ -403,15 +398,101 @@ def _refresh_frame_inventory(
             "used_in_frame_inventory": use_in_inventory,
         }
         annotated.append(annotated_candidate)
+        candidate_by_term[candidate["term"]] = annotated_candidate
+        
         if use_in_inventory:
             if suggested_sign < 0:
-                if candidate["term"] not in neg_terms:
-                    neg_terms.add(candidate["term"])
-                    new_auto_negative.append(candidate["term"])
+                proposed_neg.append(candidate["term"])
             else:
-                if candidate["term"] not in pos_terms:
-                    pos_terms.add(candidate["term"])
-                    new_auto_positive.append(candidate["term"])
+                proposed_pos.append(candidate["term"])
+
+    # Stage-Gate Interactive Terminal Loop
+    while True:
+        proposed_neg_sorted = sorted(list(set(proposed_neg)))
+        proposed_pos_sorted = sorted(list(set(proposed_pos)))
+        
+        print("\n============================================================")
+        print("  PROPOSED NEW AUTO-ADMISSIONS")
+        print("============================================================")
+        print(f"  Proposed Auto-Negatives: {proposed_neg_sorted}")
+        print(f"  Proposed Auto-Positives: {proposed_pos_sorted}")
+        print("============================================================")
+        
+        sys.stdout.write("  Do you want to review/override any of these terms? (y/n): ")
+        sys.stdout.flush()
+        review_ans = sys.stdin.readline().strip().lower()
+        if review_ans not in ('y', 'yes'):
+            break
+            
+        sys.stdout.write("  Enter term to review: ")
+        sys.stdout.flush()
+        term = sys.stdin.readline().strip()
+        if not term:
+            continue
+            
+        entry = candidate_by_term.get(term)
+        if not entry:
+            print(f"  ❌ Error: Term '{term}' not found in candidates database.")
+            continue
+            
+        print(f"\n  Candidate Entry Details for '{term}':")
+        print(f"    Suggested bucket:     {entry['suggested_frame_bucket']}")
+        print(f"    Found with targets:   {entry['found_with']}")
+        print(f"    Minority LLR/LogDice: {entry['minority_llr']:.2f} / {entry['minority_logdice']:.4f}")
+        print(f"    Dominant LLR/LogDice: {entry['dominant_llr']:.2f} / {entry['dominant_logdice']:.4f}")
+        print(f"    GTE Sim:              neg={entry['frame_neg_sim']:.3f}, pos={entry['frame_pos_sim']:.3f}")
+        print(f"    Anchors:              neg={entry['anchor_neg_sim']:.3f}, pos={entry['anchor_pos_sim']:.3f}")
+        
+        while True:
+            sys.stdout.write("    Action: Admit to auto [a], Quarantine/Review [r], Skip/Blacklist [s]? (a/r/s): ")
+            sys.stdout.flush()
+            action = sys.stdin.readline().strip().lower()
+            if action in ('a', 'r', 's'):
+                break
+            print("    Invalid action. Please enter 'a', 'r', or 's'.")
+            
+        if term in proposed_neg:
+            proposed_neg.remove(term)
+        if term in proposed_pos:
+            proposed_pos.remove(term)
+            
+        if term in neg_terms: neg_terms.remove(term)
+        if term in pos_terms: pos_terms.remove(term)
+        if term in review_neg: review_neg.remove(term)
+        if term in review_pos: review_pos.remove(term)
+        if term in blacklist: blacklist.remove(term)
+        
+        if action == 'a':
+            if entry['suggested_frame_sign'] < 0:
+                proposed_neg.append(term)
+            else:
+                proposed_pos.append(term)
+            entry["used_in_frame_inventory"] = True
+            print(f"    Admitted '{term}' to proposed list.")
+        elif action == 'r':
+            if entry['suggested_frame_sign'] < 0:
+                review_neg.add(term)
+                print(f"    Quarantined '{term}' to review_negative_terms.")
+            else:
+                review_pos.add(term)
+                print(f"    Quarantined '{term}' to review_positive_terms.")
+            entry["used_in_frame_inventory"] = False
+        elif action == 's':
+            blacklist.add(term)
+            entry["used_in_frame_inventory"] = False
+            print(f"    Blacklisted '{term}'.")
+
+    # Add final proposed lists to persistent frames
+    new_auto_negative = []
+    new_auto_positive = []
+    for term in proposed_neg:
+        if term not in neg_terms:
+            neg_terms.add(term)
+            new_auto_negative.append(term)
+    for term in proposed_pos:
+        if term not in pos_terms:
+            pos_terms.add(term)
+            new_auto_positive.append(term)
 
     all_auto_neg = sorted(neg_terms)
     all_auto_pos = sorted(pos_terms)
@@ -422,6 +503,8 @@ def _refresh_frame_inventory(
         "seed_positive_terms": seed_pos_list,
         "auto_negative_terms": all_auto_neg,
         "auto_positive_terms": all_auto_pos,
+        "review_negative_terms": sorted(list(review_neg)),
+        "review_positive_terms": sorted(list(review_pos)),
         "anchor_negative_terms": list(anchor_neg),
         "anchor_positive_terms": list(anchor_pos),
         "blacklist_terms": sorted(list(blacklist)),
@@ -484,7 +567,7 @@ def _encode_text_map(sentence_encoder, texts: list[str]) -> dict[str, np.ndarray
         unique_texts,
         batch_size=ANALYSIS_EMB_BATCH_SIZE,
         normalize_embeddings=True,
-        show_progress_bar=False,
+        show_progress_bar=True,
     )
     return {text: np.asarray(vec, dtype=np.float64) for text, vec in zip(unique_texts, vecs)}
 
@@ -715,6 +798,7 @@ def _find_candidates(
     """High-association collocates of target/contrast groups not yet in the frame taxonomy."""
     if existing_frames is None:
         existing_frames = set()
+    normalized_existing = {_clean_term(f) for f in existing_frames}
     minority_llr: dict[str, float] = {}
     minority_logdice: dict[str, float] = {}
     dominant_llr: dict[str, float] = {}
@@ -723,7 +807,7 @@ def _find_candidates(
     for (target, collocate), score_info in association_scores.items():
         if target in POLITICAL_GROUP_TOKENS:
             continue
-        if collocate in existing_frames:
+        if _clean_term(collocate) in normalized_existing:
             continue
         llr = score_info.get("llr", 0.0)
         logdice = score_info.get("logdice", 0.0)
@@ -811,12 +895,38 @@ def main():
     print("Loading SRL role labeler...")
     set_srl_role_labeler(SrlRoleLabeler())
     print("Loading attitudinal prototype matcher...")
-    set_attitude_matcher(AttitudinalPrototypeMatcher(sentence_encoder))
+    set_attitude_matcher(AttitudinalPrototypeMatcher(sentence_encoder, batch_size=ANALYSIS_EMB_BATCH_SIZE))
 
     # ── Preprocessing ──
     print(f"Reading input from: {sentences_path}")
     raw = load_sentences(str(sentences_path))
-    processed = preprocess(nlp, raw)
+
+    import pickle, hashlib as _hl
+    _prep_cache_path = project_dir / "preprocess_cache.pkl"
+    _lines = sentences_path.read_bytes().splitlines()
+    _sentences_digest = _hl.sha1(b"\n".join(_lines[:50] + _lines[-50:])).hexdigest()
+    _prep_cache_key = _hl.sha1(f"{sentences_path}:{_sentences_digest}".encode()).hexdigest()
+
+    processed = None
+    if _prep_cache_path.exists():
+        try:
+            with open(_prep_cache_path, "rb") as _f:
+                _cached = pickle.load(_f)
+            if _cached.get("key") == _prep_cache_key:
+                processed = _cached["processed"]
+                print(f"Preprocessing cache hit — loaded {len(processed)} parsed sentences.", flush=True)
+        except Exception as _e:
+            print(f"Preprocessing cache unreadable ({_e}), running spaCy...")
+
+    if processed is None:
+        processed = preprocess(nlp, raw)
+        try:
+            with open(_prep_cache_path, "wb") as _f:
+                pickle.dump({"key": _prep_cache_key, "processed": processed}, _f)
+            print("Wrote preprocessing cache.", flush=True)
+        except Exception as _e:
+            print(f"Failed to write preprocessing cache ({_e})", flush=True)
+
     print(f"Preprocessed {len(processed)} sentences.")
 
     # ── Feature extraction (AgI/PI/SI + local AttI diagnostics) ──
@@ -875,14 +985,14 @@ def main():
     )
 
     # Load seeds and pre-compute seed centroids (used by WEAT, CEAT, CEAT-full)
-    auto_neg_frames, auto_pos_frames = _load_seeds(project_dir)
+    auto_neg_frames, auto_pos_frames, review_pos_frames, review_neg_frames, blacklist_terms = _load_seeds(project_dir)
     seed_neg_terms, seed_pos_terms = _load_seed_sentences(project_dir)
     anchor_neg, anchor_pos = _load_anchors(project_dir)
     seed_neg_centroid, seed_pos_centroid = _encode_seed_centroids(
         sentence_encoder, seed_neg_terms, seed_pos_terms
     )
 
-    existing_frames = auto_neg_frames | auto_pos_frames
+    existing_frames = auto_neg_frames | auto_pos_frames | review_pos_frames | review_neg_frames | blacklist_terms
     candidates = _find_candidates(association_scores, top_n=FRAME_REFRESH_TOP_N, existing_frames=existing_frames)
     neg_frames, pos_frames, annotated_candidates = _refresh_frame_inventory(
         project_dir,
@@ -894,12 +1004,16 @@ def main():
         auto_pos_frames,
         anchor_neg,
         anchor_pos,
+        review_pos_frames,
+        review_neg_frames,
+        blacklist_terms,
     )
     n_auto_neg = len(neg_frames - auto_neg_frames)
     n_auto_pos = len(pos_frames - auto_pos_frames)
     print(
         f"Candidate terms refreshed: {len(annotated_candidates)} total, "
-        f"{n_auto_neg} auto-negative, {n_auto_pos} auto-positive"
+        f"{n_auto_neg} auto-negative, {n_auto_pos} auto-positive, "
+        f"{len(review_pos_frames)} review-positive, {len(review_neg_frames)} review-negative"
     )
     frame_atti_scores = compute_frame_attitude_indices(
         processed,
