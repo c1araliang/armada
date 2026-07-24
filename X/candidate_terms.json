@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-07-07",
+  "last_updated": "2026-07-23",
   "note": "Current-run candidate frame suggestions derived from sentence-level LLR/LogDice using seed frame prototypes; admission is gated by both sentence-level and anchor-level (sentiment) cosine.",
   "seed_negative_terms": [
     "a terrible war",
@@ -2143,6 +2143,33 @@
       "used_in_frame_inventory": false
     },
     {
+      "term": "war",
+      "minority_llr": 8.858,
+      "minority_logdice": 9.001,
+      "dominant_llr": 57.373,
+      "dominant_logdice": 9.857,
+      "differential": -48.514,
+      "found_with": [
+        "african",
+        "american",
+        "arab",
+        "european",
+        "german",
+        "greek",
+        "indian",
+        "muslim",
+        "palestinian",
+        "russian"
+      ],
+      "frame_neg_sim": 0.8509,
+      "frame_pos_sim": 0.6411,
+      "anchor_neg_sim": 0.6636,
+      "anchor_pos_sim": 0.6317,
+      "suggested_frame_sign": -1,
+      "suggested_frame_bucket": "negative",
+      "used_in_frame_inventory": true
+    },
+    {
       "term": "enforcement",
       "minority_llr": 56.751,
       "minority_logdice": 8.0,
@@ -2364,23 +2391,27 @@
       "used_in_frame_inventory": false
     },
     {
-      "term": "belief",
-      "minority_llr": 50.014,
-      "minority_logdice": 8.584,
-      "dominant_llr": 3.652,
-      "dominant_logdice": 6.164,
-      "differential": 46.362,
+      "term": "violence",
+      "minority_llr": 50.105,
+      "minority_logdice": 9.346,
+      "dominant_llr": 25.137,
+      "dominant_logdice": 6.444,
+      "differential": 24.968,
       "found_with": [
+        "african",
         "american",
-        "muslim"
+        "black",
+        "muslim",
+        "palestinian",
+        "white"
       ],
-      "frame_neg_sim": 0.5534,
-      "frame_pos_sim": 0.6575,
-      "anchor_neg_sim": 0.606,
-      "anchor_pos_sim": 0.6356,
-      "suggested_frame_sign": 1,
-      "suggested_frame_bucket": "positive",
-      "used_in_frame_inventory": false
+      "frame_neg_sim": 0.8468,
+      "frame_pos_sim": 0.6218,
+      "anchor_neg_sim": 0.6529,
+      "anchor_pos_sim": 0.6149,
+      "suggested_frame_sign": -1,
+      "suggested_frame_bucket": "negative",
+      "used_in_frame_inventory": true
     },
     {
       "term": "area",
@@ -5445,6 +5476,25 @@
       "used_in_frame_inventory": false
     },
     {
+      "term": "violent",
+      "minority_llr": 22.778,
+      "minority_logdice": 7.797,
+      "dominant_llr": 0.084,
+      "dominant_logdice": 6.17,
+      "differential": 22.695,
+      "found_with": [
+        "american",
+        "muslim"
+      ],
+      "frame_neg_sim": 0.7937,
+      "frame_pos_sim": 0.6455,
+      "anchor_neg_sim": 0.6976,
+      "anchor_pos_sim": 0.6224,
+      "suggested_frame_sign": -1,
+      "suggested_frame_bucket": "negative",
+      "used_in_frame_inventory": true
+    },
+    {
       "term": "presidential",
       "minority_llr": 0.0,
       "minority_logdice": 0.0,
@@ -5761,25 +5811,6 @@
       "anchor_pos_sim": 0.5483,
       "suggested_frame_sign": 0,
       "suggested_frame_bucket": "neutral",
-      "used_in_frame_inventory": false
-    },
-    {
-      "term": "arrive",
-      "minority_llr": 2.975,
-      "minority_logdice": 7.78,
-      "dominant_llr": 20.335,
-      "dominant_logdice": 6.218,
-      "differential": -17.359,
-      "found_with": [
-        "african",
-        "american"
-      ],
-      "frame_neg_sim": 0.6174,
-      "frame_pos_sim": 0.6962,
-      "anchor_neg_sim": 0.5436,
-      "anchor_pos_sim": 0.6063,
-      "suggested_frame_sign": 1,
-      "suggested_frame_bucket": "positive",
       "used_in_frame_inventory": false
     },
     {
@@ -6813,24 +6844,6 @@
       "frame_pos_sim": 0.6031,
       "anchor_neg_sim": 0.7042,
       "anchor_pos_sim": 0.636,
-      "suggested_frame_sign": 0,
-      "suggested_frame_bucket": "neutral",
-      "used_in_frame_inventory": false
-    },
-    {
-      "term": "historically",
-      "minority_llr": 17.564,
-      "minority_logdice": 7.321,
-      "dominant_llr": 0.0,
-      "dominant_logdice": 0.0,
-      "differential": 17.564,
-      "found_with": [
-        "black"
-      ],
-      "frame_neg_sim": 0.6457,
-      "frame_pos_sim": 0.6042,
-      "anchor_neg_sim": 0.6069,
-      "anchor_pos_sim": 0.6175,
       "suggested_frame_sign": 0,
       "suggested_frame_bucket": "neutral",
       "used_in_frame_inventory": false

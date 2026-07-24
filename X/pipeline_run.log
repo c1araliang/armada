@@ -2810,3 +2810,226 @@ Batches: 100%|██████████████████████
 → output_results.tsv
 → output_review.tsv
 → group_stats.tsv
+
+============================================================
+=== ARMADA Pipeline Run: 2026-07-22 16:34:14 ===
+============================================================
+
+Loading spaCy model...
+Active extraction labels loaded: 27 tokens from active_labels.json
+Loading sentence encoder (GTE ModernBERT)...
+  analysis device: mps
+  analysis embedding batch: 256
+  CEAT-full mode: reported
+Loading SRL role labeler...
+Loading attitudinal prototype matcher...
+Reading input from: /Users/l/projects/dolma/semantic_filter_results.tsv
+Preprocessing cache hit — loaded 41418 parsed sentences.
+Preprocessed 41418 sentences.
+SRL cache hit — loaded 41418 extraction results.
+Target tokens in 39498/41418 sentences.
+
+Discourse association written to: association_discourse.tsv (sentence-level, min pair count = 18, min distance = 2)
+  Loaded from candidate_terms.json: 42 neg frames, 6 pos frames, 14 review pos, 0 review neg, 4 blacklisted
+
+============================================================
+  PROPOSED NEW AUTO-ADMISSIONS
+============================================================
+  Proposed Auto-Negatives: []
+  Proposed Auto-Positives: []
+============================================================
+  Do you want to review/override any of these terms? (y/n):   Enter term to review:   ❌ Error: Term 'war' not found in candidates database.
+
+============================================================
+  PROPOSED NEW AUTO-ADMISSIONS
+============================================================
+  Proposed Auto-Negatives: []
+  Proposed Auto-Positives: []
+============================================================
+  Do you want to review/override any of these terms? (y/n): Candidate terms refreshed: 300 total, 0 auto-negative, 0 auto-positive, 14 review-positive, 0 review-negative
+
+============================================================
+=== ARMADA Pipeline Run: 2026-07-23 15:01:35 ===
+============================================================
+
+Loading spaCy model...
+Active extraction labels loaded: 27 tokens from active_labels.json
+Loading sentence encoder (GTE ModernBERT)...
+  analysis device: mps
+  analysis embedding batch: 256
+  CEAT-full mode: reported
+Loading SRL role labeler...
+Loading attitudinal prototype matcher...
+Reading input from: /Users/l/projects/dolma/semantic_filter_results.tsv
+Preprocessing cache hit — loaded 41418 parsed sentences.
+Preprocessed 41418 sentences.
+SRL cache hit — loaded 41418 extraction results.
+Target tokens in 39498/41418 sentences.
+
+Discourse association written to: association_discourse.tsv (sentence-level, min pair count = 18, min distance = 2)
+  Loaded from candidate_terms.json: 39 neg frames, 6 pos frames, 14 review pos, 0 review neg, 4 blacklisted
+
+============================================================
+  PROPOSED NEW AUTO-ADMISSIONS
+============================================================
+  Proposed Auto-Negatives: ['violence', 'violent', 'war']
+  Proposed Auto-Positives: []
+============================================================
+  Do you want to review/override any of these terms? (y/n):   Enter term to review: 
+  Candidate Entry Details for 'war':
+    Suggested bucket:     negative
+    Found with targets:   ['african', 'american', 'arab', 'european', 'german', 'greek', 'indian', 'muslim', 'palestinian', 'russian']
+    Minority LLR/LogDice: 8.86 / 9.0010
+    Dominant LLR/LogDice: 57.37 / 9.8570
+    GTE Sim:              neg=0.851, pos=0.641
+    Anchors:              neg=0.664, pos=0.632
+    Action: Admit to auto [a], Quarantine/Review [r], Skip/Blacklist [s]? (a/r/s):     Admitted 'war' to proposed list.
+
+============================================================
+  PROPOSED NEW AUTO-ADMISSIONS
+============================================================
+  Proposed Auto-Negatives: ['violence', 'violent', 'war']
+  Proposed Auto-Positives: []
+============================================================
+  Do you want to review/override any of these terms? (y/n):     New auto-negative: ['violence', 'violent', 'war']
+Candidate terms refreshed: 300 total, 3 auto-negative, 0 auto-positive, 14 review-positive, 0 review-negative
+Batches:   0%|                                                                                                                    | 0/46 [00:00<?, ?it/s]Batches:   2%|██▎                                                                                                         | 1/46 [00:08<06:13,  8.29s/it]Batches:   4%|████▋                                                                                                       | 2/46 [00:11<04:03,  5.53s/it]Batches:   7%|███████                                                                                                     | 3/46 [00:15<03:15,  4.54s/it]Batches:   9%|█████████▍                                                                                                  | 4/46 [00:18<02:46,  3.96s/it]Batches:  11%|███████████▋                                                                                                | 5/46 [00:21<02:25,  3.56s/it]Batches:  13%|██████████████                                                                                              | 6/46 [00:23<02:06,  3.16s/it]Batches:  15%|████████████████▍                                                                                           | 7/46 [00:25<01:52,  2.89s/it]Batches:  17%|██████████████████▊                                                                                         | 8/46 [00:28<01:42,  2.71s/it]Batches:  20%|█████████████████████▏                                                                                      | 9/46 [00:30<01:36,  2.61s/it]Batches:  22%|███████████████████████▎                                                                                   | 10/46 [00:33<01:32,  2.58s/it]Batches:  24%|█████████████████████████▌                                                                                 | 11/46 [00:35<01:29,  2.54s/it]Batches:  26%|███████████████████████████▉                                                                               | 12/46 [00:37<01:22,  2.41s/it]Batches:  28%|██████████████████████████████▏                                                                            | 13/46 [00:39<01:16,  2.31s/it]Batches:  30%|████████████████████████████████▌                                                                          | 14/46 [00:42<01:13,  2.30s/it]Batches:  33%|██████████████████████████████████▉                                                                        | 15/46 [00:44<01:12,  2.34s/it]Batches:  35%|█████████████████████████████████████▏                                                                     | 16/46 [00:46<01:07,  2.25s/it]Batches:  37%|███████████████████████████████████████▌                                                                   | 17/46 [00:48<01:02,  2.14s/it]Batches:  39%|█████████████████████████████████████████▊                                                                 | 18/46 [00:50<00:57,  2.05s/it]Batches:  41%|████████████████████████████████████████████▏                                                              | 19/46 [00:52<00:54,  2.00s/it]Batches:  43%|██████████████████████████████████████████████▌                                                            | 20/46 [00:53<00:50,  1.95s/it]Batches:  46%|████████████████████████████████████████████████▊                                                          | 21/46 [00:55<00:49,  1.97s/it]Batches:  48%|███████████████████████████████████████████████████▏                                                       | 22/46 [00:57<00:46,  1.92s/it]Batches:  50%|█████████████████████████████████████████████████████▌                                                     | 23/46 [00:59<00:43,  1.87s/it]Batches:  52%|███████████████████████████████████████████████████████▊                                                   | 24/46 [01:01<00:41,  1.90s/it]Batches:  54%|██████████████████████████████████████████████████████████▏                                                | 25/46 [01:03<00:37,  1.79s/it]Batches:  57%|████████████████████████████████████████████████████████████▍                                              | 26/46 [01:04<00:34,  1.75s/it]Batches:  59%|██████████████████████████████████████████████████████████████▊                                            | 27/46 [01:06<00:31,  1.66s/it]Batches:  61%|█████████████████████████████████████████████████████████████████▏                                         | 28/46 [01:07<00:28,  1.61s/it]Batches:  63%|███████████████████████████████████████████████████████████████████▍                                       | 29/46 [01:09<00:27,  1.62s/it]Batches:  65%|█████████████████████████████████████████████████████████████████████▊                                     | 30/46 [01:10<00:24,  1.56s/it]Batches:  67%|████████████████████████████████████████████████████████████████████████                                   | 31/46 [01:12<00:23,  1.56s/it]Batches:  70%|██████████████████████████████████████████████████████████████████████████▍                                | 32/46 [01:13<00:21,  1.50s/it]Batches:  72%|████████████████████████████████████████████████████████████████████████████▊                              | 33/46 [01:15<00:19,  1.48s/it]Batches:  74%|███████████████████████████████████████████████████████████████████████████████                            | 34/46 [01:16<00:17,  1.45s/it]Batches:  76%|█████████████████████████████████████████████████████████████████████████████████▍                         | 35/46 [01:17<00:14,  1.36s/it]Batches:  78%|███████████████████████████████████████████████████████████████████████████████████▋                       | 36/46 [01:18<00:12,  1.26s/it]Batches:  80%|██████████████████████████████████████████████████████████████████████████████████████                     | 37/46 [01:19<00:10,  1.22s/it]Batches:  83%|████████████████████████████████████████████████████████████████████████████████████████▍                  | 38/46 [01:20<00:09,  1.15s/it]Batches:  85%|██████████████████████████████████████████████████████████████████████████████████████████▋                | 39/46 [01:22<00:08,  1.19s/it]Batches:  87%|█████████████████████████████████████████████████████████████████████████████████████████████              | 40/46 [01:23<00:06,  1.13s/it]Batches:  89%|███████████████████████████████████████████████████████████████████████████████████████████████▎           | 41/46 [01:23<00:05,  1.05s/it]Batches:  91%|█████████████████████████████████████████████████████████████████████████████████████████████████▋         | 42/46 [01:24<00:04,  1.01s/it]Batches:  93%|████████████████████████████████████████████████████████████████████████████████████████████████████       | 43/46 [01:25<00:02,  1.04it/s]Batches:  96%|██████████████████████████████████████████████████████████████████████████████████████████████████████▎    | 44/46 [01:26<00:01,  1.09it/s]Batches:  98%|████████████████████████████████████████████████████████████████████████████████████████████████████████▋  | 45/46 [01:27<00:00,  1.12it/s]Batches: 100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████| 46/46 [01:27<00:00,  1.46it/s]Batches: 100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████| 46/46 [01:27<00:00,  1.90s/it]
+Computing CEAT-full from sampled lexical hits: reported groups only (N >= 50)...
+  CEAT-full cache hit — loaded 27 group scores.
+  CEAT-full computed for 27 groups, Δ-CEAT for 27
+
+================================================================================
+  WEAT / CEAT SCORES  (>0 = closer to F⁻ than F⁺, N >= 50)
+================================================================================
+  Lemma                     WEAT       CEAT     CEAT-f     Δ-CEAT     N
+  ----------------------------------------------------------------------
+  american               -0.0367    +0.0033    -0.0130    -0.0163   500
+  black                  +0.0155    +0.0288    -0.0038    -0.0326   500
+  white                  -0.0479    +0.0296    -0.0155    -0.0451   500
+  muslim                 -0.0149    +0.0279    +0.0173    -0.0106   500
+  african                +0.0074    +0.0108    -0.0129    -0.0237   500
+  indian                 +0.0035    +0.0088    -0.0193    -0.0281   500
+  palestinian            +0.0350    +0.0399    +0.0291    -0.0108   500
+  canadian               -0.0274    -0.0180    -0.0218    -0.0038   500
+  european               -0.0016    +0.0030    -0.0117    -0.0147   500
+  german                 +0.0008    +0.0148    -0.0089    -0.0237   500
+  asian                  -0.0046    -0.0040    -0.0204    -0.0164   500
+  australian             -0.0100    -0.0209    -0.0280    -0.0071   500
+  russian                +0.0186    +0.0203    +0.0028    -0.0175   500
+  chinese                -0.0110    +0.0016    -0.0133    -0.0149   500
+  greek                  +0.0020    +0.0049    -0.0174    -0.0223   500
+  arab                   +0.0135    +0.0296    -0.0027    -0.0323   500
+  indigenous             +0.0149    +0.0100    -0.0081    -0.0181   500
+  jewish                 -0.0181    +0.0134    -0.0040    -0.0174   500
+  british                -0.0379    +0.0025    -0.0132    -0.0157   500
+  italian                -0.0032    -0.0111    -0.0279    -0.0168   500
+  korean                 -0.0128    +0.0025    -0.0157    -0.0182   500
+  french                 -0.0195    -0.0081    -0.0224    -0.0143   500
+  mexican                +0.0107    +0.0276    -0.0062    -0.0338   500
+  western                -0.0209    -0.0002    -0.0131    -0.0129   500
+  japanese               -0.0140    -0.0050    -0.0217    -0.0167   500
+  spanish                +0.0094    -0.0039    -0.0134    -0.0095   443
+  thai                   -0.0219    -0.0178    -0.0367    -0.0189   287
+
+======================================================================
+  PER-GROUP INDICES (proportionalized, N >= 50)
+======================================================================
+  Lemma          Type        N   Subj   AgI    PI    SI    F-    F+  netAt
+  ---------------------------------------------------------------------
+  american       dominant  10350   0.45  0.17  0.32  0.21  0.08  0.03   0.05
+  black          minority  4472   0.27  0.14  0.34  0.17  0.12  0.02   0.10
+  white          dominant  3920   0.26  0.15  0.29  0.19  0.10  0.01   0.09
+  muslim         minority  3190   0.31  0.17  0.37  0.17  0.14  0.03   0.11
+  african        minority  2963   0.24  0.11  0.24  0.11  0.08  0.03   0.06
+  indian         minority  2776   0.35  0.15  0.30  0.10  0.05  0.01   0.04
+  palestinian    minority  1808   0.34  0.23  0.41  0.13  0.15  0.08   0.07
+  canadian       dominant  1681   0.41  0.14  0.32  0.13  0.04  0.04   0.00
+  european       dominant  1678   0.35  0.16  0.25  0.13  0.04  0.02   0.02
+  german         dominant  1576   0.44  0.28  0.34  0.14  0.10  0.01   0.08
+  asian          minority  1499   0.23  0.07  0.24  0.10  0.04  0.02   0.02
+  australian     dominant  1337   0.37  0.12  0.28  0.14  0.04  0.04  -0.00
+  russian        dominant  1206   0.40  0.23  0.34  0.19  0.06  0.02   0.04
+  chinese        minority  1095   0.28  0.13  0.35  0.13  0.03  0.02   0.01
+  greek          dominant  1020   0.43  0.23  0.30  0.21  0.05  0.02   0.04
+  arab           minority  935   0.31  0.19  0.29  0.10  0.12  0.04   0.08
+  indigenous     minority  913   0.21  0.12  0.27  0.10  0.06  0.06   0.01
+  jewish         dominant  902   0.24  0.13  0.36  0.13  0.05  0.04   0.01
+  british        dominant  827   0.28  0.16  0.27  0.12  0.05  0.03   0.02
+  italian        dominant  744   0.38  0.15  0.28  0.15  0.03  0.01   0.03
+  korean         minority  707   0.40  0.17  0.34  0.18  0.05  0.03   0.02
+  french         dominant  682   0.24  0.11  0.32  0.10  0.02  0.01   0.01
+  mexican        minority  650   0.33  0.19  0.37  0.13  0.04  0.02   0.02
+  western        dominant  625   0.20  0.10  0.33  0.13  0.04  0.01   0.02
+  japanese       minority  516   0.25  0.11  0.29  0.13  0.09  0.00   0.09
+  spanish        minority  443   0.19  0.12  0.35  0.06  0.04  0.01   0.04
+  thai           minority  287   0.37  0.16  0.31  0.20  0.08  0.02   0.07
+
+============================================================
+  EFI (PCA)  —  PC1 explains 41.9% and PC2 explains 22.8% of variance (groups with N >= 50)
+============================================================
+  PC1 loadings (axis of largest cross-group variance):
+    ceat       +0.518  ++++++++++
+    AGI        +0.491  +++++++++
+    net_atti   +0.433  ++++++++
+    PI         +0.402  ++++++++
+    weat       +0.281  +++++
+    SI         +0.249  ++++
+
+  PC2 loadings (largest variance orthogonal to PC1):
+    SI         +0.707  ++++++++++++++
+    weat       -0.644  ------------
+    ceat       -0.205  ----
+    AGI        +0.146  ++
+    net_atti   +0.141  ++
+    PI         -0.055  -
+
+  EFI scores (PC1 / PC2):
+    [T] palestinian      PC1=+3.808  PC2=-1.770
+    [C] german           PC1=+2.516  PC2=+0.160
+    [T] muslim           PC1=+2.422  PC2=+0.908
+    [C] russian          PC1=+2.198  PC2=+0.146
+    [T] black            PC1=+2.009  PC2=-0.285
+    [T] mexican          PC1=+1.436  PC2=-1.104
+    [T] arab             PC1=+1.408  PC2=-1.347
+    [C] greek            PC1=+1.104  PC2=+1.371
+    [C] white            PC1=+0.760  PC2=+2.208
+    [T] korean           PC1=+0.232  PC2=+1.013
+    [C] american         PC1=+0.104  PC2=+2.365
+    [T] indian           PC1=-0.272  PC2=-1.086
+    [C] jewish           PC1=-0.304  PC2=-0.181
+    [T] thai             PC1=-0.347  PC2=+2.059
+    [T] chinese          PC1=-0.599  PC2=-0.155
+    [T] japanese         PC1=-0.717  PC2=+0.248
+    [T] spanish          PC1=-0.803  PC2=-2.120
+    [T] african          PC1=-0.875  PC2=-1.086
+    [C] european         PC1=-0.998  PC2=-0.320
+    [C] italian          PC1=-1.104  PC2=+0.277
+    [T] indigenous       PC1=-1.223  PC2=-1.801
+    [C] western          PC1=-1.323  PC2=+0.038
+    [C] british          PC1=-1.337  PC2=+0.741
+    [C] french           PC1=-1.717  PC2=-0.309
+    [C] canadian         PC1=-1.841  PC2=+0.559
+    [C] australian       PC1=-2.160  PC2=+0.296
+    [T] asian            PC1=-2.376  PC2=-0.826
+
+============================================================
+  REGRESSION: WEAT ~ AgI + PI + SI + frame-netAttI  (n=27, R²=0.3106)
+============================================================
+  intercept: -0.0128
+  β(AGI): +0.1929
+  β(PI): +0.0346
+  β(SI): -0.2622
+  β(net_atti): +0.0597
+
+============================================================
+  REGRESSION: CEAT ~ AgI + PI + SI + frame-netAttI  (n=27, R²=0.4953)
+============================================================
+  intercept: -0.0341
+  β(AGI): +0.1028
+  β(PI): +0.0868
+  β(SI): -0.0899
+  β(net_atti): +0.2497
+
+→ output_results.tsv
+→ output_review.tsv
+→ group_stats.tsv
