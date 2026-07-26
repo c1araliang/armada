@@ -73,7 +73,7 @@ ANALYSIS_MIN_GROUP_COUNT = 50
 REPORT_MIN_GROUP_COUNT = 50
 FRAME_REFRESH_TOP_N = 300
 FRAME_SIM_FLOOR = 0.55
-FRAME_SIM_MARGIN = 0.06   # sentence-tier margin; raised from 0.04 because anchor tier is now direction-only
+FRAME_SIM_MARGIN = 0.06   # sentence-tier margin; raised from 0.04 to match two-tier directional margins
 
 
 def _env_int(name: str, default: int) -> int:
@@ -735,6 +735,10 @@ def _compute_efi(group_profiles: list[dict]) -> dict:
     if pca.n_components_ >= 2:
         pc2 = pca.components_[1]
         pc2_scores = scores[:, 1]
+        # Deterministic sign calibration: lock PC2 so WEAT is positive and SI is negative
+        if pc2[dims.index("weat")] < 0:
+            pc2 = -pc2
+            pc2_scores = -pc2_scores
         pc2_loadings = dict(zip(dims, pc2.round(3)))
         pc2_var = round(pca.explained_variance_ratio_[1], 3)
     else:

@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-07-23",
+  "last_updated": "2026-07-26",
   "note": "Current-run candidate frame suggestions derived from sentence-level LLR/LogDice using seed frame prototypes; admission is gated by both sentence-level and anchor-level (sentiment) cosine.",
   "seed_negative_terms": [
     "a terrible war",
@@ -2143,33 +2143,6 @@
       "used_in_frame_inventory": false
     },
     {
-      "term": "war",
-      "minority_llr": 8.858,
-      "minority_logdice": 9.001,
-      "dominant_llr": 57.373,
-      "dominant_logdice": 9.857,
-      "differential": -48.514,
-      "found_with": [
-        "african",
-        "american",
-        "arab",
-        "european",
-        "german",
-        "greek",
-        "indian",
-        "muslim",
-        "palestinian",
-        "russian"
-      ],
-      "frame_neg_sim": 0.8509,
-      "frame_pos_sim": 0.6411,
-      "anchor_neg_sim": 0.6636,
-      "anchor_pos_sim": 0.6317,
-      "suggested_frame_sign": -1,
-      "suggested_frame_bucket": "negative",
-      "used_in_frame_inventory": true
-    },
-    {
       "term": "enforcement",
       "minority_llr": 56.751,
       "minority_logdice": 8.0,
@@ -2389,29 +2362,6 @@
       "suggested_frame_sign": 0,
       "suggested_frame_bucket": "neutral",
       "used_in_frame_inventory": false
-    },
-    {
-      "term": "violence",
-      "minority_llr": 50.105,
-      "minority_logdice": 9.346,
-      "dominant_llr": 25.137,
-      "dominant_logdice": 6.444,
-      "differential": 24.968,
-      "found_with": [
-        "african",
-        "american",
-        "black",
-        "muslim",
-        "palestinian",
-        "white"
-      ],
-      "frame_neg_sim": 0.8468,
-      "frame_pos_sim": 0.6218,
-      "anchor_neg_sim": 0.6529,
-      "anchor_pos_sim": 0.6149,
-      "suggested_frame_sign": -1,
-      "suggested_frame_bucket": "negative",
-      "used_in_frame_inventory": true
     },
     {
       "term": "area",
@@ -5476,25 +5426,6 @@
       "used_in_frame_inventory": false
     },
     {
-      "term": "violent",
-      "minority_llr": 22.778,
-      "minority_logdice": 7.797,
-      "dominant_llr": 0.084,
-      "dominant_logdice": 6.17,
-      "differential": 22.695,
-      "found_with": [
-        "american",
-        "muslim"
-      ],
-      "frame_neg_sim": 0.7937,
-      "frame_pos_sim": 0.6455,
-      "anchor_neg_sim": 0.6976,
-      "anchor_pos_sim": 0.6224,
-      "suggested_frame_sign": -1,
-      "suggested_frame_bucket": "negative",
-      "used_in_frame_inventory": true
-    },
-    {
       "term": "presidential",
       "minority_llr": 0.0,
       "minority_logdice": 0.0,
@@ -6844,6 +6775,86 @@
       "frame_pos_sim": 0.6031,
       "anchor_neg_sim": 0.7042,
       "anchor_pos_sim": 0.636,
+      "suggested_frame_sign": 0,
+      "suggested_frame_bucket": "neutral",
+      "used_in_frame_inventory": false
+    },
+    {
+      "term": "historically",
+      "minority_llr": 17.564,
+      "minority_logdice": 7.321,
+      "dominant_llr": 0.0,
+      "dominant_logdice": 0.0,
+      "differential": 17.564,
+      "found_with": [
+        "black"
+      ],
+      "frame_neg_sim": 0.6457,
+      "frame_pos_sim": 0.6042,
+      "anchor_neg_sim": 0.6069,
+      "anchor_pos_sim": 0.6175,
+      "suggested_frame_sign": 0,
+      "suggested_frame_bucket": "neutral",
+      "used_in_frame_inventory": false
+    },
+    {
+      "term": "first",
+      "minority_llr": 6.735,
+      "minority_logdice": 8.98,
+      "dominant_llr": 17.555,
+      "dominant_logdice": 9.425,
+      "differential": -10.82,
+      "found_with": [
+        "african",
+        "american",
+        "arab",
+        "asian",
+        "australian",
+        "black",
+        "british",
+        "canadian",
+        "chinese",
+        "european",
+        "french",
+        "german",
+        "greek",
+        "indian",
+        "indigenous",
+        "italian",
+        "jewish",
+        "korean",
+        "muslim",
+        "palestinian",
+        "russian",
+        "white"
+      ],
+      "frame_neg_sim": 0.6103,
+      "frame_pos_sim": 0.6545,
+      "anchor_neg_sim": 0.6178,
+      "anchor_pos_sim": 0.6707,
+      "suggested_frame_sign": 0,
+      "suggested_frame_bucket": "neutral",
+      "used_in_frame_inventory": false
+    },
+    {
+      "term": "medium",
+      "minority_llr": 17.524,
+      "minority_logdice": 8.877,
+      "dominant_llr": 1.157,
+      "dominant_logdice": 8.197,
+      "differential": 16.366,
+      "found_with": [
+        "african",
+        "american",
+        "black",
+        "muslim",
+        "palestinian",
+        "white"
+      ],
+      "frame_neg_sim": 0.5956,
+      "frame_pos_sim": 0.6245,
+      "anchor_neg_sim": 0.5895,
+      "anchor_pos_sim": 0.6221,
       "suggested_frame_sign": 0,
       "suggested_frame_bucket": "neutral",
       "used_in_frame_inventory": false

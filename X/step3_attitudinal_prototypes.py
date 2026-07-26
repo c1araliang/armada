@@ -24,14 +24,13 @@ hand-written sentences that together cover:
   - SI:  attributed mindedness, inner consciousness, and autonomous feeling,
          held internally and/or shown outwardly.
 
-The first sentence of each dimensional list is the ruling definition (AGI / PI
-parallel: "They are agents bringing about ..." / "They are patients being
-affected ..."). The remaining paraphrases diversify surface
-form: tense (present, past, present-perfect-progressive), aspect, voice
-(active, passive, mixed, embedded passive in active main clause), gender (he,
-she, none), and number (plural `they`, singular he/she, collective `the
-group`). Each list deliberately includes both pleasant and unpleasant
-outcomes so dimensional similarity does not collapse into evaluative polarity
+The first sentence of each dimensional list is the ruling definition. 
+The remaining paraphrases diversify surface form: tense (present, past, 
+present-perfect-progressive), aspect, voice (active, passive, mixed, 
+embedded passive in active main clause), gender (he,she, none), a
+nd number (plural `they`, singular he/she, collective `the group`). 
+Each list deliberately includes both pleasant and unpleasant outcomes 
+so dimensional similarity does not collapse into evaluative polarity
 (e.g., PI ≠ negAttI; AGI ≠ posAttI).
 
 A bare verb-grid was tried earlier and removed: attaching specific verbs

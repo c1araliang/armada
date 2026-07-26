@@ -134,3 +134,6 @@ tags:
 2026-07-17: @group Overhaulling final section [Bias as a Linguistic Problem] to compress grounding taxonomy, integrate missing literature, and align citations with Zotero keys.
 
 2026-07-20: @milestone July 26 THREE graphs added to AACL SRW full paper/thesis proposal; section reordered, redundant subsection cleaned.
+
+2026-07-26: Audited paper text, AGENTS.md, and codebase comments for PI prototype confirmation rules, REVIEW_MARGIN_MIN review routing, and ModernBERT fine screening thresholds.
+2026-07-26: Standardized PC2 sign calibration in pipeline to WEAT(+)/SI(-) orientation; updated group_stats.tsv, Table 2 in cache.tex (adding CEAT-full and Δ-CEAT), and tracker.md.

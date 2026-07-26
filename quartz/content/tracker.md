@@ -16,7 +16,7 @@ tags:
 |**Extraction gate**|Two-lane (STRICT + STRONG_MARGIN) margin-only gate; classifier removed after ablation showed 37% recall loss vs. ~6% precision gain. Phase 2 mention resolution provides the second filter.|
 |**Mention layer**|Keyword extraction + inanimate suppression. `resolve_group_token()` simplified to ~100 lines; no resolver, no AMBIGUOUS/STRONG/DUAL branching. Civic tokens removed from demographic sets. Phase 1 re-extraction needed.|
 |**Frame auto-admission**|Open. Auto-admission can overfire on generic discourse words; human review of `candidate_terms.json` remains needed.|
-|**AgI/PI/SI hard cases**|Substantially addressed. Subjecthood separated from AgI; all three dimensions now require prototype confirmation (`DIM_MARGIN=0.04`); negation-scope blocking suppresses role assignment when the governing predicate is negated; PI is symmetric with AgI (structural evidence alone no longer sufficient). Embedded clauses and cross-sentence coreference still need validation.|
+|**AgI/PI/SI hard cases**|Substantially addressed. Subjecthood separated from AgI; AgI on SRL ARG0 requires prototype confirmation to filter unaccusative verbs; PI fires directly on primary syntactic paths (SRL patient, dobj, nsubjpass, pcomp-passive) with prototype disagreement logged as review flags, while pobj (recipient/deprivation) and relcl object-of-belief paths require prototype confirmation; negation-scope blocking suppresses role assignment when the governing predicate is negated. Embedded clauses and cross-sentence coreference still need validation.|
 |**Local prototype AttI**|Resolved as a reported-metric issue. It is diagnostic only; reported `netAttI` now comes from frame association.|
 |**Scope/discourse flags**|Implemented for review routing and now also for role suppression. Negation-scope blocking prevents AgI/PI/SI assignment when the governing predicate is negated; frame-AttI scope blocking prevents negated/corrected frame terms from counting. Correction/denial, quotation, reported speech, contrast, and multi-group flags still route to review only.|
 |**Duplicate sentence exports**|Low impact. Some sentences enter `semantic_filter_results.tsv` through multiple group triggers; negligible at sample scale but can be deduplicated later if it complicates review.|
@@ -424,5 +424,13 @@ Effect: `black players` in "racially abusing black players" now resolves `[PRED:
 - **Diagnostics verified**: LOO sensitivity shows that omitting `palestinian` causes a minor PC2 similarity drop (cosine similarity $= 0.9456$) and `white` causes $0.9617$, while all other group removals keep PC2 similarity $> 0.990$. Bartlett's sphericity test remains highly significant ($\chi^2 = 39.43, p = 0.00055$), and Tucker's Congruence coefficient with maximum-likelihood factor analysis is $\phi = 0.9389$ (fair-to-good replication).
 - **CEAT uncertainty propagation**: Monte Carlo propagation of CEAT standard errors yields a PC2 SI loading MC SE of $0.0048$ (95\% CI $[0.695, 0.714]$) and WEAT loading MC SE of $0.0150$ (95\% CI $[-0.671, -0.613]$), confirming that the PC2 axis is highly robust.
 - **Outputs**: All stability output files (`bootstrap_results.tsv`, `loo_sensitivity_results.txt`, `cross_chunk_stability.tsv`, `scaling_sensitivity.tsv`, `factor_analysis_comparison.txt`, `ceat_uncertainty_propagation.tsv`) regenerated and aligned with the 4-shard data run.
+
+### 2026-07-26
+
+72. **Deterministic PC2 Sign Calibration & Table 2 Expansion**
+- **Deterministic Sign Calibration**: Added post-hoc SVD sign calibration in `_compute_efi` (`X/run_pipeline.py`). PC2 is locked deterministically across SVD solvers so that WEAT loading is always positive ($+0.637$) and SI loading is always negative ($-0.626$).
+- **Table 2 & group_stats Sync**: Added `CEAT-full` and `\Delta-CEAT` columns to Table 2 (`tab:group_profiles`) in `cache.tex` (now 14 columns). Populated all placeholder fields in `X/group_stats.tsv` with full values from `pipeline_run.log`.
+- **Plotting & Paper Text**: Regenerated `pca_dumbbell_dual_panel` and `pca_biplot_2d` with standard `ascending=True` sorting. Updated Section 3.1 and 3.2 text to align with the calibrated WEAT(+)/SI(-) loadings and scores (`indigenous` $+2.233$ at positive extreme, `american` $-2.264$ at negative extreme).
+
 
 

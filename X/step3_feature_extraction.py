@@ -355,7 +355,7 @@ def extract_roles(doc, doc_id: int | None = None) -> list[dict]:
         # Each dim is checked against its own floor (no winner-take-all).
         # SRL/dep evidence is now the primary syntactic source for AgI and
         # PI; the prototype gate is only required where syntactic evidence
-        # is weaker (nsubj-only AgI, affected-subject PI, all SI).
+        # is weaker (nsubj-only AgI, prepositional/relative-clause PI, all SI).
         agi_passes = _dim_passes(agi_sim, AGI_FLOOR)
         pi_passes  = _dim_passes(pi_sim,  PI_FLOOR)
         si_passes  = _dim_passes(si_sim,  SI_FLOOR)
@@ -409,12 +409,13 @@ def extract_roles(doc, doc_id: int | None = None) -> list[dict]:
                     roles.append("AgI")
 
             # ── PI ──
-            # SRL PATIENT_LABELS, dobj, nsubjpass and pcomp-passive are direct
-            # syntactic evidence of patient role and are trusted on their own.
-            # Prototype disagreement is recorded as a flag, not a veto, because
-            # PI prototype is biased toward unaccusative/passive surface and
-            # systematically loses to AGI on active-transitive `B verbs A`
-            # constructions even when A is the patient.
+            # Direct syntactic paths (SRL PATIENT_LABELS, dobj, nsubjpass, and pcomp-passive)
+            # are direct evidence of patient role and fire without requiring prototype confirmation.
+            # Prototype disagreement is logged as a review flag (*_patient_proto_disagrees)
+            # rather than a veto.
+            # By contrast, prepositional objects (pobj recipient for/to, deprivation from)
+            # and relative-clause object-of-belief (relcl) paths strictly require prototype
+            # confirmation (pi_passes) to prevent false positives from syntactically ambiguous prepositions.
             if "PI" in srl_info["roles"]:
                 if "PI" not in roles:
                     roles.append("PI")

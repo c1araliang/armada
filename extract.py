@@ -126,8 +126,9 @@ SEMANTIC_STRONG_MARGIN = 0.10
 
 BLOCK_REFERENCE_NOISE_KEEP = True
 
-# Review threshold: rows that have a noticeable semantic signal but didn't
-# clear either lane go to review for human inspection.
+# Review threshold: non-passing sentences with main-lane semantic_margin >= 0.05
+# (or containing reference-noise flags) are routed to semantic_filter_review.tsv
+# for ModernBERT fine screening (step 5) or human inspection, rather than being discarded.
 REVIEW_MARGIN_MIN = 0.05
 
 # ── Lexical-human rescue (MiniLM) ────────────────────────────────────────────
@@ -1129,7 +1130,11 @@ def main():
         print(f"Loading analysis embedding model {ANALYSIS_EMBEDDING_MODEL} for review candidate validation...")
         mb_embedder = SentenceTransformer(ANALYSIS_EMBEDDING_MODEL, device=MODEL_DEVICE)
         
-        # Encode queries under ModernBERT
+        # Encode queries under ModernBERT (gte-modernbert-base).
+        # Note: Fine screening re-evaluates borderline review candidates against the
+        # active POS/NEG and RESCUE query sets using calibrated embedding thresholds
+        # (reusing pipeline constants SEMANTIC_STRONG_MARGIN=0.10, SEMANTIC_MIN=0.34,
+        # SEMANTIC_MARGIN_MIN=0.03, RESCUE_POS_MIN=0.25/0.32, with rp >= 0.53 margin bypass).
         mb_pos_query_emb = mb_embedder.encode(POS_QUERIES, normalize_embeddings=True)
         mb_neg_query_emb = mb_embedder.encode(NEG_QUERIES, normalize_embeddings=True)
         mb_rescue_pos_emb = mb_embedder.encode(RESCUE_POS_QUERIES, normalize_embeddings=True)
