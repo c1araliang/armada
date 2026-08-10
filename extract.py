@@ -1,15 +1,11 @@
 """
-Streaming semantic relevance filter for ARMADA.
+Streaming semantic relevance filter for bias profiling pipeline.
 
 Two-lane gate (no classifier):
 1. Lexical mention gate using the demographic lexicon (GROUP_RE).
 2. Semantic retrieval with POS/NEG query sets (MiniLM).
    - STRICT lane:        pos >= SEMANTIC_MIN AND margin >= SEMANTIC_MARGIN_MIN
    - STRONG_MARGIN lane: margin >= SEMANTIC_STRONG_MARGIN
-
-The PCA+LogReg classifier was removed 2026-05-28 after a controlled ablation
-showed it dropped 37% of true RELEVANT sentences due to training-set imbalance
-toward refugee/immigration framing. See decisions.md for the full rationale.
 """
 
 import csv
@@ -35,7 +31,6 @@ from embedding_config import (  # type: ignore
     DEFAULT_EMBEDDING_BATCH_SIZE,
     EXTRACTION_EMBEDDING_MODEL,
     EXTRACTION_EMBEDDING_PRESET,
-    EMBEDDING_MODEL_CATALOG,
 )
 from lexicons import TARGET_TOKENS, CONTRAST_TOKENS, GATE_EXCLUDE_TOKENS, HUMAN_NOUNS, INANIMATE_NOUNS  # type: ignore
 
@@ -54,7 +49,7 @@ def _env_int(name: str, default: int) -> int:
 
 
 def _select_device() -> str:
-    override = os.environ.get("ARMADA_DEVICE")
+    override = os.environ.get("PIPELINE_DEVICE")
     if override:
         return override
     if torch.cuda.is_available():
@@ -77,12 +72,11 @@ LEXICAL_ALL_FILE = PROJECT_ROOT / "dolma" / "semantic_filter_lexical_all.txt"
 # encoder because extraction is a recall-oriented corpus filter, not a reported
 # embedding-association metric.
 MODEL_PRESET = EXTRACTION_EMBEDDING_PRESET
-MODEL_CATALOG = EMBEDDING_MODEL_CATALOG
 MODEL_NAME = EXTRACTION_EMBEDDING_MODEL
 MODEL_DEVICE = _select_device()
-MAX_FILES = _env_int("ARMADA_MAX_FILES", 100)
-PARQUET_BATCH_SIZE = _env_int("ARMADA_PARQUET_BATCH_SIZE", 10_000)
-SENT_BATCH_SIZE = _env_int("ARMADA_SENT_BATCH_SIZE", 4_096)
+MAX_FILES = _env_int("PIPELINE_MAX_FILES", 100)
+PARQUET_BATCH_SIZE = _env_int("PIPELINE_PARQUET_BATCH_SIZE", 10_000)
+SENT_BATCH_SIZE = _env_int("PIPELINE_SENT_BATCH_SIZE", 4_096)
 
 
 def _default_embedding_batch_size() -> int:
@@ -96,12 +90,12 @@ def _default_embedding_batch_size() -> int:
 
 
 EMB_BATCH_SIZE = _env_int(
-    "ARMADA_EMB_BATCH_SIZE",
+    "PIPELINE_EMB_BATCH_SIZE",
     _default_embedding_batch_size(),
 )
-TORCH_THREADS = os.environ.get("ARMADA_TORCH_THREADS")
+TORCH_THREADS = os.environ.get("PIPELINE_TORCH_THREADS")
 if TORCH_THREADS:
-    torch.set_num_threads(_env_int("ARMADA_TORCH_THREADS", torch.get_num_threads()))
+    torch.set_num_threads(_env_int("PIPELINE_TORCH_THREADS", torch.get_num_threads()))
 
 MIN_SENT_LEN = 40
 MAX_SENT_LEN = 800
@@ -180,14 +174,14 @@ POS_QUERIES = [
 NEG_QUERIES = [
     "a subset of colors",
     "visa application, visa type", "a company's doing, a business, work conditions, wage, salary, employment",
-    "culture tradition, festivals, celebrations"
+    "culture tradition, festivals, celebrations",
     "folk religion practice, Christianity, Buddhism, Taoism, Hinduism, Islam",
-    "cultural-specific medical pratice or traditional medicine",
+    "cultural-specific medical practice or traditional medicine",
     "a list of countries and regions", "countries like US or European as entity or entities",
     "a list of people's names",
     "a list of languages",
-    "name of academic subject, studies, conference, association, society like like Psychological Society, Psychiatric Association, Sleep Foundation"
-    "geopolitical organization, entiy, or international body",
+    "name of academic subject, studies, conference, association, society like Psychological Society, Psychiatric Association, Sleep Foundation",
+    "geopolitical organization, entity, or international body",
     "ethnonyms such as black or white or brown used to describe colored objects or body parts or products, or as people's name",
     "weather, geopolitical or geographical locations, like black sea, italian coast, indian subcontinent",
     "language teaching or language study", "fluent in or native speaker of certain languages",
@@ -222,8 +216,7 @@ REFERENCE_NOISE_PATTERNS = [
             #   - "Proceedings of the X" (conference), not "legal proceedings"
             #   - "chapter N" or "Chapter N" (book section), not "chapter on X"
             r"\b(ISBN|DOI|Journal\s+of\s+|Proceedings\s+of\s+the\s+|"
-            r"University\s+Press|Cambridge\s+University\s+Press|"
-            r"Oxford\s+University\s+Press|Princeton\s+University\s+Press|"
+            r"University\s+Press|"
             r"Vol\.|No\.|Nr\.|"
             r"chapter\s+\d+|edited\s+by|published\s+by)\b",
             re.I,
@@ -441,7 +434,7 @@ def lexical_human_rescue(sentence: str, return_threshold: bool = False) -> str |
 
         # Rule 1c ── Singular non-color demonym used as a noun:
         # Preceded by a determiner (a, an, the, this, that, my, your, his, her, their, our) within 2 tokens,
-        # and not followed by a noun that is not human (e.g. "An American gained...", "the German who...").
+        # and not followed by a known inanimate or human head noun (e.g. "An American gained...", "the German who...").
         is_singular_noun = False
         if clean_matched not in _COLOR_GATE_TOKENS:
             has_det = False
@@ -851,9 +844,7 @@ def main():
         raise FileNotFoundError(f"No parquet files found in {DATA_DIR}")
 
     # 1. Word frequency analysis
-    import pyarrow.parquet as pq
     from collections import Counter
-    import os
 
     freq_file = PROJECT_ROOT / "dolma" / "demographic_word_counts.tsv"
 
@@ -1284,7 +1275,7 @@ def main():
 
 
     # Write the active label sets so Phase 2 can restrict mention resolution
-    # to the same top-8 target + top-8 contrast tokens used for extraction.
+    # to the same top-14 target + top-14 contrast tokens used for extraction.
     active_labels_file = PROJECT_ROOT / "dolma" / "active_labels.json"
     import json as _json
     with active_labels_file.open("w", encoding="utf-8") as _f:

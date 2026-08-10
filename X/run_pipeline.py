@@ -1,5 +1,5 @@
 """
-Pipeline Runner — ARMADA bias detection framework.
+Pipeline Runner — Bias detection framework.
 
 Outputs:
   1. Sentence-level discourse collocate discovery (target + contrast groups)
@@ -16,6 +16,7 @@ import json
 import os
 import re
 import sys
+import pickle
 import numpy as np
 from pathlib import Path
 from datetime import date
@@ -25,7 +26,6 @@ import spacy
 import torch
 from sklearn.decomposition import PCA
 from sklearn.preprocessing import StandardScaler
-from scipy import stats as sp_stats
 
 from step2_preprocessing import load_sentences, preprocess
 from step3_feature_extraction import extract_all, set_attitude_matcher, set_srl_role_labeler
@@ -90,7 +90,7 @@ def _env_int(name: str, default: int) -> int:
 
 
 def _select_analysis_device() -> str:
-    override = os.environ.get("ARMADA_ANALYSIS_DEVICE") or os.environ.get("ARMADA_DEVICE")
+    override = os.environ.get("PIPELINE_ANALYSIS_DEVICE") or os.environ.get("PIPELINE_DEVICE")
     if override:
         return override
     if torch.cuda.is_available():
@@ -102,22 +102,21 @@ def _select_analysis_device() -> str:
 
 ANALYSIS_DEVICE = _select_analysis_device()
 ANALYSIS_EMB_BATCH_SIZE = _env_int(
-    "ARMADA_ANALYSIS_EMB_BATCH_SIZE",
+    "PIPELINE_ANALYSIS_EMB_BATCH_SIZE",
     256 if ANALYSIS_DEVICE == "mps" else DEFAULT_EMBEDDING_BATCH_SIZE,
 )
 CEAT_FULL_MODE = os.environ.get(
-    "ARMADA_CEAT_FULL_MODE",
-    os.environ.get("ARMADA_SEAT_FULL_MODE", "reported"),
+    "PIPELINE_CEAT_FULL_MODE", "reported"
 ).lower()
 if CEAT_FULL_MODE not in {"reported", "all", "skip"}:
     raise ValueError(
-        "ARMADA_CEAT_FULL_MODE must be one of: reported, all, skip "
+        "PIPELINE_CEAT_FULL_MODE must be one of: reported, all, skip "
         f"(got {CEAT_FULL_MODE!r})"
     )
-CEAT_MAX_CONTEXTS_PER_GROUP = _env_int("ARMADA_CEAT_MAX_CONTEXTS_PER_GROUP", 500)
-CEAT_MIN_CONTEXTS_PER_GROUP = _env_int("ARMADA_CEAT_MIN_CONTEXTS_PER_GROUP", 10)
-CEAT_MAX_FRAME_CONTEXTS = _env_int("ARMADA_CEAT_MAX_FRAME_CONTEXTS", 1000)
-CEAT_FULL_PROGRESS_EVERY = _env_int("ARMADA_CEAT_FULL_PROGRESS_EVERY", 25_000)
+CEAT_MAX_CONTEXTS_PER_GROUP = _env_int("PIPELINE_CEAT_MAX_CONTEXTS_PER_GROUP", 500)
+CEAT_MIN_CONTEXTS_PER_GROUP = _env_int("PIPELINE_CEAT_MIN_CONTEXTS_PER_GROUP", 10)
+CEAT_MAX_FRAME_CONTEXTS = _env_int("PIPELINE_CEAT_MAX_FRAME_CONTEXTS", 1000)
+CEAT_FULL_PROGRESS_EVERY = _env_int("PIPELINE_CEAT_FULL_PROGRESS_EVERY", 25_000)
 
 
 def _excel_safe(value):
@@ -708,14 +707,11 @@ def _compute_ceat_full(
 def _compute_efi(group_profiles: list[dict]) -> dict:
     """PCA on group × [AgI, PI, SI, frame-netAttI, WEAT, CEAT] matrix.
 
-    Returns PC1 and PC2 loadings and scores. No a priori sign flip is
-    applied: PCA component signs are sign-arbitrary, and an `orientation_anchor`
-    that presumes all dims point the same direction toward "negative framing"
-    contradicted the empirical covariance pattern in this corpus (AgI / PI / SI
-    cluster opposite frame-netAttI / CEAT, indicating that bias surfaces as
-    *erasure of personhood attribution* on one axis, rather than uniformly
-    co-varying across all six dims). Substantive interpretation should come
-    from the loadings of the run, not from a fixed sign convention.
+    Returns PC1 and PC2 loadings and scores.  PCA eigenvector signs are
+    mathematically arbitrary (±v); a deterministic sign calibration locks
+    PC2 so the WEAT loading is always positive, giving stable, comparable
+    output across runs for graphing.  Substantive interpretation should
+    come from the loading pattern, not from the sign convention itself.
     """
     dims = ["AGI", "PI", "SI", "net_atti", "weat", "ceat"]
     labels = [g["lemma"] for g in group_profiles]
@@ -774,7 +770,7 @@ def _run_regression(
 
     X_aug = np.column_stack([np.ones(len(y)), X])
     try:
-        beta, residuals, rank, sv = np.linalg.lstsq(X_aug, y, rcond=None)
+        beta, *_ = np.linalg.lstsq(X_aug, y, rcond=None)
     except np.linalg.LinAlgError:
         return None
 
@@ -905,11 +901,10 @@ def main():
     print(f"Reading input from: {sentences_path}")
     raw = load_sentences(str(sentences_path))
 
-    import pickle, hashlib as _hl
     _prep_cache_path = project_dir / "preprocess_cache.pkl"
     _lines = sentences_path.read_bytes().splitlines()
-    _sentences_digest = _hl.sha1(b"\n".join(_lines[:50] + _lines[-50:])).hexdigest()
-    _prep_cache_key = _hl.sha1(f"{sentences_path}:{_sentences_digest}".encode()).hexdigest()
+    _sentences_digest = hashlib.sha1(b"\n".join(_lines[:50] + _lines[-50:])).hexdigest()
+    _prep_cache_key = hashlib.sha1(f"{sentences_path}:{_sentences_digest}".encode()).hexdigest()
 
     processed = None
     if _prep_cache_path.exists():
@@ -937,9 +932,8 @@ def main():
     # Cache SRL results keyed on input file mtime AND prototype content so
     # downstream-only changes don't require a full re-run of the ~10-min SRL
     # extraction step, but prototype edits invalidate cached cosines.
-    import pickle, hashlib as _hl
     _cache_path = project_dir / "srl_cache.pkl"
-    _proto_digest = _hl.sha1(
+    _proto_digest = hashlib.sha1(
         "\n".join(
             AGI_PROTOTYPES
             + PI_PROTOTYPES
@@ -948,12 +942,12 @@ def main():
             + POSITIVE_ATTITUDE_PROTOTYPES
         ).encode()
     ).hexdigest()
-    _floor_digest = _hl.sha1(
+    _floor_digest = hashlib.sha1(
         f"{AGI_FLOOR:.6f}|{PI_FLOOR:.6f}|{SI_FLOOR:.6f}".encode()
     ).hexdigest()
     _lines = sentences_path.read_bytes().splitlines()
-    _sentences_digest = _hl.sha1(b"\n".join(_lines[:50] + _lines[-50:])).hexdigest()
-    _cache_key = _hl.sha1(
+    _sentences_digest = hashlib.sha1(b"\n".join(_lines[:50] + _lines[-50:])).hexdigest()
+    _cache_key = hashlib.sha1(
         f"{sentences_path}:{_sentences_digest}:{_proto_digest}:{_floor_digest}".encode()
     ).hexdigest()
     if _cache_path.exists():
@@ -1057,7 +1051,7 @@ def main():
     ceat_full_details = {}
     delta_ceat_scores = {}
     if CEAT_FULL_MODE == "skip":
-        print("Skipping CEAT-full (ARMADA_CEAT_FULL_MODE=skip).")
+        print("Skipping CEAT-full (PIPELINE_CEAT_FULL_MODE=skip).")
     elif ceat_neg_centroid is not None and ceat_pos_centroid is not None:
         if CEAT_FULL_MODE == "all":
             ceat_full_target_groups = None
@@ -1070,12 +1064,11 @@ def main():
         # lexical_all mtime, target groups, sampling caps, encoder, and the
         # seed centroid bytes. Cache miss triggers a fresh compute; subsequent
         # runs with identical inputs skip straight to the cached scores.
-        import pickle, hashlib as _hl
         _ceat_cache_path = project_dir / "ceat_full_cache.pkl"
-        _centroid_digest = _hl.sha1(
+        _centroid_digest = hashlib.sha1(
             ceat_neg_centroid.tobytes() + ceat_pos_centroid.tobytes()
         ).hexdigest()
-        _ceat_cache_key = _hl.sha1(
+        _ceat_cache_key = hashlib.sha1(
             "|".join([
                 str(lexical_all_path),
                 str(lexical_all_path.stat().st_mtime_ns) if lexical_all_path.exists() else "missing",
@@ -1330,5 +1323,5 @@ if __name__ == "__main__":
     logger = TeeLogger(log_path)
     sys.stdout = logger
     sys.stderr = logger
-    print(f"\n{'='*60}\n=== ARMADA Pipeline Run: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')} ===\n{'='*60}\n")
+    print(f"\n{'='*60}\n=== Pipeline Run: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')} ===\n{'='*60}\n")
     main()

@@ -140,7 +140,7 @@ Do not let `todo.md` and `tracker.md` drift into the same role. `todo.md` says w
   - Notes: `X/` is added to `sys.path` at startup. `ARMADA_MAX_FILES` defaults to `1` for single-shard testing; increase for full-corpus run. On Apple Silicon, extraction auto-selects `mps` unless `ARMADA_DEVICE=cpu` is set. Rescue scoring reuses the per-sentence MiniLM embeddings already computed for the main lane (no additional encoder pass).
 
 - `X/ablation/ablation_recall_audit.py`
-  - Role: Standalone recall audit to evaluate Phase 1 MiniLM recall relative to GTE-ModernBERT. Partitions a random sample from `semantic_filter_lexical_all.txt` into accepted/rejected and computes False Negative Rate (FNR) under uncalibrated and calibrated thresholds to highlight model scale differences. Calibrated FNR = 6.8% (N=300, seed=42, one shard).
+  - Role: Standalone recall audit to evaluate Phase 1 MiniLM recall relative to GTE-ModernBERT. Partitions a random sample from `semantic_filter_lexical_all.txt` into accepted/rejected and computes ModernBERT-relative recall loss (disagreement rate) under uncalibrated and calibrated thresholds (`MODERNBERT_*`). Outputs both overall rejected FNR (1.9%) and non-inanimate candidate subset FNR (3.4%) for N=300, seed=42.
   - Outputs: `X/ablation/ablation_sample.tsv`, `X/ablation/ablation_audit_results.tsv`, `X/ablation/ablation_report.txt`.
   - Status: Active diagnostic tool.
 

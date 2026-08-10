@@ -13,7 +13,6 @@ association downstream.
 """
 
 from lexicons import (
-    TARGET_TOKENS, CONTRAST_TOKENS,
     INANIMATE_NOUNS, INANIMATE_ENTITY_TYPES,
     resolve_group_token,
 )
@@ -225,8 +224,7 @@ def _collect_srl_roles(doc) -> dict[int, dict]:
     Returns ARG0→AgI and PATIENT_LABELS→PI as unfiltered structural evidence.
     Verb-set filtering (agency suppression, SI, affectedness) has been moved
     to extract_roles() where dimensional prototype scores serve as the primary
-    gate. The field 'suppressed_agency_predicates' is kept for diagnostics but
-    is no longer populated here.
+    gate.
     """
     token_roles: dict[int, dict] = {}
     if _SRL_ROLE_LABELER is None:
@@ -274,7 +272,6 @@ def _collect_srl_roles(doc) -> dict[int, dict]:
         token_roles[token.i] = {
             "roles": roles,
             "predicates": sorted(set(matched_predicates)),
-            "suppressed_agency_predicates": [],  # now handled in extract_roles()
         }
     return token_roles
 
@@ -305,7 +302,7 @@ def extract_roles(doc, doc_id: int | None = None) -> list[dict]:
         head_verb, effective_dep, effective_noun = _resolve_role(token, doc)
         srl_info = srl_roles.get(
             token.i,
-            {"roles": set(), "predicates": [], "suppressed_agency_predicates": []},
+            {"roles": set(), "predicates": []},
         )
         srl_hit = bool(srl_info["roles"])
         subjecthood = 1 if effective_dep in ("nsubj", "nsubjpass") else 0
@@ -516,7 +513,6 @@ def extract_roles(doc, doc_id: int | None = None) -> list[dict]:
             "head_verb": head_verb.text if head_verb else "null",
             "head_verb_lemma": head_verb.lemma_.lower() if head_verb else "null",
             "srl_predicates": ", ".join(srl_info["predicates"]) if srl_info["predicates"] else "null",
-            "srl_suppressed_agency": "null",  # moved to review flag
             "role_source": "srl+proto" if (srl_hit and dim_src) else ("proto" if dim_src else ("srl" if srl_hit else "dep")),
             "role_confidence": 0.9 if (srl_hit and dim_src) else (0.75 if (srl_hit or dim_src) else (0.7 if any((agi, pi, si)) else 0.4)),
             "role_review_flags": sorted(role_review_flags),

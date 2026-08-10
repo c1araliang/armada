@@ -1,4 +1,4 @@
-"""Shared embedding model configuration for ARMADA."""
+"""Shared embedding model configuration."""
 
 import os
 
@@ -14,11 +14,11 @@ EMBEDDING_MODEL_CATALOG = {
 
 # Fast, recall-biased corpus extraction can use MiniLM because Phase 1 is a
 # filtering step, not a reported embedding-association metric.
-EXTRACTION_EMBEDDING_PRESET = os.environ.get("ARMADA_EXTRACTION_PRESET", "minilm")
+EXTRACTION_EMBEDDING_PRESET = os.environ.get("PIPELINE_EXTRACTION_PRESET", "minilm")
 
 # Analysis jobs keep one stronger encoder for semantic disambiguation, frame
 # refresh, WEAT, CEAT, and CEAT-full so reported scores share one geometry.
-ANALYSIS_EMBEDDING_PRESET = os.environ.get("ARMADA_ANALYSIS_PRESET", "gte_modernbert_base")
+ANALYSIS_EMBEDDING_PRESET = os.environ.get("PIPELINE_ANALYSIS_PRESET", "gte_modernbert_base")
 
 DEFAULT_EMBEDDING_PRESET = ANALYSIS_EMBEDDING_PRESET
 DEFAULT_EMBEDDING_MODEL = EMBEDDING_MODEL_CATALOG[DEFAULT_EMBEDDING_PRESET]

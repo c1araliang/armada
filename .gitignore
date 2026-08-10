@@ -20,6 +20,9 @@ venv/
 X/venv/
 __pycache__/
 *.pyc
+anon/
+term/
+survey_pipeline/
 
 # Local test outputs and data files anywhere
 *.tsv

@@ -432,5 +432,14 @@ Effect: `black players` in "racially abusing black players" now resolves `[PRED:
 - **Table 2 & group_stats Sync**: Added `CEAT-full` and `\Delta-CEAT` columns to Table 2 (`tab:group_profiles`) in `cache.tex` (now 14 columns). Populated all placeholder fields in `X/group_stats.tsv` with full values from `pipeline_run.log`.
 - **Plotting & Paper Text**: Regenerated `pca_dumbbell_dual_panel` and `pca_biplot_2d` with standard `ascending=True` sorting. Updated Section 3.1 and 3.2 text to align with the calibrated WEAT(+)/SI(-) loadings and scores (`indigenous` $+2.233$ at positive extreme, `american` $-2.264$ at negative extreme).
 
+### 2026-07-31
 
+73. **Run Pipeline Refactoring**
+- **Changes**: Refactored `run_pipeline.py` to fix the EFI docstring, remove an unused `scipy` import, fix unused variable warnings in the `lstsq` call, and consolidate `pickle` and `hashlib` imports to the top level.
+
+74. **Phase 1 Recall Audit Refinement & Dual-FNR Synchronization**
+- **ModernBERT Calibrated Threshold Constants**: Module-level constants (`MODERNBERT_SEMANTIC_MIN=0.62`, `MODERNBERT_SEMANTIC_MARGIN_MIN=0.06`, `MODERNBERT_SEMANTIC_STRONG_MARGIN=0.12`, `MODERNBERT_RESCUE_POS_MIN=0.60`, `MODERNBERT_RESCUE_MARGIN_MIN=0.06`, `MODERNBERT_RESCUE_OR_THRESH=0.68`) explicitly defined in `X/ablation/ablation_recall_audit.py` with embedding scale shift documentation.
+- **Audit TSV Synchronization**: `run_modernbert_audit()` and `write_audit_tsv()` now record both Option A (uncalibrated) and Option B (calibrated) verdicts and booleans (`mbt_verdict_uncal`, `mbt_would_admit_uncal`, `mbt_verdict_cal`, `mbt_would_admit_cal`), fixing TSV-report desynchronization.
+- **Dual FNR & Non-Inanimate Candidate Reporting**: `write_report()` now reports both overall rejected FNR ($5/264 = 1.9\%$) and non-inanimate candidate subset FNR ($5/149 = 3.4\%$), preventing inanimate-adjacent sentence counts from diluting the denominator.
+- **Methodological Phrasing**: Report and docstrings clarified to describe FNR as *ModernBERT-Relative Recall Loss Rate (Disagreement Rate)*, explicitly acknowledging that ModernBERT is a pseudo-gold proxy rather than infallible ground truth.
 

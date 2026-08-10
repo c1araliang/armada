@@ -44,16 +44,6 @@ class GroupMention:
     flags: tuple[str, ...]
 
 
-def group_type_for_lemma(lemma: str) -> str:
-    """Reporting type for a canonical lemma."""
-    if lemma in POLITICAL_GROUP_TOKENS:
-        return "political"
-    if lemma in TARGET_TOKENS:
-        return "minority"
-    if lemma in CONTRAST_TOKENS:
-        return "dominant"
-    return "unknown"
-
 
 def _has_same_group_head(token, doc) -> bool:
     if token.dep_ not in _MODIFIER_DEPS:

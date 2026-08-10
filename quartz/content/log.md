@@ -137,3 +137,9 @@ tags:
 
 2026-07-26: Audited paper text, AGENTS.md, and codebase comments for PI prototype confirmation rules, REVIEW_MARGIN_MIN review routing, and ModernBERT fine screening thresholds.
 2026-07-26: Standardized PC2 sign calibration in pipeline to WEAT(+)/SI(-) orientation; updated group_stats.tsv, Table 2 in cache.tex (adding CEAT-full and Δ-CEAT), and tracker.md.
+
+2026-07-31: Refactored run_pipeline.py (consolidated pickle imports, removed unused variables/imports, updated EFI docstring).
+2026-07-31: Refactored ablation_recall_audit.py and ablation_report.txt: constantized ModernBERT thresholds, synchronized Option A/B in audit TSV, and added non-inanimate subset FNR.
+2026-07-31: Updated cache.tex Phase 1 Recall Audit text with dual FNR stats (1.9% overall / 3.4% non-inanimate), preserving original wording.
+
+2026-08-10: Refined bias taxonomy TikZ diagram into 3-tier single-arrow layout; added Figure 1 introduction sentence and completed sociolinguistics & pragmatics citations (Fought 2006, Sap et al. 2019, Fried et al. 2023) in survey_pipeline/survey.tex and sections/my.tex.

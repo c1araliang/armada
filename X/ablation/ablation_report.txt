@@ -1,56 +1,54 @@
-ARMADA Phase 1 — Recall Audit Report
-============================================================
-sample_n:            300
+Phase 1 — Recall Audit Report
+Generated: 2026-08-01 03:02:37
 sample_seed:         42
 
 ── Step 2: MiniLM Pipeline Cross-Check ──────────────
-accepted_by_minilm:  27  (9.0%)
-rejected_by_minilm:  273  (91.0%)
-rejected_by_tag:     {'candidate': 104, 'main_lane_miss': 163, 'inherent': 6}
-rejected_inanim_adj: 114  (41.8% of rejects)
+accepted_by_minilm:  36  (12.0%)
+rejected_by_minilm:  264  (88.0%)
+rejected_by_tag:     {'main_lane_miss': 159, 'candidate': 103, 'inherent': 2}
+rejected_inanim_adj: 115  (43.6% of rejects)
+rejected_non_inanim: 149  (56.4% of rejects)
 
 ── Step 3: ModernBERT Recall Audit ──────────────────
-sentences_audited:   273
+sentences_audited:   264
+  *FNR = ModernBERT-relative recall loss (disagreement on rejects);
+   ModernBERT is a pseudo-gold proxy, not human annotation.
 
  [Option A: Uncalibrated - MiniLM thresholds direct transfer]
-  mbt_would_admit:     113  (41.4% of rejects)
-  FALSE NEGATIVE RATE: 41.4%
+  mbt_would_admit:     109  (41.3% of all rejects)
+  UNCALIBRATED FNR:    41.3%
   *Note: High FNR is due to embedding scale mismatch. ModernBERT
-   base similarity is higher, causing false admissions of inanimate
-   phrases like 'white matter' or 'Spanish style homes'.
+   base similarity is higher (~0.55-0.65 vs MiniLM ~0.25-0.35), causing
+   false admissions of inanimate phrases ('white matter', 'Spanish style homes').
 
  [Option B: Calibrated - Model scale shift adjusted]
-  (Thresholds: sem_min=0.62, margin_min=0.06, strong_margin=0.12)
-  mbt_would_admit (FN): 12  (4.4% of rejects)
-  TRUE RECALL LOSS FNR: 4.4%
+  (Calibrated Thresholds: sem_min=0.62, margin_min=0.06, strong_margin=0.12, rescue_pos=0.6)
+  mbt_would_admit (FN): 5
+  FNR (All Rejects):                    1.9%  (5/264)
+  FNR (Non-Inanimate Rejects Candidate): 3.4%  (5/149)
 
 ── Interpretation ───────────────────────────────────
-FNR < 8%: Under calibrated model scales, the MiniLM cascade
-retains >92% of demographic sentences that ModernBERT would admit.
-The engineering tradeoff is highly justified.
+FNR (Non-Inanimate) = 3.4% < 8%: Under calibrated model scales,
+the MiniLM cascade retains >96.6% of plausible non-inanimate demographic
+sentences that ModernBERT would admit. The engineering speedup is highly justified.
+*FNR is an upper bound: not all 5 ModernBERT-admitted rejects are genuine
+ human-referent misses; borderline institutional/geographic mentions inflate the count.
 
 ── Calibrated False Negatives (admitted under Option B) ─
-  [STRICT pos=0.652 margin=0.102]  She was so accustomed to being persecuted because of her faith and her heritage that she felt compel
-  [STRICT pos=0.637 margin=0.076]  The holiday season balancing act is something that most people in the western world experience every
-  [STRICT pos=0.673 margin=0.073]  Men play from the white tees and women play from the red tees.
-  [STRICT pos=0.624 margin=0.066]  Susie is a supporter of the London 2012 Games and both her and her husband Roman, a Holocaust surviv
-  [STRICT pos=0.656 margin=0.062]  These efforts were attempts to “clean up” the negative image of blackface and make black music accep
-  [RESCUE_INHERENT pos=0.614 margin=0.027]  The writing is on the wall for Canadians still interested in independently-minded social justice: de
-  [RESCUE_INHERENT pos=0.593 margin=0.025]  This attack as well was not aimed at Zionists but at unarmed members of ancient Jewish communities w
-  [RESCUE_INHERENT pos=0.630 margin=-0.011]  Will Durant, American historian: "India was the motherland of our race, and Sanskrit the mother of E
-  [RESCUE_INHERENT pos=0.614 margin=-0.023]  The ads aimed to use the profile of the Bondi Rescue personalities to pass on the SunSmart message t
-  [RESCUE_INHERENT pos=0.592 margin=-0.029]  Set in pre WWII facist Italy, this charming film follows a group of elderly British women, who the I
-  [RESCUE_INHERENT pos=0.589 margin=-0.035]  British settlers pushed west into French and Native American lands.
-  [RESCUE_CANDIDATE pos=0.635 margin=-0.078]  It was that country in which, after each 100 km you pass, the surroundings would change dramatically
+  [RESCUE_CANDIDATE pos=0.608 margin=0.007]  Research by the German Social Science Research Center (WZB) confirms Magaard’s worries: 75 percent o
+  [RESCUE_INHERENT pos=0.629 margin=-0.011]  The Arabian peninsula was suffering from social, economic, political and other crisis, up to a point
+  [RESCUE_CANDIDATE pos=0.590 margin=-0.011]  A poll of 2,300 Catholic priests in major inner-city Catholic strongholds revealed that 90 percent o
+  [RESCUE_CANDIDATE pos=0.559 margin=-0.032]  Q.13) Georgi Petkov, who became the oldest European international goalkeeper belongs to which of the
+  [RESCUE_INHERENT pos=0.539 margin=-0.080]  Carl Cranor's book "Legally Poisoned" says lax, outdated law puts Americans at risk from untested in
 
 ── True Negatives (both reject under Option B) ──────────
-  [pos=0.542 margin=-0.024]  I have a tuxedo blazer, as well, and of all my black blazers, I wear it the least.
-  [pos=0.675 margin=0.055]  Having a reddish tinge the body and main face are white.
-  [pos=0.540 margin=-0.039]  Shot Scope conforms to the Rules of Golf and has been used on the European Tour.
-  [pos=0.597 margin=-0.024]  I learn most of this talking to a softly spoken, tall Canadian in the queue to the toilets at a well
-  [pos=0.567 margin=0.012]  Gray Hodges is proud to present this decorative gas, by Bradford White.
-  [pos=0.577 margin=0.010]  In fact, they are the work of contemporary German-born conceptual artist Anselm Kiefer, as viewed in
-  [pos=0.567 margin=-0.002]  Japanese Knotweed is an invasive species of concrete-busting plant that can cause damage to both cit
-  [pos=0.512 margin=-0.037]  Just north of The Quarry is the USS Boston, an American liberty ship, which was converted into a min
-  [pos=0.529 margin=-0.072]  These flat pattern sets of a rather unusual design were made after the second world war, some being 
-  [pos=0.583 margin=0.008]  Although never perfectly calibrated and often at odds, the strategy held together and was ultimately
+  [pos=0.551 margin=-0.030]  For Adelie penguins, we were to look for white feathers around the eyes.
+  [pos=0.583 margin=-0.008]  The European Court of Human Rights (ECHR) on Tuesday ordered Cyprus to pay €30,000 in non-pecuniary 
+  [pos=0.572 margin=-0.016]  Once again, two completely new chapters, by new contributors, have been added: D.K. and S.W. Stevens
+  [pos=0.533 margin=-0.079]  Xavier Dolan’s Laurence Anyways has won the City of Toronto & Canada Goose Award for Best Canadian F
+  [pos=0.567 margin=-0.042]  Can you tell me what percentage of large Canadian companies are compliant?
+  [pos=0.497 margin=-0.058]  On 2016 Russian Intrusion, US Intel Saw Dots, Missed Connection Russian Roulette: The Inside Story o
+  [pos=0.537 margin=0.011]  A British television reporter, John Ray of Independent Television News, was also taken away in a pol
+  [pos=0.543 margin=-0.041]  The average American consumes 4,500 calories for their Thanksgiving meal.
+  [pos=0.546 margin=-0.082]  GAO Slimming Shoes. with his talent filled with Krakatau volcanic stone that diffuses its beautiful 
+  [pos=0.524 margin=-0.025]  We regularly publish White Papers by industry experts on emerging trends and issues impacting the se

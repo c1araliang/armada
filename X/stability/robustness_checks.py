@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Robustness Checks for the ARMADA framing analysis pipeline.
+Robustness Checks for the framing analysis pipeline.
 Performs:
 1. Bootstrap CIs (B=1000) for group-level metrics, PCA (EFI) loadings, and OLS regressions.
 2. Leave-One-Out (LOO) sensitivity for demographic groups and dimensions.
@@ -139,10 +139,12 @@ def compute_metrics_for_sample(sampled_indices, sentence_metrics, target_groups,
         })
     return profiles
 
-def run_bootstrap_analysis(sentence_metrics, target_groups, original_weat, observed_efi, observed_reg_weat, observed_reg_ceat, B=1000):
+def run_bootstrap_analysis(sentence_metrics, target_groups, original_weat, observed_efi, observed_reg_weat, observed_reg_ceat, baseline_profiles, B=1000):
     """Run bootstrap resampling and compute stats."""
     N = len(sentence_metrics)
     print(f"\nRunning bootstrap resampling (B={B} iterations)...")
+    rng = np.random.default_rng(42)
+    bootstrap_indices = [rng.choice(N, size=N, replace=True).tolist() for _ in range(B)]
     
     # Track statistics
     dims = ["AGI", "PI", "SI", "net_atti", "weat", "ceat"]
@@ -162,10 +164,13 @@ def run_bootstrap_analysis(sentence_metrics, target_groups, original_weat, obser
     base_pc1 = observed_efi["pc1_loadings"]
     base_pc2 = observed_efi["pc2_loadings"]
     
-    # Pre-select random indices to speed up loop
-    np.random.seed(42)
-    bootstrap_indices = np.random.randint(0, N, size=(B, N))
-    
+    # Baseline observed profile lookup map
+    obs_profile_map = {}
+    for p in baseline_profiles:
+        lemma = p["lemma"]
+        for d in dims:
+            obs_profile_map[(lemma, d)] = p.get(d, 0.0)
+
     for b in range(B):
         if (b + 1) % (max(1, B // 10)) == 0:
             print(f"  Iteration {b + 1}/{B}...")
@@ -178,7 +183,6 @@ def run_bootstrap_analysis(sentence_metrics, target_groups, original_weat, obser
             lemma = p["lemma"]
             for d in dims:
                 boot_profiles[(lemma, d)].append(p[d])
-            boot_profiles[(lemma, "net_atti")].append(p["net_atti"])
             
         # Run PCA (EFI)
         efi = _compute_efi(profiles)
@@ -234,7 +238,7 @@ def run_bootstrap_analysis(sentence_metrics, target_groups, original_weat, obser
         }
         
     return {
-        "profiles": {k: get_stats(v, np.mean(v)) for k, v in boot_profiles.items()},
+        "profiles": {k: get_stats(v, obs_profile_map.get(k, 0.0)) for k, v in boot_profiles.items()},
         "pc1_loadings": {d: get_stats(boot_pc1_loadings[d], base_pc1[d]) for d in dims},
         "pc2_loadings": {d: get_stats(boot_pc2_loadings[d], base_pc2[d]) for d in dims},
         "pc1_var": get_stats(boot_pc1_var, observed_efi["pc1_variance_explained"]),
@@ -332,7 +336,7 @@ def run_cross_chunk_stability(sentence_metrics, target_groups, original_weat, K=
         rank_vectors = []
         for prof in chunk_profiles:
             # Sort target_groups by their value of this metric to establish rankings
-            val_map = {p["lemma"]: p[metric.lower() if metric == "net_atti" else metric] for p in prof}
+            val_map = {p["lemma"]: p[metric] for p in prof}
             rank_vec = [val_map[g] for g in sorted(target_groups)]
             rank_vectors.append(rank_vec)
             
@@ -511,6 +515,8 @@ def run_factor_analysis(baseline_profiles):
 def run_ceat_uncertainty_propagation(
     baseline_profiles,
     group_ceat_se,
+    baseline_reg_ceat=None,
+    baseline_reg_weat=None,
     n_mc=2000,
 ):
     """Monte Carlo propagation of CEAT standard errors into EFI and regression.
@@ -600,33 +606,50 @@ def run_ceat_uncertainty_propagation(
             "mc_ci_upper": round(np.percentile(arr, 97.5), 4),
         }
 
+    def _reg_obs(reg_result, key):
+        """Extract observed value from a regression result dict for a given key."""
+        if not reg_result:
+            return 0.0
+        if key == "r_squared":
+            return reg_result.get("r_squared", 0.0)
+        if key == "intercept":
+            return reg_result.get("intercept", 0.0)
+        # key is like "b_AGI"
+        param = key[2:]  # strip "b_"
+        return reg_result.get("coefficients", {}).get(param, 0.0)
+
     return {
         "pc1_loadings": {d: _stats(mc_pc1_loadings[d], baseline_efi["pc1_loadings"][d]) for d in dims},
         "pc2_loadings": {d: _stats(mc_pc2_loadings[d], baseline_efi["pc2_loadings"][d]) for d in dims},
         "pc1_var": _stats(mc_pc1_var, baseline_efi["pc1_variance_explained"]),
         "pc2_var": _stats(mc_pc2_var, baseline_efi["pc2_variance_explained"]),
         "efi_scores": {g: _stats(mc_efi_scores[g], baseline_efi["pc1_scores"].get(g, 0.0)) for g in groups},
-        "reg_weat": {k: _stats(v, 0.0) for k, v in mc_reg_weat.items()},
-        "reg_ceat": {k: _stats(v, 0.0) for k, v in mc_reg_ceat.items()},
+        "reg_weat": {k: _stats(v, _reg_obs(baseline_reg_weat, k)) for k, v in mc_reg_weat.items()},
+        "reg_ceat": {k: _stats(v, _reg_obs(baseline_reg_ceat, k)) for k, v in mc_reg_ceat.items()},
     }
 
 def main():
-    parser = argparse.ArgumentParser(description="ARMADA Robustness Checks")
+    parser = argparse.ArgumentParser(description="Statistical Robustness Checks")
     parser.add_argument("sentences_path", nargs="?", default="dolma/semantic_filter_results.tsv", help="Path to input TSV")
+    parser.add_argument("--output-dir", type=str, default=None, help="Output directory for robustness artifacts")
     parser.add_argument("--bootstrap-iter", type=int, default=1000, help="Number of bootstrap iterations")
     parser.add_argument("--chunks", type=int, default=3, help="Number of chunks for cross-shard proxy check")
     args = parser.parse_args()
     
     project_dir = Path(__file__).resolve().parents[2]
-    sentences_path = project_dir / args.sentences_path
+    if os.path.isabs(args.sentences_path):
+        sentences_path = Path(args.sentences_path)
+    else:
+        sentences_path = project_dir / args.sentences_path
+
+    out_dir = Path(args.output_dir) if args.output_dir else (project_dir / "X" / "stability")
+    out_dir.mkdir(parents=True, exist_ok=True)
     
     # Set up TeeLogger to save logs
-    log_dir = project_dir / "X" / "stability"
-    log_dir.mkdir(parents=True, exist_ok=True)
-    sys.stdout = TeeLogger(str(log_dir / "robustness_checks.log"))
+    sys.stdout = TeeLogger(str(out_dir / "robustness_checks.log"))
     sys.stderr = sys.stdout
     
-    print("=== ARMADA STATISTICAL ROBUSTNESS AND STABILITY CHECKS ===")
+    print("=== STATISTICAL ROBUSTNESS AND STABILITY CHECKS ===")
     print(f"Input path: {sentences_path}")
     
     # Load spaCy
@@ -642,10 +665,30 @@ def main():
         set_active_extraction_tokens(_active_set)
         print(f"Active extraction labels loaded: {len(_active_set)} tokens")
         
-    # Preprocess
+    # Preprocess (check preprocess_cache.pkl first)
     raw = load_sentences(str(sentences_path))
-    processed = preprocess(nlp, raw)
-    print(f"Preprocessed {len(processed)} sentences.")
+    _prep_cache_path = project_dir / "preprocess_cache.pkl"
+    if not _prep_cache_path.exists():
+        _prep_cache_path = project_dir / "X" / "preprocess_cache.pkl"
+
+    processed = None
+    if _prep_cache_path.exists():
+        try:
+            print(f"Loading preprocessing cache from {_prep_cache_path.name}...")
+            with open(_prep_cache_path, "rb") as _f:
+                _cached = pickle.load(_f)
+            processed = _cached.get("processed")
+            if processed and len(processed) == len(raw):
+                print(f"Preprocessing cache hit — loaded {len(processed)} parsed sentences.")
+            else:
+                processed = None
+        except Exception as _e:
+            print(f"Preprocessing cache unreadable ({_e}), falling back to spaCy...")
+            processed = None
+
+    if processed is None:
+        processed = preprocess(nlp, raw)
+        print(f"Preprocessed {len(processed)} sentences.")
     
     # Load cache
     _cache_path = project_dir / "X" / "srl_cache.pkl"
@@ -704,61 +747,130 @@ def main():
     extracted = active_extracted
     print(f"Filtered dataset to {len(processed)} active sentences containing target group mentions.")
 
-    # Pre-encode active sentences
-    print("Pre-encoding active sentences once with GTE ModernBERT...")
+    # Pre-encode active sentences (with caching to avoid re-encoding)
+    _emb_cache_path = project_dir / "X" / "text_vec_cache.pkl"
     all_texts = list(dict.fromkeys(item["cleaned_text"] for item in processed))
-    text_to_vec = _encode_text_map(sentence_encoder, all_texts)
+    text_to_vec = {}
+
+    if _emb_cache_path.exists():
+        try:
+            print(f"Loading embedding cache from {_emb_cache_path.name}...")
+            with open(_emb_cache_path, "rb") as _f:
+                text_to_vec = pickle.load(_f)
+            print(f"  Loaded {len(text_to_vec)} cached sentence vectors.")
+        except Exception as _e:
+            print(f"Embedding cache unreadable ({_e}), re-encoding...")
+            text_to_vec = {}
+
+    missing_texts = [t for t in all_texts if t not in text_to_vec]
+    if missing_texts:
+        print(f"Pre-encoding {len(missing_texts)} sentences with GTE ModernBERT...")
+        new_vecs = _encode_text_map(sentence_encoder, missing_texts)
+        text_to_vec.update(new_vecs)
+        try:
+            with open(_emb_cache_path, "wb") as _f:
+                pickle.dump(text_to_vec, _f)
+            print(f"Wrote embedding cache ({len(text_to_vec)} vectors).")
+        except Exception as _e:
+            print(f"Failed to write embedding cache ({_e})")
+    else:
+        print("Embedding cache hit — skipped GTE ModernBERT encoding!")
     
-    # Pre-build sentence-level database
-    print("\nPre-building sentence-level metrics database...")
-    sentence_metrics = []
-    for i in range(len(processed)):
-        item_proc = processed[i]
-        item_ext = extracted[i]
-        doc = item_proc["doc"]
-        
-        frame_summary = bound_frame_summary(doc, auto_neg_frames, auto_pos_frames)
-        
-        resolved_lemmas = set()
-        for token in doc:
-            resolved = resolve_group_token(token, doc)
-            if resolved:
-                _, canonical = resolved
-                resolved_lemmas.add(canonical)
-                
-        vec = text_to_vec[item_proc["cleaned_text"]]
-        ceat_val = cosine_similarity(vec, neg_centroid) - cosine_similarity(vec, pos_centroid)
-        
-        lemmas_in_sentence = resolved_lemmas | {f["lemma"] for f in item_ext.get("findings", [])}
-        findings_by_lemma = defaultdict(list)
-        for f in item_ext.get("findings", []):
-            findings_by_lemma[f["lemma"]].append(f)
-            
-        by_lemma = {}
-        for g in lemmas_in_sentence:
-            findings = findings_by_lemma.get(g, [])
-            sub = sum(f.get("subjecthood", 0) for f in findings)
-            agi = sum(f.get("agi", 0) for f in findings)
-            pi = sum(f.get("pi", 0) for f in findings)
-            si = sum(f.get("si", 0) for f in findings)
-            count = len(findings)
-            
-            bound = frame_summary["by_lemma"].get(g)
-            neg_bound = 1 if (bound and bound["neg"]) else 0
-            pos_bound = 1 if (bound and bound["pos"]) else 0
-            
-            by_lemma[g] = {
-                "subjecthood": sub,
-                "agi": agi,
-                "pi": pi,
-                "si": si,
-                "count": count,
-                "frame_neg": neg_bound,
-                "frame_pos": pos_bound,
-                "ceat_val": ceat_val,
-                "has_mention": 1 if g in resolved_lemmas else 0,
-            }
-        sentence_metrics.append(by_lemma)
+    # Pre-build sentence-level database (with disk cache)
+    _metrics_cache_path = project_dir / "X" / "stability" / "sentence_metrics_cache.pkl"
+    _metrics_cache_key = None
+    sentence_metrics = None
+
+    # Build a cache key from: sentences file mtime, frame sets, neg/pos centroid fingerprint
+    try:
+        _mtime = str(sentences_path.stat().st_mtime)
+        _frames_sig = hashlib.md5(
+            json.dumps(sorted(auto_neg_frames) + sorted(auto_pos_frames), ensure_ascii=False).encode()
+        ).hexdigest()
+        _centroid_sig = hashlib.md5(
+            neg_centroid.tobytes() + pos_centroid.tobytes()
+        ).hexdigest()
+        _metrics_cache_key = f"{_mtime}|{_frames_sig}|{_centroid_sig}|{len(processed)}"
+    except Exception as _e:
+        print(f"Could not build metrics cache key ({_e}), will rebuild.")
+
+    if _metrics_cache_path.exists() and _metrics_cache_key is not None:
+        try:
+            print(f"Loading sentence metrics cache from {_metrics_cache_path.name}...")
+            with open(_metrics_cache_path, "rb") as _f:
+                _mc = pickle.load(_f)
+            if _mc.get("key") == _metrics_cache_key:
+                sentence_metrics = _mc["data"]
+                print(f"Sentence metrics cache hit — loaded {len(sentence_metrics)} entries. Skipping rebuild.")
+            else:
+                print("Sentence metrics cache key mismatch, rebuilding...")
+                sentence_metrics = None
+        except Exception as _e:
+            print(f"Sentence metrics cache unreadable ({_e}), rebuilding...")
+            sentence_metrics = None
+
+    if sentence_metrics is None:
+        print("\nPre-building sentence-level metrics database...")
+        sentence_metrics = []
+        _report_every = max(1, len(processed) // 10)
+        for i in range(len(processed)):
+            if (i + 1) % _report_every == 0:
+                print(f"  {i + 1}/{len(processed)} sentences processed...")
+            item_proc = processed[i]
+            item_ext = extracted[i]
+            doc = item_proc["doc"]
+
+            frame_summary = bound_frame_summary(doc, auto_neg_frames, auto_pos_frames)
+
+            resolved_lemmas = set()
+            for token in doc:
+                resolved = resolve_group_token(token, doc)
+                if resolved:
+                    _, canonical = resolved
+                    resolved_lemmas.add(canonical)
+
+            vec = text_to_vec[item_proc["cleaned_text"]]
+            ceat_val = cosine_similarity(vec, neg_centroid) - cosine_similarity(vec, pos_centroid)
+
+            lemmas_in_sentence = resolved_lemmas | {f["lemma"] for f in item_ext.get("findings", [])}
+            findings_by_lemma = defaultdict(list)
+            for f in item_ext.get("findings", []):
+                findings_by_lemma[f["lemma"]].append(f)
+
+            by_lemma = {}
+            for g in lemmas_in_sentence:
+                findings = findings_by_lemma.get(g, [])
+                sub = sum(f.get("subjecthood", 0) for f in findings)
+                agi = sum(f.get("agi", 0) for f in findings)
+                pi = sum(f.get("pi", 0) for f in findings)
+                si = sum(f.get("si", 0) for f in findings)
+                count = len(findings)
+
+                bound = frame_summary["by_lemma"].get(g)
+                neg_bound = 1 if (bound and bound["neg"]) else 0
+                pos_bound = 1 if (bound and bound["pos"]) else 0
+
+                by_lemma[g] = {
+                    "subjecthood": sub,
+                    "agi": agi,
+                    "pi": pi,
+                    "si": si,
+                    "count": count,
+                    "frame_neg": neg_bound,
+                    "frame_pos": pos_bound,
+                    "ceat_val": ceat_val,
+                    "has_mention": 1 if g in resolved_lemmas else 0,
+                }
+            sentence_metrics.append(by_lemma)
+
+        # Save to cache
+        if _metrics_cache_key is not None:
+            try:
+                with open(_metrics_cache_path, "wb") as _f:
+                    pickle.dump({"key": _metrics_cache_key, "data": sentence_metrics}, _f)
+                print(f"Wrote sentence metrics cache ({len(sentence_metrics)} entries) to {_metrics_cache_path.name}.")
+            except Exception as _e:
+                print(f"Failed to write sentence metrics cache ({_e})")
         
     # Baseline observed profiles
     baseline_profiles = compute_metrics_for_sample(list(range(len(processed))), sentence_metrics, target_groups, original_weat)
@@ -777,11 +889,12 @@ def main():
         baseline_efi,
         baseline_reg_weat,
         baseline_reg_ceat,
+        baseline_profiles,
         B=args.bootstrap_iter
     )
     
     # Write bootstrap results TSV
-    boot_tsv = log_dir / "bootstrap_results.tsv"
+    boot_tsv = out_dir / "bootstrap_results.tsv"
     with open(boot_tsv, "w", encoding="utf-8", newline="") as f:
         w = csv.writer(f, delimiter="\t")
         w.writerow(["Type", "Identifier", "Metric", "Observed", "Bootstrap_Mean", "Bootstrap_SE", "CI_Lower", "CI_Upper"])
@@ -810,14 +923,14 @@ def main():
     
     # 2. RUN LEAVE-ONE-OUT SENSITIVITY
     loo_report = run_loo_sensitivity(baseline_profiles, target_groups)
-    loo_txt = log_dir / "loo_sensitivity_results.txt"
+    loo_txt = out_dir / "loo_sensitivity_results.txt"
     loo_txt.write_text(loo_report, encoding="utf-8")
     print(f"→ Leave-one-out sensitivity report written to {loo_txt.name}")
     print("\n" + loo_report)
     
     # 3. RUN CROSS-CHUNK STABILITY
     cross_chunk = run_cross_chunk_stability(sentence_metrics, target_groups, original_weat, K=args.chunks)
-    cross_tsv = log_dir / "cross_chunk_stability.tsv"
+    cross_tsv = out_dir / "cross_chunk_stability.tsv"
     with open(cross_tsv, "w", encoding="utf-8", newline="") as f:
         w = csv.writer(f, delimiter="\t")
         w.writerow(["Metric", "AvgPairwiseSpearman", "MinPairwiseSpearman", "MaxPairwiseSpearman"])
@@ -834,7 +947,7 @@ def main():
     print("=== SCALING-CHOICE SENSITIVITY (i.3) ===")
     scaling = run_scaling_sensitivity(baseline_profiles)
     dims = ["AGI", "PI", "SI", "net_atti", "weat", "ceat"]
-    scaling_tsv = log_dir / "scaling_sensitivity.tsv"
+    scaling_tsv = out_dir / "scaling_sensitivity.tsv"
     with open(scaling_tsv, "w", encoding="utf-8", newline="") as f:
         w = csv.writer(f, delimiter="\t")
         w.writerow(["Scaler", "Component", "Dimension", "Loading", "VarExplained"])
@@ -860,7 +973,7 @@ def main():
     # 5. FACTOR ANALYSIS COMPARISON (Pastra i.5)
     print("\n" + "=" * 60)
     fa_report, fa_results = run_factor_analysis(baseline_profiles)
-    fa_txt = log_dir / "factor_analysis_comparison.txt"
+    fa_txt = out_dir / "factor_analysis_comparison.txt"
     fa_txt.write_text(fa_report, encoding="utf-8")
     print(f"→ Factor analysis comparison written to {fa_txt.name}")
     print("\n" + fa_report)
@@ -879,10 +992,12 @@ def main():
     mc_results = run_ceat_uncertainty_propagation(
         baseline_profiles,
         group_ceat_se,
+        baseline_reg_ceat=baseline_reg_ceat,
+        baseline_reg_weat=baseline_reg_weat,
         n_mc=2000,
     )
 
-    mc_tsv = log_dir / "ceat_uncertainty_propagation.tsv"
+    mc_tsv = out_dir / "ceat_uncertainty_propagation.tsv"
     with open(mc_tsv, "w", encoding="utf-8", newline="") as f:
         w = csv.writer(f, delimiter="\t")
         w.writerow(["Type", "Identifier", "Observed", "MC_Mean", "MC_SE", "MC_CI_Lower", "MC_CI_Upper"])

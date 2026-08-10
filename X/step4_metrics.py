@@ -15,7 +15,6 @@ import math
 from collections import Counter, defaultdict
 from lexicons import (
     TARGET_TOKENS, CONTRAST_TOKENS,
-    resolve_group_token,
 )
 from group_mentions import (
     bind_frame_terms_to_mentions,

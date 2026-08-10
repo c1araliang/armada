@@ -1,4 +1,4 @@
-"""Shared active lexicons for the ARMADA bias detection pipeline."""
+"""Shared active lexicons for the bias detection pipeline."""
 
 # ── Target demographic tokens (lemmatized) ────────────────────────────────────
 # Covers immigrant/refugee, named ethnic groups, and broader minority framing.
@@ -130,7 +130,6 @@ COMPOUND_TARGET_HEADS: dict[str, dict] = {
 # Context-window disambiguation defaults. The rule-based group window stays
 # local; the semantic resolver window can be wider with GTE ModernBERT.
 GROUP_CONTEXT_WINDOW = 4
-SEMANTIC_CONTEXT_WINDOW = 24
 
 # Tokens too broad to trigger the lexical gate on their own.
 # Still resolved when found in sentences that entered via other tokens.
@@ -143,7 +142,7 @@ GATE_EXCLUDE_TOKENS = {
 # When set, resolve_group_token returns None for any canonical lemma not in
 # this set.  Populated by run_pipeline from dolma/active_labels.json so that
 # Phase 2 mention resolution is restricted to the same token set that Phase 1
-# used for extraction (top-8 target + top-8 contrast by corpus frequency).
+# used for extraction (top-14 target + top-14 contrast by corpus frequency).
 # None means no restriction (default; used by dim_sanity.py and unit callers).
 _ACTIVE_EXTRACTION_TOKENS: "set[str] | None" = None
 
@@ -193,8 +192,6 @@ def _match_inventory(form: str, inventory: set[str]) -> str | None:
     return None
 
 
-def _human_noun_form(token) -> str | None:
-    return _match_inventory(token.lemma_, HUMAN_NOUNS) or _match_inventory(token.text, HUMAN_NOUNS)
 
 
 def _inanimate_noun_form(token) -> str | None:
@@ -233,15 +230,6 @@ def _get_group_prefix(token, doc) -> str | None:
     return None
 
 
-def _same_head_group_modifiers(token, doc) -> list:
-    head = token.head
-    siblings = []
-    for sibling in head.children:
-        if sibling.i == token.i or sibling.dep_ not in _MODIFIER_DEPS:
-            continue
-        if _group_base(sibling):
-            siblings.append(sibling)
-    return siblings
 
 
 
@@ -604,7 +592,7 @@ def _resolve_group_token_raw(token, doc):
     return None
 
 
-def resolve_group_token(token, doc, context_window: int = GROUP_CONTEXT_WINDOW):
+def resolve_group_token(token, doc):
     """
     Resolve a token to a demographic group label.
 

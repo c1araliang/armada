@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-07-26",
+  "last_updated": "2026-07-31",
   "note": "Current-run candidate frame suggestions derived from sentence-level LLR/LogDice using seed frame prototypes; admission is gated by both sentence-level and anchor-level (sentiment) cosine.",
   "seed_negative_terms": [
     "a terrible war",
@@ -5907,6 +5907,24 @@
       "used_in_frame_inventory": false
     },
     {
+      "term": "thank",
+      "minority_llr": 0.0,
+      "minority_logdice": 0.0,
+      "dominant_llr": 20.031,
+      "dominant_logdice": 7.433,
+      "differential": -20.031,
+      "found_with": [
+        "american"
+      ],
+      "frame_neg_sim": 0.5387,
+      "frame_pos_sim": 0.7056,
+      "anchor_neg_sim": 0.553,
+      "anchor_pos_sim": 0.7034,
+      "suggested_frame_sign": 1,
+      "suggested_frame_bucket": "positive",
+      "used_in_frame_inventory": true
+    },
+    {
       "term": "story",
       "minority_llr": 19.944,
       "minority_logdice": 9.306,
@@ -6832,29 +6850,6 @@
       "frame_pos_sim": 0.6545,
       "anchor_neg_sim": 0.6178,
       "anchor_pos_sim": 0.6707,
-      "suggested_frame_sign": 0,
-      "suggested_frame_bucket": "neutral",
-      "used_in_frame_inventory": false
-    },
-    {
-      "term": "medium",
-      "minority_llr": 17.524,
-      "minority_logdice": 8.877,
-      "dominant_llr": 1.157,
-      "dominant_logdice": 8.197,
-      "differential": 16.366,
-      "found_with": [
-        "african",
-        "american",
-        "black",
-        "muslim",
-        "palestinian",
-        "white"
-      ],
-      "frame_neg_sim": 0.5956,
-      "frame_pos_sim": 0.6245,
-      "anchor_neg_sim": 0.5895,
-      "anchor_pos_sim": 0.6221,
       "suggested_frame_sign": 0,
       "suggested_frame_bucket": "neutral",
       "used_in_frame_inventory": false

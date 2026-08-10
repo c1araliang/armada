@@ -5,7 +5,6 @@ and produces spaCy Doc objects for downstream feature extraction.
 """
 
 import csv
-import spacy
 import re
 from pathlib import Path
 
